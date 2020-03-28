@@ -1,0 +1,25 @@
+﻿@using FreeSql.TemplateEngine
+@model FreeSql.TemplateEngine.BuildTask
+@{
+    Layout = "_Layout.cshtml";
+    var project = Model.Project;
+    var table = Model.CurrentTable;
+}
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using @(project.ProjectName).Abstractes.Repositories;
+
+namespace @(project.ProjectName).Implaments.Repositories
+{
+
+@($"{(string.IsNullOrWhiteSpace(table.Comment)? table.Name :table.Comment)}仓储".GetCSharpSummary())
+public class @(project.GetBuilder("Repository").GetName(table.Name)) : UowRepositoryBase<@(project.Entity.GetName(table.Name))@(",")@($"I{(project.ProjectName)}DbContext,{Model.FreeSql.DbFirst.GetCsType(table.Columns.FirstOrDefault(x=>x.IsPrimary))}")>,@($"I{project.GetBuilder("Repository").GetName(table.Name)}")
+    {
+        @("构造函数".GetCSharpSummary())
+        public @(project.GetBuilder("Repository").GetName(table.Name))(IServiceProvider service) : base(service)
+        {
+        }
+    }
+}

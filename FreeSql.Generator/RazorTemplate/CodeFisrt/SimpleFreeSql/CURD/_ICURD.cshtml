@@ -1,0 +1,22 @@
+﻿@using FreeSql
+@using FreeSql.Generator.Core.CodeFirst
+@using FreeSql.TemplateEngine
+@model CurdTask
+@{
+    var task = Model;
+    var project = task.Task.Project;
+    var table = task.CurrentTable;
+}
+@(Html.NewLine($"#region {table.Comment}相关"))
+@($"{table.Comment}新增".GetCSharpSummary())
+@Html.NewLine()
+Task@("<bool>") Add@(table.Name) (@table.Name entity);
+@($"{table.Comment}修改".GetCSharpSummary())
+@Html.NewLine()
+Task@("<bool>") Update@(table.Name) (@(table.Name) entity);
+@($"{table.Comment}删除".GetCSharpSummary())
+@Html.NewLine()
+Task@("<bool>") Delete@(table.Name) (@table.PrimaryTypeName [] id);
+@($"{table.Comment}查询".GetCSharpSummary())
+Task<@(table.Name)> Query@(table.Name) (@table.PrimaryTypeName [] ids);
+@(Html.NewLine("#endregion"))

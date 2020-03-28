@@ -1,0 +1,20 @@
+<div>
+  <div nz-row [nzGutter]="30" nzType='flex' nzJustify="start">
+    <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" nzXl="4">
+      <nz-card nzTitle="新建模板" nzHoverable [nzCover]="addTemplate" (click)="newTemplate()">
+        <nz-card-meta nzTitle="新建" nzDescription="添加一个新的模板"></nz-card-meta>
+      </nz-card>
+      <ng-template #addTemplate>
+        <img alt=" 添加模板" src="../../assets/images/plus.png" />
+      </ng-template>
+    </div>
+    <div nz-col nzXs="24" nzSm="12" nzMd="8" nzLg="6" nzXl="4">
+      <nz-card nzTitle="查看所有模板" nzHoverable [nzCover]="Templatelist" (click)="listTemplate()">
+        <nz-card-meta nzTitle="查看" nzDescription="所有模板列表"></nz-card-meta>
+      </nz-card>
+      <ng-template #Templatelist>
+        <img alt="查看所有模板" src="../../assets/images/list.png" />
+      </ng-template>
+    </div>
+  </div>
+</div>

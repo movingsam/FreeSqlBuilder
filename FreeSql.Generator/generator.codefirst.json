@@ -1,0 +1,129 @@
+{
+  "ProjectName": "FreeSqlIdentityServer",
+  "Author": "Sam",
+  "DataSource": {
+    "DbType": 1,
+    "Name": "GatherRealEstateSystem",
+    "ConnectionString": "Server=120.55.88.125;Database=GatherRealEstateSystem;uid=sa;pwd=!5I5J4008515515_5i5+;MultipleActiveResultSets=true"
+  },
+  "GeneratorMode": 1,
+  "Entity": {
+    "Name": "Entity",
+    "Prefix": "",
+    "SplitDot": "_",
+    "IsIgnorePrefix": true,
+    "Mode": 0,
+    "TemplatePath": "Entity.cshtml",
+    "Suffix": "",
+    "OutPutPath": "Entity",
+    "Column": {
+      "Mode": 0
+    }
+  },
+  "Builders": {
+    "Repository": {
+      "Name": "Repository",
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "IsServiceOnly": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/Repository.cshtml",
+      "Suffix": "Repository",
+      "OutPutPath": "CodeFisrt/Repository"
+    },
+    "IRepository": {
+      "Name": "IRepository",
+      "Prefix": "I",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "IsServiceOnly": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/IRepository.cshtml",
+      "Suffix": "Repository",
+      "OutPutPath": "CodeFisrt/IRepository"
+    },
+    "Service": {
+      "Name": "Service",
+      "IsServiceOnly": true,
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/Service.cshtml",
+      "Suffix": "Service",
+      "OutPutPath": "CodeFisrt/Service"
+    },
+    "IService": {
+      "Name": "IService",
+      "Prefix": "I",
+      "SplitDot": "_",
+      "IsServiceOnly": true,
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/IService.cshtml",
+      "Suffix": "Service",
+      "OutPutPath": "CodeFisrt/IService"
+    },
+    "Dtos": {
+      "Name": "Dtos",
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/Dtos.cshtml",
+      "Suffix": "Dtos",
+      "OutPutPath": "CodeFisrt/Dtos/{TableName}"
+    },
+    "PagedDtos": {
+      "Name": "PagedDtos",
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/PagedDtos.cshtml",
+      "Suffix": "PagedDtos",
+      "OutPutPath": "CodeFisrt/Dtos/{TableName}"
+    },
+    "PageViewDto": {
+      "Name": "PageViewDto",
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/PageViewDto.cshtml",
+      "Suffix": "PageViewDto",
+      "OutPutPath": "CodeFisrt/Dtos/{TableName}"
+    },
+    "PostDataDto": {
+      "Name": "PostDataDto",
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/PostDataDto.cshtml",
+      "Suffix": "PostDataDto",
+      "OutPutPath": "CodeFisrt/Dtos/{TableName}"
+    },
+    "RequestDtos": {
+      "Name": "RequestDtos",
+      "Prefix": "",
+      "SplitDot": "_",
+      "IsIgnorePrefix": true,
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/RequestDtos.cshtml",
+      "Suffix": "RequestDtos",
+      "OutPutPath": "CodeFisrt/Dtos/{TableName}"
+    }
+  },
+  "GlobalBuilders": {
+    "Automapper": {
+      "Name": "Automapper",
+      "Prefix": "",
+      "Mode": 0,
+      "TemplatePath": "CodeFisrt/MapperConfigProfile.cshtml",
+      "Suffix": "AutoMapperProfile",
+      "OutPutPath": "CodeFisrt/AutoMapperConfig"
+    }
+  }
+}

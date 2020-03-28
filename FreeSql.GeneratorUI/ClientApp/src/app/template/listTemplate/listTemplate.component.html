@@ -1,0 +1,27 @@
+<nz-table #basicTable [nzScroll]="{ y: '240px' } " [nzTotal]="pageData.total" [nzPageIndex]="pageData.pageNumber"
+  [nzPageSize]="pageData.pageSize" [nzPaginationPosition]="'bottom'" [nzLoading]="loading" nzTitle="模板列表"
+  [nzShowTotal]="true" (nzPageIndexChange)="IndeChange($event)" (nzPageSizeChange)="SizeChange($event)"
+  [nzShowSizeChanger]="true" [nzData]="pageData.datas">
+  <thead>
+    <tr>
+      <th>模板名称</th>
+      <th>模板地址</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{data.templateName}}</td>
+      <td>{{data.templatePath}}</td>
+      <td>
+        <a>生成 </a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a>编辑 </a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="delete(data.id)">删除</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+
+<button nz-button (click)="click($event)">返回</button>

@@ -1,0 +1,9 @@
+<nz-steps [nzCurrent]="index" (nzIndexChange)="onIndexChange($event)">
+  <nz-step nzTitle="创建/选择一个项目" [nzDisabled]="disable" nzDescription="创建一个新的项目"></nz-step>
+  <nz-step nzTitle="增/改项目参数" nzDescription="设置项目中的参数 这些参数可以再模板中使用"></nz-step>
+  <nz-step nzTitle="选择/创建模板" nzDescription="从模板库中选取希望生成的模板 亦可新增自定义模板"></nz-step>
+  <nz-step nzTitle="预览" nzDescription="点击可预览相关模板生成出的代码"></nz-step>
+  <nz-step nzTitle="生成" nzDescription="显示生成日志和最终生成路径(根据项目参数中设置的输出路径生成)"></nz-step>
+</nz-steps>
+<nz-divider>
+</nz-divider>

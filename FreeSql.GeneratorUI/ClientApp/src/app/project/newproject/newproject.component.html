@@ -1,0 +1,180 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <div nz-row>
+    <div nz-col [nzSpan]="10">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="projectName">项目名称</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="这里写下项目名称">
+          <input nz-input formControlName="projectName" id="projectName" placeholder="项目名称" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="14">
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="rootPath" nzRequired>项目根目录路径</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="根目录路径">
+          <input nz-input type="text" id="rootPath" formControlName="rootPath" placeholder="项目根目录路径" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="10">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="outPutPath" nzRequired>输出路径</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24">
+          <input nz-input type="text" formControlName="outPutPath" id="outPutPath" placeholder="项目文件最终输出路径" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="14">
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzFor="generatorMode" nzRequired>
+          <span>生成器模式
+            <i nz-icon nz-tooltip nzTitle="CodeFirst从代码实体派生所有逻辑DbFirst从数据库结构派生" nzType="question-circle"
+              nzTheme="outline"></i>
+          </span>
+        </nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="CodeFirst/DbFirst">
+          <nz-radio-group formControlName="generatorMode">
+            <label nz-radio nzValue=0>DbFirst</label>
+            <label nz-radio nzValue=1>CodeFirst(仅支持.netcore)</label>
+          </nz-radio-group>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col [nzSpan]="10">
+      <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="author" nzRequired>作者</nz-form-label>
+        <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="请输入作者">
+          <input nz-input id="author" formControlName="author" placeholder="作者" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+    <div nz-col nzSpan="24">
+      <nz-card style="width:100%" nzTitle="模式相关配置项">
+        <div id="dbSetting" *ngIf="this.validateForm.get('generatorMode').value === '0'">
+          <div nz-col [nzSpan]="10">
+            <nz-form-item>
+              <nz-form-label nz-col [nzSm]="8" [nzXs]="24">数据库类型</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="24">
+                <nz-select formControlName="dataSourceType">
+                  <nz-option *ngFor="let p of this.dataSourceType" [nzValue]="p" [nzLabel]="p">
+                  </nz-option>
+                </nz-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="14">
+            <nz-form-item>
+              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">数据库名</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="24">
+                <input nz-input type="text" formControlName="dataSourceDb" id="dataSourceDb" name='dataSourceDb'
+                  placeholder="数据库名称" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="10">
+            <nz-form-item>
+              <nz-form-label nz-col [nzSm]="8" [nzXs]="24">数据库连接字符串</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="24">
+                <input nz-input type="text" formControlName="dataSourceConnectionStr" id="dataSourceConnectionStr"
+                  name='dataSourceConnectionStr' placeholder="数据库连接字符串" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+        </div>
+        <div id="baseEntity" *ngIf="this.validateForm.get('generatorMode').value === '1'">
+          <div nz-col [nzSpan]="10">
+            <nz-form-item>
+              <nz-form-label nz-col [nzSm]="8" [nzXs]="24">选择项目文件</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="CodeFirst模式必须选择csproj文件">
+                <app-pathdir-select [onlyDir]="false" [fileType]="'csproj'" [value]="csprojPath"
+                 (change)="cahnged($event)">
+                </app-pathdir-select>
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="14">
+            <nz-form-item>
+              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">实体基类</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="CodeFirst模式实体基类必填">
+                <input nz-input type="text" formControlName="entityBaseName" id="entityBaseName" name='entityBaseName'
+                  placeholder="实体基类" />
+              </nz-form-control>
+            </nz-form-item>
+          </div>
+          <div nz-col [nzSpan]="10">
+            <nz-form-control nzOffset="8" [nzSm]="10" [nzXs]="24">
+              <input nz-button (click)="preview()" value="查看">
+            </nz-form-control>
+
+          </div>
+        </div>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="24" *ngIf="this.previewShow">
+      <app-table-preview [path]="this.csprojPath" [entityBaseName]="this.validateForm.get('entityBaseName').value">
+      </app-table-preview>
+    </div>
+    <div nz-col [nzSpan]="24">
+      <div nz-col [nzSpan]="10">
+        <nz-form-item>
+          <nz-form-control nzOffset="8" [nzSm]="10" [nzXs]="24">
+            <input nz-col [nzSm]="8" [nzXs]="24" nz-button type="submit" value="保存" />
+          </nz-form-control>
+        </nz-form-item>
+      </div>
+    </div>
+    <div nz-col [nzSpan]="20" class="builderDiv" *ngIf="builderVisable">
+      <nz-card style="width: 100%;" nzTitle="配置构建器" [nzExtra]="builderExtraTemplate">
+        <nz-card-tab>
+          <nz-tabset style='margin-bottom: 0px !important'>
+            <nz-tab [nzTitle]="buildtitleTemplate" *ngFor="let item of this.project.builders ">
+              <ng-template #buildtitleTemplate>
+                <div>
+                  {{ item.name }}
+                  <i nz-icon nzType="close" (click)="removeBuilder(item.name,'builder')" class="ant-tabs-close-x"></i>
+                </div>
+              </ng-template>
+              <app-builder-option [builder]="item">
+              </app-builder-option>
+            </nz-tab>
+          </nz-tabset>
+        </nz-card-tab>
+      </nz-card>
+    </div>
+    <div nz-col [nzSpan]="20" class="builderDiv" *ngIf="gBuilderVisable">
+      <nz-card style="width: 100%;" nzTitle="全局配置构建器" [nzExtra]="gBuilderExtraTemplate">
+        <nz-card-tab>
+          <nz-tabset style='margin-bottom: 0px !important'>
+            <nz-tab [nzTitle]="gBuildtitleTemplate" *ngFor="let item of this.project.globalBuilders ">
+              <ng-template #gBuildtitleTemplate>
+                <div>
+                  {{ item.name }}
+                  <i nz-icon nzType="close" (click)="removeBuilder(item.name,'gBuilder')" class="ant-tabs-close-x"></i>
+                </div>
+              </ng-template>
+              <app-builder-option [builder]="item">
+              </app-builder-option>
+            </nz-tab>
+          </nz-tabset>
+        </nz-card-tab>
+      </nz-card>
+      <ng-template #builderExtraTemplate>
+        <a (click)="Add('builder')">添加</a>
+      </ng-template>
+      <ng-template #gBuilderExtraTemplate>
+        <a (click)="Add('globalBuilder')">添加</a>
+      </ng-template>
+      <nz-modal [(nzVisible)]=" isVisible['globalBuilder']" nzTitle="添加全局构建器" (nzOnOk)="builderAdd('globalBuilder')"
+        (nzOnCancel)="this.isVisible['globalBuilder'] = false">
+        全局构建器名：
+        <input nz-input id='key' formControlName="addTabs">
+      </nz-modal>
+      <nz-modal [(nzVisible)]=" isVisible['builder']" nzTitle="添加构建器" (nzOnOk)="builderAdd('builder')"
+        (nzOnCancel)="this.isVisible['builder'] = false">
+        构建器名：
+        <input nz-input id='key' formControlName="addTabs">
+      </nz-modal>
+    </div>
+
+  </div>
+</form>

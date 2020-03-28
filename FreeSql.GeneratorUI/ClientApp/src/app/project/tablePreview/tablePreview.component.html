@@ -1,0 +1,57 @@
+<nz-table #dynamicTable [nzScroll]="{ y: '500px' }" nzBordered="true" [nzData]="listOfData">
+  <thead>
+    <tr>
+      <th nzWidth="50px"  nzLeft="0px">属性</th>
+      <th nzWidth="100px" nzLeft="50px">表名</th>
+      <th nzWidth="100px">名称</th>
+      <th nzWidth="100px">备注</th>
+      <th nzWidth="200px">操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
+      <tr>
+        <td nzWidth="50px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.name]"></td>
+        <td nzWidth="100px">{{ data.dbTableName }}</td>
+        <td nzWidth="100px">{{ data.name }}</td>
+        <td nzWidth="100px">{{ data.comment }}</td>
+        <td nzWidth="200px">
+          <a href="#">操作 一 {{ data.name }}</a>
+          <nz-divider nzType="vertical"></nz-divider>
+          <a href="#">删除</a>
+        </td>
+      </tr>
+      <tr [nzExpand]="mapOfExpandData[data.name]">
+        <td colspan="6">
+          <nz-table #fixedTable [nzData]="data.columnInfos" [nzScroll]="{y: '300px' }">
+            <thead>
+              <tr>
+                <th nzWidth="100px">属性名</th>
+                <th nzWidth="100px">备注</th>
+                <th nzWidth="100px">数据库字段名</th>
+                <th nzWidth="100px">数据库类型</th>
+                <th nzWidth="100px">cSharp类型</th>
+                <th nzWidth="200px">操作</th>
+              </tr>
+            </thead>
+  <tbody>
+    <tr *ngFor="let data of fixedTable.data">
+      <td nzWidth="100px">{{ data.columnName}}</td>
+      <td nzWidth="100px">{{ data.comment}}</td>
+      <td nzWidth="100px">{{ data.dbType }}</td>
+      <td nzWidth="100px">{{ data.dbColumnName }}</td>
+      <td nzWidth="100px">{{ data.csType }}</td>
+      <td nzWidth="200px">
+        <a href="#">操作 一 {{ data.columnName }}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a href="#">删除</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>
+</td>
+</tr>
+
+</ng-template>
+</tbody>
+</nz-table>

@@ -1,0 +1,8 @@
+{
+  "ProjectName": "Test",
+  "ConvertModes": {
+    "EntityConvertMode": 1,
+    "ServiceConvertMode": 1,
+    "RepositoryConvertMode": 0
+  }
+}

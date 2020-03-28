@@ -1,0 +1,64 @@
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <div nz-col [nzSpan]="10">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>模块名</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="name" formControlName="name" placeholder="模块名" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="14">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>是否只生成服务类型</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <nz-switch id="isServiceOnly" formControlName='isServiceOnly'>
+      </nz-switch>
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="10">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>前缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="prefix" formControlName='prefix' placeholder="前缀" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="14">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>忽略数据库表中的前缀的</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="splitDot" formControlName='splitDot' placeholder="忽略数据库表中的前缀的 前缀分隔符 （与IsIgnorePrefix搭配）" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="10">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>名称是否忽略前缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <nz-switch id="isIgnorePrefix" formControlName='isIgnorePrefix'>
+      </nz-switch>
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="14">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>输出路径</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="outPutPath" formControlName="outPutPath" placeholder="输出路径" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="10">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>名称转换模式</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="mode" formControlName="mode" placeholder="名称转换模式" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="14">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>模板路径</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="templatePath" formControlName="templatePath" placeholder="模板路径" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="10">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>后缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="suffix" formControlName="suffix" placeholder="后缀" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="14">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>生成的代码继承自</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="classBase" formControlName="classBase" placeholder="继承类" />
+    </nz-form-control>
+  </div>
+</form>
