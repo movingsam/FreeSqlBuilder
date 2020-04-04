@@ -40,15 +40,15 @@ namespace FreeSql.GeneratorUI
         {
             var httpMethod = context.Request.Method;
             var path = context.Request.Path.Value;
-            if (httpMethod.ToUpper() == "GET" && Regex.IsMatch(path, $"^/{Regex.Escape(_genOptions.Path)}/?$"))
+            if (httpMethod.ToUpper() == "GET" && Regex.IsMatch(path.ToLower(), $"^/{Regex.Escape(_genOptions.Path.ToLower())}/?$"))
             {
-                var relativeRedirectPath = path.EndsWith("/")
+                var relativeRedirectPath = path.ToLower().EndsWith("/")
                    ? "index.html"
                    : $"{path.Split('/').Last()}/index.html";
                 RespondWithRedirect(context.Response, relativeRedirectPath);
                 return;
             }
-            if (httpMethod == "GET" && Regex.IsMatch(path, $"^/{Regex.Escape(_genOptions.Path)}/?index.html$"))
+            if (httpMethod == "GET" && Regex.IsMatch(path.ToLower(), $"^/{Regex.Escape(_genOptions.Path)}/?index.html$"))
             {
                 await RespondWithIndexHtml(context.Response);
                 return;

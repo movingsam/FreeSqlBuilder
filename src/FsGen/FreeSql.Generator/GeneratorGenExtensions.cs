@@ -30,7 +30,9 @@ namespace FreeSql.Generator
             var options = new GenTemplateOptions();
             setupAction?.Invoke(options);
             services.AddSingleton(options);//配置导入
-            services.AddRazorPages().AddRazorRuntimeCompilation();//MVC动态编译
+            services.AddMvc(opt => opt.EnableEndpointRouting = false)
+                .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确
+                .AddRazorRuntimeCompilation();//MVC动态编译
             services.AddScoped<IProjectService, ProjectService>();//项目核心服务
             services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文乱码
             services.AddSingleton<FileProviderHelper>();//文件相关处理

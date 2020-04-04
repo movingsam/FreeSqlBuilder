@@ -20,6 +20,7 @@ namespace FreeSql.GeneratorUI
             {
                 options = app.ApplicationServices.GetRequiredService<IOptions<GenUIOptions>>().Value;
             }
+            app.UseMvcWithDefaultRoute();
             app.UseMiddleware<FreeSqlGenUIMiddleware>(options);
         }
     }
