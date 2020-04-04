@@ -1,0 +1,514 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FreeSqlBuilder</name>
+    </assembly>
+    <members>
+        <member name="T:FreeSql.Generator.Controllers.ProjectController">
+            <summary>
+            代码生成器相关控制器
+            </summary>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.#ctor(System.IServiceProvider)">
+            <summary>
+            控制器构造注入
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetPage(FreeSql.Generator.Modals.Base.PageRequest)">
+            <summary>
+            分页查询
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.NewInfo(FreeSql.Generator.Core.ProjectInfo)">
+            <summary>
+            项目资料
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.UpdateInfo(FreeSql.Generator.Core.ProjectInfo)">
+            <summary>
+            项目资料更新
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.NewConfig(FreeSql.Generator.Core.GeneratorModeConfig)">
+            <summary>
+            新增配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.UpdateConfig(FreeSql.Generator.Core.GeneratorModeConfig)">
+            <summary>
+            配置项更新
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.NewBuilder(FreeSql.Generator.Core.BuilderOptions)">
+            <summary>
+            新增构建器
+            </summary>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.UpdateBuilder(FreeSql.Generator.Core.BuilderOptions)">
+            <summary>
+            更新构建器
+            </summary>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.DelBuilder(System.Int64)">
+            <summary>
+            构建器删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.Remove(System.Int64)">
+            <summary>
+            删除项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.Get(System.Int64)">
+            <summary>
+            获取项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.Update(FreeSql.Generator.Core.Project)">
+            <summary>
+            更新项目
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.TemplateGetPage(FreeSql.Generator.Modals.Base.PageRequest)">
+            <summary>
+            模板列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.TemplateGet(System.Int64)">
+            <summary>
+            获取模板
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.TemlateRemove(System.Int64)">
+            <summary>
+            模板删除
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.UpdateTemplate(FreeSql.Generator.Core.Template)">
+            <summary>
+            更新模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.AddTempalte(FreeSql.Generator.Core.Template)">
+            <summary>
+            新增模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetDriveInfos">
+            <summary>
+            获取服务器的盘符及相关根目录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetDir(System.String)">
+            <summary>
+            通过目录获取下一层级的目录
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetCshtml(System.String,System.String)">
+            <summary>
+             通过目录获取下一层级的目录及cshtml文件
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.ImportCshtml(System.String)">
+            <summary>
+            获取cshtml相关内容
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetRootPath">
+            <summary>
+            获取当前项目的根目录+模板路径
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetAllDbTable(System.String,System.String)">
+            <summary>
+            获取所有表
+            </summary>
+            <param name="entityBaseName"></param>
+            <param name="entityAssemblyName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetAllAbstractClass(System.String)">
+            <summary>
+            获取所有的基类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.GetAssemblies">
+            <summary>
+            获取程序集名称项
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSql.Generator.Controllers.ProjectController.BuildTask(System.Int64)">
+            <summary>
+            生成项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSql.Generator.FreeSqlGenExtensions">
+            <summary>
+            代码生成器服务相关拓展
+            </summary>
+        </member>
+        <member name="M:FreeSql.Generator.FreeSqlGenExtensions.AddFreeSqlGen(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSql.Generator.Core.GenTemplateOptions})">
+            <summary>
+            添加FreeSqlGen相关
+            </summary>
+            <param name="services"></param>
+            <param name="setupAction">生成器模板配置项</param>
+        </member>
+        <member name="M:FreeSql.Generator.FreeSqlGenExtensions.Aop_CommandAfter(System.Object,FreeSql.Aop.CommandAfterEventArgs,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            sql监控
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="T:FreeSql.Generator.Modals.Base.IPage">
+            <summary>
+            分页参数
+            </summary>
+        </member>
+        <member name="P:FreeSql.Generator.Modals.Base.IPage.PageSize">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:FreeSql.Generator.Modals.Base.IPage.PageNumber">
+            <summary>
+            页号
+            </summary>
+        </member>
+        <member name="P:FreeSql.Generator.Modals.Base.IPage.SortFields">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:FreeSql.Generator.Modals.Base.IPage.Keyword">
+            <summary>
+            关键字
+            </summary>
+        </member>
+        <member name="P:FreeSql.Generator.Modals.Base.IPage.Total">
+            <summary>
+            总条数
+            </summary>
+        </member>
+        <member name="T:FreeSql.Generator.Modals.Base.PageRequest">
+            <summary>
+            页面请求基类
+            </summary>
+        </member>
+        <member name="P:FreeSql.Generator.Modals.ProjectPageRequest.Keyword">
+            <summary>
+            项目配置关键字 {项目名称}
+            </summary>
+        </member>
+        <member name="T:AngularGenerator.Services.ProjectService">
+            <summary>
+            项目服务
+            </summary>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.#ctor(System.IServiceProvider)">
+            <summary>
+            
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.GetPage(FreeSql.Generator.Modals.Base.PageRequest)">
+            <summary>
+            分页
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.Add(FreeSql.Generator.Core.Project)">
+            <summary>
+            新增项目
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.AddProjectInfoAsync(FreeSql.Generator.Core.ProjectInfo)">
+            <summary>
+            新增项目基础信息 Step1
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.UpdateProjectInfoAsync(FreeSql.Generator.Core.ProjectInfo)">
+            <summary>
+            更新项目基础信息 Step1
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.AddGConfig(FreeSql.Generator.Core.GeneratorModeConfig)">
+            <summary>
+            新增配置 Step2
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.UpdateConfig(FreeSql.Generator.Core.GeneratorModeConfig)">
+            <summary>
+            更新配置 Step2
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.AddDataSource(FreeSql.Generator.Core.DataSource)">
+            <summary>
+            新增数据库配置 Step2-2
+            </summary>
+            <param name="dataSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.AddBuilder(FreeSql.Generator.Core.BuilderOptions)">
+            <summary>
+            新增构建器
+            </summary>
+            <param name="builderOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.UpdateBuilder(FreeSql.Generator.Core.BuilderOptions)">
+            <summary>
+            更新构建器
+            </summary>
+            <param name="builderOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.DelBuilder(System.Int64)">
+            <summary>
+            删除某个构建器
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.Remove(System.Int64)">
+            <summary>
+            删除项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.Update(FreeSql.Generator.Core.Project)">
+            <summary>
+            更新项目
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.Get(System.Int64)">
+            <summary>
+            查询项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.GetTemplatePageAsync(FreeSql.Generator.Modals.Base.PageRequest)">
+            <summary>
+            模板列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.AddTempalte(FreeSql.Generator.Core.Template)">
+            <summary>
+            新增模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.RemoveTemplate(System.Int64)">
+            <summary>
+            删除模板
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.UpdateTemplate(FreeSql.Generator.Core.Template)">
+            <summary>
+            更新模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.ProjectService.GetTemplateAsync(System.Int64)">
+            <summary>
+            获取某个模板内容
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:AngularGenerator.Services.IProjectService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.GetPage(FreeSql.Generator.Modals.Base.PageRequest)">
+            <summary>
+            获取项目分页信息
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.Add(FreeSql.Generator.Core.Project)">
+            <summary>
+            新增项目
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.AddDataSource(FreeSql.Generator.Core.DataSource)">
+            <summary>
+            #ToDo 数据源新增 #ToDo
+            </summary>
+            <param name="dataSource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.AddGConfig(FreeSql.Generator.Core.GeneratorModeConfig)">
+            <summary>
+            新增配置
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.UpdateConfig(FreeSql.Generator.Core.GeneratorModeConfig)">
+            <summary>
+            更新配置
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.AddProjectInfoAsync(FreeSql.Generator.Core.ProjectInfo)">
+            <summary>
+            新增项目详情
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.UpdateProjectInfoAsync(FreeSql.Generator.Core.ProjectInfo)">
+            <summary>
+            更新项目详情
+            </summary>
+            <param name="info"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.AddBuilder(FreeSql.Generator.Core.BuilderOptions)">
+            <summary>
+            新增构建器信息
+            </summary>
+            <param name="builderOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.UpdateBuilder(FreeSql.Generator.Core.BuilderOptions)">
+            <summary>
+            更新构建器信息
+            </summary>
+            <param name="builderOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.DelBuilder(System.Int64)">
+            <summary>
+            删除构建器
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.Get(System.Int64)">
+            <summary>
+            获取项目详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.Remove(System.Int64)">
+            <summary>
+            删除ID相关项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.Update(FreeSql.Generator.Core.Project)">
+            <summary>
+            更新项目
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.GetTemplatePageAsync(FreeSql.Generator.Modals.Base.PageRequest)">
+            <summary>
+            获取模板
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.AddTempalte(FreeSql.Generator.Core.Template)">
+            <summary>
+            新增模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.RemoveTemplate(System.Int64)">
+            <summary>
+            删除模板
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.UpdateTemplate(FreeSql.Generator.Core.Template)">
+            <summary>
+            更新模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
+        <member name="M:AngularGenerator.Services.IProjectService.GetTemplateAsync(System.Int64)">
+            <summary>
+            获取模板
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

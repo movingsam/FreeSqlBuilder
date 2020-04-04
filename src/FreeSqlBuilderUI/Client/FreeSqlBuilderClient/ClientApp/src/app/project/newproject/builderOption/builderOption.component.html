@@ -1,0 +1,74 @@
+<form nz-form [formGroup]="validateForm">
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>模块名</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="name" formControlName="name" placeholder="模块名" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>是否只生成主表</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <nz-switch id="isServiceOnly" formControlName='isServiceOnly'>
+      </nz-switch>
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24">前缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="prefix" formControlName='prefix' placeholder="前缀 ex: I -> 文件名= I+实体名+后缀" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24">忽略数据库表中的前缀的</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="splitDot" formControlName='splitDot' placeholder="忽略数据库表中的前缀的 前缀分隔符 （与IsIgnorePrefix搭配）" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>名称是否忽略前缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <nz-switch id="isIgnorePrefix" formControlName='isIgnorePrefix'>
+      </nz-switch>
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>输出路径</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="outPutPath" formControlName="outPutPath" placeholder="输出路径" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>名称转换模式</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="mode" formControlName="mode" placeholder="名称转换模式 默认不转换" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>模板路径</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <button nz-button type="button" (click)="selectTemplate()">选择</button>
+      <label>{{this.builder.template.templatePath}}</label>
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24">后缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="suffix" formControlName="suffix" placeholder="后缀 ex:Repository-> 文件名= 前缀+实体名+Repository" />
+    </nz-form-control>
+  </div>
+  <div nz-col [nzSpan]="12">
+    <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>文件后缀</nz-form-label>
+    <nz-form-control [nzSm]="9" [nzXs]="24">
+      <input nz-input id="fileExtensions" formControlName="fileExtensions" placeholder="文件后缀" />
+    </nz-form-control>
+  </div>
+  <nz-form-control [nzSm]="12" [nzXs]="24">
+    <nz-form-control [nzOffset]="5" [nzSm]="9" [nzXs]="24">
+      <button nz-button (click)='submitForm()' [nzType]="'primary'" style='float'>提交</button>
+    </nz-form-control>
+  </nz-form-control>
+  <nz-modal nzWidth="80vw" [(nzVisible)]=" this.templateSel " nzTitle="选择模板" (nzOnOk)="this.templateSel = false"
+    (nzOnCancel)="this.templateSel = false">
+    <app-list-template [isController]='true' (selectTemplate)="selectCallBack($event)"></app-list-template>
+  </nz-modal>
+</form>

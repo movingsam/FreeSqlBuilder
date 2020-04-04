@@ -2,14 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
-    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
-    <IsPackable>false</IsPackable>
-    <SpaRoot>ClientApp\</SpaRoot>
-    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-
-    <!-- Set this to true if you enable server-side prerendering -->
-    <BuildServerSideRenderer>false</BuildServerSideRenderer>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,18 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="4.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
+    <PackageReference Include="FreeSql.Generator" Version="1.0.0" />
+    <PackageReference Include="FreeSql.GeneratorUI" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.3" />
   </ItemGroup>
 
 
+
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FsGenUI\FreeSql.GeneratorUI\FreeSql.GeneratorUI.csproj" />
-    <ProjectReference Include="..\..\src\FsGen\FreeSql.Generator\FreeSql.Generator.csproj" />
-    <ProjectReference Include="..\TestEntity.cs\TestEntity.cs.csproj" />
+    <ProjectReference Include="..\TestEntity.cs\TestEntity.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
