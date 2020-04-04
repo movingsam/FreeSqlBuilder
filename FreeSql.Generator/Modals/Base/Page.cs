@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BlazorFreeSqlGenerator.Modals.Base
+﻿namespace FreeSql.Generator.Modals.Base
 {
     public abstract class Page : IPage
     {

@@ -67,18 +67,17 @@ namespace FreeSql.TemplateEngine.Implement
         /// <returns></returns>
         private IView FindView(ActionContext actionContext, string viewName)
         {
+
             var getViewResult = _viewEngine.GetView(executingFilePath: null, viewPath: viewName, isMainPage: true);
             if (getViewResult.Success)
             {
                 return getViewResult.View;
             }
-
             var findViewResult = _viewEngine.FindView(actionContext, viewName, isMainPage: true);
             if (findViewResult.Success)
             {
                 return findViewResult.View;
             }
-
             var searchedLocations = getViewResult.SearchedLocations.Concat(findViewResult.SearchedLocations);
             var errorMessage = string.Join(
                 Environment.NewLine,

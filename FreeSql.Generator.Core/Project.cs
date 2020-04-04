@@ -7,59 +7,22 @@ using FreeSql.Generator.Core.WordsConvert;
 
 namespace FreeSql.Generator.Core
 {
-    [Table(Name ="Project")]
-    public class Project : IOutPut, IKey<long>
+    [Table(Name = "Project")]
+    public class Project : IKey<long>
     {
         [Column(IsPrimary = true, IsIdentity = true)]
         public long Id { get; set; }
         /// <summary>
-        /// 项目名——命名空间
+        /// 项目基本信息
         /// </summary>
-        public string ProjectName { get; set; }
+        public ProjectInfo ProjectInfo { get; set; }
+        public long ProjectInfoId { get; set; }
         /// <summary>
-        /// 根目录
+        /// 生成器模式相关配置
         /// </summary>
-        public string RootPath { get; set; }
-        /// <summary>
-        /// 输出路径 默认Output
-        /// </summary>
-        public string OutPutPath { get; set; } = "Output";
-        /// <summary>
-        /// 生成器模式 CodeFirst根据实体代码来生成 DbFirst根据数据库生成代码
-        /// </summary>
-        public GeneratorMode GeneratorMode { get; set; } = GeneratorMode.CodeFirst;
-        /// <summary>
-        /// 实体基类名称 CodeFirst根据此项反射根据此项
-        /// </summary>
-        public string EntityBaseName { get; set; } = "EntityBase`1";
-        /// <summary>
-        /// 数据库信息
-        /// </summary>
-        public DataSource DataSource { get; set; }
-        /// <summary>
-        /// 数据库id
-        /// </summary>
-        public long DataSourceId { get; set; }
-        /// <summary>
-        /// 作者
-        /// </summary>
-        public string Author { get; set; }
-        /// <summary>
-        /// 数据表选项
-        /// </summary>
-        public Entity Entity { get; set; }
-        public string IncludeTables { get; set; }
-        public string IgnoreTables { get; set; }
-        /// <summary>
-        /// 只生成某些表
-        /// </summary>
-        [Column(IsIgnore = true)]
-        public List<string> IncludeTable => IncludeTables?.Split(",").ToList();
-        /// <summary>
-        /// 忽略某些表
-        /// </summary>
-        [Column(IsIgnore = true)]
-        public List<string> IgnoreTable => IgnoreTables?.Split(",").ToList();
+        public GeneratorModeConfig GeneratorModeConfig { get; set; }
+
+        public long GeneratorModeConfigId { get; set; }
         /// <summary>
         /// 多表构建器
         /// </summary>
@@ -73,6 +36,7 @@ namespace FreeSql.Generator.Core
 
     public interface IKey<out TKey>
     {
+        [Column(IsPrimary = true, IsIdentity = true)]
         TKey Id { get; }
     }
 }

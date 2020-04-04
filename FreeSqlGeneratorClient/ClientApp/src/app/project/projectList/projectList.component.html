@@ -1,0 +1,28 @@
+<nz-table #basicTable [nzTotal]="pageData.total" [(nzPageIndex)]="pageData.pageNumber"
+  [(nzPageSize)]="pageData.pageSize" [nzFrontPagination]="false" [nzShowPagination]="true" nzShowSizeChanger nzShowTotal
+  [nzLoading]="loading" nzTitle="项目列表" (nzPageIndexChange)="IndeChange($event)" (nzPageSizeChange)="SizeChange($event)"
+  [nzData]="pageData.datas">
+  <thead>
+    <tr>
+      <th>项目名称</th>
+      <th>生成模式</th>
+      <th>作者</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let data of basicTable.data">
+      <td>{{data.projectInfo.projectName}}</td>
+      <td>{{renderGeneratorMode(data)}}</td>
+      <td>{{data.projectInfo.author}}</td>
+      <td>
+        <a (click)="build(data)"
+          *ngIf="data.projectInfo.id !== 0 && data.generatorModeConfigId !== 0 && data.builders.length > 0">生成</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="gotoEdit(data.id)">编辑</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="delproj(data.id)">删除</a>
+      </td>
+    </tr>
+  </tbody>
+</nz-table>

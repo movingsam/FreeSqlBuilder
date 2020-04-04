@@ -4,18 +4,20 @@
 @{
     Layout = "_Layout.cshtml";
     var project = Model.Project;
-    var table = Model.CodeCurrentTableInfo;
+    var table = Model.CurrentTable;
+    var builder = Model.CurrentBuilder;
     var dtoName =  project.GetBuilder("Dtos").GetName(table.Name);
     var primaryKeyType = table.PrimaryTypeName;
+    var className = builder.GetName(table.Name);
 }
 
-using System;
-using GRES.Framework.Dtos;
-namespace @(project.ProjectName).@project.GetBuilder("PageViewDto").Name
+@table.GetNameSpaceUsing();
+
+namespace @(project.ProjectInfo.ProjectName).@className
 {
-    public class @project.GetBuilder("PageViewDto").GetName(table.Name) : PageViewDtoBase<@($"{dtoName},{primaryKeyType}")>
+    public class @className : PageViewDtoBase<@($"{dtoName},{primaryKeyType}")>
     {
-       public @(project.GetBuilder("PageViewDto").GetName(table.Name))(IPaged paged, List<@dtoName> datas):base(paged,datas)
+       public @className (IPaged paged, List<@dtoName> datas):base(paged,datas)
        {
         
        }

@@ -6,8 +6,8 @@ using System.Text;
 using FreeSql.DataAnnotations;
 using FreeSql.DatabaseModel;
 using FreeSql.Generator.Core.Utilities;
+using FreeSql.Internal;
 using GRES.Framework.Utils;
-using MySqlX.XDevAPI.Relational;
 
 namespace FreeSql.Generator.Core.CodeFirst
 {
@@ -23,17 +23,18 @@ namespace FreeSql.Generator.Core.CodeFirst
         {
             this.Name = tableType.Name;
             var dic = Utilities.Comment.GetProperyCommentBySummary(tableType);
-            //dic?.FirstOrDefault(x => x.Key == Name).Value;
             Comment = dic?.FirstOrDefault(x => x.Key == Name).Value ?? "";
             this.ColumnInfos = tableType.GetProperties().Where(t => Reflection.IsBaseType(t.PropertyType)).Select(x => new ColumnInfo(x, dic?.FirstOrDefault(d => d.Key == x.Name).Value)).ToList();
             this.NavigateInfos = tableType.GetProperties().Where(t => !Reflection.IsBaseType(t.PropertyType)).Select(x => new NavigateColumnInfo(x, dic?.FirstOrDefault(d => d.Key == x.Name).Value)).ToList();
             this.DbTableName = tableType.GetCustomAttribute<TableAttribute>()?.Name ?? Name;
-            ImportUsings = this.ColumnInfos.Select(x => x.UsingNameSpace).Where(x => !string.IsNullOrWhiteSpace(x)).Distinct().ToList();
+            var columnsNameSpace = this.ColumnInfos.Where(x => !string.IsNullOrWhiteSpace(x.UsingNameSpace)).Select(x => x.UsingNameSpace);
+            var navNameSpace = this.NavigateInfos?.Where(x => !string.IsNullOrWhiteSpace(x.UsingNameSpace)).Select(x => x.UsingNameSpace);
+            ImportUsings = columnsNameSpace.Concat(navNameSpace).Distinct().ToList();
             PrimaryTypeName = Reflection.ToCsType(this.ColumnInfos?.FirstOrDefault(x => x.ColumnAttribute?.IsPrimary ?? false)?.Type);
             IsServiceTable = tableType.GetCustomAttribute<ServiceAttribute>() != null;
             NameSpace = tableType.Namespace;
         }
-        public TableInfo(DbTableInfo tableType, string nameSpace)
+        public TableInfo(DbTableInfo tableType)
         {
             this.Name = tableType.Name;
             Comment = tableType.Comment;
@@ -45,7 +46,6 @@ namespace FreeSql.Generator.Core.CodeFirst
             IsServiceTable = true;
 
         }
-
 
         /// <summary>
         /// 是否为主表
@@ -63,7 +63,6 @@ namespace FreeSql.Generator.Core.CodeFirst
         /// 主键类型
         /// </summary>
         public string PrimaryTypeName { get; set; }
-
         /// <summary>
         /// 备注 
         /// </summary>
@@ -133,6 +132,7 @@ namespace FreeSql.Generator.Core.CodeFirst
                 Name = info.Name,
                 StringLength = info.MaxLength
             };
+            this.DbType = info.DbType.ToString();
             this.Type = info.CsType;
             this.ColumnName = info.Name;
             this.CsType = info.CsType.Name;
@@ -144,6 +144,7 @@ namespace FreeSql.Generator.Core.CodeFirst
             Type = info.PropertyType;
             ColumnName = info.Name;
             CsType = Reflection.ToCsType(Type);
+            DbType = CsType;
         }
         /// <summary>
         /// 字段名
@@ -164,7 +165,9 @@ namespace FreeSql.Generator.Core.CodeFirst
         /// <summary>
         /// 类型
         /// </summary>
+        [Column(IsIgnore = true)]
         public Type Type { get; set; }
+        public string DbType { get; set; }
         /// <summary>
         /// 类型字符串
         /// </summary>
@@ -172,7 +175,7 @@ namespace FreeSql.Generator.Core.CodeFirst
         /// <summary>
         /// 涉及到的命名空间
         /// </summary>
-        internal virtual string UsingNameSpace => string.Empty;
+        internal virtual string UsingNameSpace => this.Type.Namespace;
     }
 
     public enum NavigateCategory

@@ -1,0 +1,49 @@
+﻿@using FreeSql.Generator.Core
+@using FreeSql.TemplateEngine
+@model FreeSql.TemplateEngine.BuildTask
+@{
+    Layout = "../_Layout.cshtml";
+    var project = Model.Project;
+    var table = Model.CurrentTable;
+}
+
+@table.ImportUsings.GetUsing()
+@((table.NavigateInfos.Count>0)? "using System.Threading.Tasks;" :string.Empty)
+using GRES.Framework.Services;
+
+namespace @(project.ProjectInfo.ProjectName).Abstractes.@(project.GetBuilder("ISimpleCURD").Name)
+{
+    @($"{table.Comment}服务接口".GetCSharpSummary())
+    public interface I@(project.GetBuilder("ISimpleCURD").GetName(table.Name)) 
+    {
+@(Html.NewLine("#region 主表相关增删改查"))
+@Html.PadLeft(4)@($"{table.Comment}新增".GetCSharpSummary())
+@Html.PadLeft(4)Task<@("bool")>Add@(table.Name) (@table.Name dto);
+@Html.PadLeft(4)@($"{table.Comment}修改".GetCSharpSummary())
+@Html.PadLeft(4)Task<@("bool")>Update@(table.Name) (@table.Name dto);
+@Html.PadLeft(4)@($"{table.Comment}删除".GetCSharpSummary())
+@Html.PadLeft(4)Task<@("bool")> Delete@(table.Name)(@table.PrimaryTypeName@("[]") ids);
+@Html.PadLeft(4)@($"{table.Comment}查询".GetCSharpSummary())
+@Html.PadLeft(4)Task<@(table.Name)> Query@(table.Name) (@table.PrimaryTypeName [] ids);
+@(Html.NewLine("#endregion"))
+@(Html.NewLine("#region 导航属性相关信息"))
+
+@foreach (var navigate in table.NavigateInfos)
+{
+    @(Html.NewLine($"#region {navigate.Comment}相关"))
+    @($"{navigate.Comment}新增".GetCSharpSummary())
+    @Html.NewLine()
+    @:Task<bool> Add@(navigate.ColumnName) ( @navigate.ColumnName entity);
+    @($"{navigate.Comment}修改".GetCSharpSummary())
+    @Html.NewLine()
+    @:Task<bool> Update@(navigate.ColumnName) ( @navigate.ColumnName dto);
+    @($"{navigate.Comment}删除".GetCSharpSummary())
+    @Html.NewLine()
+    @:Task<bool> Delete@(navigate.ColumnName) ( @navigate.NavigateTableInfo.PrimaryTypeName [] id);
+    @($"{navigate.Comment}查询".GetCSharpSummary())
+    @:Task<@(table.Name)> Query@(navigate.ColumnName) (@table.PrimaryTypeName [] ids);
+    @(Html.NewLine("#endregion"))
+}
+@(Html.NewLine("#endregion"))
+}
+}

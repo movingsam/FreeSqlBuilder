@@ -1,19 +1,13 @@
-﻿using FreeSql.DatabaseModel;
-using FreeSql.Generator.Core;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using FreeSql.DataAnnotations;
+﻿using FreeSql.Generator.Core;
 using FreeSql.Generator.Core.CodeFirst;
 using FreeSql.Generator.Core.Utilities;
+using FreeSql.Generator.Helper;
 using FreeSql.TemplateEngine.Implement;
-using GRES.Framework.Utils;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FreeSql.TemplateEngine
 {
@@ -21,15 +15,16 @@ namespace FreeSql.TemplateEngine
     {
         public IFreeSql FreeSql { get; set; }
         private RazorTemplateEngine _engine;
-        public List<TableInfo> CodeAllTableInfo { get; set; }
-        public TableInfo CodeCurrentTableInfo { get; set; }
         private int CurrentIndex { get; set; } = 0;
-        public DbTableInfo[] AllTable { get; set; }
-        public DbTableInfo CurrentTable { get; set; }
+        public TableInfo[] AllTable { get; set; }
+        public TableInfo CurrentTable => AllTable[CurrentIndex];
+        public BuilderOptions CurrentBuilder { get; set; }
         public Project Project { get; set; }
-        public BuildTask()
+        private ReflectionHelper _reflectionHelper;
+        public BuildTask(IServiceProvider serviceProvider)
         {
-            InitEngine();
+            _reflectionHelper = serviceProvider.GetService<ReflectionHelper>();
+            _engine = serviceProvider.GetRequiredService<RazorTemplateEngine>();
         }
 
         public void InitSetting(string jsonPath = null)
@@ -45,98 +40,48 @@ namespace FreeSql.TemplateEngine
 
         public void ImportSetting(Project project)
         {
-            if (project.GeneratorMode == GeneratorMode.DbFirst)
+            this.Project = project;
+            switch (this.Project.GeneratorModeConfig.GeneratorMode)
             {
-                FreeSql = new FreeSqlBuilder()
-                    .UseConnectionString(project.DataSource.DbType, project.DataSource.ConnectionString)
-                    .Build();
-                AllTable = FreeSql.DbFirst.GetTablesByDatabase(Project.DataSource.Name).ToArray();
-                if (project.IncludeTable != null)
-                {
-                    AllTable = AllTable.Where(x => project.IncludeTable.Contains(x.Name)).ToArray();
-                }
-                CurrentTable = AllTable[CurrentIndex];
+                case GeneratorMode.DbFirst:
+                    break;
+                case GeneratorMode.CodeFirst:
+                    this.AllTable = _reflectionHelper.GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result.ToArray();
+                    break;
+                default:
+                    break;
             }
-            else
-            {
-                var types = Assembly.GetEntryAssembly()?.GetTypes();
-                var tables = types?.Where(type => Reflection.GetTopBaseType(type).Name == Project.EntityBaseName && !type.IsAbstract).ToList();
-                tables?.ForEach(t => new TableInfo(t).Add());
-                CodeAllTableInfo = new List<TableInfo>();
-                if (project.IncludeTable != null)
-                {
-                    tables = tables?.Where(x => project.IncludeTable.Contains(x.GetCustomAttribute<TableAttribute>()?.Name ?? x.Name)).ToList();
-                }
-                tables?.ForEach(table =>
-                {
-                    var t = new TableInfo(table);
-                    CodeAllTableInfo.Add(t);
-                });
-                CodeCurrentTableInfo = CodeAllTableInfo[CurrentIndex];
-            }
-        }
-
-        public void InitEngine()
-        {
-            Console.WriteLine("------------------------------------------------------------------------------------------------");
-            Console.WriteLine("---------------------------------------FreeSqlGenerator-----------------------------------------");
-            Console.WriteLine("-------------------------------------------Start------------------------------------------------");
-            Console.WriteLine("------------------------------------------------------------------------------------------------");
-            Console.WriteLine("Razor引擎开始初始化");
-            _engine = new RazorTemplateEngine();
-            _engine.Initialize(null);
-            Console.WriteLine("Razor引擎初始化成功");
         }
 
         public async Task Start()
         {
-            ImportSetting(Project);
             do
             {
-                string tableName = null;
-                switch (Project.GeneratorMode)
+                var tableName = CurrentTable.Name;
+                foreach (var builder in Project.Builders)//构造器
                 {
-                    case GeneratorMode.DbFirst:
-                        tableName = Project.Entity.GetName(CurrentTable.Name);
-                        var entityContent = await _engine.Render(this, Project.Entity.Template.TemplatePath);
-                        await Project.Entity.OutPut(Project, tableName, entityContent);
-                        break;
-                    case GeneratorMode.CodeFirst:
-                        tableName = CodeCurrentTableInfo.Name;
-                        break;
-                    default:
-                        break;
-                }
-                foreach (var value in Project.Builders)
-                {
-                    if (!value.IsServiceOnly || CodeCurrentTableInfo.IsServiceTable)
+                    CurrentBuilder = builder;//记录当前执行的构建器
+                    if (!builder.IsServiceOnly || CurrentTable.IsServiceTable)//只生成非主表模板以及主表模板中的主表
                     {
-                        var content = await _engine.Render(this, value.Template.TemplatePath);
-                        await value.OutPut(Project, tableName, content);
+                        var content = await _engine.Render(this, builder.Template.TemplatePath);
+                        await builder.OutPut(tableName, content);
                     }
                 }
             }
             while (Next());
-            foreach (var value in Project.GlobalBuilders)
+            foreach (var value in Project.GlobalBuilders)//全表构造器
             {
+                CurrentBuilder = value;//记录当前执行的构建器
                 var content = await _engine.Render(this, value.Template.TemplatePath);
-                await value.OutPut(Project, this.Project.ProjectName, content);
+                await value.OutPut(this.Project.ProjectInfo.ProjectName, content);
             }
         }
 
 
         public bool Next()
         {
-            if (Project.GeneratorMode == GeneratorMode.DbFirst)
-            {
-                if (CurrentIndex == AllTable.Length - 1) return false;
-                CurrentIndex++;
-                CurrentTable = AllTable[CurrentIndex];
-                return true;
-            }
-            if (CurrentIndex == CodeAllTableInfo.Count - 1) return false;
+            if (CurrentIndex == AllTable.Length - 1) return false;
             CurrentIndex++;
-            CodeCurrentTableInfo = CodeAllTableInfo[CurrentIndex];
             return true;
         }
     }

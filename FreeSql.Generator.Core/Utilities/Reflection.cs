@@ -150,7 +150,7 @@ namespace GRES.Framework.Utils
         {
             if (type.IsInterface || type.IsAbstract)
                 return;
-            if (!IsBaseClass(type, findType.Name))
+            if (!BaseFrome(type, findType.Name))
                 return;
             result.Add(type);
         }
@@ -531,20 +531,22 @@ namespace GRES.Framework.Utils
                 return type;
             return GetTopBaseType(type.BaseType);
         }
+        public static bool IsBaseClass(Type type, Type baseType)
+        {
+            return type.IsAssignableFrom(baseType);
 
-        public static bool IsBaseClass(Type type, string baseClassName)
+        }
+        public static bool BaseFrome(Type type, string baseClassName)
         {
             if (type == null)
                 return false;
-            if (type.IsInterface)
-                return false;
-            if (type.BaseType.IsAbstract)
+            if (type.IsAbstract)
                 return false;
             if (type.BaseType == typeof(object))
                 return false;
             if (type.BaseType.Name == baseClassName)
                 return true;
-            return IsBaseClass(type.BaseType, baseClassName);
+            return BaseFrome(type.BaseType, baseClassName);
         }
 
 

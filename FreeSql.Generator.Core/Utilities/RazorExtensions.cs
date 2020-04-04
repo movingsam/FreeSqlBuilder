@@ -184,8 +184,11 @@ namespace FreeSql.TemplateEngine
             if (options == null) return "";
             var convert = new DefaultWordsConvert(options.Mode);
             var convertName = convert.Convert(tableName);
-            var splitArray = convertName.Split(options.SplitDot);
-            if (splitArray.Length > 1) convertName = splitArray[1];
+            if (options.SplitDot != null)
+            {
+                var splitArray = convertName.Split(options.SplitDot);
+                if (splitArray.Length > 1) convertName = splitArray[1];
+            }
             return options.IsIgnorePrefix
                 ? $"{options.Prefix}{convertName}{options.Suffix}"
                 : $"{options.Prefix}{convert.Convert(tableName)}{options.Suffix}";

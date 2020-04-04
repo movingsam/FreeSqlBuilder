@@ -7,7 +7,7 @@ using FreeSql.DatabaseModel;
 
 namespace FreeSql.Generator.Core
 {
-    [Index("fk_datasource_name_index",nameof(Name))]
+    [Index("fk_datasource_name_index", nameof(Name))]
     public class DataSource
     {
         [Column(IsIdentity = true, IsPrimary = true)]
@@ -42,6 +42,7 @@ namespace FreeSql.Generator.Core
         /// </summary>
         public DataType DbType { get; set; }
         public string ConnectionString { get; set; }
-        public long ProjectId { get; set; }
+        public GeneratorModeConfig GeneratorModeConfig { get; set; }
+        public long GeneratorModeConfigId { get; set; }
     }
 }

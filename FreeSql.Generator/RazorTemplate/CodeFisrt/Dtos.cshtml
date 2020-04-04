@@ -4,14 +4,13 @@
 @{
     Layout = "_Layout.cshtml";
     var project = Model.Project;
-    var table = Model.CodeCurrentTableInfo;
+    var table = Model.CurrentTable;
     
 }
+using @table.NameSpace
+@table.GetNameSpaceUsing()
 
-
-using System;
-using GRES.Framework.Dtos;
-namespace @(project.ProjectName).@project.GetBuilder("Dtos").Name
+namespace @(project.ProjectInfo.ProjectName).@project.GetBuilder("Dtos").Name
 {
     @($"{table.Comment}Dtos".GetCSharpSummary())
     public class @project.GetBuilder("Dtos").GetName(table.Name) : DtoBase<@table.PrimaryTypeName>

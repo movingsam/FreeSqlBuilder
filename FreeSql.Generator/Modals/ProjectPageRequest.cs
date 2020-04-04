@@ -1,10 +1,6 @@
-﻿using BlazorFreeSqlGenerator.Modals.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using FreeSql.Generator.Modals.Base;
 
-namespace BlazorFreeSqlGenerator.Modals
+namespace FreeSql.Generator.Modals
 {
     public class ProjectPageRequest : PageRequest
     {

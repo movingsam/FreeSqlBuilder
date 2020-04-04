@@ -4,14 +4,15 @@
 @{
     Layout = "_Layout.cshtml";
     var project = Model.Project;
-    var table = Model.CodeCurrentTableInfo;
+    var table = Model.CurrentTable;
+    var builder = Model.CurrentBuilder;
 }
 
 using System;
 using GRES.Framework.Dtos;
-namespace @(project.ProjectName).@project.GetBuilder("RequestDtos").Name
+namespace @(project.ProjectInfo.ProjectName).@builder.Name
 {
-    public class @project.GetBuilder("RequestDtos").GetName(table.Name) : RequestDtoBase
+    public class @builder.GetName(table.Name) : RequestDtoBase
     {
     }
 }

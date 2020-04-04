@@ -1,22 +1,20 @@
 ﻿using FreeSql.DataAnnotations;
 using FreeSql.Generator.Core.WordsConvert;
-using Org.BouncyCastle.Asn1.X509;
 
 namespace FreeSql.Generator.Core
 {
-    public class BuilderOptions : IPrefix, IOutPut, IConvertMode, ISuffix
+    public class BuilderOptions : IKey<long>, IPrefix, IOutPut, IConvertMode, ISuffix
     {
         public BuilderOptions()
         {
 
         }
 
-        public BuilderOptions(string name, string templatePath, string outputPath,
+        public BuilderOptions(string name, string outputPath,
             string preFix = "", string suffix = "", bool isIgnorePrefix = true,
             ConvertMode mode = ConvertMode.None)
         {
             Name = name;
-            Template.TemplatePath = templatePath;
             OutPutPath = outputPath;
             Prefix = preFix;
             Suffix = suffix;
@@ -32,12 +30,13 @@ namespace FreeSql.Generator.Core
         /// 项目ID
         /// </summary>
         public long ProjectId { get; set; }
+        public Project Project { get; set; }
         /// <summary>
         /// 基类名
         /// </summary>
         public string ClassBase { get; set; }
         /// <summary>
-        /// 模块名
+        /// 构建器名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>
@@ -81,6 +80,8 @@ namespace FreeSql.Generator.Core
         /// 构建类型
         /// </summary>
         public BuilderType Type { get; set; }
+
+        public string FileExtensions { get; set; } = "cs";
     }
     public enum BuilderType
     {

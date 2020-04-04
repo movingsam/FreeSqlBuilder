@@ -3,17 +3,17 @@
 @{
     Layout = "_Layout.cshtml";
     var project = Model.Project;
-    var table = Model.CodeCurrentTableInfo;
+    var table = Model.CurrentTable;
     var primaryKeyType = table.PrimaryTypeName;
-    var name = project.GetBuilder("Repository").GetName(table.Name);
+    var name = Model.CurrentBuilder.GetName(table.Name);
 }
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using @(project.ProjectName).Abstractes.Repositories;
+using @(project.ProjectInfo.ProjectName).Abstractes.Repositories;
 
-namespace @(project.ProjectName).Implaments.Repositories
+namespace @(project.ProjectInfo.ProjectName).Implaments.Repositories
 {
 
 @($"{table.Comment}仓储".GetCSharpSummary())

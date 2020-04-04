@@ -1,0 +1,35 @@
+<form nz-form>
+    <nz-form-item>
+        <nz-form-label nz-col [nzSpan]="4" for='templateName'>名称</nz-form-label>
+        <div nz-col [nzSpan]="10">
+            <nz-input-group id='templateName' [nzAddOnBefore]="rootPrefix" nzAddOnAfter=".cshtml">
+                <input type="text" name='templateName' nz-input [(ngModel)]="templateName" />
+            </nz-input-group>
+        </div>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label for='path' nz-col nzSpan="4">导入模板</nz-form-label>
+        <div nz-col [nzSpan]="10" nzSize="default" style="margin-bottom: 16px;">
+            <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
+                <app-pathdir-select id='path' name='path' [onlyDir]="false" [fileType]="'cshtml'" [value]="value"
+                    (change)="cahnged($event)">
+                </app-pathdir-select>
+            </nz-input-group>
+            <ng-template #suffixButton>
+                <div (click)="import()" style="cursor:pointer;" nzSize="default" nzSearch>导入</div>
+            </ng-template>
+        </div>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nz-col [nzSpan]="4" for='template'>模板</nz-form-label>
+        <div nz-col [nzSpan]="10">
+            <!-- <app-template-pre id='template' name='template' [code]="code"></app-template-pre> -->
+        </div>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control [nzOffset]="4">
+            <button nz-button nzType="primary" (click)="AddTemplate()">新增</button>
+            <button nz-button (click)="Return()">返回</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>

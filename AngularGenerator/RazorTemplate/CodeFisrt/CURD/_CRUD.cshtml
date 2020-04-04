@@ -1,0 +1,58 @@
+@using FreeSql
+@using FreeSql.Generator.Core.CodeFirst
+@using FreeSql.TemplateEngine
+@model CurdTask
+@{
+    var task = Model;
+    var project = task.Task.Project;
+    var table = task.CurrentTable;
+    var nick = table?.Name?.ToLower();
+    var repName = $"_{nick}Rep";
+    var includes = new List<string>();
+    if (table?.NavigateInfos.Where(x=>x.NavigateCategory == NavigateCategory.OneToOne)?.Count() > 0) {
+        includes.AddRange(table.NavigateInfos.Where(x=>x.NavigateCategory == NavigateCategory.OneToOne).Select(s=>$"Include({nick}=>{nick}.{s.ColumnName})"));
+    }
+    var includeStr = string.Join(Html.NewLine(Html.PadLeft(8)+"."),includes);
+    includeStr = (!string.IsNullOrWhiteSpace(includeStr) ? "." : "") + includeStr;
+    var includeManys = new List<string>();
+    if (table?.NavigateInfos.Where(x=>x.NavigateCategory == NavigateCategory.OneToMany)?.Count() > 0) {
+        includeManys.AddRange(table.NavigateInfos.Where(x=>x.NavigateCategory == NavigateCategory.OneToMany).Select(s=>$"IncludeMany({nick}=>{nick}.{s.ColumnName})"));
+    }
+    var includeManysStr = string.Join(Html.NewLine(Html.PadLeft(8)+"."),includeManys);
+    includeManysStr = (!string.IsNullOrWhiteSpace(includeManysStr) ? Html.NewLine(Html.PadLeft(8)+".") : "") + includeManysStr;
+}
+@(Html.NewLine($"#region {table?.Comment}相关增删改查"))
+@Html.PadLeft(4)@($"{table?.Comment}分页查询".GetCSharpSummary())
+@Html.PadLeft(4)public async Task<@(project.GetPageViewDto(table.Name))>Query@(table.Name)Page (@project.GetPagedDto(table.Name) dto){
+@($@"var res = await {repName}.Select{includeStr}{includeManysStr}.Count(out var totalCount)
+.OrderBy(dto.SortField)
+.Page(dto.PageNumber,dto.PageSize)
+.ToListAsync();")
+var datas = Mapper.Map<@($"List<{project.GetDto(table.Name)}>")>(res);
+dto.TotalCount = totalCount;
+return new @(project.GetPageViewDto(table.Name))(dto,datas);
+}
+@Html.PadLeft(4)@($"{table.Comment}新增".GetCSharpSummary())
+@Html.PadLeft(4)public async Task<@("bool")>Add@(table.Name) (@project.GetPostDataDto(table.Name) dto){
+    @($"await {repName}.InsertAsync(Mapper.Map<{table.Name}>(dto));")
+await UowManager.CommitAsync();
+return true;
+}
+@Html.PadLeft(4)@($"{table.Comment}修改".GetCSharpSummary())
+@Html.PadLeft(4)public async Task<@("bool")>Update@(table.Name) (@project.GetPostDataDto(table.Name) dto){
+        @($"await {repName}.UpdateAsync(Mapper.Map<{table.Name}>(dto));")
+await UowManager.CommitAsync();
+return true;
+}
+@Html.PadLeft(4)@($"{table.Comment}删除".GetCSharpSummary())
+@Html.PadLeft(4)public async Task<@("bool")> Delete@(table.Name)(@table.PrimaryTypeName@("[]") ids){
+@($"await {repName}.DeleteAsync(x=>ids.Contains(x.Id));")
+await UowManager.CommitAsync();
+return true; 
+}
+@Html.PadLeft(4)@($"{table.Comment}查询".GetCSharpSummary())
+@Html.PadLeft(4)public async Task<@project.GetDto(table.Name)> Get@(table.Name) (@table.PrimaryTypeName id){
+    @($@"var res = await {repName}.Select{includeStr}{includeManysStr}.Where(x=>x.Id == id).ToOneAsync();")
+return Mapper.Map<@($"{project.GetDto(table.Name)}")>(res);
+}
+@(Html.NewLine("#endregion"))

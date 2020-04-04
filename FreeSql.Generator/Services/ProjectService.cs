@@ -1,6 +1,7 @@
-﻿using BlazorFreeSqlGenerator.Modals.Base;
-using FreeSql;
+﻿using FreeSql;
+using FreeSql.Generator;
 using FreeSql.Generator.Core;
+using FreeSql.Generator.Modals.Base;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -11,14 +12,17 @@ using System.Threading.Tasks;
 
 namespace AngularGenerator.Services
 {
+    /// <summary>
+    /// 项目服务
+    /// </summary>
     public class ProjectService : IProjectService
     {
-        private readonly IFreeSql _freesql;
-        private readonly IHostingEnvironment _webhostEnv;
+        private readonly IFreeSql<FsGen> _freesql;
+        private readonly IWebHostEnvironment _webhostEnv;
         public ProjectService(IServiceProvider service)
         {
-            _freesql = service.GetRequiredService<IFreeSql>();
-            _webhostEnv = service.GetService<IHostingEnvironment>();
+            _freesql = service.GetRequiredService<IFreeSql<FsGen>>();
+            _webhostEnv = service.GetService<IWebHostEnvironment>();
         }
         /// <summary>
         /// 分页
@@ -28,10 +32,12 @@ namespace AngularGenerator.Services
         public async Task<PageView<Project>> GetPage(PageRequest request)
         {
             var res = await _freesql.GetRepository<Project>().Select
-                .Include(x => x.DataSource)
-                .IncludeMany(x => x.Builders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.Builder))
-                .IncludeMany(x => x.GlobalBuilders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.GlobalBuilder))
-                .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword), x => x.ProjectName.Contains(request.Keyword))
+                .Include(x => x.ProjectInfo)
+                .Include(x => x.GeneratorModeConfig)
+                .Include(x => x.GeneratorModeConfig.DataSource)
+                .IncludeMany(x => x.Builders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.Builder).Include(t => t.Template))
+                .IncludeMany(x => x.GlobalBuilders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.GlobalBuilder).Include(t => t.Template))
+                .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword), x => x.ProjectInfo.ProjectName.Contains(request.Keyword))
                 .Count(out var total)
                 .Page(request.PageNumber, request.PageSize)
                 .ToListAsync();
@@ -46,13 +52,95 @@ namespace AngularGenerator.Services
         public async Task<Project> Add(Project project)
         {
             var res = await _freesql.GetRepository<Project>().InsertAsync(project);
-            project.DataSource.ProjectId = res.Id;
-            await _freesql.GetRepository<DataSource>().InsertAsync(project.DataSource);
-            project.Builders.ForEach(b => b.ProjectId = res.Id);
-            await _freesql.GetRepository<BuilderOptions>().InsertAsync(project.Builders);
-            project.GlobalBuilders.ForEach(b => b.ProjectId = res.Id);
-            await _freesql.GetRepository<BuilderOptions>().InsertAsync(project.GlobalBuilders);
             return res;
+        }
+        /// <summary>
+        /// 新增项目基础信息 Step1
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public async Task<Project> AddProjectInfoAsync(ProjectInfo info)
+        {
+            var res = await _freesql.Insert(info).ExecuteIdentityAsync();
+            info.Id = res;
+            var project = await this.Add(new Project
+            {
+                ProjectInfoId = res
+            });
+            project.ProjectInfo = info;
+            return project;
+        }
+        public async Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info)
+        {
+            var res = await _freesql.Update<ProjectInfo>().SetSource(info).ExecuteAffrowsAsync();
+            return info;
+        }
+        /// <summary>
+        /// 新增生成器配置 Step2-1
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public async Task<GeneratorModeConfig> AddGConfig(GeneratorModeConfig config)
+        {
+            var res = await _freesql.GetRepository<GeneratorModeConfig>().InsertAsync(config);
+            var project = await this.Get(config.ProjectId);
+            project.GeneratorModeConfigId = res.Id;
+            await this.Update(project);
+            return config;
+        }
+        public async Task<GeneratorModeConfig> UpdateConfig(GeneratorModeConfig config)
+        {
+            await _freesql.GetRepository<GeneratorModeConfig>().UpdateAsync(config);
+            return config;
+        }
+        /// <summary>
+        /// 新增数据库配置 Step2-2
+        /// </summary>
+        /// <param name="dataSource"></param>
+        /// <returns></returns>
+        public async Task<DataSource> AddDataSource(DataSource dataSource)
+        {
+            await _freesql.Insert(dataSource).ExecuteIdentityAsync();
+            return dataSource;
+        }
+        /// <summary>
+        /// 新增构建器
+        /// </summary>
+        /// <param name="builderOptions"></param>
+        /// <returns></returns>
+        public async Task<BuilderOptions> AddBuilder(BuilderOptions builderOptions)
+        {
+            var template = await GetTemplateAsync(builderOptions.TemplateId);
+            if (template != null)
+            {
+                builderOptions.Id = await _freesql.Insert(builderOptions).ExecuteIdentityAsync();
+            }
+            else
+                throw new Exception("新增失败!找不到相关模板");
+            return builderOptions;
+        }
+        /// <summary>
+        /// 更新构建器
+        /// </summary>
+        /// <param name="builderOptions"></param>
+        /// <returns></returns>
+        public async Task<BuilderOptions> UpdateBuilder(BuilderOptions builderOptions)
+        {
+            var template = await GetTemplateAsync(builderOptions.TemplateId);
+            if (template != null)
+                await _freesql.Update<BuilderOptions>().SetSource(builderOptions).ExecuteAffrowsAsync();
+            else
+                throw new Exception("更新失败!找不到相关模板");
+            return builderOptions;
+        }
+        /// <summary>
+        /// 删除某个构建器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<bool> DelBuilder(long id)
+        {
+            return await _freesql.Delete<BuilderOptions>().Where(x => x.Id == id).ExecuteAffrowsAsync() > 0;
         }
         /// <summary>
         /// 删除项目
@@ -79,9 +167,11 @@ namespace AngularGenerator.Services
         public async Task<Project> Get(long id)
         {
             return await _freesql.GetRepository<Project>().Select
-                .IncludeMany(x => x.Builders)
-                .IncludeMany(x => x.GlobalBuilders)
-                .Include(x => x.DataSource)
+                .Include(x => x.ProjectInfo)
+                .Include(x => x.GeneratorModeConfig)
+                .Include(x => x.GeneratorModeConfig.DataSource)
+                  .IncludeMany(x => x.Builders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.Builder).Include(t => t.Template))
+                .IncludeMany(x => x.GlobalBuilders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.GlobalBuilder).Include(t => t.Template))
                 .Where(x => x.Id == id)
                 .ToOneAsync();
         }
@@ -132,7 +222,12 @@ namespace AngularGenerator.Services
         /// <returns></returns>
         public async Task<bool> UpdateTemplate(Template template)
         {
-            var res = await _freesql.GetRepository<Template>().UpdateAsync(template);
+            if (File.Exists(template.TemplatePath))
+            {
+                File.Delete(template.TemplatePath);
+                File.WriteAllText(template.TemplatePath, template.TemplateContent);
+            }
+            var res = await _freesql.Update<Template>().SetSource(template).ExecuteAffrowsAsync();
             return res > 0;
         }
         /// <summary>
@@ -144,7 +239,6 @@ namespace AngularGenerator.Services
         {
             var res = await _freesql.GetRepository<Template>()
                 .Select
-                .Include(x => x.BuilderOptions)
                 .Where(x => x.Id == id)
                 .ToOneAsync();
             return res;
@@ -168,6 +262,16 @@ namespace AngularGenerator.Services
         /// <param name="project"></param>
         /// <returns></returns>
         Task<Project> Add(Project project);
+        Task<DataSource> AddDataSource(DataSource dataSource);
+        Task<GeneratorModeConfig> AddGConfig(GeneratorModeConfig config);
+
+        Task<GeneratorModeConfig> UpdateConfig(GeneratorModeConfig config);
+        Task<Project> AddProjectInfoAsync(ProjectInfo info);
+        Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info);
+
+        Task<BuilderOptions> AddBuilder(BuilderOptions builderOptions);
+        Task<BuilderOptions> UpdateBuilder(BuilderOptions builderOptions);
+        Task<bool> DelBuilder(long id);
         /// <summary>
         /// 获取项目详情
         /// </summary>

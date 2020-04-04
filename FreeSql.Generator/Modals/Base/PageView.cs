@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace BlazorFreeSqlGenerator.Modals.Base
+namespace FreeSql.Generator.Modals.Base
 {
     public class PageView<T> : Page where T : class
     {
@@ -12,11 +9,11 @@ namespace BlazorFreeSqlGenerator.Modals.Base
         }
         public PageView(IEnumerable<T> datas, IPage page)
         {
-            this.Datas = datas;
-            this.PageNumber = page.PageNumber;
-            this.PageSize = page.PageSize;
-            this.SortFields = page.SortFields;
-            this.Total = page.Total;
+            Datas = datas;
+            PageNumber = page.PageNumber;
+            PageSize = page.PageSize;
+            SortFields = page.SortFields;
+            Total = page.Total;
         }
         public IEnumerable<T> Datas { get; set; }
     }

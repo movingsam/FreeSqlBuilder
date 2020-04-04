@@ -1,18 +1,16 @@
 ﻿using AngularGenerator.Services;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using BlazorFreeSqlGenerator.Modals.Base;
 using FreeSql.Generator.Core;
-using AngularGenerator.Helper;
-using Microsoft.Extensions.FileProviders;
+using FreeSql.Generator.Helper;
+using FreeSql.Generator.Modals.Base;
+using FreeSql.TemplateEngine;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.IO;
+using System.Threading.Tasks;
 
-namespace AngularGenerator.Controllers
+namespace FreeSql.Generator.Controllers
 {
     /// <summary>
     /// 代码生成器相关控制器
@@ -24,12 +22,14 @@ namespace AngularGenerator.Controllers
         private readonly FileProviderHelper fileProvider;
         private readonly IWebHostEnvironment _webhostEnv;
         private readonly ReflectionHelper reflection;
+        private readonly BuildTask _buildTask;
         public ProjectController(IServiceProvider service)
         {
             _projectService = service.GetService<IProjectService>();
             fileProvider = service.GetService<FileProviderHelper>();
             _webhostEnv = service.GetService<IWebHostEnvironment>();
             reflection = service.GetService<ReflectionHelper>();
+            _buildTask = service.GetService<BuildTask>();
         }
         /// <summary>
         /// 分页查询
@@ -38,18 +38,51 @@ namespace AngularGenerator.Controllers
         [HttpGet("Page")]
         public async Task<IActionResult> GetPage(PageRequest request)
         {
-            return Ok(await this._projectService.GetPage(request));
+            return Ok(await _projectService.GetPage(request));
         }
-
         /// <summary>
-        /// 新增项目
+        /// 项目资料
         /// </summary>
-        /// <param name="project"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
-        [HttpPost("New")]
-        public async Task<IActionResult> Add([FromBody]Project project)
+        [HttpPost("Info/New")]
+        public async Task<IActionResult> NewInfo([FromBody]ProjectInfo info)
         {
-            return Ok(await this._projectService.Add(project));
+            return Ok(await _projectService.AddProjectInfoAsync(info));
+        }
+        [HttpPut("Info")]
+        public async Task<IActionResult> UpdateInfo([FromBody]ProjectInfo info)
+        {
+            return Ok(await _projectService.UpdateProjectInfoAsync(info));
+        }
+        /// <summary>
+        /// 新增配置
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("Config/New")]
+        public async Task<IActionResult> NewConfig([FromBody]GeneratorModeConfig config)
+        {
+            return Ok(await _projectService.AddGConfig(config));
+        }
+        [HttpPut("Config")]
+        public async Task<IActionResult> UpdateConfig([FromBody]GeneratorModeConfig config)
+        {
+            return Ok(await _projectService.UpdateConfig(config));
+        }
+        [HttpPost("Builder/New")]
+        public async Task<IActionResult> NewBuilder([FromBody]BuilderOptions options)
+        {
+            return Ok(await _projectService.AddBuilder(options));
+        }
+        [HttpPut("Builder")]
+        public async Task<IActionResult> UpdateBuilder([FromBody]BuilderOptions options)
+        {
+            return Ok(await _projectService.UpdateBuilder(options));
+        }
+        [HttpDelete("Builder/{id}")]
+        public async Task<IActionResult> UpdateBuilder([FromQuery]long id)
+        {
+            return Ok(await _projectService.DelBuilder(id));
         }
         /// <summary>
         /// 删除项目
@@ -118,7 +151,11 @@ namespace AngularGenerator.Controllers
         [HttpPut("/api/Template")]
         public async Task<IActionResult> UpdateTemplate([FromBody]Template template)
         {
-            return Ok(await _projectService.UpdateTemplate(template));
+            if (await _projectService.UpdateTemplate(template))
+            {
+                return Ok(template);
+            }
+            return BadRequest();
         }
         /// <summary>
         /// 新增模板
@@ -158,7 +195,6 @@ namespace AngularGenerator.Controllers
         [HttpGet("/api/File/{type}")]
         public async Task<IActionResult> GetCshtml(string path, [FromRoute]string type)
         {
-
             return Ok(await fileProvider.GetPathExsitCshtml(path, type));
         }
         /// <summary>
@@ -186,15 +222,46 @@ namespace AngularGenerator.Controllers
             return Ok(new { root = path });
         }
         /// <summary>
-        /// 
+        /// 获取所有表
         /// </summary>
-        /// <param name="path"></param>
         /// <param name="entityBaseName"></param>
+        /// <param name="entityAssemblyName"></param>
         /// <returns></returns>
-        [HttpGet("/api/AllTable")]
-        public async Task<IActionResult> GetAllDbTable(string path, string entityBaseName)
+        [HttpGet("/api/AllTable/{entityAssemblyName}/{entityBaseName}")]
+        public async Task<IActionResult> GetAllDbTable(string entityBaseName, string entityAssemblyName)
         {
-            return Ok(await reflection.TaskRun(entityBaseName, reflection.ReleaseDll(path)));
+            return Ok(await reflection.GetTableInfos(entityAssemblyName, entityBaseName));
+        }
+        /// <summary>
+        /// 获取所有的基类
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/BaseClass/{entityAssemblyName}")]
+        public async Task<IActionResult> GetAllAbstractClass(string entityAssemblyName)
+        {
+            return Ok(await reflection.GetAbstractClass(entityAssemblyName));
+        }
+        /// <summary>
+        /// 获取程序集名称项
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/Assemblies")]
+        public async Task<IActionResult> GetAssemblies()
+        {
+            return Ok(await reflection.GetAssembliesName());
+        }
+        /// <summary>
+        /// 生成项目
+        /// </summary>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        [HttpPost("Task/Build/{id}")]
+        public async Task<IActionResult> BuildTask(long id)
+        {
+            var project = await _projectService.Get(id);
+            _buildTask.ImportSetting(project);
+            await _buildTask.Start();
+            return Ok();
         }
     }
 }

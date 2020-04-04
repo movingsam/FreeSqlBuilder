@@ -17,12 +17,13 @@ namespace FreeSql.Generator.Core
         /// 模板内容
         /// </summary>
         string TemplateContent { get; }
+        string FileExtension { get; set; }
     }
     /// <summary>
     /// 模板
     /// </summary>
     [Index("template_name_index", nameof(TemplateName))]
-    public class Template
+    public class Template : ITemplate
     {
         [Column(IsIdentity = true, IsPrimary = true)]
         public long Id { get; set; }
@@ -42,5 +43,9 @@ namespace FreeSql.Generator.Core
         /// 模板内容
         /// </summary>
         public string TemplateContent { get; set; }
+        /// <summary>
+        /// 生成的文件后缀
+        /// </summary>
+        public string FileExtension { get; set; } = "cs";
     }
 }

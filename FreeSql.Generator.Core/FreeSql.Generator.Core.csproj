@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -6,15 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="FreeSql" Version="1.3.0-preview95" />
-    <PackageReference Include="FreeSql.Provider.MySql" Version="1.3.0-preview95" />
-    <PackageReference Include="FreeSql.Provider.Oracle" Version="1.3.0-preview95" />
-    <PackageReference Include="FreeSql.Provider.PostgreSQL" Version="1.3.0-preview95" />
-    <PackageReference Include="FreeSql.Provider.Sqlite" Version="1.3.0-preview95" />
-    <PackageReference Include="FreeSql.Provider.SqlServer" Version="1.3.0-preview95" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="YamlDotNet" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
 </Project>

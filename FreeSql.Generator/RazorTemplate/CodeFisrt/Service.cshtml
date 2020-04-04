@@ -3,44 +3,47 @@
 @{
     Layout = "_Layout.cshtml";
     var project = Model.Project;
-    var table = Model.CodeCurrentTableInfo;
+    var table = Model.CurrentTable;
 }
 
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using GRES.Abstractes.Repositories;
-using GRES.Framework.Services;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
+@table.GetNameSpaceUsing();
 
-namespace @(project.ProjectName).Implaments.Services
+namespace @(project.ProjectInfo.ProjectName).Implaments.Services
 {
 @($"{(string.IsNullOrWhiteSpace(table.Comment) ? table.Name : table.Comment)}服务".GetCSharpSummary())
-    public class  @(project.GetBuilder("Service").GetName(table.Name)) : ServiceBase, I@(project.GetBuilder("Service").GetName(table.Name))
+    public class  @(Model.CurrentBuilder.GetName(table.Name)) : ServiceBase, I@(Model.CurrentBuilder.GetName(table.Name))
     {
     private readonly I@(project.GetBuilder("Repository").GetName(table.Name))  _@(table.Name.ToLower())Rep;
     @foreach (var navigate in table.NavigateInfos)
     {
+        @if (navigate.NavigateTableInfo != null)
+        {
         @:private readonly I@(project.GetBuilder("Repository").GetName(navigate.NavigateTableInfo.Name)) _@(navigate.NavigateTableInfo.Name.ToLower())Rep;
+        }
     }
 
     @("构造函数".GetCSharpSummary())
-    public @(project.GetBuilder("Service").GetName(table.Name))(IServiceProvider service):base(service)
+    public @(Model.CurrentBuilder.GetName(table.Name))(IServiceProvider service):base(service)
     {
-    _@(table.Name.ToLower()+"Rep") = service.GetRequiredService<@($"I{project.GetBuilder("Repository").GetName(table.Name)}")>();
-     @foreach (var navigate in table.NavigateInfos)
-    {
-      @: _@(navigate.NavigateTableInfo.Name.ToLower()+"Rep") = service.GetRequiredService<@($"I{project.GetBuilder("Repository").GetName(navigate.NavigateTableInfo.Name)}")>();
-    }
+    _@(table.Name.ToLower() + "Rep") = service.GetRequiredService<@($"I{project.GetBuilder("Repository").GetName(table.Name)}")>
+        ();
+        @foreach (var navigate in table.NavigateInfos)
+        {
+            @if (navigate.NavigateTableInfo != null)
+            {
+                @: _@(navigate.NavigateTableInfo.Name.ToLower() + "Rep") = service.GetRequiredService<@($"I{project.GetBuilder("Repository").GetName(navigate.NavigateTableInfo.Name)}")>();
+            }
+        }
     }
 
-    @{ await Html.RenderPartialAsync("CURD/_CRUD.cshtml", new CurdTask(Model,table)); }
+    @{ await Html.RenderPartialAsync("CURD/_CRUD.cshtml", new CurdTask(Model, table)); }
     @foreach (var navigate in table.NavigateInfos)
     {
-        
-       @:@{ await Html.RenderPartialAsync("CURD/_CRUD.cshtml", new CurdTask(Model,navigate?.NavigateTableInfo)); }
+        @if (navigate.NavigateTableInfo != null)
+        {
+            @:@{ await Html.RenderPartialAsync("CURD/_CRUD.cshtml", new CurdTask(Model, navigate?.NavigateTableInfo)); }
+        }
     }
     }
 }
