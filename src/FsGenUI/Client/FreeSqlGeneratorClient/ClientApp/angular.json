@@ -15,7 +15,7 @@
           "options": {
             "progress": false,
             "extractCss": true,
-            "outputPath": "../../FreeSqlGeneratorUI-master/FreeSql.GeneratorUI/dist",
+            "outputPath": "../../../FreeSql.GeneratorUI/dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
