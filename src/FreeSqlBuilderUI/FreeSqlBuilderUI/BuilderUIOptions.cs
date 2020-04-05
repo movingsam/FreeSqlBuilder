@@ -6,21 +6,21 @@ using System.Text;
 
 namespace FreeSql.GeneratorUI
 {
-    public class GenUIOptions
+    public class BuilderUIOptions
     {
-        public GenUIOptions() { }
+        public BuilderUIOptions() { }
         /// <summary>
         /// FreeSql代码生成器后端地址
         /// </summary>
         public string Path { get; set; } = "FsGen";
-        /// <summary>
-        /// 是否需要登录
-        /// </summary>
-        public bool NeedLogin { get; set; } = false;
+        ///// <summary>
+        ///// 是否需要登录
+        ///// </summary>
+        //public bool NeedLogin { get; set; } = false;
         /// <summary>
         /// IndexStream通过反射获取资源流
         /// </summary>
-        public Func<Stream> IndexStream { get; set; } = () => typeof(GenUIOptions).GetTypeInfo().Assembly
+        public Func<Stream> IndexStream { get; set; } = () => typeof(BuilderUIOptions).GetTypeInfo().Assembly
             .GetManifestResourceStream("FreeSql.GeneratorUI.dist.index.html");
     }
 }

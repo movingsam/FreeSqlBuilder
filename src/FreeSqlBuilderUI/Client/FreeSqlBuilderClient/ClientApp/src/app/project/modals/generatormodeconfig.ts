@@ -11,6 +11,11 @@ export class GeneratorModeConfig {
     constructor(projectid: number) {
         this.projectId = projectid;
         this.generatorMode = 1;
+        this.id = 0;
+        this.entityAssemblyName = '';
+        this.entityBaseName = '';
+        this.ignoreTables = '';
+        this.includeTables = '';
     }
     id: number;
     projectId: number;

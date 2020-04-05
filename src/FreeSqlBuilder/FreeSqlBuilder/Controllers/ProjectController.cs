@@ -109,7 +109,7 @@ namespace FreeSql.Generator.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("Builder/{id}")]
-        public async Task<IActionResult> DelBuilder([FromQuery]long id)
+        public async Task<IActionResult> DelBuilder(long id)
         {
             return Ok(await _projectService.DelBuilder(id));
         }

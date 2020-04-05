@@ -71,5 +71,11 @@ export class ListTemplateComponent implements OnInit {
     this.showTemplate = true;
     this.currentTemplate = data;
   }
+  okCallBack() {
+    this.showTemplate = false;
+    if (this.isController) {
+      this.selectTemplate.emit(this.currentTemplate);
+    }
+  }
 
 }

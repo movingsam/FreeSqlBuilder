@@ -20,13 +20,13 @@ namespace FreeSql.Generator.Helper
         private string DefaultRazorTemplate = "RazorTemplate";
 
         private readonly IWebHostEnvironment webEnv;
-        private readonly IFreeSql<FsGen> _freeSql;
-        private readonly GenTemplateOptions _options;
+        private readonly IFreeSql<FsBuilder> _freeSql;
+        private readonly TemplateOptions _options;
         /// <summary>
         /// 文件提供助手
         /// </summary>
         /// <param name="_webEnv"></param>
-        public FileProviderHelper(IWebHostEnvironment _webEnv, IFreeSql<FsGen> freeSql, GenTemplateOptions options)
+        public FileProviderHelper(IWebHostEnvironment _webEnv, IFreeSql<FsBuilder> freeSql, TemplateOptions options)
         {
 
             webEnv = _webEnv;
@@ -92,15 +92,13 @@ namespace FreeSql.Generator.Helper
         /// </summary>
         public void CopyToProjectRoot(Type type)
         {
-
-            var binPath = AppContext.BaseDirectory;//bin
             var outPutPath = Path.Combine(webEnv.ContentRootPath, _options.DefaultTemplatePath);//目标
             CopyFolderFromStream(type, outPutPath);
         }
 
         private void CopyFolderFromStream(Type type, string dest)
         {
-            var FileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(type), "FreeSql.Generator");
+            var FileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(type));
             var res = FileProvider.GetDirectoryContents("").ToList();
             foreach (IFileInfo file in res)
             {

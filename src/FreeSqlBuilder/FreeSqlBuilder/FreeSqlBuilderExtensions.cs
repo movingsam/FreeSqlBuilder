@@ -1,35 +1,35 @@
 ﻿using AngularGenerator.Services;
-using FreeSql.Aop;
+using FreeSql;
+using FreeSql.Generator;
 using FreeSql.Generator.Core;
 using FreeSql.Generator.Helper;
 using FreeSql.TemplateEngine;
 using FreeSql.TemplateEngine.Implement;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Encodings.Web;
 
-namespace FreeSql.Generator
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 代码生成器服务相关拓展
     /// </summary>
-    public static class FreeSqlGenExtensions
+    public static class FreeSqlBuilderExtensions
     {
         /// <summary>
-        /// 添加FreeSqlGen相关
+        /// 添加FreeSqlGen相关 
+        /// 模板地址默认:DefaultTemplatePath = "RazorTemplate"
+        /// sqlite持久化默认地址 SqliteDbConnectionString="Data Source=fsbuilder.db;Version=3"
+        /// 
         /// </summary>
         /// <param name="services"></param>
         /// <param name="setupAction">生成器模板配置项</param>
-        public static void AddFreeSqlGen(this IServiceCollection services, Action<GenTemplateOptions> setupAction = null)
+        public static void AddFreeSqlBuilder(this IServiceCollection services, Action<TemplateOptions> setupAction = null)
         {
-            var options = new GenTemplateOptions();
+            var options = new TemplateOptions();
             setupAction?.Invoke(options);
+            if (string.IsNullOrWhiteSpace(options.SqliteDbConnectionString)) throw new Exception("SqliteDbConnectionString必须填写");
             services.AddSingleton(options);//配置导入
             services.AddMvc(opt => opt.EnableEndpointRouting = false)
                 .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确
@@ -38,12 +38,12 @@ namespace FreeSql.Generator
             services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文乱码
             services.AddSingleton<FileProviderHelper>();//文件相关处理
             services.AddMemoryCache();
-            services.AddSingleton<IFreeSql<FsGen>>(x =>
+            services.AddSingleton<IFreeSql<FsBuilder>>(x =>
                 {
                     var builder = new FreeSqlBuilder()
                                 .UseConnectionString(dataType: DataType.Sqlite, options.SqliteDbConnectionString)
                                 .UseAutoSyncStructure(true)
-                                .Build<FsGen>();
+                                .Build<FsBuilder>();
                     builder.Aop.CommandAfter += (s, e) => Aop_CommandAfter(s, e, x.GetService<ILogger<IFreeSql>>());
                     return builder;
                 });//持久化
@@ -52,7 +52,7 @@ namespace FreeSql.Generator
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎
             services.AddTransient<RazorViewToStringRender>();//Razor渲染字符串工具
             var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
-            fileProvider.CopyToProjectRoot(typeof(FreeSqlGenExtensions));//拷贝模板到根目录
+            fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
             fileProvider.InitTemplate();//导入模板到数据库
         }
         /// <summary>

@@ -7,6 +7,7 @@ export class TableInfo {
     comment: string;
     name: string;
     dbTableName: string;
+    isIgnore = false;
     columnInfos: ColumnInfo[];
     navigateInfos: NavigateColumnInfo[];
 }

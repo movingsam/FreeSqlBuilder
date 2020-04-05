@@ -85,7 +85,11 @@ import { Project } from '../modals/project';
       </nz-card>
       <nz-form-item>
       <div nz-col [nzSpan]="24" *ngIf="this.previewShow">
-        <app-table-preview  (allTable)="getAllTable($event)" [entityAssemblyName]="this.validateForm.get('entityAssemblyName').value"  [entityBaseName]="this.validateForm.get('entityBaseName').value">
+        <app-table-preview  (allTable)="getAllTable($event)"
+         [ignoreTables] = "this.generatorModeConfig.ignoreTables"
+         (callBack) = "getIgnoreTables($event)"
+         [entityAssemblyName]="this.validateForm.get('entityAssemblyName').value"
+         [entityBaseName]="this.validateForm.get('entityBaseName').value">
         </app-table-preview>
       </div>
       </nz-form-item>
@@ -109,12 +113,13 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     private message: NzMessageService,
     private router: Router, private client: HttpClient) {
     console.log(this.project, 'constructor');
+    this.generatorModeConfig = new GeneratorModeConfig(0);
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     this.project = changes['project']['currentValue'];
-    this.generatorModeConfig = this.project.generatorModeConfig;
     if (this.project.generatorModeConfig) {
+      this.generatorModeConfig = this.project.generatorModeConfig;
       console.log(this.project, 'initValidateForm');
       this.initValidateForm();
       this.baseEntity();
@@ -191,7 +196,6 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     this.validateForm.controls['entityBaseName'].markAsDirty();
     this.validateForm.controls['entityBaseName'].updateValueAndValidity();
     if (!this.validateForm.invalid) {
-      console.log(2);
       this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
       this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
       this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
@@ -205,5 +209,8 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
       this.message.warning(`无法找到项目`);
     }
     console.log(this.generatorModeConfig);
+  }
+  getIgnoreTables(e): void {
+    this.generatorModeConfig.ignoreTables = e;
   }
 }

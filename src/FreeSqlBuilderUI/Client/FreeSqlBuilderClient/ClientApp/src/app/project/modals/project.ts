@@ -15,6 +15,7 @@ export class BuilderOptions {
     constructor(_type: BuilderType, _name: string) {
         this.id = 0;
         this.projectId = 0;
+        this.project = null;
         this.splitDot = '_';
         this.suffix = '';
         this.templateId = 0;

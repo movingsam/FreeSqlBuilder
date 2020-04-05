@@ -23,6 +23,8 @@ export class BuilderOptionComponent implements OnInit, OnChanges {
   }
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.projectid = changes['projectid']['currentValue'];
+    this.builder = changes['builder']['currentValue'];
+    console.log(this.builder, 'ngOnChanges');
     if (!this.projectid || this.projectid === 0) {
       this.message.warning('未检测到项目');
     }

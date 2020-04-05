@@ -13,7 +13,7 @@ import { HttpClient } from '@angular/common/http';
             <ng-template #buildtitleTemplate>
               <div>
                 {{ item.name }}
-                <i nz-icon nzType="close" (click)="removeBuilder(item.name,'builder')" class="ant-tabs-close-x"></i>
+                <i nz-icon nzType="close" (click)="removeBuilder(item)" class="ant-tabs-close-x"></i>
               </div>
             </ng-template>
             <app-builder-option (callBack)="CallBack($event)"  [projectid]="this.projectid" *ngIf="item" [builder]="item">
@@ -49,40 +49,42 @@ export class BuilderContainerComponent implements OnInit, OnChanges {
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.builders = changes['builders']['currentValue'];
     this.projectid = changes['projectid']['currentValue'];
-    console.log(this.projectid, 'changed');
+    console.log(this.builders, 'ngOnChanges');
   }
 
   ngOnInit() {
   }
-  removeBuilder(key: string): void {
-    const builder = this.builders;
+  removeBuilder(currentBuilder: BuilderOptions): void {
     this.modalService.confirm({
       nzTitle: '删除构建器',
-      nzContent: `<b style="color: red;">是否要删除 ${key} 构建器的配置？</b>`,
+      nzContent: `<b style="color: red;">是否要删除 ${currentBuilder.name} 构建器的配置？</b>`,
       nzOkText: '是',
       nzOkType: 'danger',
-      nzOnOk: () => builder.splice(builder.findIndex(b => b.name === key), 1),
+      nzOnOk: () => this.remove(currentBuilder),
       nzCancelText: '否',
       nzOnCancel: () => console.log('Cancel')
     });
   }
-  remove(key: string) {
-    this.client.delete<boolean>(`/api/project/builder/${key}`).subscribe(res => {
-      if (res) {
-        this.message.success('删除成功');
-        return;
-      }
-      this.message.success('删除失败');
-    });
+
+  remove(currentBuilder: BuilderOptions) {
+    console.log(currentBuilder);
+    if (currentBuilder.id && currentBuilder.id !== 0) {
+      this.client.delete<boolean>(`/api/project/builder/${currentBuilder.id}`).subscribe(res => {
+        if (res) {
+          this.message.success('删除成功');
+          return;
+        }
+      });
+    }
+    this.builders.splice(this.builders.findIndex(b => b.name === currentBuilder.name), 1);
+    return;
   }
   Add() {
     this.isVisible = true;
   }
   CallBack(e: BuilderOptions): void {
     if (this.builders.filter(x => x.name === e.name).length > 0) {
-      this.builders.filter(x => x.name === e.name)[0] = e;
-    } else {
-      this.builders.push(e);
+      this.builders.filter(x => x.name === e.name)[0].id = e.id;
     }
     this.callBack.emit(this.builders);
   }

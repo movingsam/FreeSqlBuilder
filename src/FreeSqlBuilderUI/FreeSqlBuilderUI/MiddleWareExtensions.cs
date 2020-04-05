@@ -1,27 +1,35 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FreeSql.GeneratorUI;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FreeSql.GeneratorUI
+namespace Microsoft.AspNetCore.Builder
 {
     public static class MiddleWareExtensions
     {
-        public static void UseFreeSqlGenUI(this IApplicationBuilder app, Action<GenUIOptions> setupAction = null)
+        /// <summary>
+        /// 添加FreeSqlBuilder的UI中间件
+        /// steupAction可修改配置
+        /// ex: opt=>opt.Path = "GenUI"; 
+        /// 意为:访问路径修改成 当前项目路径/GenUI
+        /// Path默认为FsGen
+        /// </summary>
+        /// <param name="app"></param>  
+        /// <param name="setupAction"></param>
+        public static void UseFreeSqlBuilderUI(this IApplicationBuilder app, Action<BuilderUIOptions> setupAction = null)
         {
-            var options = new GenUIOptions();
+            var options = new BuilderUIOptions();
             if (setupAction != null)
             {
                 setupAction(options);
             }
             else
             {
-                options = app.ApplicationServices.GetRequiredService<IOptions<GenUIOptions>>().Value;
+                options = app.ApplicationServices.GetRequiredService<IOptions<BuilderUIOptions>>().Value;
             }
             app.UseMvcWithDefaultRoute();
-            app.UseMiddleware<FreeSqlGenUIMiddleware>(options);
+            app.UseMiddleware<FreeSqlBuilderUIMiddleware>(options);
         }
     }
 }

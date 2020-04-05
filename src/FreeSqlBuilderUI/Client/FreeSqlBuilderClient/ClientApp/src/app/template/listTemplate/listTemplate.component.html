@@ -25,10 +25,8 @@
       </tr>
     </tbody>
   </nz-table>
-
-  <button nz-button *ngIf="this.isController === false" (click)="click($event)">返回</button>
-  <nz-modal nzWidth="80vw" [(nzVisible)]=" this.showTemplate " nzTitle="选择模板" (nzOnCancel)="this.showTemplate = false"
-    (nzOnOk)="this.showTemplate = false">
+  <nz-modal nzWidth="80vw" [(nzVisible)]=" this.showTemplate " nzTitle="选择模板"  (nzOnCancel)="this.showTemplate = false"
+    (nzOnOk)="okCallBack()">
     <app-template-pre [template]="this.currentTemplate"></app-template-pre>
   </nz-modal>
 </div>

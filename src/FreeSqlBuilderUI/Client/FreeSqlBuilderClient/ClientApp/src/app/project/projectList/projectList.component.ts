@@ -44,7 +44,7 @@ export class ProjectListComponent implements OnInit {
     this.loadData();
   }
   delproj(id: number): void {
-    this.client.delete<number>(`api/project/${id}`).subscribe(res => {
+    this.client.delete<number>(`/api/project/${id}`).subscribe(res => {
       if (res > 0) {
         this.message.success(`删除成功`);
         this.loadData();

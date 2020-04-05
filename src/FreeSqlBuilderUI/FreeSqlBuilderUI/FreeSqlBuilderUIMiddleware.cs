@@ -17,18 +17,18 @@ using System.IO;
 
 namespace FreeSql.GeneratorUI
 {
-    public class FreeSqlGenUIMiddleware
+    public class FreeSqlBuilderUIMiddleware
     {
-        private const string EmbeddedFileNamespace = "FreeSql.GeneratorUI.dist";
+        private const string EmbeddedFileNamespace = "FreeSqlBuilderUI.dist";
         private readonly RequestDelegate _next;
-        private readonly GenUIOptions _genOptions;
+        private readonly BuilderUIOptions _genOptions;
         private readonly StaticFileMiddleware _staticFileMiddleware;
-        public FreeSqlGenUIMiddleware(RequestDelegate next, GenUIOptions genOptions
+        public FreeSqlBuilderUIMiddleware(RequestDelegate next, BuilderUIOptions genOptions
             , IWebHostEnvironment hostingEnv,
             ILoggerFactory loggerFactory)
         {
             _next = next;
-            _genOptions = genOptions ?? new GenUIOptions();
+            _genOptions = genOptions ?? new BuilderUIOptions();
             _staticFileMiddleware = CreateStaticFileMiddleware(next, hostingEnv, loggerFactory, _genOptions);
         }
         /// <summary>
@@ -67,13 +67,13 @@ namespace FreeSql.GeneratorUI
            RequestDelegate next,
            IWebHostEnvironment hostingEnv,
            ILoggerFactory loggerFactory,
-           GenUIOptions options
+           BuilderUIOptions options
            )
         {
             var staticFileOptions = new StaticFileOptions
             {
                 RequestPath = $"/{options.Path}",
-                FileProvider = new EmbeddedFileProvider(typeof(GenUIOptions).GetTypeInfo().Assembly, EmbeddedFileNamespace),
+                FileProvider = new EmbeddedFileProvider(typeof(BuilderUIOptions).GetTypeInfo().Assembly, EmbeddedFileNamespace),
             };
             return new StaticFileMiddleware(next, hostingEnv, Options.Create(staticFileOptions), loggerFactory);
         }

@@ -531,9 +531,26 @@ namespace GRES.Framework.Utils
                 return type;
             return GetTopBaseType(type.BaseType);
         }
-        public static bool IsBaseClass(Type type, Type baseType)
+        public static bool BaseFrome(Type type, Type baseType)
         {
-            return type.IsAssignableFrom(baseType);
+            if (BaseFrome(type, baseType.Name))
+            {
+                return true;
+            }
+            if (baseType.IsAssignableFrom(type))
+            {
+                return true;
+            }
+            if (type.BaseType != null && type.BaseType.IsGenericType && type.BaseType.GetGenericTypeDefinition() == baseType)
+            {
+                return true;
+            }
+            var typeInfo = type.GetTypeInfo();
+            if (typeInfo.ImplementedInterfaces.Count() > 0 && typeInfo.ImplementedInterfaces.Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType))
+            {
+                return true;
+            }
+            return false;
 
         }
         public static bool BaseFrome(Type type, string baseClassName)

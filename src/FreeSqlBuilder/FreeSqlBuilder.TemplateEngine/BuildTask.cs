@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace FreeSql.TemplateEngine
 {
@@ -46,7 +47,9 @@ namespace FreeSql.TemplateEngine
                 case GeneratorMode.DbFirst:
                     break;
                 case GeneratorMode.CodeFirst:
-                    this.AllTable = _reflectionHelper.GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result.ToArray();
+                    this.AllTable = _reflectionHelper
+                        .GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result
+                        .Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.Name)).ToArray();
                     break;
                 default:
                     break;

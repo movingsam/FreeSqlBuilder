@@ -17,7 +17,7 @@ namespace AngularGenerator.Services
     /// </summary>
     public class ProjectService : IProjectService
     {
-        private readonly IFreeSql<FsGen> _freesql;
+        private readonly IFreeSql<FsBuilder> _freesql;
         private readonly IWebHostEnvironment _webhostEnv;
         /// <summary>
         /// 
@@ -25,7 +25,7 @@ namespace AngularGenerator.Services
         /// <param name="service"></param>
         public ProjectService(IServiceProvider service)
         {
-            _freesql = service.GetRequiredService<IFreeSql<FsGen>>();
+            _freesql = service.GetRequiredService<IFreeSql<FsBuilder>>();
             _webhostEnv = service.GetService<IWebHostEnvironment>();
         }
         /// <summary>

@@ -20,7 +20,7 @@
         <td nzBreakWord>{{ data.nameSpace }}</td>
         <td nzBreakWord>{{ data.primaryTypeName }}</td>
         <td nzBreakWord nzRight="0px">
-          <a href="#">删除</a>
+          <a (click)="ignoreTable(data)">{{data.isIgnore?'恢复':'忽略'}}</a>
         </td>
       </tr>
       <tr [nzExpand]="mapOfExpandData[data.name]">

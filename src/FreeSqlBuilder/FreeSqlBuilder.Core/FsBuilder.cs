@@ -4,7 +4,7 @@ using System.Text;
 
 namespace FreeSql.Generator
 {
-    public interface FsGen
+    public interface FsBuilder
     {
     }
 }

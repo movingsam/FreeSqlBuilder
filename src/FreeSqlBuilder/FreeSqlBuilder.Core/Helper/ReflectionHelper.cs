@@ -42,7 +42,7 @@ namespace FreeSql.Generator.Helper
         public Task<List<Item>> GetAbstractClass(string assemblyName)
         {
             var types = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName).GetTypes().ToList();
-            return Task.FromResult(types.Where(x => x.IsAbstract && !x.IsInterface).Select(x => new Item(x.Name, $"{x.Name}")).ToList());
+            return Task.FromResult(types.Where(x => x.IsAbstract).Select(x => new Item($"{x.Name}", x.FullName)).ToList());
         }
         /// <summary>
         /// 获取相关表
@@ -51,10 +51,24 @@ namespace FreeSql.Generator.Helper
         /// <returns></returns>
         public Task<List<TableInfo>> GetTableInfos(string assemblyName, string entityBaseName)
         {
-            var types = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName).GetTypes().ToList();
-            types.Where(x => Reflection.BaseFrome(x, entityBaseName)).ToList().ForEach(x => new TableInfo(x).Add());
-            var res = types.Where(x => Reflection.BaseFrome(x, entityBaseName)).ToList().Select(t => new TableInfo(t)).ToList();
+            var assembly = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName);
+            var types = assembly.GetTypes().ToList();
+            var BaseType = assembly.GetType(entityBaseName);
+            var res = GetTypesFromEntityBaseName(types, BaseType).Select(t => new TableInfo(t)).ToList();
             return Task.FromResult(res);
+        }
+        /// <summary>
+        /// 从Typelist中删选baseType相关联的类
+        /// </summary>
+        /// <param name="types"></param>
+        /// <param name="baseType"></param>
+        /// <returns></returns>
+        private List<Type> GetTypesFromEntityBaseName(List<Type> types, Type baseType)
+        {
+            var entityBaseName = baseType.Name;
+            var res = types.Where(x => (Reflection.BaseFrome(x, baseType)) && !x.IsAbstract && x.IsClass).ToList();
+            res.ForEach(x => new TableInfo(x).Add());
+            return res;
         }
 
         /// <summary>

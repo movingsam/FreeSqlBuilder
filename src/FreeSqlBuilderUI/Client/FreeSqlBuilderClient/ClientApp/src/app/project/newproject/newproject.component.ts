@@ -76,7 +76,7 @@ export class NewProjectComponent implements OnInit {
   }
 
   builderCallBack(e: BuilderOptions[]): void {
-    console.log(e);
+    console.log(e.map(x => x.id));
     this.project.builders = e;
     if (this.project.builders.length > 0) {
       this.currentFinish[2] = true;

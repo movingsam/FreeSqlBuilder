@@ -18,7 +18,7 @@
       <input nz-input id="prefix" formControlName='prefix' placeholder="前缀 ex: I -> 文件名= I+实体名+后缀" />
     </nz-form-control>
   </div>
-  <div nz-col [nzSpan]="12">
+  <!-- <div nz-col [nzSpan]="12">
     <nz-form-label [nzSm]="5" [nzXs]="24">忽略数据库表中的前缀的</nz-form-label>
     <nz-form-control [nzSm]="9" [nzXs]="24">
       <input nz-input id="splitDot" formControlName='splitDot' placeholder="忽略数据库表中的前缀的 前缀分隔符 （与IsIgnorePrefix搭配）" />
@@ -30,7 +30,7 @@
       <nz-switch id="isIgnorePrefix" formControlName='isIgnorePrefix'>
       </nz-switch>
     </nz-form-control>
-  </div>
+  </div> -->
   <div nz-col [nzSpan]="12">
     <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>输出路径</nz-form-label>
     <nz-form-control [nzSm]="9" [nzXs]="24">
@@ -40,7 +40,12 @@
   <div nz-col [nzSpan]="12">
     <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>名称转换模式</nz-form-label>
     <nz-form-control [nzSm]="9" [nzXs]="24">
-      <input nz-input id="mode" formControlName="mode" placeholder="名称转换模式 默认不转换" />
+      <nz-select formControlName="mode" nzAllowClear nzPlaceHolder="名称转换模式 默认不转换">
+        <nz-option nzValue=0 nzLabel="不变"></nz-option>
+        <nz-option nzValue=1 nzLabel="全大写"></nz-option>
+        <nz-option nzValue=2 nzLabel="全小写"></nz-option>
+        <nz-option nzValue=3 nzLabel="首字母大写"></nz-option>
+      </nz-select>
     </nz-form-control>
   </div>
   <div nz-col [nzSpan]="12">
@@ -64,7 +69,7 @@
   </div>
   <nz-form-control [nzSm]="12" [nzXs]="24">
     <nz-form-control [nzOffset]="5" [nzSm]="9" [nzXs]="24">
-      <button nz-button (click)='submitForm()' [nzType]="'primary'" style='float'>提交</button>
+      <button nz-button (click)='submitForm()' [nzType]="'primary'">提交</button>
     </nz-form-control>
   </nz-form-control>
   <nz-modal nzWidth="80vw" [(nzVisible)]=" this.templateSel " nzTitle="选择模板" (nzOnOk)="this.templateSel = false"
