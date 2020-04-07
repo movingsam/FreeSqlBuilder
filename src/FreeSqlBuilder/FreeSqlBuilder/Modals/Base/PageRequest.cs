@@ -1,4 +1,4 @@
-﻿namespace FreeSql.Generator.Modals.Base
+﻿namespace FreeSqlBuilder.Modals.Base
 {
     /// <summary>
     /// 页面请求基类

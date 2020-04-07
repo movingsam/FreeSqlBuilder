@@ -1,8 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
 
-namespace GRES.Framework.Utils
+namespace FreeSqlBuilder.Core.Utilities
 {
     /// <summary>
     /// 常用公共操作

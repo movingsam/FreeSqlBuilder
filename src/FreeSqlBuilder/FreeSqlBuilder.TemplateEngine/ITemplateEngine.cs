@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
-using FreeSql.Generator.Core;
 
-namespace FreeSql.TemplateEngine
+namespace FreeSqlBuilder.TemplateEngine
 {
     public interface ITemplateEngine
     {

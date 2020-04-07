@@ -1,8 +1,8 @@
-﻿using FreeSql.Generator.Core;
-using FreeSql.Generator.Core.Utilities;
-using FreeSql.Generator.Helper;
-using FreeSql.Internal.Model;
-using FreeSql.TemplateEngine.Implement;
+﻿using FreeSql.Internal.Model;
+using FreeSqlBuilder.Core;
+using FreeSqlBuilder.Core.Helper;
+using FreeSqlBuilder.Core.Utilities;
+using FreeSqlBuilder.TemplateEngine.Implement;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
@@ -10,7 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FreeSql.TemplateEngine
+namespace FreeSqlBuilder.TemplateEngine
 {
     public class BuildTask
     {
@@ -21,7 +21,7 @@ namespace FreeSql.TemplateEngine
         public TableInfo CurrentTable => AllTable[CurrentIndex];
         public BuilderOptions CurrentBuilder { get; set; }
         public Project Project { get; set; }
-        private ReflectionHelper _reflectionHelper;
+        private readonly ReflectionHelper _reflectionHelper;
         public BuildTask(IServiceProvider serviceProvider)
         {
             _reflectionHelper = serviceProvider.GetService<ReflectionHelper>();

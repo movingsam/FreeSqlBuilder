@@ -1,9 +1,8 @@
-﻿using FreeSql.DataAnnotations;
-using FreeSql.Generator.Core.CodeFirst;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FreeSql.DataAnnotations;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     public class GeneratorModeConfig : IKey<long>
     {
@@ -35,7 +34,7 @@ namespace FreeSql.Generator.Core
         /// <summary>
         /// 基类
         /// </summary>
-        public string EntityBaseName { get; set; } = "EntityBase`1";
+        public string EntityBaseName { get; set; } 
         /// <summary>
         /// 数据库信息
         /// </summary>

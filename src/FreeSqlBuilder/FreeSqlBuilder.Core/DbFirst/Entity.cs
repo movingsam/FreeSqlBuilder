@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using FreeSql.Generator.Core.WordsConvert;
+﻿using FreeSqlBuilder.Core.WordsConvert;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core.DbFirst
 {
     public class Entity : BuilderOptions
     {

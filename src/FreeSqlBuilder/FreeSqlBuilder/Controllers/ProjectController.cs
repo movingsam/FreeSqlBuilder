@@ -1,19 +1,18 @@
-﻿using AngularGenerator.Services;
-using FreeSql.Generator.Core;
-using FreeSql.Generator.Helper;
-using FreeSql.Generator.Modals.Base;
-using FreeSql.TemplateEngine;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using FreeSqlBuilder.Core;
+using FreeSqlBuilder.Core.Helper;
+using FreeSqlBuilder.Modals;
+using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Services;
+using FreeSqlBuilder.TemplateEngine;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using System.Linq;
-using FreeSqlBuilder.Modals;
-using Newtonsoft.Json;
 
-namespace FreeSql.Generator.Controllers
+namespace FreeSqlBuilder.Controllers
 {
     /// <summary>
     /// 代码生成器相关控制器
@@ -165,13 +164,14 @@ namespace FreeSql.Generator.Controllers
         {
             return Ok(await _projectService.GetTemplateAsync(id));
         }
+
         /// <summary>
         /// 模板删除
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("/api/Template/{id}")]
-        public async Task<IActionResult> TemlateRemove(long id)
+        public async Task<IActionResult> TemplateRemove(long id)
         {
             return Ok(await _projectService.RemoveTemplate(id));
         }
@@ -197,7 +197,7 @@ namespace FreeSql.Generator.Controllers
         [HttpPost("/api/Template")]
         public async Task<IActionResult> AddTempalte([FromBody] Template template)
         {
-            return Ok(await _projectService.AddTempalte(template));
+            return Ok(await _projectService.AddTemplate(template));
         }
         /// <summary>
         /// 获取服务器的盘符及相关根目录
@@ -219,10 +219,12 @@ namespace FreeSql.Generator.Controllers
             return Ok(await fileProvider.GetPathExsitDir(path));
 
         }
+
         /// <summary>
         ///  通过目录获取下一层级的目录及cshtml文件
         /// </summary>
         /// <param name="path"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         [HttpGet("/api/File/{type}")]
         public async Task<IActionResult> GetCshtml(string path, [FromRoute]string type)

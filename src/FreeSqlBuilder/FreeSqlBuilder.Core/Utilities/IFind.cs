@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace GRES.Framework.Reflections
+namespace FreeSqlBuilder.Core.Utilities
 {
     /// <summary>
     /// 类型查找器

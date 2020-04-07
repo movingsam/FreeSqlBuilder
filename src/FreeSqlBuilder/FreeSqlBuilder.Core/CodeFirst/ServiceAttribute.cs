@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FreeSql.Generator.Core.CodeFirst
+namespace FreeSqlBuilder.Core.CodeFirst
 {
     /// <summary>
     /// 标记的为主要逻辑表

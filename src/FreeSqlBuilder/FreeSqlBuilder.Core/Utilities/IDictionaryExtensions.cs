@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace FreeSql.Generator.Core.Utilities
+namespace FreeSqlBuilder.Core.Utilities
 {
     public static class IDictionaryExtensions
     {
@@ -20,7 +19,7 @@ namespace FreeSql.Generator.Core.Utilities
             var typedValType = typeof(TTypedValue);
             if (typedValType.IsEnum && objVal is string)
             {
-                value = (TTypedValue)Enum.Parse(typedValType, objVal.ToString());
+                value = (TTypedValue)System.Enum.Parse(typedValType, objVal.ToString());
             }
             else if (typeof(IConvertible).IsAssignableFrom(typedValType))
             {

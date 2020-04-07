@@ -1,6 +1,6 @@
 ﻿using FreeSql.Internal.Model;
 
-namespace FreeSql.TemplateEngine
+namespace FreeSqlBuilder.TemplateEngine
 {
     /// <summary>
     /// 增删改查执行任务

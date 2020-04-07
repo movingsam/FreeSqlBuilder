@@ -1,12 +1,11 @@
-﻿using FreeSql.Generator.Modals.Base;
+﻿using FreeSqlBuilder.Modals.Base;
 
-namespace FreeSql.Generator.Modals
+namespace FreeSqlBuilder.Modals
 {
+    /// <summary>
+    /// 项目请求参数
+    /// </summary>
     public class ProjectPageRequest : PageRequest
     {
-        /// <summary>
-        /// 项目配置关键字 {项目名称}
-        /// </summary>
-        public string Keyword { get; set; }
     }
 }

@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace GRES.Framework.Utils
+namespace FreeSqlBuilder.Core.Utilities
 {
     /// <summary>
     /// 反射操作

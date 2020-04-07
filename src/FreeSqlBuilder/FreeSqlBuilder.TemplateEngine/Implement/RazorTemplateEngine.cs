@@ -1,12 +1,11 @@
-﻿using FreeSql.Generator.Core.Utilities;
+﻿using FreeSqlBuilder.Core.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FreeSql.TemplateEngine.Implement
+namespace FreeSqlBuilder.TemplateEngine.Implement
 {
     public class RazorTemplateEngine : ITemplateEngine
     {
@@ -14,16 +13,15 @@ namespace FreeSql.TemplateEngine.Implement
         public bool Initialized { get; private set; }
         public string Name { get; private set; } = "Razor";
         private string _root;
-        private string _temp;
-        private IServiceScopeFactory _scopeFactory;
+        private readonly IServiceScopeFactory _scopeFactory;
         public RazorTemplateEngine(IServiceScopeFactory service)
         {
             _scopeFactory = service;
             _root = service.CreateScope().ServiceProvider.GetService<IWebHostEnvironment>().ContentRootPath;
-            _temp = Path.Combine(_root, TEMP);
-            if (!Directory.Exists(_temp))
+            var temp = Path.Combine(_root, TEMP);
+            if (!Directory.Exists(temp))
             {
-                Directory.CreateDirectory(_temp);
+                Directory.CreateDirectory(temp);
             }
         }
         public void Initialize(IDictionary<string, object> parameters)
@@ -45,20 +43,13 @@ namespace FreeSql.TemplateEngine.Implement
 
         public async Task<string> Render(BuildTask context, string viewPath)
         {
-            using (var serviceScope = _scopeFactory.CreateScope())
-            {
-                var helper = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRender>();
-                if (Path.IsPathRooted(viewPath))
-                {
-                    viewPath = GetAbsolutePath(viewPath);
-                    var result = await helper.RenderViewToStringAsync(viewPath, context);
-                    return result;
-                }
-                else
-                {
-                    return await helper.RenderViewToStringAsync(viewPath, context);
-                }
-            }
+            using var serviceScope = _scopeFactory.CreateScope();
+            var helper = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRender>();
+            if (!Path.IsPathRooted(viewPath)) return await helper.RenderViewToStringAsync(viewPath, context);
+            viewPath = GetAbsolutePath(viewPath);
+            var result = await helper.RenderViewToStringAsync(viewPath, context);
+            return result;
+
         }
 
         private string GetAbsolutePath(string viewPath)

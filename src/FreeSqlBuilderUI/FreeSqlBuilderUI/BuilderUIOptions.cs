@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 
-namespace FreeSql.GeneratorUI
+namespace FreeSqlBuilderUI
 {
     public class BuilderUIOptions
     {

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace FreeSql.Generator.Core.WordsConvert
+namespace FreeSqlBuilder.Core.WordsConvert
 {
     public class DefaultWordsConvert : IWordsConvert, IConvertMode
     {

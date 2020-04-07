@@ -1,19 +1,13 @@
-﻿using FreeSql.DatabaseModel;
-using FreeSql.Generator.Core;
-using FreeSql.Generator.Core.WordsConvert;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
 using System.Text;
-using FreeSql.Generator.Core.CodeFirst;
-using Column = FreeSql.Generator.Core.Column;
+using FreeSql.DatabaseModel;
 using FreeSql.Internal.Model;
-using GRES.Framework.Utils;
+using FreeSqlBuilder.Core.WordsConvert;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace FreeSql.TemplateEngine
+namespace FreeSqlBuilder.Core.Utilities
 {
     public static class RazorExtensions
     {

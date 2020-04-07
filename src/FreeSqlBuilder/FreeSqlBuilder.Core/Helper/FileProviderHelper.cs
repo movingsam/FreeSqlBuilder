@@ -1,15 +1,14 @@
-﻿using FreeSql.Generator.Core;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.FileProviders;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
 
-namespace FreeSql.Generator.Helper
+namespace FreeSqlBuilder.Core.Helper
 {
     /// <summary>
     /// 文件提供助手

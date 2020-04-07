@@ -1,7 +1,7 @@
-﻿using FreeSql.DataAnnotations;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using FreeSql.DataAnnotations;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     public interface ITemplate
     {

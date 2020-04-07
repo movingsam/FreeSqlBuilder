@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FreeSql.Generator.Core.WordsConvert;
+﻿using FreeSqlBuilder.Core.WordsConvert;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     public class Column : IPrefix, IConvertMode, ISuffix
     {

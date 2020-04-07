@@ -1,16 +1,16 @@
-﻿using FreeSql.Internal.Model;
-using GRES.Framework.Utils;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.PlatformAbstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using FreeSql.Internal.Model;
+using FreeSqlBuilder.Core.Utilities;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.PlatformAbstractions;
 
-namespace FreeSql.Generator.Helper
+namespace FreeSqlBuilder.Core.Helper
 {
     /// <summary>
     /// 反射助手

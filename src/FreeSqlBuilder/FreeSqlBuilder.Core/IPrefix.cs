@@ -1,4 +1,4 @@
-﻿namespace FreeSql.Generator.Core
+﻿namespace FreeSqlBuilder.Core
 {
     public interface IPrefix
     {

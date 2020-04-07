@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace FreeSql.Generator.Core.WordsConvert
+﻿namespace FreeSqlBuilder.Core.WordsConvert
 {
     public interface IWordsConvert
     {

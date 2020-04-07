@@ -1,16 +1,16 @@
-﻿using AngularGenerator.Services;
-using FreeSql;
-using FreeSql.Generator;
-using FreeSql.Generator.Core;
-using FreeSql.Generator.Helper;
-using FreeSql.TemplateEngine;
-using FreeSql.TemplateEngine.Implement;
-using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Text.Encodings.Web;
+using FreeSql;
+using FreeSqlBuilder.Core;
+using FreeSqlBuilder.Core.Helper;
+using FreeSqlBuilder.Services;
+using FreeSqlBuilder.TemplateEngine;
+using FreeSqlBuilder.TemplateEngine.Implement;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace Microsoft.Extensions.DependencyInjection
+namespace FreeSqlBuilder
 {
     /// <summary>
     /// 代码生成器服务相关拓展

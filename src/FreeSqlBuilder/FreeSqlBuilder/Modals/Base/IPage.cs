@@ -1,4 +1,4 @@
-﻿namespace FreeSql.Generator.Modals.Base
+﻿namespace FreeSqlBuilder.Modals.Base
 {
     /// <summary>
     /// 分页参数

@@ -1,9 +1,6 @@
 ﻿using FreeSql.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     /// <summary>
     /// 项目基本信息

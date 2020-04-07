@@ -1,11 +1,8 @@
-﻿using FreeSql.TemplateEngine;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace FreeSql.Generator.Core.Utilities
+namespace FreeSqlBuilder.Core.Utilities
 {
     public static class Extensions
     {

@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace FreeSql.TemplateEngine
+namespace FreeSqlBuilder.TemplateEngine
 {
     public class DefaultWebHostEnvironment : IWebHostEnvironment
     {

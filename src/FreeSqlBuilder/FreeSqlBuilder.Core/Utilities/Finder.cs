@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using GRES.Framework.Utils;
 using Microsoft.Extensions.PlatformAbstractions;
 
-namespace GRES.Framework.Reflections
+namespace FreeSqlBuilder.Core.Utilities
 {
     /// <summary>
     /// 类型查找器

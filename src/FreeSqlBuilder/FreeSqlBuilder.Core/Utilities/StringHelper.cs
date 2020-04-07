@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace GRES.Framework.Utils
+namespace FreeSqlBuilder.Core.Utilities
 {
     public static class  StringHelper
     {

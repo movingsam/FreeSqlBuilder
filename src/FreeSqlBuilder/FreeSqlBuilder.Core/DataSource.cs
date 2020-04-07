@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
+﻿using FreeSql;
 using FreeSql.DataAnnotations;
-using FreeSql.DatabaseModel;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     [Index("fk_datasource_name_index", nameof(Name))]
     public class DataSource

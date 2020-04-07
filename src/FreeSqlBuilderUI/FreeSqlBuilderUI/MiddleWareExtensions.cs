@@ -1,10 +1,9 @@
-﻿using FreeSql.GeneratorUI;
+﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System;
 
-namespace Microsoft.AspNetCore.Builder
+namespace FreeSqlBuilderUI
 {
     public static class MiddleWareExtensions
     {

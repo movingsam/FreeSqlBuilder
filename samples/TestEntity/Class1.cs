@@ -1,11 +1,10 @@
 ﻿using FreeSql.DataAnnotations;
-using System;
 
-namespace TestEntity.cs
+namespace TestEntity
 {
     public abstract class EntityBase
     {
         [Column(IsIdentity = true, IsPrimary = true)]
-        public int Id { get; set; }
+        public long Id { get; set; }
     }
 }

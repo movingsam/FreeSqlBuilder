@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace GRES.Framework.Utils
+namespace FreeSqlBuilder.Core.Utilities
 {
     /// <summary>
     /// 枚举操作

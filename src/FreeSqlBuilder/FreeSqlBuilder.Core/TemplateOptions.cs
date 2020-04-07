@@ -1,9 +1,4 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FreeSql.Generator.Core
+﻿namespace FreeSqlBuilder.Core
 {
     public class TemplateOptions
     {

@@ -1,7 +1,7 @@
 ﻿using FreeSql.DataAnnotations;
-using FreeSql.Generator.Core.WordsConvert;
+using FreeSqlBuilder.Core.WordsConvert;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     public class BuilderOptions : IKey<long>, IPrefix, IOutPut, IConvertMode, ISuffix
     {

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using FreeSql.DataAnnotations;
-using FreeSql.Generator.Core.WordsConvert;
 
-namespace FreeSql.Generator.Core
+namespace FreeSqlBuilder.Core
 {
     [Table(Name = "Project")]
     public class Project : IKey<long>
