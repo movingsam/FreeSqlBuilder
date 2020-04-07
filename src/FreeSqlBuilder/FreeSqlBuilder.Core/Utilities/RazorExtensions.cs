@@ -10,6 +10,8 @@ using System.Reflection;
 using System.Text;
 using FreeSql.Generator.Core.CodeFirst;
 using Column = FreeSql.Generator.Core.Column;
+using FreeSql.Internal.Model;
+using GRES.Framework.Utils;
 
 namespace FreeSql.TemplateEngine
 {
@@ -103,10 +105,10 @@ namespace FreeSql.TemplateEngine
         public static string GetNameSpaceUsing(this TableInfo table)
         {
             var sb = new StringBuilder();
-            table.ImportUsings.ForEach(import =>
-            {
-                sb.AppendLine($"using {import};");
-            });
+            table.Columns.Select(x => x.Value.CsType.Namespace).Distinct().ToList().ForEach(import =>
+              {
+                  sb.AppendLine($"using {import};");
+              });
             return sb.ToString();
         }
 
@@ -155,21 +157,14 @@ namespace FreeSql.TemplateEngine
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public static string GetAttribute(this ColumnInfo column)
+        public static string GetDtoAttribute(this ColumnInfo column)
         {
             StringBuilder attribute = new StringBuilder();
             attribute.AppendLine();
-            if (!(column.ColumnAttribute?.IsNullable ?? true)) attribute.AppendLine("[Required]");
-            if (column.Type == typeof(string))
+            if (!(column.Attribute?.IsNullable ?? true)) attribute.AppendLine("[Required]");
+            if (column.CsType == typeof(string))
             {
-                var maxAttr = column.Type.GetCustomAttribute<MaxLengthAttribute>();
-                Console.WriteLine(maxAttr);
-                int length = 255;
-                if (maxAttr != null)
-                {
-                    length = maxAttr.Length;
-                }
-                attribute.AppendLine($"[MaxLength({length})]");
+                attribute.AppendLine($"[MaxLength({column.Attribute.StringLength})]");
             }
             return attribute.ToString();
         }
@@ -181,7 +176,7 @@ namespace FreeSql.TemplateEngine
         /// <returns></returns>
         public static string GetName(this BuilderOptions options, string tableName)
         {
-            if (options == null) return "";
+            if (options == null) return tableName;
             var convert = new DefaultWordsConvert(options.Mode);
             var convertName = convert.Convert(tableName);
             if (options.SplitDot != null)
@@ -222,7 +217,7 @@ namespace FreeSql.TemplateEngine
         /// <returns></returns>
         public static string GetDto(this Project project, string tableName)
         {
-            return project.GetBuilder("Dtos").GetName(tableName);
+            return project.GetBuilder("Dtos") != null ? project.GetBuilder("Dtos").GetName(tableName) : $"{tableName}Dtos";
         }
         /// <summary>
         /// 获取PostDto名字
@@ -232,7 +227,7 @@ namespace FreeSql.TemplateEngine
         /// <returns></returns>
         public static string GetPostDataDto(this Project project, string tableName)
         {
-            return project.GetBuilder("PostDataDto").GetName(tableName);
+            return project.GetBuilder("PostDataDto") != null ? project.GetBuilder("PostDataDto").GetName(tableName) : $"{tableName}PostDataDto"; 
         }
         /// <summary>
         /// 获取分页视图Dto名称
@@ -242,7 +237,7 @@ namespace FreeSql.TemplateEngine
         /// <returns></returns>
         public static string GetPageViewDto(this Project project, string tableName)
         {
-            return project.GetBuilder("PageViewDto").GetName(tableName);
+            return project.GetBuilder("PageViewDto") != null ? project.GetBuilder("PageViewDto").GetName(tableName) : $"{tableName}PageViewDto"; 
         }
         /// <summary>
         /// 获取分页请求dto
@@ -252,7 +247,25 @@ namespace FreeSql.TemplateEngine
         /// <returns></returns>
         public static string GetPagedDto(this Project project, string tableName)
         {
-            return project.GetBuilder("PagedDtos").GetName(tableName);
+            return project.GetBuilder("PagedDtos") != null ? project.GetBuilder("PagedDtos").GetName(tableName) : $"{tableName}PagedDtos"; 
+        }
+        /// <summary>
+        /// 获取主键名
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static string GetPrimarysName(this TableInfo info)
+        {
+            return string.Join(",", info.Primarys.Select(x => Reflection.ToCsType(x.CsType)));
+        }
+        /// <summary>
+        /// csType转string 名称
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        public static string GetCsTypeName(this ColumnInfo info)
+        {
+            return Reflection.ToCsType(info.CsType);
         }
 
     }

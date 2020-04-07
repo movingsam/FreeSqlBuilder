@@ -27,11 +27,11 @@ namespace AngularGenerator
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMvc();
-            //app.UseFreeSqlBuilderUI(opt =>
-            //{
-            //    opt.Path = "Gen";//可以自行修改url
-            //});
-            app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+            app.UseFreeSqlBuilderUI(opt =>
+            {
+                opt.Path = "Gen";//可以自行修改url
+            });
+            //app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
 
         }
     }

@@ -28,6 +28,17 @@ export class BuilderOptionComponent implements OnInit, OnChanges {
     if (!this.projectid || this.projectid === 0) {
       this.message.warning('未检测到项目');
     }
+    if (!this.builder || this.builder.templateId !== 0) {
+      this.loadTemplate(this.builder.templateId);
+    }
+  }
+  loadTemplate(id: number) {
+    this.client.get<Template>(`/api/Template/${id}`).subscribe(res => {
+      this.builder.template = res;
+    });
+  }
+  TemplateButton() {
+    return this.builder.template.templateName !== `` ? this.builder.template.templateName : '选择';
   }
   submitForm(): void {
     for (const i in this.validateForm.controls) {

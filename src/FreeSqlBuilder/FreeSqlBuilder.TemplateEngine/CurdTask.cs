@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FreeSql.Generator.Core.CodeFirst;
+﻿using FreeSql.Internal.Model;
 
 namespace FreeSql.TemplateEngine
 {

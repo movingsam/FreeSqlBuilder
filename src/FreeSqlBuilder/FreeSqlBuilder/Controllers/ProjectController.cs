@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Linq;
+using FreeSqlBuilder.Modals;
+using Newtonsoft.Json;
 
 namespace FreeSql.Generator.Controllers
 {
@@ -256,10 +259,11 @@ namespace FreeSql.Generator.Controllers
         /// <param name="entityBaseName"></param>
         /// <param name="entityAssemblyName"></param>
         /// <returns></returns>
-        [HttpGet("/api/AllTable/{entityAssemblyName}/{entityBaseName}")]
-        public async Task<IActionResult> GetAllDbTable(string entityBaseName, string entityAssemblyName)
+        [HttpGet("/api/AllTable/{entityAssemblyName}")]
+        public async Task<IActionResult> GetAllDbTable(string entityAssemblyName,string entityBaseName)
         {
-            return Ok(await reflection.GetTableInfos(entityAssemblyName, entityBaseName));
+            var res = (await reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
+            return Ok(res);
         }
         /// <summary>
         /// 获取所有的基类

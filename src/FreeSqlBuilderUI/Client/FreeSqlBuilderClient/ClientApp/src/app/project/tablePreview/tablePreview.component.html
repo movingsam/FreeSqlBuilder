@@ -5,47 +5,42 @@
       <th nzWidth="8vw">表名</th>
       <th nzWidth="8vw">名称</th>
       <th nzWidth="10vw">备注</th>
-      <th nzWidth="10vw">命名空间</th>
-      <th nzWidth="8vw">主键类型</th>
+      <th nzWidth="8vw">主键</th>
       <th nzRight="0px">操作</th>
     </tr>
   </thead>
   <tbody>
     <ng-template ngFor let-data [ngForOf]="dynamicTable.data">
       <tr>
-        <td nzBreakWord nzLeft="0px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.name]"></td>
-        <td nzBreakWord nzLeft="100px">{{ data.dbTableName }}</td>
-        <td nzBreakWord>{{ data.name }}</td>
+        <td nzBreakWord nzLeft="0px" nzShowExpand [(nzExpand)]="mapOfExpandData[data.csName]"></td>
+        <td nzBreakWord nzLeft="100px">{{ data.dbName }}</td>
+        <td nzBreakWord>{{ data.csName }}</td>
         <td nzBreakWord>{{ data.comment }}</td>
-        <td nzBreakWord>{{ data.nameSpace }}</td>
-        <td nzBreakWord>{{ data.primaryTypeName }}</td>
+        <td nzBreakWord>{{ getPkName(data)}}</td>
         <td nzBreakWord nzRight="0px">
           <a (click)="ignoreTable(data)">{{data.isIgnore?'恢复':'忽略'}}</a>
         </td>
       </tr>
-      <tr [nzExpand]="mapOfExpandData[data.name]">
+      <tr [nzExpand]="mapOfExpandData[data.csName]">
         <td></td>
-        <td colspan="7">
+        <td colspan="5">
           <nz-card [nzBordered]="false" nzTitle="表属性">
-            <p *ngFor="let item of data.columnInfos">
-              <label class="lblCol">名称:{{item.columnName}} </label>
+            <p *ngFor="let item of data.columnsByCs">
+              <label class="lblCol">名称:{{item.value.csName}} </label>
               <nz-divider nzType="vertical"></nz-divider>
-              <label class="lblCol">数据库名称: {{ item.dbColumnName }}</label>
-              <nz-divider nzType="vertical"></nz-divider>
-              <label class="lblCol">Csharp类型: {{ item.csType }}</label>
+              <label class="lblCol">数据库类型: {{ item.value.dbTypeText}}</label>
               <nz-divider nzType="vertical"></nz-divider>
             </p>
           </nz-card>
-          <nz-card [nzBordered]="false" [nzTitle]="'导航属性'">
+          <!-- <nz-card [nzBordered]="false" [nzTitle]="'导航属性'">
             <p *ngFor="let item of data.navigateInfos">
               <label class="lblCol">名称:{{item.columnName}} </label>
               <nz-divider nzType="vertical"></nz-divider>
               <label class="lblCol">导航类型:{{ item.csType }}</label>
               <nz-divider nzType="vertical"></nz-divider>
             </p>
-          </nz-card>
+          </nz-card> -->
         </td>
-        <td></td>
       </tr>
     </ng-template>
   </tbody>

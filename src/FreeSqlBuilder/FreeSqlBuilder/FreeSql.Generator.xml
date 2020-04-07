@@ -247,6 +247,17 @@
             <param name="e"></param>
             <param name="logger"></param>
         </member>
+        <member name="T:FreeSqlBuilder.Modals.TableInfoDto">
+            <summary>
+            TableInfo领域模型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Modals.TableInfoDto.#ctor(FreeSql.Internal.Model.TableInfo)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+        </member>
         <member name="T:AngularGenerator.Services.ProjectService">
             <summary>
             项目服务

@@ -9,7 +9,7 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<form nz-form [formGroup]=\"validateForm\">\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>模块名</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"name\" formControlName=\"name\" placeholder=\"模块名\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>是否只生成主表</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <nz-switch id=\"isServiceOnly\" formControlName='isServiceOnly'>\n      </nz-switch>\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\">前缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"prefix\" formControlName='prefix' placeholder=\"前缀 ex: I -> 文件名= I+实体名+后缀\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\">忽略数据库表中的前缀的</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"splitDot\" formControlName='splitDot' placeholder=\"忽略数据库表中的前缀的 前缀分隔符 （与IsIgnorePrefix搭配）\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>名称是否忽略前缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <nz-switch id=\"isIgnorePrefix\" formControlName='isIgnorePrefix'>\n      </nz-switch>\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>输出路径</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"outPutPath\" formControlName=\"outPutPath\" placeholder=\"输出路径\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>名称转换模式</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"mode\" formControlName=\"mode\" placeholder=\"名称转换模式 默认不转换\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>模板路径</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <button nz-button type=\"button\" (click)=\"selectTemplate()\">选择</button>\n      <label>{{this.builder.template.templatePath}}</label>\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\">后缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"suffix\" formControlName=\"suffix\" placeholder=\"后缀 ex:Repository-> 文件名= 前缀+实体名+Repository\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>文件后缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"fileExtensions\" formControlName=\"fileExtensions\" placeholder=\"文件后缀\" />\n    </nz-form-control>\n  </div>\n  <nz-form-control [nzSm]=\"12\" [nzXs]=\"24\">\n    <nz-form-control [nzOffset]=\"5\" [nzSm]=\"9\" [nzXs]=\"24\">\n      <button nz-button (click)='submitForm()' [nzType]=\"'primary'\" style='float'>提交</button>\n    </nz-form-control>\n  </nz-form-control>\n  <nz-modal nzWidth=\"80vw\" [(nzVisible)]=\" this.templateSel \" nzTitle=\"选择模板\" (nzOnOk)=\"this.templateSel = false\"\n    (nzOnCancel)=\"this.templateSel = false\">\n    <app-list-template [isController]='true' (selectTemplate)=\"selectCallBack($event)\"></app-list-template>\n  </nz-modal>\n</form>");
+/* harmony default export */ __webpack_exports__["default"] = ("<form nz-form [formGroup]=\"validateForm\">\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>模块名</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"name\" formControlName=\"name\" placeholder=\"模块名\" />\n    </nz-form-control>\n  </div>\n  <!-- <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>是否只生成主表</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <nz-switch id=\"isServiceOnly\" formControlName='isServiceOnly'>\n      </nz-switch>\n    </nz-form-control>\n  </div> -->\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\">前缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"prefix\" formControlName='prefix' placeholder=\"前缀 ex: I -> 文件名= I+实体名+后缀\" />\n    </nz-form-control>\n  </div>\n  <!-- <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\">忽略数据库表中的前缀的</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"splitDot\" formControlName='splitDot' placeholder=\"忽略数据库表中的前缀的 前缀分隔符 （与IsIgnorePrefix搭配）\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>名称是否忽略前缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <nz-switch id=\"isIgnorePrefix\" formControlName='isIgnorePrefix'>\n      </nz-switch>\n    </nz-form-control>\n  </div> -->\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>输出路径</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"outPutPath\" formControlName=\"outPutPath\" placeholder=\"输出路径\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>名称转换模式</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <nz-select formControlName=\"mode\" nzAllowClear nzPlaceHolder=\"名称转换模式 默认不转换\">\n        <nz-option nzValue=0 nzLabel=\"不变\"></nz-option>\n        <nz-option nzValue=1 nzLabel=\"全大写\"></nz-option>\n        <nz-option nzValue=2 nzLabel=\"全小写\"></nz-option>\n        <nz-option nzValue=3 nzLabel=\"首字母大写\"></nz-option>\n      </nz-select>\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>模板路径</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <button nz-button type=\"button\" (click)=\"selectTemplate()\">{{TemplateButton()}}</button>\n      <!-- <label>{{this.builder.template.templateName}}</label> -->\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\">后缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"suffix\" formControlName=\"suffix\" placeholder=\"后缀 ex:Repository-> 文件名= 前缀+实体名+Repository\" />\n    </nz-form-control>\n  </div>\n  <div nz-col [nzSpan]=\"12\">\n    <nz-form-label [nzSm]=\"5\" [nzXs]=\"24\" nzRequired>文件后缀</nz-form-label>\n    <nz-form-control [nzSm]=\"9\" [nzXs]=\"24\">\n      <input nz-input id=\"fileExtensions\" formControlName=\"fileExtensions\" placeholder=\"文件后缀\" />\n    </nz-form-control>\n  </div>\n  <nz-form-control [nzSm]=\"12\" [nzXs]=\"24\">\n    <nz-form-control [nzOffset]=\"5\" [nzSm]=\"9\" [nzXs]=\"24\">\n      <button nz-button (click)='submitForm()' [nzType]=\"'primary'\">提交</button>\n    </nz-form-control>\n  </nz-form-control>\n  <nz-modal nzWidth=\"80vw\" [(nzVisible)]=\" this.templateSel \" nzTitle=\"选择模板\" (nzOnOk)=\"this.templateSel = false\"\n    (nzOnCancel)=\"this.templateSel = false\">\n    <app-list-template [isController]='true' (selectTemplate)=\"selectCallBack($event)\"></app-list-template>\n  </nz-modal>\n</form>");
 
 /***/ }),
 
@@ -61,7 +61,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<nz-table #dynamicTable [nzScroll]=\"{ y: '500px' }\" nzBordered=\"true\" [nzData]=\"listOfData\">\n  <thead>\n    <tr>\n      <th nzWidth=\"100px\">属性</th>\n      <th nzWidth=\"8vw\">表名</th>\n      <th nzWidth=\"8vw\">名称</th>\n      <th nzWidth=\"10vw\">备注</th>\n      <th nzWidth=\"10vw\">命名空间</th>\n      <th nzWidth=\"8vw\">主键类型</th>\n      <th nzRight=\"0px\">操作</th>\n    </tr>\n  </thead>\n  <tbody>\n    <ng-template ngFor let-data [ngForOf]=\"dynamicTable.data\">\n      <tr>\n        <td nzBreakWord nzLeft=\"0px\" nzShowExpand [(nzExpand)]=\"mapOfExpandData[data.name]\"></td>\n        <td nzBreakWord nzLeft=\"100px\">{{ data.dbTableName }}</td>\n        <td nzBreakWord>{{ data.name }}</td>\n        <td nzBreakWord>{{ data.comment }}</td>\n        <td nzBreakWord>{{ data.nameSpace }}</td>\n        <td nzBreakWord>{{ data.primaryTypeName }}</td>\n        <td nzBreakWord nzRight=\"0px\">\n          <a href=\"#\">删除</a>\n        </td>\n      </tr>\n      <tr [nzExpand]=\"mapOfExpandData[data.name]\">\n        <td></td>\n        <td colspan=\"7\">\n          <nz-card [nzBordered]=\"false\" nzTitle=\"表属性\">\n            <p *ngFor=\"let item of data.columnInfos\">\n              <label class=\"lblCol\">名称:{{item.columnName}} </label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n              <label class=\"lblCol\">数据库名称: {{ item.dbColumnName }}</label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n              <label class=\"lblCol\">Csharp类型: {{ item.csType }}</label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n            </p>\n          </nz-card>\n          <nz-card [nzBordered]=\"false\" [nzTitle]=\"'导航属性'\">\n            <p *ngFor=\"let item of data.navigateInfos\">\n              <label class=\"lblCol\">名称:{{item.columnName}} </label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n              <label class=\"lblCol\">导航类型:{{ item.csType }}</label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n            </p>\n          </nz-card>\n        </td>\n        <td></td>\n      </tr>\n    </ng-template>\n  </tbody>\n</nz-table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<nz-table #dynamicTable [nzScroll]=\"{ y: '500px' }\" nzBordered=\"true\" [nzData]=\"listOfData\">\n  <thead>\n    <tr>\n      <th nzWidth=\"100px\">属性</th>\n      <th nzWidth=\"8vw\">表名</th>\n      <th nzWidth=\"8vw\">名称</th>\n      <th nzWidth=\"10vw\">备注</th>\n      <th nzWidth=\"8vw\">主键</th>\n      <th nzRight=\"0px\">操作</th>\n    </tr>\n  </thead>\n  <tbody>\n    <ng-template ngFor let-data [ngForOf]=\"dynamicTable.data\">\n      <tr>\n        <td nzBreakWord nzLeft=\"0px\" nzShowExpand [(nzExpand)]=\"mapOfExpandData[data.csName]\"></td>\n        <td nzBreakWord nzLeft=\"100px\">{{ data.dbName }}</td>\n        <td nzBreakWord>{{ data.csName }}</td>\n        <td nzBreakWord>{{ data.comment }}</td>\n        <td nzBreakWord>{{ getPkName(data)}}</td>\n        <td nzBreakWord nzRight=\"0px\">\n          <a (click)=\"ignoreTable(data)\">{{data.isIgnore?'恢复':'忽略'}}</a>\n        </td>\n      </tr>\n      <tr [nzExpand]=\"mapOfExpandData[data.csName]\">\n        <td></td>\n        <td colspan=\"5\">\n          <nz-card [nzBordered]=\"false\" nzTitle=\"表属性\">\n            <p *ngFor=\"let item of data.columnsByCs\">\n              <label class=\"lblCol\">名称:{{item.value.csName}} </label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n              <label class=\"lblCol\">数据库类型: {{ item.value.dbTypeText}}</label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n            </p>\n          </nz-card>\n          <!-- <nz-card [nzBordered]=\"false\" [nzTitle]=\"'导航属性'\">\n            <p *ngFor=\"let item of data.navigateInfos\">\n              <label class=\"lblCol\">名称:{{item.columnName}} </label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n              <label class=\"lblCol\">导航类型:{{ item.csType }}</label>\n              <nz-divider nzType=\"vertical\"></nz-divider>\n            </p>\n          </nz-card> -->\n        </td>\n      </tr>\n    </ng-template>\n  </tbody>\n</nz-table>");
 
 /***/ }),
 
@@ -110,6 +110,11 @@ var GeneratorModeConfig = /** @class */ (function () {
         this.dataSource = new DataSource();
         this.projectId = projectid;
         this.generatorMode = 1;
+        this.id = 0;
+        this.entityAssemblyName = '';
+        this.entityBaseName = '';
+        this.ignoreTables = '';
+        this.includeTables = '';
     }
     return GeneratorModeConfig;
 }());
@@ -197,6 +202,7 @@ var BuilderOptions = /** @class */ (function () {
     function BuilderOptions(_type, _name) {
         this.id = 0;
         this.projectId = 0;
+        this.project = null;
         this.splitDot = '_';
         this.suffix = '';
         this.templateId = 0;
@@ -292,46 +298,46 @@ var BuilderContainerComponent = /** @class */ (function () {
         this.callBack = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
         this.isVisible = false;
         this.tag = '';
-        console.log(this.projectid, 'init');
+        console.log(this.builders, "constructor builders");
     }
     BuilderContainerComponent.prototype.ngOnChanges = function (changes) {
         this.builders = changes['builders']['currentValue'];
         this.projectid = changes['projectid']['currentValue'];
-        console.log(this.projectid, 'changed');
+        console.log(this.builders, 'ngOnChanges');
     };
     BuilderContainerComponent.prototype.ngOnInit = function () {
     };
-    BuilderContainerComponent.prototype.removeBuilder = function (key) {
-        var builder = this.builders;
+    BuilderContainerComponent.prototype.removeBuilder = function (currentBuilder) {
+        var _this = this;
         this.modalService.confirm({
             nzTitle: '删除构建器',
-            nzContent: "<b style=\"color: red;\">\u662F\u5426\u8981\u5220\u9664 " + key + " \u6784\u5EFA\u5668\u7684\u914D\u7F6E\uFF1F</b>",
+            nzContent: "<b style=\"color: red;\">\u662F\u5426\u8981\u5220\u9664 " + currentBuilder.name + " \u6784\u5EFA\u5668\u7684\u914D\u7F6E\uFF1F</b>",
             nzOkText: '是',
             nzOkType: 'danger',
-            nzOnOk: function () { return builder.splice(builder.findIndex(function (b) { return b.name === key; }), 1); },
+            nzOnOk: function () { return _this.remove(currentBuilder); },
             nzCancelText: '否',
             nzOnCancel: function () { return console.log('Cancel'); }
         });
     };
-    BuilderContainerComponent.prototype.remove = function (key) {
+    BuilderContainerComponent.prototype.remove = function (currentBuilder) {
         var _this = this;
-        this.client.delete("/api/project/builder/" + key).subscribe(function (res) {
-            if (res) {
-                _this.message.success('删除成功');
-                return;
-            }
-            _this.message.success('删除失败');
-        });
+        if (currentBuilder.id && currentBuilder.id !== 0) {
+            this.client.delete("/api/project/builder/" + currentBuilder.id).subscribe(function (res) {
+                if (res) {
+                    _this.message.success('删除成功');
+                    return;
+                }
+            });
+        }
+        this.builders.splice(this.builders.findIndex(function (b) { return b.name === currentBuilder.name; }), 1);
+        return;
     };
     BuilderContainerComponent.prototype.Add = function () {
         this.isVisible = true;
     };
     BuilderContainerComponent.prototype.CallBack = function (e) {
         if (this.builders.filter(function (x) { return x.name === e.name; }).length > 0) {
-            this.builders.filter(function (x) { return x.name === e.name; })[0] = e;
-        }
-        else {
-            this.builders.push(e);
+            this.builders.filter(function (x) { return x.name === e.name; })[0].id = e.id;
         }
         this.callBack.emit(this.builders);
     };
@@ -363,7 +369,7 @@ var BuilderContainerComponent = /** @class */ (function () {
     BuilderContainerComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-builder-container',
-            template: "\n    <nz-card style=\"width: 100%;\" nzTitle=\"\u914D\u7F6E\u6784\u5EFA\u5668\" [nzExtra]=\"builderExtraTemplate\">\n      <nz-card-tab>\n        <nz-tabset  style='margin-bottom: 0px !important'>\n          <nz-tab  [nzTitle]=\"buildtitleTemplate\" *ngFor=\"let item of this.builders \">\n            <ng-template #buildtitleTemplate>\n              <div>\n                {{ item.name }}\n                <i nz-icon nzType=\"close\" (click)=\"removeBuilder(item.name,'builder')\" class=\"ant-tabs-close-x\"></i>\n              </div>\n            </ng-template>\n            <app-builder-option (callBack)=\"CallBack($event)\"  [projectid]=\"this.projectid\" *ngIf=\"item\" [builder]=\"item\">\n            </app-builder-option>\n          </nz-tab>\n        </nz-tabset>\n      </nz-card-tab>\n    </nz-card>\n    <ng-template #builderExtraTemplate>\n      <a (click)=\"Add()\">\u6DFB\u52A0</a>\n    </ng-template>\n    <nz-modal [(nzVisible)]=\"isVisible\" nzTitle=\"\u6DFB\u52A0\u6784\u5EFA\u5668\" (nzOnOk)=\"builderAdd()\"\n      (nzOnCancel)=\"this.isVisible = false\">\n      \u6784\u5EFA\u5668\u540D\uFF1A\n      <input nz-input id='key' [(ngModel)]=\"tag\">\n    </nz-modal>\n  ",
+            template: "\n    <nz-card style=\"width: 100%;\" nzTitle=\"\u914D\u7F6E\u6784\u5EFA\u5668\" [nzExtra]=\"builderExtraTemplate\">\n      <nz-card-tab>\n        <nz-tabset  style='margin-bottom: 0px !important'>\n          <nz-tab  [nzTitle]=\"buildtitleTemplate\" *ngFor=\"let item of this.builders \">\n            <ng-template #buildtitleTemplate>\n              <div>\n                {{ item.name }}\n                <i nz-icon nzType=\"close\" (click)=\"removeBuilder(item)\" class=\"ant-tabs-close-x\"></i>\n              </div>\n            </ng-template>\n            <app-builder-option (callBack)=\"CallBack($event)\"  [projectid]=\"this.projectid\" *ngIf=\"item\" [builder]=\"item\">\n            </app-builder-option>\n          </nz-tab>\n        </nz-tabset>\n      </nz-card-tab>\n    </nz-card>\n    <ng-template #builderExtraTemplate>\n      <a (click)=\"Add()\">\u6DFB\u52A0</a>\n    </ng-template>\n    <nz-modal [(nzVisible)]=\"isVisible\" nzTitle=\"\u6DFB\u52A0\u6784\u5EFA\u5668\" (nzOnOk)=\"builderAdd()\"\n      (nzOnCancel)=\"this.isVisible = false\">\n      \u6784\u5EFA\u5668\u540D\uFF1A\n      <input nz-input id='key' [(ngModel)]=\"tag\">\n    </nz-modal>\n  ",
             styles: ["\n  "]
         }),
         __metadata("design:paramtypes", [ng_zorro_antd__WEBPACK_IMPORTED_MODULE_2__["NzModalService"],
@@ -422,9 +428,23 @@ var BuilderOptionComponent = /** @class */ (function () {
     }
     BuilderOptionComponent.prototype.ngOnChanges = function (changes) {
         this.projectid = changes['projectid']['currentValue'];
+        this.builder = changes['builder']['currentValue'];
+        console.log(this.builder, 'ngOnChanges');
         if (!this.projectid || this.projectid === 0) {
             this.message.warning('未检测到项目');
         }
+        if (!this.builder || this.builder.templateId !== 0) {
+            this.loadTemplate(this.builder.templateId);
+        }
+    };
+    BuilderOptionComponent.prototype.loadTemplate = function (id) {
+        var _this = this;
+        this.client.get("/api/Template/" + id).subscribe(function (res) {
+            _this.builder.template = res;
+        });
+    };
+    BuilderOptionComponent.prototype.TemplateButton = function () {
+        return this.builder.template.templateName !== "" ? this.builder.template.templateName : '选择';
     };
     BuilderOptionComponent.prototype.submitForm = function () {
         for (var i in this.validateForm.controls) {
@@ -668,12 +688,13 @@ var GeneratorModeComponent = /** @class */ (function () {
         this.dataSourceType = ['MySql', 'SqlServer', 'PostgreSQL', 'Oracle',
             'Sqlite', 'OdbcOracle', 'OdbcSqlServer', 'OdbcMySql',
             'OdbcPostgreSQL', 'Odbc', 'OdbcDameng', 'MsAccess'];
-        console.log(this.project, 'constructor');
+        this.generatorModeConfig = new _modals_generatormodeconfig__WEBPACK_IMPORTED_MODULE_5__["GeneratorModeConfig"](0);
     }
     GeneratorModeComponent.prototype.ngOnChanges = function (changes) {
         this.project = changes['project']['currentValue'];
-        this.generatorModeConfig = this.project.generatorModeConfig;
+        console.log(this.project, "projectOnChange");
         if (this.project.generatorModeConfig) {
+            this.generatorModeConfig = this.project.generatorModeConfig;
             console.log(this.project, 'initValidateForm');
             this.initValidateForm();
             this.baseEntity();
@@ -690,6 +711,10 @@ var GeneratorModeComponent = /** @class */ (function () {
         }
         if (!this.generatorModeConfig.projectId) {
             this.message.warning("\u672A\u68C0\u6D4B\u5230\u76F8\u5173\u9879\u76EE \u8BF7\u5148\u63D0\u4EA4\u9879\u76EE\u8BE6\u60C5");
+            return;
+        }
+        if (this.generatorModeConfig.entityAssemblyName === '') {
+            this.message.warning("\u5FC5\u987B\u9009\u62E9\u4E00\u4E2A\u7A0B\u5E8F\u96C6\u8FDB\u884C\u53CD\u5C04");
             return;
         }
         if (this.generatorModeConfig.id && this.generatorModeConfig.id !== 0) {
@@ -727,7 +752,7 @@ var GeneratorModeComponent = /** @class */ (function () {
     GeneratorModeComponent.prototype.initValidateForm = function () {
         this.validateForm = this.fb.group({
             generatorMode: ["" + this.generatorModeConfig.generatorMode, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            entityBaseName: ["" + this.generatorModeConfig.entityBaseName, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            entityBaseName: ["" + this.generatorModeConfig.entityBaseName, []],
             entityAssemblyName: ["" + this.generatorModeConfig.entityAssemblyName, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]]
         });
     };
@@ -740,6 +765,11 @@ var GeneratorModeComponent = /** @class */ (function () {
     GeneratorModeComponent.prototype.assemblyChange = function (e) {
         console.log(e);
         this.baseEntity();
+        console.log('assemblyChange');
+    };
+    GeneratorModeComponent.prototype.entityBaseChange = function (e) {
+        this.preview();
+        console.log('entityBaseChange');
     };
     GeneratorModeComponent.prototype.baseEntity = function () {
         var _this = this;
@@ -747,26 +777,32 @@ var GeneratorModeComponent = /** @class */ (function () {
         this.client.get("/api/BaseClass/" + this.validateForm.controls['entityAssemblyName'].value).subscribe(function (data) {
             _this.itemList = data;
         });
+        this.validateForm.patchValue({ 'entityBaseName': '' });
+        this.preview();
     };
     GeneratorModeComponent.prototype.preview = function () {
-        this.validateForm.controls['entityBaseName'].markAsDirty();
-        this.validateForm.controls['entityBaseName'].updateValueAndValidity();
+        this.validateForm.controls['entityAssemblyName'].markAsDirty();
+        this.validateForm.controls['entityAssemblyName'].updateValueAndValidity();
         if (!this.validateForm.invalid) {
-            console.log(2);
             this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
             this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
             this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
-            this.previewShow = !this.previewShow;
+            this.previewShow = true;
+        }
+        else {
+            this.previewShow = false;
         }
     };
-    GeneratorModeComponent.prototype.getAllTable = function (e) {
+    GeneratorModeComponent.prototype.getAllTable = function () {
         if (this.project) {
             this.generatorModeConfig.projectId = this.project.id;
         }
         else {
             this.message.warning("\u65E0\u6CD5\u627E\u5230\u9879\u76EE");
         }
-        console.log(this.generatorModeConfig);
+    };
+    GeneratorModeComponent.prototype.getIgnoreTables = function (e) {
+        this.generatorModeConfig.ignoreTables = e;
     };
     GeneratorModeComponent.ctorParameters = function () { return [
         { type: _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"] },
@@ -786,7 +822,7 @@ var GeneratorModeComponent = /** @class */ (function () {
     GeneratorModeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-generator-mode',
-            template: "\n    <form nz-form [formGroup]=\"validateForm\" >\n    <nz-form-item>\n        <nz-form-label [nzSm]=\"4\" [nzXs]=\"24\" nzFor=\"generatorMode\" nzRequired>\n          <span>\u751F\u6210\u5668\u6A21\u5F0F\n            <i nz-icon nz-tooltip nzTitle=\"CodeFirst\u4ECE\u4EE3\u7801\u5B9E\u4F53\u6D3E\u751F\u6240\u6709\u903B\u8F91DbFirst\u4ECE\u6570\u636E\u5E93\u7ED3\u6784\u6D3E\u751F\" nzType=\"question-circle\"\n              nzTheme=\"outline\"></i>\n          </span>\n        </nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"CodeFirst/DbFirst\">\n          <nz-radio-group formControlName=\"generatorMode\">\n            <label nz-radio [nzDisabled]=\"true\" nzValue=0>DbFirst</label>\n            <label nz-radio nzValue=1>CodeFirst(\u5F53\u524DWeb\u9879\u76EE)</label>\n          </nz-radio-group>\n        </nz-form-control>\n      </nz-form-item>\n      <nz-card  nzTitle=\"\u6A21\u5F0F\u76F8\u5173\u914D\u7F6E\u9879\">\n        <div id=\"dbSetting\" *ngIf=\"this.validateForm.get('generatorMode').value === '0'\">\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"6\" [nzXs]=\"24\">\u6570\u636E\u5E93\u7C7B\u578B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <nz-select formControlName=\"dataSourceType\">\n                  <nz-option *ngFor=\"let p of this.dataSourceType\" [nzValue]=\"p\" [nzLabel]=\"p\">\n                  </nz-option>\n                </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u6570\u636E\u5E93\u540D</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceDb\" id=\"dataSourceDb\" name='dataSourceDb'\n                  placeholder=\"\u6570\u636E\u5E93\u540D\u79F0\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"8\" [nzXs]=\"24\">\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceConnectionStr\" id=\"dataSourceConnectionStr\"\n                  name='dataSourceConnectionStr' placeholder=\"\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n        </div>\n        <div id=\"baseEntity\" *ngIf=\"this.validateForm.get('generatorMode').value === '1'\">\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u5B9E\u4F53\u57FA\u7C7B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                    <nz-select formControlName=\"entityAssemblyName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u7A0B\u5E8F\u96C6\" (ngModelChange)=\"assemblyChange($event)\">\n                  <nz-option *ngFor=\"let item of assemblyList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\" ></nz-option>\n                </nz-select>\n              </nz-form-control>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                    <nz-select formControlName=\"entityBaseName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u57FA\u7C7B\">\n                  <nz-option *ngFor=\"let item of itemList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\"></nz-option>\n                </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"8\">\n            <nz-form-control  [nzSm]=\"5\" [nzXs]=\"24\">\n              <button nz-button style=\"width:100%\" (click)=\"preview()\" > \u67E5\u770B</button>\n            </nz-form-control>\n            <nz-form-control  [nzSm]=\"5\" [nzXs]=\"24\">\n              <button nz-button style=\"width:100%\" (click)='submitForm()' [nzType]=\"'primary'\">\u63D0\u4EA4</button>\n            </nz-form-control>\n          </div>\n        </div>\n      </nz-card>\n      <nz-form-item>\n      <div nz-col [nzSpan]=\"24\" *ngIf=\"this.previewShow\">\n        <app-table-preview  (allTable)=\"getAllTable($event)\" [entityAssemblyName]=\"this.validateForm.get('entityAssemblyName').value\"  [entityBaseName]=\"this.validateForm.get('entityBaseName').value\">\n        </app-table-preview>\n      </div>\n      </nz-form-item>\n</form>\n    "
+            template: "\n    <form nz-form [formGroup]=\"validateForm\" >\n    <nz-form-item>\n        <nz-form-label [nzSm]=\"4\" [nzXs]=\"24\" nzFor=\"generatorMode\" nzRequired>\n          <span>\u751F\u6210\u5668\u6A21\u5F0F\n            <i nz-icon nz-tooltip nzTitle=\"CodeFirst\u4ECE\u4EE3\u7801\u5B9E\u4F53\u6D3E\u751F\u6240\u6709\u903B\u8F91DbFirst\u4ECE\u6570\u636E\u5E93\u7ED3\u6784\u6D3E\u751F\" nzType=\"question-circle\"\n              nzTheme=\"outline\"></i>\n          </span>\n        </nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"CodeFirst/DbFirst\">\n          <nz-radio-group formControlName=\"generatorMode\">\n            <label nz-radio [nzDisabled]=\"true\" nzValue=0>DbFirst</label>\n            <label nz-radio nzValue=1>CodeFirst(\u5F53\u524DWeb\u9879\u76EE)</label>\n          </nz-radio-group>\n        </nz-form-control>\n      </nz-form-item>\n      <nz-card  nzTitle=\"\u6A21\u5F0F\u76F8\u5173\u914D\u7F6E\u9879\">\n        <div id=\"dbSetting\" *ngIf=\"this.validateForm.get('generatorMode').value === '0'\">\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"6\" [nzXs]=\"24\">\u6570\u636E\u5E93\u7C7B\u578B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <nz-select formControlName=\"dataSourceType\">\n                  <nz-option *ngFor=\"let p of this.dataSourceType\" [nzValue]=\"p\" [nzLabel]=\"p\">\n                  </nz-option>\n                </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u6570\u636E\u5E93\u540D</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceDb\" id=\"dataSourceDb\" name='dataSourceDb'\n                  placeholder=\"\u6570\u636E\u5E93\u540D\u79F0\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"8\" [nzXs]=\"24\">\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceConnectionStr\" id=\"dataSourceConnectionStr\"\n                  name='dataSourceConnectionStr' placeholder=\"\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n        </div>\n        <div id=\"baseEntity\" *ngIf=\"this.validateForm.get('generatorMode').value === '1'\">\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u9009\u62E9\u76F8\u5173\u7A0B\u5E8F\u96C6/\u5B9E\u4F53jilei </nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                    <nz-select formControlName=\"entityAssemblyName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u7A0B\u5E8F\u96C6\" (ngModelChange)=\"assemblyChange($event)\">\n                  <nz-option *ngFor=\"let item of assemblyList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\" ></nz-option>\n                </nz-select>\n              </nz-form-control>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                    <nz-select formControlName=\"entityBaseName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u57FA\u7C7B\"  (ngModelChange)=\"entityBaseChange($event)\" >\n                  <nz-option *ngFor=\"let item of itemList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\"></nz-option>\n                </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"8\">\n            <nz-form-control  [nzSm]=\"5\" [nzXs]=\"24\">\n              <button nz-button style=\"width:100%\" (click)='submitForm()' [nzType]=\"'primary'\">\u63D0\u4EA4</button>\n            </nz-form-control>\n          </div>\n        </div>\n      </nz-card>\n      <nz-form-item>\n      <div nz-col [nzSpan]=\"24\" *ngIf=\"this.previewShow\">\n        <app-table-preview  (allTable)=\"getAllTable($event)\"\n         [ignoreTables] = \"this.generatorModeConfig.ignoreTables\"\n         (callBack) = \"getIgnoreTables($event)\"\n         [entityAssemblyName]=\"this.validateForm.get('entityAssemblyName').value\"\n         [entityBaseName]=\"this.validateForm.get('entityBaseName').value\">\n        </app-table-preview>\n      </div>\n      </nz-form-item>\n</form>\n    "
         }),
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"], ng_zorro_antd__WEBPACK_IMPORTED_MODULE_2__["NzModalService"],
             ng_zorro_antd__WEBPACK_IMPORTED_MODULE_2__["NzMessageService"],
@@ -864,6 +900,7 @@ var NewProjectComponent = /** @class */ (function () {
     }
     NewProjectComponent.prototype.callBack = function (e) {
         this.project = e;
+        console.log(this.project, "projectCallback");
         if (this.project.projectInfoId !== 0) {
             this.currentFinish[0] = true;
         }
@@ -879,7 +916,7 @@ var NewProjectComponent = /** @class */ (function () {
         this.currentFinish[this.current] = true;
     };
     NewProjectComponent.prototype.builderCallBack = function (e) {
-        console.log(e);
+        console.log(e.map(function (x) { return x.id; }));
         this.project.builders = e;
         if (this.project.builders.length > 0) {
             this.currentFinish[2] = true;
@@ -1375,7 +1412,7 @@ var ProjectListComponent = /** @class */ (function () {
     };
     ProjectListComponent.prototype.delproj = function (id) {
         var _this = this;
-        this.client.delete("api/project/" + id).subscribe(function (res) {
+        this.client.delete("/api/project/" + id).subscribe(function (res) {
             if (res > 0) {
                 _this.message.success("\u5220\u9664\u6210\u529F");
                 _this.loadData();
@@ -1454,17 +1491,51 @@ var TablePreViewComponent = /** @class */ (function () {
         this.entityBaseName = '';
         this.entityAssemblyName = '';
         this.allTable = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.callBack = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.ignoreTables = '';
         this.mapOfExpandData = {};
         this.mapOfNavExpandData = {};
     }
+    TablePreViewComponent.prototype.ngOnChanges = function (changes) {
+        if (changes['entityAssemblyName']) {
+            this.entityAssemblyName = changes['entityAssemblyName']['currentValue'];
+        }
+        if (changes['entityBaseName']) {
+            this.entityBaseName = changes['entityBaseName']['currentValue'];
+        }
+        this.getTableInfos();
+    };
     TablePreViewComponent.prototype.ngOnInit = function () {
+        this.getTableInfos();
+    };
+    TablePreViewComponent.prototype.getTableInfos = function () {
         var _this = this;
         this.client
-            .get("/api/AllTable/" + this.entityAssemblyName + "/" + this.entityBaseName)
+            .get("/api/AllTable/" + this.entityAssemblyName + "?entityBaseName=" + this.entityBaseName)
             .subscribe(function (data) {
+            var ignores = _this.ignoreTables.split(',');
+            if (ignores.length > 0 && ignores[0] !== '') {
+                console.log(ignores.length, 'ignores');
+                ignores.forEach(function (ignore) {
+                    data.filter(function (d) { return d.csName === ignore; })[0].isIgnore = true;
+                });
+            }
             _this.listOfData = data;
             _this.allTable.emit(_this.listOfData);
         });
+    };
+    TablePreViewComponent.prototype.ignoreTable = function (row) {
+        row.isIgnore = !row.isIgnore;
+        this.listOfData.filter(function (x) { return x.csName === row.csName; })[0].isIgnore = row.isIgnore;
+        this.ignoreTables = this.listOfData.filter(function (x) { return x.isIgnore; }).map(function (x) { return x.csName; }).join(',');
+        this.callBack.emit(this.ignoreTables);
+    };
+    TablePreViewComponent.prototype.getPkName = function (row) {
+        return row.primarys.map(function (x) { return x.csName + "-" + x.dbTypeText; }).join(',');
+    };
+    TablePreViewComponent.prototype.getObjectKeys = function (objcet) {
+        console.log(objcet);
+        return objcet;
     };
     TablePreViewComponent.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"] }
@@ -1481,6 +1552,14 @@ var TablePreViewComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
     ], TablePreViewComponent.prototype, "allTable", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], TablePreViewComponent.prototype, "callBack", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], TablePreViewComponent.prototype, "ignoreTables", void 0);
     TablePreViewComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-table-preview',

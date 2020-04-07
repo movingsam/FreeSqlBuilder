@@ -4,6 +4,7 @@
     Layout = "_Layout.cshtml";
     var project = Model.Project;
     var table = Model.CurrentTable;
+    var builder = Model.CurrentBuilder;
 }
 
 using System;
@@ -13,7 +14,7 @@ using System.Text;
 namespace @(project.ProjectInfo.ProjectName).Abstractes.Repositories
 {
 
-    public interface @(project.GetBuilder("IRepository").GetName(table.Name)) :IURepository<@(table.Name)@(",")I@(project.ProjectInfo.ProjectName)DbContext>
+    public interface @(builder.GetName(table.CsName)) :IURepository<@(table.CsName)@(",")I@(project.ProjectInfo.ProjectName)DbContext>
     {
     }
 }

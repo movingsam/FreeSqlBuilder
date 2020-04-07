@@ -1,4 +1,4 @@
-import { Component, OnInit, Type } from '@angular/core';
+import { Component, OnInit, Type, OnChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Project, BuilderOptions, BuilderType } from '../modals/project';
 import { NzModalService } from 'ng-zorro-antd/modal';
@@ -55,11 +55,9 @@ export class NewProjectComponent implements OnInit {
       }
     });
   }
-
-
-
   callBack(e): void {
     this.project = e;
+    console.log(this.project, `projectCallback`);
     if (this.project.projectInfoId !== 0) {
       this.currentFinish[0] = true;
     }

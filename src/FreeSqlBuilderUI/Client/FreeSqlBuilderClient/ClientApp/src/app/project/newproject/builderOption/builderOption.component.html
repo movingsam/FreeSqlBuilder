@@ -5,13 +5,13 @@
       <input nz-input id="name" formControlName="name" placeholder="模块名" />
     </nz-form-control>
   </div>
-  <div nz-col [nzSpan]="12">
+  <!-- <div nz-col [nzSpan]="12">
     <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>是否只生成主表</nz-form-label>
     <nz-form-control [nzSm]="9" [nzXs]="24">
       <nz-switch id="isServiceOnly" formControlName='isServiceOnly'>
       </nz-switch>
     </nz-form-control>
-  </div>
+  </div> -->
   <div nz-col [nzSpan]="12">
     <nz-form-label [nzSm]="5" [nzXs]="24">前缀</nz-form-label>
     <nz-form-control [nzSm]="9" [nzXs]="24">
@@ -51,8 +51,8 @@
   <div nz-col [nzSpan]="12">
     <nz-form-label [nzSm]="5" [nzXs]="24" nzRequired>模板路径</nz-form-label>
     <nz-form-control [nzSm]="9" [nzXs]="24">
-      <button nz-button type="button" (click)="selectTemplate()">选择</button>
-      <label>{{this.builder.template.templatePath}}</label>
+      <button nz-button type="button" (click)="selectTemplate()">{{TemplateButton()}}</button>
+      <!-- <label>{{this.builder.template.templateName}}</label> -->
     </nz-form-control>
   </div>
   <div nz-col [nzSpan]="12">

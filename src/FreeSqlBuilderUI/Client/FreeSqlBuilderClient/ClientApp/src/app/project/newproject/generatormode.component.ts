@@ -60,23 +60,20 @@ import { Project } from '../modals/project';
         <div id="baseEntity" *ngIf="this.validateForm.get('generatorMode').value === '1'">
           <div nz-col [nzSpan]="14">
             <nz-form-item>
-              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">实体基类</nz-form-label>
+              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">选择相关程序集/实体jilei </nz-form-label>
               <nz-form-control [nzSm]="10" [nzXs]="24" >
                     <nz-select formControlName="entityAssemblyName" nzAllowClear nzPlaceHolder="选择程序集" (ngModelChange)="assemblyChange($event)">
                   <nz-option *ngFor="let item of assemblyList" [nzLabel]="item.key" [nzValue]="item.value" ></nz-option>
                 </nz-select>
               </nz-form-control>
               <nz-form-control [nzSm]="10" [nzXs]="24" >
-                    <nz-select formControlName="entityBaseName" nzAllowClear nzPlaceHolder="选择基类">
+                    <nz-select formControlName="entityBaseName" nzAllowClear nzPlaceHolder="选择基类"  (ngModelChange)="entityBaseChange($event)" >
                   <nz-option *ngFor="let item of itemList" [nzLabel]="item.key" [nzValue]="item.value"></nz-option>
                 </nz-select>
               </nz-form-control>
             </nz-form-item>
           </div>
           <div nz-col [nzSpan]="8">
-            <nz-form-control  [nzSm]="5" [nzXs]="24">
-              <button nz-button style="width:100%" (click)="preview()" > 查看</button>
-            </nz-form-control>
             <nz-form-control  [nzSm]="5" [nzXs]="24">
               <button nz-button style="width:100%" (click)='submitForm()' [nzType]="'primary'">提交</button>
             </nz-form-control>
@@ -112,12 +109,12 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder, private modalService: NzModalService,
     private message: NzMessageService,
     private router: Router, private client: HttpClient) {
-    console.log(this.project, 'constructor');
     this.generatorModeConfig = new GeneratorModeConfig(0);
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     this.project = changes['project']['currentValue'];
+    console.log(this.project, `projectOnChange`);
     if (this.project.generatorModeConfig) {
       this.generatorModeConfig = this.project.generatorModeConfig;
       console.log(this.project, 'initValidateForm');
@@ -136,6 +133,10 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     }
     if (!this.generatorModeConfig.projectId) {
       this.message.warning(`未检测到相关项目 请先提交项目详情`);
+      return;
+    }
+    if (this.generatorModeConfig.entityAssemblyName === '') {
+      this.message.warning(`必须选择一个程序集进行反射`);
       return;
     }
     if (this.generatorModeConfig.id && this.generatorModeConfig.id !== 0) {
@@ -173,7 +174,7 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
   initValidateForm() {
     this.validateForm = this.fb.group({
       generatorMode: [`${this.generatorModeConfig.generatorMode}`, [Validators.required]],
-      entityBaseName: [`${this.generatorModeConfig.entityBaseName}`, [Validators.required]],
+      entityBaseName: [`${this.generatorModeConfig.entityBaseName}`, []],
       entityAssemblyName: [`${this.generatorModeConfig.entityAssemblyName}`, [Validators.required]]
     });
   }
@@ -185,30 +186,38 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
   assemblyChange(e): void {
     console.log(e);
     this.baseEntity();
+    console.log('assemblyChange');
+  }
+  entityBaseChange(e): void {
+    this.preview();
+    console.log('entityBaseChange');
   }
   baseEntity(): void {
     // this.validateForm.setValue({ 'entityBaseName': [''] });
     this.client.get<Item[]>(`/api/BaseClass/${this.validateForm.controls['entityAssemblyName'].value}`).subscribe((data) => {
       this.itemList = data;
     });
+    this.validateForm.patchValue({ 'entityBaseName': '' });
+    this.preview();
   }
   preview(): void {
-    this.validateForm.controls['entityBaseName'].markAsDirty();
-    this.validateForm.controls['entityBaseName'].updateValueAndValidity();
+    this.validateForm.controls['entityAssemblyName'].markAsDirty();
+    this.validateForm.controls['entityAssemblyName'].updateValueAndValidity();
     if (!this.validateForm.invalid) {
       this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
       this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
       this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
-      this.previewShow = !this.previewShow;
+      this.previewShow = true;
+    } else {
+      this.previewShow = false;
     }
   }
-  getAllTable(e): void {
+  getAllTable(): void {
     if (this.project) {
       this.generatorModeConfig.projectId = this.project.id;
     } else {
       this.message.warning(`无法找到项目`);
     }
-    console.log(this.generatorModeConfig);
   }
   getIgnoreTables(e): void {
     this.generatorModeConfig.ignoreTables = e;

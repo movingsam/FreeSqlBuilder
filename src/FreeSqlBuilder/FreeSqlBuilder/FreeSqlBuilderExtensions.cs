@@ -40,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddMemoryCache();
             services.AddSingleton<IFreeSql<FsBuilder>>(x =>
                 {
-                    var builder = new FreeSqlBuilder()
+                    var builder = new FreeSql.FreeSqlBuilder()
                                 .UseConnectionString(dataType: DataType.Sqlite, options.SqliteDbConnectionString)
                                 .UseAutoSyncStructure(true)
                                 .Build<FsBuilder>();

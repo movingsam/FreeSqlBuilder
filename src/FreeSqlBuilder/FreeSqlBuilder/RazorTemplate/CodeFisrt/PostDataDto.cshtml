@@ -6,7 +6,7 @@
     var project = Model.Project;//当前执行项目
     var table = Model.CurrentTable;//当前执行表
     var builder = Model.CurrentBuilder;//当前执行构建器
-    var className = builder.GetName(table.Name);//通过转换器转换名称
+    var className = builder.GetName(table.CsName);//通过转换器转换名称
 }
 
 @table.GetNameSpaceUsing();
@@ -15,26 +15,16 @@ namespace @(project.ProjectInfo.ProjectName).@builder.Name
 {
     public class @className : PostDataDtoBase
     {
-        @foreach (var column in table.ColumnInfos)
+        @foreach (var column in table.ColumnsByCs)
         {
-            @if (column.ColumnName == "Id")
+            @if (column.Value.CsName == "Id")
             {
                 continue;
             }
-            @column.Comment.GetCSharpSummary()
+            @column.Value.CsName.GetCSharpSummary()
             @Html.NewLine()
-            @column.GetAttribute()
-            @:public  @column.CsType @column.ColumnName { get; set; }
-            @Html.NewLine()
-        }
-        @foreach (var navigate in table.NavigateInfos)
-        {
-            @if (navigate.NavigateTableInfo != null) 
-            { 
-            @navigate.Comment.GetCSharpSummary()
-            @Html.NewLine()
-            @:public virtual @builder.GetName(navigate.NavigateTableInfo.Name) @navigate.ColumnName { get; set; }
-            }
+            @column.Value.GetDtoAttribute()
+            @:public  @column.Value.GetCsTypeName() @column.Value.CsName { get; set; }
             @Html.NewLine()
         }
     }

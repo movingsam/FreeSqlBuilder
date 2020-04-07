@@ -6,9 +6,9 @@
     var project = Model.Project;
     var table = Model.CurrentTable;
     var builder = Model.CurrentBuilder;
-    var dtoName =  project.GetBuilder("Dtos").GetName(table.Name);
-    var primaryKeyType = table.PrimaryTypeName;
-    var className = builder.GetName(table.Name);
+    var dtoName =  project.GetBuilder("Dtos").GetName(table.CsName);
+    var primaryKeyType = table.GetPrimarysName();
+    var className = builder.GetName(table.CsName);
 }
 
 @table.GetNameSpaceUsing();

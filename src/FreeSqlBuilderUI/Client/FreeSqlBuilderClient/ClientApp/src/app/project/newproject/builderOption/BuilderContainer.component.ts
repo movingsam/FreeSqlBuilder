@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter, KeyValueDiffer } from '@angular/core';
 import { BuilderOptions, BuilderType, Project } from '../../modals/project';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { HttpClient } from '@angular/common/http';
@@ -44,8 +44,9 @@ export class BuilderContainerComponent implements OnInit, OnChanges {
   constructor(private modalService: NzModalService,
     private message: NzMessageService,
     private client: HttpClient) {
-    console.log(this.projectid, 'init');
+    console.log(this.builders, `constructor builders`);
   }
+
   ngOnChanges(changes: import('@angular/core').SimpleChanges): void {
     this.builders = changes['builders']['currentValue'];
     this.projectid = changes['projectid']['currentValue'];
@@ -67,7 +68,6 @@ export class BuilderContainerComponent implements OnInit, OnChanges {
   }
 
   remove(currentBuilder: BuilderOptions) {
-    console.log(currentBuilder);
     if (currentBuilder.id && currentBuilder.id !== 0) {
       this.client.delete<boolean>(`/api/project/builder/${currentBuilder.id}`).subscribe(res => {
         if (res) {

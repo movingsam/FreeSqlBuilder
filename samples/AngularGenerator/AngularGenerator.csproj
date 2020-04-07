@@ -12,12 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FreeSqlBuilderUI" Version="0.0.0.3-alpha" />
+    <PackageReference Include="FreeSqlBuilder" Version="0.0.0.5-alpha" />
+    <PackageReference Include="FreeSqlBuilderUI" Version="0.0.0.5-alpha" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FreeSqlBuilder\FreeSqlBuilder\FreeSqlBuilder.csproj" />
     <ProjectReference Include="..\TestEntity\TestEntity.csproj" />
   </ItemGroup>
 

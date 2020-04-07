@@ -4,8 +4,8 @@
     Layout = "_Layout.cshtml";
     var project = Model.Project;
     var table = Model.CurrentTable;
-    var primaryKeyType = table.PrimaryTypeName;
-    var name = Model.CurrentBuilder.GetName(table.Name);
+    var primaryKeyType = table.GetPrimarysName();
+    var name = Model.CurrentBuilder.GetName(table.CsName);
 }
 
 using System;
@@ -17,7 +17,7 @@ namespace @(project.ProjectInfo.ProjectName).Implaments.Repositories
 {
 
 @($"{table.Comment}仓储".GetCSharpSummary())
-public class @(name) : UowRepositoryBase<@(table.Name)>@($",I{name}")
+public class @(name) : UowRepositoryBase<@(table.CsName)>@($",I{name}")
     {
         @("构造函数".GetCSharpSummary())
         public @(name)(IServiceProvider service) : base(service)

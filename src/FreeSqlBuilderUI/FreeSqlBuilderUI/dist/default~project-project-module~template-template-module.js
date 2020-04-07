@@ -25627,7 +25627,7 @@ module.exports.definer = hljsDefineCshtmlRazor;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\n  <nz-table #basicTable [nzScroll]=\"{ y: '500px' } \" [nzTotal]=\"pageData.total\" [(nzPageIndex)]=\"pageData.pageNumber\"\n    [(nzPageSize)]=\"pageData.pageSize\" [nzFrontPagination]=\"false\" [nzShowPagination]=\"true\" nzShowSizeChanger\n    nzShowTotal [nzLoading]=\"loading\" nzTitle=\"模板列表\" (nzPageIndexChange)=\"IndeChange($event)\"\n    (nzPageSizeChange)=\"SizeChange($event)\" [nzData]=\"pageData.datas\">\n    <thead>\n      <tr>\n        <th nzWidth=\"200px\">模板名称</th>\n        <th nzWidth=\"30vw\">模板地址</th>\n        <th nzRight=\"0px\">操作</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let data of basicTable.data\">\n        <td nzLeft=\"0px\">{{data.templateName}}</td>\n        <td nzLeft=\"200px\">{{data.templatePath}}</td>\n        <td nzRight=\"0px\">\n          <label *ngIf=\"isController === true\"><a (click)=\"select(data)\">选择</a>\n            <nz-divider nzType=\"vertical\"></nz-divider>\n          </label>\n          <a (click)=\"this.check(data)\">查看 </a>\n          <nz-divider nzType=\"vertical\"></nz-divider>\n          <a (click)=\"delete(data.id)\">删除</a>\n        </td>\n      </tr>\n    </tbody>\n  </nz-table>\n\n  <button nz-button *ngIf=\"this.isController === false\" (click)=\"click($event)\">返回</button>\n  <nz-modal nzWidth=\"80vw\" [(nzVisible)]=\" this.showTemplate \" nzTitle=\"选择模板\" (nzOnCancel)=\"this.showTemplate = false\"\n    (nzOnOk)=\"this.showTemplate = false\">\n    <app-template-pre [template]=\"this.currentTemplate\"></app-template-pre>\n  </nz-modal>\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\n  <nz-table #basicTable [nzScroll]=\"{ y: '500px' } \" [nzTotal]=\"pageData.total\" [(nzPageIndex)]=\"pageData.pageNumber\"\n    [(nzPageSize)]=\"pageData.pageSize\" [nzFrontPagination]=\"false\" [nzShowPagination]=\"true\" nzShowSizeChanger\n    nzShowTotal [nzLoading]=\"loading\" nzTitle=\"模板列表\" (nzPageIndexChange)=\"IndeChange($event)\"\n    (nzPageSizeChange)=\"SizeChange($event)\" [nzData]=\"pageData.datas\">\n    <thead>\n      <tr>\n        <th nzWidth=\"200px\">模板名称</th>\n        <th nzWidth=\"30vw\">模板地址</th>\n        <th nzRight=\"0px\">操作</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr *ngFor=\"let data of basicTable.data\">\n        <td nzLeft=\"0px\">{{data.templateName}}</td>\n        <td nzLeft=\"200px\">{{data.templatePath}}</td>\n        <td nzRight=\"0px\">\n          <label *ngIf=\"isController === true\"><a (click)=\"select(data)\">选择</a>\n            <nz-divider nzType=\"vertical\"></nz-divider>\n          </label>\n          <a (click)=\"this.check(data)\">查看 </a>\n          <nz-divider nzType=\"vertical\"></nz-divider>\n          <a (click)=\"delete(data.id)\">删除</a>\n        </td>\n      </tr>\n    </tbody>\n  </nz-table>\n  <nz-modal nzWidth=\"80vw\" [(nzVisible)]=\" this.showTemplate \" nzTitle=\"选择模板\"  (nzOnCancel)=\"this.showTemplate = false\"\n    (nzOnOk)=\"okCallBack()\">\n    <app-template-pre [template]=\"this.currentTemplate\"></app-template-pre>\n  </nz-modal>\n</div>");
 
 /***/ }),
 
@@ -25920,6 +25920,12 @@ var ListTemplateComponent = /** @class */ (function () {
     ListTemplateComponent.prototype.check = function (data) {
         this.showTemplate = true;
         this.currentTemplate = data;
+    };
+    ListTemplateComponent.prototype.okCallBack = function () {
+        this.showTemplate = false;
+        if (this.isController) {
+            this.selectTemplate.emit(this.currentTemplate);
+        }
     };
     ListTemplateComponent.ctorParameters = function () { return [
         { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] },

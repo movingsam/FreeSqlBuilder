@@ -1,14 +1,14 @@
 ﻿using FreeSql.Generator.Core;
-using FreeSql.Generator.Core.CodeFirst;
 using FreeSql.Generator.Core.Utilities;
 using FreeSql.Generator.Helper;
+using FreeSql.Internal.Model;
 using FreeSql.TemplateEngine.Implement;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FreeSql.TemplateEngine
 {
@@ -49,7 +49,7 @@ namespace FreeSql.TemplateEngine
                 case GeneratorMode.CodeFirst:
                     this.AllTable = _reflectionHelper
                         .GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result
-                        .Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.Name)).ToArray();
+                        .Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.CsName)).ToArray();
                     break;
                 default:
                     break;
@@ -60,15 +60,12 @@ namespace FreeSql.TemplateEngine
         {
             do
             {
-                var tableName = CurrentTable.Name;
+                var tableName = CurrentTable.CsName;
                 foreach (var builder in Project.Builders)//构造器
                 {
                     CurrentBuilder = builder;//记录当前执行的构建器
-                    if (!builder.IsServiceOnly || CurrentTable.IsServiceTable)//只生成非主表模板以及主表模板中的主表
-                    {
-                        var content = await _engine.Render(this, builder.Template.TemplatePath);
-                        await builder.OutPut(tableName, content);
-                    }
+                    var content = await _engine.Render(this, builder.Template.TemplatePath);
+                    await builder.OutPut(tableName, content);
                 }
             }
             while (Next());

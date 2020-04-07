@@ -23,11 +23,11 @@ namespace @(project.ProjectInfo.ProjectName).Abstractes.AutoMapperConfig
             @foreach (var table in allTable)
             {
                 Html.NewLine();
-                var entityName =table.Name;
+                var entityName =table.CsName;
                 @://@(entityName) 配置
                 foreach (var dto in allDtos)
                 {
-                    var dtoName = project.GetBuilder(dto).GetName(table.Name);
+                    var dtoName = project.GetBuilder(dto).GetName(table.CsName);
                     @:CreateMap<@($"{entityName},{dtoName}")>();
                     @:CreateMap<@($"{dtoName},{entityName}")>();
                     Html.NewLine();

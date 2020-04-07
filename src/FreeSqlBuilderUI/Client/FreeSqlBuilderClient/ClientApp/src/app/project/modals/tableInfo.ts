@@ -1,51 +1,60 @@
 
 export class TableInfo {
-    isServiceTable: boolean;
-    nameSpace: string;
-    importUsings: string[];
-    primaryTypeName: string;
-    comment: string;
-    name: string;
-    dbTableName: string;
+    columnsByCsIgnore = new Map<string, ColumnInfo>().set('', new ColumnInfo());
+    dbOldName = '';
+    dbName = '';
+    csName = '';
+    indexes: IndexInfo[];
+    primarys = new Array<ColumnInfo>();
+    columnsByPosition = new Array<ColumnInfo>();
+    versionColumn = new ColumnInfo();
+    columnsByCs = new Map<string, ColumnInfo>().set('', new ColumnInfo());
+    columns = new Map<string, ColumnInfo>().set('', new ColumnInfo());
+    disableSyncStructure = false;
     isIgnore = false;
-    columnInfos: ColumnInfo[];
-    navigateInfos: NavigateColumnInfo[];
+
 }
 
 export class ColumnInfo {
-    columnName: string;
-    comment: string;
-    dbColumnName: string;
-    columnAttribute: ColumnAttribute;
-    type: any;
-    csType: string;
+    table = new TableInfo();
+    csName = '';
+    attribute: ColumnAttribute;
+    comment = '';
+    dbTypeText = '';
+    dbDefaultValue = '';
+    dbInsertValue = '';
+    dbUpdateValue = '';
+    dbSize = 0;
+    dbPrecision = 0;
+    dbScale = 0;
 }
 
-export class NavigateColumnInfo extends ColumnInfo {
-    navigateTableInfo: TableInfo;
-    navigateCategory: NavigateCategory;
+export class IndexInfo {
+    name = '';
+    columns: IndexColumnInfo[];
+    isUnique = false;
 }
 
-
-export enum NavigateCategory {
-    OneToOne,
-    OneToMany,
-    None
+export class IndexColumnInfo {
+    column: ColumnInfo;
+    isDesc = false;
 }
+
 export class ColumnAttribute {
-    name: string;
-    oldName: string;
-    dbType: string;
-    isPrimary: boolean;
-    isIdentity: boolean;
-    isNullable: boolean;
-    isIgnore: boolean;
-    isVersion: boolean;
-    mapType: any;
-    position: number;
-    canInsert: boolean;
-    canUpdate: boolean;
-    stringLength: number;
-    insertValueSql: string;
+    name = '';
+    oldName = '';
+    dbType = '';
+    isPrimary = false;
+    isIdentity = false;
+    isNullable = false;
+    isIgnore = false;
+    isVersion = false;
+    position = 0;
+    canInsert = false;
+    canUpdate = false;
+    serverTime: Date;
+    stringLength = 0;
+    insertValueSql = '';
 }
+
 
