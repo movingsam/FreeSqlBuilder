@@ -97,8 +97,8 @@ namespace FreeSqlBuilder.Core.Helper
 
         private void CopyFolderFromStream(Type type, string dest)
         {
-            var FileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(type));
-            var res = FileProvider.GetDirectoryContents("").ToList();
+            var fileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(type));
+            var res = fileProvider.GetDirectoryContents("").ToList();
             foreach (IFileInfo file in res)
             {
                 var path = file.Name.Split(".").SkipLast(2).ToList();

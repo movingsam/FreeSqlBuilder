@@ -1,4 +1,6 @@
-﻿namespace FreeSqlBuilder.Core
+﻿using FreeSql;
+
+namespace FreeSqlBuilder.Core
 {
     public class TemplateOptions
     {
@@ -6,6 +8,17 @@
         /// <summary>
         /// Sqlite持久化地址
         /// </summary>
-        public string SqliteDbConnectionString { get; set; } = "Data Source=fsbuilder.db;Version=3";
+        public DbSet DbSet { get; set; } = new DbSet();
+    }
+
+    public class DbSet
+    {
+        public DbSet()
+        {
+            this.DbType =  DataType.Sqlite;
+            this.ConnectionString = "Data Source=fsbuilder.db;Version=3";
+        }
+        public DataType DbType { get; set; }
+        public string ConnectionString { get; set; }
     }
 }

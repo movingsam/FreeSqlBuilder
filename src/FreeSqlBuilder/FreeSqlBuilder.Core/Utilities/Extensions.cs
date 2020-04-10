@@ -13,7 +13,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <param name="tableName"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public async static Task OutPut(this BuilderOptions options, string tableName, string content)
+        public static async Task OutPut(this BuilderOptions options, string tableName, string content)
         {
             var project = options.Project;
             var root = string.IsNullOrWhiteSpace(project.ProjectInfo.RootPath) ? AppContext.BaseDirectory : project.ProjectInfo.RootPath;
@@ -29,12 +29,9 @@ namespace FreeSqlBuilder.Core.Utilities
             {
                 File.Delete(outputPath);
             }
-            await using (var streamWriter = new StreamWriter(outputPath))
-            {
-                await streamWriter.WriteAsync(content.Trim());
-            }
-            Console.WriteLine($"生成文件{options.GetName(tableName)}->输出路径{outputPath}");
-            Console.WriteLine($"内容:{content}");
+
+            await using var streamWriter = new StreamWriter(outputPath);
+            await streamWriter.WriteAsync(content.Trim());
         }
         /// <summary>
         /// 表名替换

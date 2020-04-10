@@ -12,7 +12,7 @@ namespace FreeSqlBuilder.TemplateEngine.Implement
         private const string TEMP = "temp";
         public bool Initialized { get; private set; }
         public string Name { get; private set; } = "Razor";
-        private string _root;
+        private readonly string _root;
         private readonly IServiceScopeFactory _scopeFactory;
         public RazorTemplateEngine(IServiceScopeFactory service)
         {
@@ -23,22 +23,6 @@ namespace FreeSqlBuilder.TemplateEngine.Implement
             {
                 Directory.CreateDirectory(temp);
             }
-        }
-        public void Initialize(IDictionary<string, object> parameters)
-        {
-            Initialized = true;
-            if (parameters != null)
-            {
-                if (parameters.Value("Name", out string name))
-                {
-                    Name = name;
-                }
-                if (parameters.Value("Root", out string root))
-                {
-                    _root = root;
-                }
-            }
-
         }
 
         public async Task<string> Render(BuildTask context, string viewPath)

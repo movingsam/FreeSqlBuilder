@@ -117,7 +117,7 @@
             <param name="template"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.AddTempalte(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.AddTemplate(FreeSqlBuilder.Core.Template)">
             <summary>
             新增模板
             </summary>
@@ -184,29 +184,6 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
-        </member>
-        <member name="T:FreeSqlBuilder.FreeSqlBuilderExtensions">
-            <summary>
-            代码生成器服务相关拓展
-            </summary>
-        </member>
-        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.AddFreeSqlBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSqlBuilder.Core.TemplateOptions})">
-            <summary>
-            添加FreeSqlGen相关 
-            模板地址默认:DefaultTemplatePath = "RazorTemplate"
-            sqlite持久化默认地址 SqliteDbConnectionString="Data Source=fsbuilder.db;Version=3"
-            
-            </summary>
-            <param name="services"></param>
-            <param name="setupAction">生成器模板配置项</param>
-        </member>
-        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.Aop_CommandAfter(System.Object,FreeSql.Aop.CommandAfterEventArgs,Microsoft.Extensions.Logging.ILogger)">
-            <summary>
-            sql监控
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-            <param name="logger"></param>
         </member>
         <member name="T:FreeSqlBuilder.Modals.Base.IPage">
             <summary>
@@ -714,6 +691,29 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.FreeSqlBuilderExtensions">
+            <summary>
+            代码生成器服务相关拓展
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.FreeSqlBuilderExtensions.AddFreeSqlBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSqlBuilder.Core.TemplateOptions})">
+            <summary>
+            添加FreeSqlGen相关 
+            模板地址默认:DefaultTemplatePath = "RazorTemplate"
+            sqlite持久化默认地址 SqliteDbConnectionString="Data Source=fsbuilder.db;Version=3"
+            
+            </summary>
+            <param name="services"></param>
+            <param name="setupAction">生成器模板配置项</param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.FreeSqlBuilderExtensions.Aop_CommandAfter(System.Object,FreeSql.Aop.CommandAfterEventArgs,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            sql监控
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <param name="logger"></param>
         </member>
     </members>
 </doc>

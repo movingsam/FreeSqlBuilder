@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace FreeSqlBuilder.TemplateEngine
 {
@@ -22,10 +23,12 @@ namespace FreeSqlBuilder.TemplateEngine
         public BuilderOptions CurrentBuilder { get; set; }
         public Project Project { get; set; }
         private readonly ReflectionHelper _reflectionHelper;
+        private readonly ILogger<BuildTask> _logger;
         public BuildTask(IServiceProvider serviceProvider)
         {
             _reflectionHelper = serviceProvider.GetService<ReflectionHelper>();
             _engine = serviceProvider.GetRequiredService<RazorTemplateEngine>();
+            _logger = serviceProvider.GetRequiredService<ILogger<BuildTask>>();
         }
 
         public void InitSetting(string jsonPath = null)
@@ -66,6 +69,8 @@ namespace FreeSqlBuilder.TemplateEngine
                     CurrentBuilder = builder;//记录当前执行的构建器
                     var content = await _engine.Render(this, builder.Template.TemplatePath);
                     await builder.OutPut(tableName, content);
+                    _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
+                    _logger.LogInformation($"内容:{content}");
                 }
             }
             while (Next());

@@ -21,9 +21,9 @@ namespace FreeSqlBuilder.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectService _projectService;
-        private readonly FileProviderHelper fileProvider;
-        private readonly IWebHostEnvironment _webhostEnv;
-        private readonly ReflectionHelper reflection;
+        private readonly FileProviderHelper _fileProvider;
+        private readonly IWebHostEnvironment _webHostEnv;
+        private readonly ReflectionHelper _reflection;
         private readonly BuildTask _buildTask;
         /// <summary>
         /// 控制器构造注入
@@ -32,9 +32,9 @@ namespace FreeSqlBuilder.Controllers
         public ProjectController(IServiceProvider service)
         {
             _projectService = service.GetService<IProjectService>();
-            fileProvider = service.GetService<FileProviderHelper>();
-            _webhostEnv = service.GetService<IWebHostEnvironment>();
-            reflection = service.GetService<ReflectionHelper>();
+            _fileProvider = service.GetService<FileProviderHelper>();
+            _webHostEnv = service.GetService<IWebHostEnvironment>();
+            _reflection = service.GetService<ReflectionHelper>();
             _buildTask = service.GetService<BuildTask>();
         }
         /// <summary>
@@ -195,7 +195,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="template"></param>
         /// <returns></returns>
         [HttpPost("/api/Template")]
-        public async Task<IActionResult> AddTempalte([FromBody] Template template)
+        public async Task<IActionResult> AddTemplate([FromBody] Template template)
         {
             return Ok(await _projectService.AddTemplate(template));
         }
@@ -206,7 +206,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/DriveInofs")]
         public async Task<IActionResult> GetDriveInfos()
         {
-            return Ok(await fileProvider.GetDriveInfos());
+            return Ok(await _fileProvider.GetDriveInfos());
         }
         /// <summary>
         /// 通过目录获取下一层级的目录
@@ -216,7 +216,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/DriveInfos/Dir")]
         public async Task<IActionResult> GetDir(string path)
         {
-            return Ok(await fileProvider.GetPathExsitDir(path));
+            return Ok(await _fileProvider.GetPathExsitDir(path));
 
         }
 
@@ -229,7 +229,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/File/{type}")]
         public async Task<IActionResult> GetCshtml(string path, [FromRoute]string type)
         {
-            return Ok(await fileProvider.GetPathExsitCshtml(path, type));
+            return Ok(await _fileProvider.GetPathExsitCshtml(path, type));
         }
         /// <summary>
         /// 获取cshtml相关内容
@@ -239,7 +239,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/Cshtml/Import")]
         public async Task<IActionResult> ImportCshtml(string path)
         {
-            return Ok(await fileProvider.GetCshtml(path));
+            return Ok(await _fileProvider.GetCshtml(path));
         }
         /// <summary>
         /// 获取当前项目的根目录+模板路径
@@ -248,7 +248,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/RootPath")]
         public IActionResult GetRootPath()
         {
-            var path = Path.Combine(_webhostEnv.ContentRootPath, "Template", "Razor");
+            var path = Path.Combine(_webHostEnv.ContentRootPath, "Template", "Razor");
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -264,7 +264,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/AllTable/{entityAssemblyName}")]
         public async Task<IActionResult> GetAllDbTable(string entityAssemblyName,string entityBaseName)
         {
-            var res = (await reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
+            var res = (await _reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
             return Ok(res);
         }
         /// <summary>
@@ -274,7 +274,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/BaseClass/{entityAssemblyName}")]
         public async Task<IActionResult> GetAllAbstractClass(string entityAssemblyName)
         {
-            return Ok(await reflection.GetAbstractClass(entityAssemblyName));
+            return Ok(await _reflection.GetAbstractClass(entityAssemblyName));
         }
         /// <summary>
         /// 获取程序集名称项
@@ -283,7 +283,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/Assemblies")]
         public async Task<IActionResult> GetAssemblies()
         {
-            return Ok(await reflection.GetAssembliesName());
+            return Ok(await _reflection.GetAssembliesName());
         }
         /// <summary>
         /// 生成项目

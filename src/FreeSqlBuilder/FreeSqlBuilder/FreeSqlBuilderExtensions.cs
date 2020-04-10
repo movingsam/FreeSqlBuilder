@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace FreeSqlBuilder
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 代码生成器服务相关拓展
@@ -29,19 +30,19 @@ namespace FreeSqlBuilder
         {
             var options = new TemplateOptions();
             setupAction?.Invoke(options);
-            if (string.IsNullOrWhiteSpace(options.SqliteDbConnectionString)) throw new Exception("SqliteDbConnectionString必须填写");
+            if (string.IsNullOrWhiteSpace(options.DbSet.ConnectionString)) throw new Exception("ConnectionString必须填写");
             services.AddSingleton(options);//配置导入
             services.AddMvc(opt => opt.EnableEndpointRouting = false)
                 .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确
                 .AddRazorRuntimeCompilation();//MVC动态编译
             services.AddScoped<IProjectService, ProjectService>();//项目核心服务
-            services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文乱码
+            services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文编码处理
             services.AddSingleton<FileProviderHelper>();//文件相关处理
             services.AddMemoryCache();
             services.AddSingleton<IFreeSql<FsBuilder>>(x =>
                 {
                     var builder = new FreeSql.FreeSqlBuilder()
-                                .UseConnectionString(dataType: DataType.Sqlite, options.SqliteDbConnectionString)
+                                .UseConnectionString(dataType: options.DbSet.DbType, options.DbSet.ConnectionString)
                                 .UseAutoSyncStructure(true)
                                 .Build<FsBuilder>();
                     builder.Aop.CommandAfter += (s, e) => Aop_CommandAfter(s, e, x.GetService<ILogger<IFreeSql>>());
