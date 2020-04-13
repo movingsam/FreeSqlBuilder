@@ -158,7 +158,8 @@ namespace FreeSqlBuilder.Core.Utilities
             if (!(column.Attribute?.IsNullable ?? true)) attribute.AppendLine("[Required]");
             if (column.CsType == typeof(string))
             {
-                attribute.AppendLine($"[MaxLength({column.Attribute.StringLength})]");
+                var length = column.Attribute.StringLength == 0 ? 255 : column.Attribute.StringLength;
+                attribute.AppendLine($"[MaxLength({length})]");
             }
             return attribute.ToString();
         }

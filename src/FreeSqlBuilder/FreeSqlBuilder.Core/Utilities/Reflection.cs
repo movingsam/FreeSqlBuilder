@@ -583,14 +583,18 @@ namespace FreeSqlBuilder.Core.Utilities
             {
                 return string.Empty;
             }
-            if (type == typeof(string)) return "string";
-            if (type == typeof(bool)) return "bool";
+            if (type == typeof(string) || type == typeof(String)) return "string";
+            if (type == typeof(bool) || type == typeof(Boolean)) return "bool";
             if (type == typeof(Guid)) return "Guid";
             if (type == typeof(Guid?)) return "Guid?";
-            if (type == typeof(int)) return "int";
-            if (type == typeof(int?)) return "int?";
-            if (type == typeof(double)) return "double";
-            if (type == typeof(double?)) return "double?";
+            if (type == typeof(short) || type == typeof(Int16)) return "short";
+            if (type == typeof(short?) || type == typeof(Int16?)) return "short?";
+            if (type == typeof(int) || type == typeof(Int32)) return "int";
+            if (type == typeof(int?) || type == typeof(Int32?)) return "int?";
+            if (type == typeof(long) || type == typeof(Int64)) return "long";
+            if (type == typeof(long?) || type == typeof(Int64?)) return "long?";
+            if (type == typeof(double) || type == typeof(Double)) return "double";
+            if (type == typeof(double?) || type == typeof(Double?)) return "double?";
             if (type == typeof(decimal)) return "decimal";
             if (type == typeof(decimal?)) return "decimal?";
             if (type == typeof(float)) return "float";

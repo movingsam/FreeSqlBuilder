@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using FreeSql.DataAnnotations;
 
 namespace FreeSqlBuilder.Core
@@ -42,6 +43,7 @@ namespace FreeSqlBuilder.Core
         /// <summary>
         /// 模板内容
         /// </summary>
+        [MaxLength(4000)]
         public string TemplateContent { get; set; }
         /// <summary>
         /// 生成的文件后缀

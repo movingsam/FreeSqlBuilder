@@ -55,8 +55,25 @@ namespace FreeSqlBuilder.Core.Helper
             var assembly = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName);
             var types = assembly.GetTypes().ToList();
             Type BaseType = string.IsNullOrWhiteSpace(entityBaseName) ? null : assembly.GetType(entityBaseName);
-            var res = GetTypesFromEntityBaseName(types, BaseType).Select(t => _freeSql.CodeFirst.GetTableByEntity(t)).ToList();
+            var res = GetTypesFromEntityBaseName(types, BaseType)
+                .Where(x => GetTableInfos(x) != null)
+                .Select(GetTableInfos).ToList();
             return Task.FromResult(res);
+        }
+        private TableInfo GetTableInfos(Type type)
+        {
+            try
+            {
+                if (_freeSql.CodeFirst.GetTableByEntity(type).Primarys.Any())
+                {
+                    return _freeSql.CodeFirst.GetTableByEntity(type);
+                }
+                return default;
+            }
+            catch
+            {
+                return default;
+            }
         }
         /// <summary>
         /// 从Typelist中删选baseType相关联的类

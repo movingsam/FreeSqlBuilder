@@ -60,7 +60,7 @@ import { Project } from '../modals/project';
         <div id="baseEntity" *ngIf="this.validateForm.get('generatorMode').value === '1'">
           <div nz-col [nzSpan]="14">
             <nz-form-item>
-              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">选择相关程序集/实体jilei </nz-form-label>
+              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">选择相关程序集/实体基类</nz-form-label>
               <nz-form-control [nzSm]="10" [nzXs]="24" >
                     <nz-select formControlName="entityAssemblyName" nzAllowClear nzPlaceHolder="选择程序集" (ngModelChange)="assemblyChange($event)">
                   <nz-option *ngFor="let item of assemblyList" [nzLabel]="item.key" [nzValue]="item.value" ></nz-option>

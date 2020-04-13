@@ -41,10 +41,12 @@ export class TablePreViewComponent implements OnInit, OnChanges {
       .get<TableInfo[]>(`/api/AllTable/${this.entityAssemblyName}?entityBaseName=${this.entityBaseName}`)
       .subscribe((data) => {
         const ignores = this.ignoreTables.split(',');
-        if (ignores.length > 0 && ignores[0] !== '') {
-          console.log(ignores.length, 'ignores');
+        if (ignores && ignores.length > 0 && ignores[0] !== '') {
           ignores.forEach(ignore => {
-            data.filter(d => d.csName === ignore)[0].isIgnore = true;
+            const current = data.filter(d => d.csName === ignore);
+            if (current && current.length > 0) {
+              current[0].isIgnore = true;
+            }
           });
         }
         this.listOfData = data;
