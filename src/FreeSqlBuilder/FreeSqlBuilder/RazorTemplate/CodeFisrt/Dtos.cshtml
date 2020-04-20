@@ -6,11 +6,11 @@
     var project = Model.Project;
     var table = Model.CurrentTable;
     var builder = Model.CurrentBuilder;
-    var navigates = Model.GetNavigates();
+    var navigates = table.Properties.Keys.Except(table.Columns.Keys);
 
 }
 
-using @table.Type.Namespace;
+using SFast.Infrastructure.Dtos;
 @table.GetNameSpaceUsing()
 
 namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
@@ -30,7 +30,7 @@ namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTable
         @Html.NewLine()
         }
         @foreach (var nav in navigates) { 
-        @:public @Reflection.ToCsType(nav.Type) @nav.CsName { get; set; }
+        @:public @Reflection.ToCsType(table.Properties.FirstOrDefault(p=>p.Key == nav).Value.PropertyType) @nav { get; set; }
         }
     }
 }

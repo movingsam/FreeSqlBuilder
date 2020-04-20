@@ -10,6 +10,8 @@
     var className = builder.GetName(table.CsName);
 }
 
+using SFast.Infrastructure.Dtos;
+using System.Collections.Generic;
 @table.GetNameSpaceUsing()
 
 namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))

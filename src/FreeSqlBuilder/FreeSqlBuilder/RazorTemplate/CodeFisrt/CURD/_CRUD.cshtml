@@ -24,35 +24,39 @@
 @(Html.NewLine($"#region {table?.Comment}相关增删改查"))
 @Html.PadLeft(4)@($"{table?.Comment}分页查询".GetCSharpSummary())
 @Html.PadLeft(4)public async Task<@(project.GetPageViewDto(table.CsName))>Query@(table.CsName)Page (@project.GetPagedDto(table.CsName) dto){
-@($@"var res = await {repName}.Select{includeStr}{includeManysStr}.Count(out var totalCount)
-.OrderBy(dto.SortField)
-.Page(dto.PageNumber,dto.PageSize)
-.ToListAsync();")
-var datas = Mapper.Map<@($"List<{project.GetDto(table.CsName)}>")>(res);
-dto.TotalCount = totalCount;
-return new @(project.GetPageViewDto(table.CsName))(dto,datas);
+@($@"
+    var param = dto as IPaged;
+    var res = await {repName}.Select{includeStr}{includeManysStr}
+                             .Page(ref param)
+                             .ToListAsync();")
+        var datas = Mapper.Map<@($"List<{project.GetDto(table.CsName)}>")>(res);
+        return new @(project.GetPageViewDto(table.CsName))(param, datas);
 }
 @Html.PadLeft(4)@($"{table.Comment}新增".GetCSharpSummary())
 @Html.PadLeft(4)public async Task<@("bool")>Add@(table.CsName) (@project.GetPostDataDto(table.CsName) dto){
-    @($"await {repName}.InsertAsync(Mapper.Map<{table.CsName}>(dto));")
-await UowManager.CommitAsync();
-return true;
+@($@"
+     await {repName}.InsertAsync(Mapper.Map<{table.CsName}>(dto));")
+     await UowManager.CommitAsync();
+     return true;
 }
 @Html.PadLeft(4)@($"{table.Comment}修改".GetCSharpSummary())
 @Html.PadLeft(4)public async Task<@("bool")>Update@(table.CsName) (@project.GetPostDataDto(table.CsName) dto){
-        @($"await {repName}.UpdateAsync(Mapper.Map<{table.CsName}>(dto));")
-await UowManager.CommitAsync();
-return true;
+     @($"await {repName}.UpdateAsync(Mapper.Map<{table.CsName}>(dto));")
+     await UowManager.CommitAsync();
+     return true;
 }
 @Html.PadLeft(4)@($"{table.Comment}删除".GetCSharpSummary())
-@Html.PadLeft(4)public async Task<@("bool")> Delete@(table.CsName)(@table.GetPrimarysName()@("[]") ids){
-@($"await {repName}.DeleteAsync(x=>ids.Contains(x.Id));")
-await UowManager.CommitAsync();
-return true;
+@Html.PadLeft(4)public async Task<@("bool")> Delete@(table.CsName)(List<@table.GetPrimarysName()> ids){
+@($@"
+      await {repName}.DeleteAsync(x=>ids.Contains(x.Id));")
+      await UowManager.CommitAsync();
+      return true;
 }
 @Html.PadLeft(4)@($"{table.Comment}查询".GetCSharpSummary())
 @Html.PadLeft(4)public async Task<@project.GetDto(table.CsName)> Get@(table.CsName) (@table.GetPrimarysName() id){
-    @($@"var res = await {repName}.Select{includeStr}{includeManysStr}.Where(x=>x.Id == id).ToOneAsync();")
-return Mapper.Map<@($"{project.GetDto(table.CsName)}")>(res);
+@($@"
+      var res = await {repName}.Select{includeStr}{includeManysStr}.Where(x=>x.Id == id).ToOneAsync();")
+      return Mapper.Map<@($"{project.GetDto(table.CsName)}")>(res);
 }
 @(Html.NewLine("#endregion"))
+@(Html.NewLine())

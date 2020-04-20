@@ -7,8 +7,9 @@
     var builder = Model.CurrentBuilder;
 }
 
+using SFast.Infrastructure.Dtos;
 using System;
-using GRES.Framework.Dtos;
+
 namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
     public class @builder.GetName(table.CsName) : RequestDtoBase

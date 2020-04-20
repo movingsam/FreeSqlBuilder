@@ -5,16 +5,22 @@
     var project = Model.Project;
     var table = Model.CurrentTable;
     var builder = Model.CurrentBuilder;
+    var name = builder.GetName(table.CsName);
+    var isTree = (table.Properties.Keys.Intersect(new[] { "Level", "ParentId", "Parent", "Children", "NodePath", "IsDeleted", "Enabled" })).Count() == 7;
+    var baseClass = isTree ? $"ITreeRepository<{table.CsName},{table.GetPrimarysName()},{table.GetPrimarysName()}?,I{project.ProjectInfo.ProjectName}DbContext>"
+        : $"IRepository<{table.CsName},I{project.ProjectInfo.ProjectName}DbContext>";
 }
 
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SFast.Infrastructure.Datas.Repository;
+using @table.Type.Namespace;
+using SFast.Core;
 
-namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/", "."))
 {
-
-    public interface @(builder.GetName(table.CsName)) :IRepository<@(table.CsName)@(",")I@(project.ProjectInfo.ProjectName)DbContext>
+    public interface @name : @baseClass
     {
     }
-}
+    }

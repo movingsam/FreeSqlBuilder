@@ -5,11 +5,17 @@
     var project = Model.Project;
     var allTable = Model.AllTable;
     string[] allDtos = { "Dtos", "PostDataDto", "PageViewDto" };
+    var nameSpace = allTable.Select(x => x.Type.Namespace).Distinct();
 }
 
 using AutoMapper;
-using GRES.Abstractes.Dtos.Users;
-using GRES.Abstractes.Entities;
+@foreach (var table in allTable)
+{
+@:using @(project.ProjectInfo.ProjectName).@("Dtos.{TableName}".Replace("{TableName}",table.CsName));
+}
+@foreach (var nameSpac in nameSpace) {
+@:using @nameSpac;
+}
 
 namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath("").Replace("/","."))
 {

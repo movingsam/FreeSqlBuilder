@@ -61,7 +61,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         {
             StringBuilder csharpSummary = new StringBuilder();
             csharpSummary.AppendLine();
-            csharpSummary.AppendLine("///<summary>");
+            csharpSummary.AppendLine("        ///<summary>");
             if (!string.IsNullOrWhiteSpace(summary))
             {
                 if (summary.Contains(Environment.NewLine))
@@ -73,15 +73,15 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                             continue;
                         }
 
-                        csharpSummary.AppendLine($"/// {summaryLine}");
+                        csharpSummary.AppendLine($"        /// {summaryLine}");
                     }
                 }
                 else
                 {
-                    csharpSummary.AppendLine($"/// {summary}");
+                    csharpSummary.AppendLine($"        /// {summary}");
                 }
             }
-            csharpSummary.Append("///</summary>");
+            csharpSummary.Append("        ///</summary>");
             return csharpSummary.ToString();
         }
 
@@ -157,11 +157,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         {
             StringBuilder attribute = new StringBuilder();
             attribute.AppendLine();
-            if (!(column.Attribute?.IsNullable ?? true)) attribute.AppendLine("[Required]");
+            if (!(column.Attribute?.IsNullable ?? true)) attribute.AppendLine("        [Required]");
             if (column.CsType == typeof(string))
             {
                 var length = column.Attribute.StringLength == 0 ? 255 : column.Attribute.StringLength;
-                attribute.AppendLine($"[MaxLength({length})]");
+                attribute.AppendLine($"        [MaxLength({length})]");
             }
             return attribute.ToString();
         }
@@ -265,11 +265,15 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             return Reflection.ToCsType(info.CsType);
         }
 
-        public static List<TableInfo> GetNavigates(this BuildTask task)
+        public static List<KeyValuePair<string, TableInfo>> GetNavigates(this BuildTask task)
         {
-            var navigateKeys = task.CurrentTable.Columns.Keys.Except(task.CurrentTable.Properties.Keys);
+            var navigateKeys = task.CurrentTable.Properties.Keys.Except(task.CurrentTable.Columns.Keys);
             var types = navigateKeys.Select(t => task.CurrentTable.Properties.FirstOrDefault(p => p.Key == t).Value.PropertyType).ToList();
-            return task.GAllTable.Where(g => types.Contains(g.Type)).ToList();
+            return task.GAllTable.Where(g => types.Contains(g.Type))
+                .Select(s =>
+                new KeyValuePair<string, TableInfo>
+                (task.CurrentTable.Properties.FirstOrDefault(p => p.Value == s.Type).Key, s)
+                ).ToList();
 
         }
         /// <summary>
