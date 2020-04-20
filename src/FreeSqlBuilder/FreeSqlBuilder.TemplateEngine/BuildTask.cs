@@ -1,7 +1,6 @@
 ﻿using FreeSql.Internal.Model;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Helper;
-using FreeSqlBuilder.Core.Utilities;
 using FreeSqlBuilder.TemplateEngine.Implement;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -10,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using FreeSqlBuilder.TemplateEngine.Utilities;
 
 namespace FreeSqlBuilder.TemplateEngine
 {
@@ -19,6 +19,7 @@ namespace FreeSqlBuilder.TemplateEngine
         private RazorTemplateEngine _engine;
         private int CurrentIndex { get; set; } = 0;
         public TableInfo[] AllTable { get; set; }
+        public TableInfo[] GAllTable { get; set; }
         public TableInfo CurrentTable => AllTable[CurrentIndex];
         public BuilderOptions CurrentBuilder { get; set; }
         public Project Project { get; set; }
@@ -50,9 +51,17 @@ namespace FreeSqlBuilder.TemplateEngine
                 case GeneratorMode.DbFirst:
                     break;
                 case GeneratorMode.CodeFirst:
-                    this.AllTable = _reflectionHelper
-                        .GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result
-                        .Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.CsName)).ToArray();
+                    var tempRes = _reflectionHelper
+                        .GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result;
+                    this.GAllTable = tempRes.ToArray();
+                    if (this.Project.GeneratorModeConfig.PickType == PickType.Ignore)
+                    {
+                        this.AllTable = tempRes.Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.CsName)).ToArray();
+                    }
+                    else
+                    {
+                        this.AllTable = tempRes.Where(x => this.Project.GeneratorModeConfig.IncludeTable.Contains(x.CsName)).ToArray();
+                    }
                     break;
                 default:
                     break;

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using FreeSqlBuilder.Core;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FreeSqlBuilder.Core.Utilities
+namespace FreeSqlBuilder.TemplateEngine.Utilities
 {
     public static class Extensions
     {
@@ -29,7 +30,6 @@ namespace FreeSqlBuilder.Core.Utilities
             {
                 File.Delete(outputPath);
             }
-
             await using var streamWriter = new StreamWriter(outputPath);
             await streamWriter.WriteAsync(content.Trim());
         }

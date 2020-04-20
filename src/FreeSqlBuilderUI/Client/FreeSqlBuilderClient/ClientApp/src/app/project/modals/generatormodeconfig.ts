@@ -16,6 +16,7 @@ export class GeneratorModeConfig {
         this.entityBaseName = '';
         this.ignoreTables = '';
         this.includeTables = '';
+        this.pickType = PickType.Ignore;
     }
     id: number;
     projectId: number;
@@ -26,6 +27,7 @@ export class GeneratorModeConfig {
     includeTables: string;
     ignoreTables: string;
     entityBaseName: string;
+    pickType: PickType = PickType.Ignore;
 }
 export class TableInfo {
     isServiceTable: boolean;
@@ -45,6 +47,9 @@ export class ColumnInfo {
     dbColumnName: string;
     dbType: string;
     csType: string;
+}
+export enum PickType {
+    Pick, Ignore
 }
 
 // tslint:disable-next-line: no-use-before-declare

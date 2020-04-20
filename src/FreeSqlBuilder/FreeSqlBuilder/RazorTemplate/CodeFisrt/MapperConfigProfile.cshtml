@@ -1,4 +1,4 @@
-﻿@using FreeSqlBuilder.Core.Utilities
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
 @model FreeSqlBuilder.TemplateEngine.BuildTask
 @{
     Layout = "_Layout.cshtml";
@@ -11,7 +11,7 @@ using AutoMapper;
 using GRES.Abstractes.Dtos.Users;
 using GRES.Abstractes.Entities;
 
-namespace @(project.ProjectInfo.ProjectName).Abstractes.AutoMapperConfig
+namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath("").Replace("/","."))
 {
     /// <summary>
     /// automapper配置文件

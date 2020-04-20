@@ -19,13 +19,13 @@ import { Project } from '../modals/project';
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="rootPath" nzRequired>项目根目录路径</nz-form-label>
         <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="根目录路径必须填写">
-          <input nz-input type="text" id="rootPath" formControlName="rootPath" placeholder="项目文件最终输出路径=项目根目录路径\输出路径" />
+          <input nz-input type="text" id="rootPath" formControlName="rootPath" placeholder="项目文件最终输出路径=项目根目录路径/输出路径" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="outPutPath" nzRequired>输出路径</nz-form-label>
         <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="输出路径必须填写" >
-          <input nz-input type="text" formControlName="outPutPath" id="outPutPath" placeholder="项目文件最终输出路径=项目根目录路径\输出路径" />
+          <input nz-input type="text" formControlName="outPutPath" id="outPutPath" placeholder="项目文件最终输出路径=项目根目录路径/输出路径" />
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
@@ -99,7 +99,6 @@ export class ProjectinfoComponent implements OnInit {
     });
   }
   submit(): void {
-    console.log(this.projectInfo, 'info');
     if (this.projectInfo.id && this.projectInfo.id !== 0) {
       console.log(`put`);
       this.client.put<Project>(`/api/project/Info`, this.projectInfo)

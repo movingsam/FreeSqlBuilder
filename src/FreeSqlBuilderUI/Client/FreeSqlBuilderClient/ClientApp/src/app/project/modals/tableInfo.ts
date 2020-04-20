@@ -12,6 +12,7 @@ export class TableInfo {
     columns = new Map<string, ColumnInfo>().set('', new ColumnInfo());
     disableSyncStructure = false;
     isIgnore = false;
+    isPick = false;
 
 }
 

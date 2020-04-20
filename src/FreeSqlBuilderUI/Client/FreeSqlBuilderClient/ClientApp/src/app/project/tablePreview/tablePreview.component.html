@@ -18,7 +18,7 @@
         <td nzBreakWord>{{ data.comment }}</td>
         <td nzBreakWord>{{ getPkName(data)}}</td>
         <td nzBreakWord nzRight="0px">
-          <a (click)="ignoreTable(data)">{{data.isIgnore?'恢复':'忽略'}}</a>
+          <a (click)="ignoreTable(data)">{{getTypeBtnText(data)}}</a>
         </td>
       </tr>
       <tr [nzExpand]="mapOfExpandData[data.csName]">
@@ -26,9 +26,9 @@
         <td colspan="5">
           <nz-card [nzBordered]="false" nzTitle="表属性">
             <p *ngFor="let item of data.columnsByCs">
-              <label class="lblCol">名称:{{item.value.csName}} </label>
+              <label class="lblCol">名称:{{item.csName}} </label>
               <nz-divider nzType="vertical"></nz-divider>
-              <label class="lblCol">数据库类型: {{ item.value.dbTypeText}}</label>
+              <label class="lblCol">数据库类型: {{ item.dbTypeText}}</label>
               <nz-divider nzType="vertical"></nz-divider>
             </p>
           </nz-card>

@@ -1,4 +1,4 @@
-﻿@using FreeSqlBuilder.Core.Utilities
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
 @model FreeSqlBuilder.TemplateEngine.BuildTask
 @{
     Layout = "_Layout.cshtml";
@@ -6,11 +6,10 @@
     var table = Model.CurrentTable;
 }
 
-using System;
-using GRES.Framework.Dtos;
-namespace @(project.ProjectInfo.ProjectName).@Model.CurrentBuilder.Name
+
+namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
-    public class @Model.CurrentBuilder.GetName(table.CsName) : PagedDtoBase
+    public class @Model.CurrentBuilder.GetName(table.CsName) : RequestPagedDtoBase
     {
     }
 }

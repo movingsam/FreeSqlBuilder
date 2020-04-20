@@ -19,24 +19,15 @@ namespace FreeSqlBuilder.Modals
         {
             if (info != null)
             {
-                this.ColumnsByCsIgnore = new Dictionary<string, ColumnInfoDto>(info.ColumnsByCsIgnore.Select(x => new KeyValuePair<string, ColumnInfoDto>(x.Key, new ColumnInfoDto(x.Value)))).ToList();
                 this.DisableSyncStructure = info.DisableSyncStructure;
                 this.DbOldName = info.DbOldName;
                 this.DbName = info.DbName;
                 this.CsName = info.CsName;
-                this.Indexes = info.Indexes;
                 this.Primarys = info.Primarys.Select(x => new ColumnInfoDto(x)).ToArray();
-                this.ColumnsByPosition = info.ColumnsByPosition.Select(x => new ColumnInfoDto(x)).ToArray();
                 this.Comment = info.Comment;
-                this.VersionColumn = new ColumnInfoDto(info.VersionColumn);
-                this.ColumnsByCs = new Dictionary<string, ColumnInfoDto>(info.ColumnsByCs.Select(x => new KeyValuePair<string, ColumnInfoDto>(x.Key, new ColumnInfoDto(x.Value)))).ToList();
-                this.Columns = new Dictionary<string, ColumnInfoDto>(info.Columns.Select(x => new KeyValuePair<string, ColumnInfoDto>(x.Key, new ColumnInfoDto(x.Value)))).ToList();
+                this.ColumnsByCs = info.ColumnsByCs.Select(x => new ColumnInfoDto(x.Value)).ToList();
             }
         }
-        /// <summary>
-        /// 忽略的表属性
-        /// </summary>
-        public List<KeyValuePair<string,ColumnInfoDto>> ColumnsByCsIgnore { get; set; }
         /// <summary>
         /// 是否禁用数据库同步
         /// </summary>
@@ -54,29 +45,13 @@ namespace FreeSqlBuilder.Modals
         /// </summary>
         public string CsName { get; set; }
         /// <summary>
-        /// 索引属性
-        /// </summary>
-        public IndexInfo[] Indexes { get; set; }
-        /// <summary>
         /// 主键属性
         /// </summary>
         public ColumnInfoDto[] Primarys { get; set; }
         /// <summary>
-        /// 属性排序信息
-        /// </summary>
-        public ColumnInfoDto[] ColumnsByPosition { get; set; }
-        /// <summary>
-        /// 乐观锁列
-        /// </summary>
-        public ColumnInfoDto VersionColumn { get; set; }
-        /// <summary>
         /// 代码中的属性信息
         /// </summary>
-        public List<KeyValuePair<string, ColumnInfoDto>> ColumnsByCs { get; set; }
-        /// <summary>
-        /// 数据库属性信息
-        /// </summary>
-        public List<KeyValuePair<string, ColumnInfoDto>> Columns { get; set; }
+        public List<ColumnInfoDto> ColumnsByCs { get; set; }
         /// <summary>
         /// 备注
         /// </summary>

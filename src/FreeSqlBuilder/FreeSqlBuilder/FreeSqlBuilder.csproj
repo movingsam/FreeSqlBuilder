@@ -10,11 +10,11 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <DocumentationFile>FreeSql.Generator.xml</DocumentationFile>
+    <DocumentationFile>FreeSqlBuilder.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>D:\Project\FreeSqlGeneratorUI-master\src\FreeSqlBuilder\FreeSqlBuilder\FreeSqlBuilder.xml</DocumentationFile>
+    <DocumentationFile>FreeSqlBuilder.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

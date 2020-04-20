@@ -1,13 +1,15 @@
-﻿using System;
+﻿using FreeSql.DatabaseModel;
+using FreeSql.Internal.Model;
+using FreeSqlBuilder.Core;
+using FreeSqlBuilder.Core.Utilities;
+using FreeSqlBuilder.Core.WordsConvert;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FreeSql.DatabaseModel;
-using FreeSql.Internal.Model;
-using FreeSqlBuilder.Core.WordsConvert;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace FreeSqlBuilder.Core.Utilities
+namespace FreeSqlBuilder.TemplateEngine.Utilities
 {
     public static class RazorExtensions
     {
@@ -16,7 +18,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// </summary>
         /// <param name="htmlHelper"></param>
         /// <returns></returns>
-        public static String NewLine(this IHtmlHelper htmlHelper)
+        public static string NewLine(this IHtmlHelper htmlHelper)
         {
             return Environment.NewLine;
         }
@@ -26,7 +28,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <param name="htmlHelper"></param>
         /// <param name="appendStr"></param>
         /// <returns></returns>
-        public static String NewLine(this IHtmlHelper htmlHelper, string appendStr)
+        public static string NewLine(this IHtmlHelper htmlHelper, string appendStr)
         {
             return Environment.NewLine + appendStr;
         }
@@ -36,9 +38,9 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <param name="htmlHelper"></param>
         /// <param name="totalWidth"></param>
         /// <returns></returns>
-        public static String PadLeft(this IHtmlHelper htmlHelper, int totalWidth)
+        public static string PadLeft(this IHtmlHelper htmlHelper, int totalWidth)
         {
-            return String.Empty.PadLeft(totalWidth);
+            return string.Empty.PadLeft(totalWidth);
         }
         /// <summary>
         /// 右边空格
@@ -46,9 +48,9 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <param name="htmlHelper"></param>
         /// <param name="totalWidth"></param>
         /// <returns></returns>
-        public static String PadRight(this IHtmlHelper htmlHelper, int totalWidth)
+        public static string PadRight(this IHtmlHelper htmlHelper, int totalWidth)
         {
-            return String.Empty.PadRight(totalWidth);
+            return string.Empty.PadRight(totalWidth);
         }
         /// <summary>
         /// 获取cs备注
@@ -66,7 +68,7 @@ namespace FreeSqlBuilder.Core.Utilities
                 {
                     foreach (var summaryLine in summary.Split(Environment.NewLine.ToCharArray()))
                     {
-                        if (String.IsNullOrEmpty(summaryLine))
+                        if (string.IsNullOrEmpty(summaryLine))
                         {
                             continue;
                         }
@@ -222,7 +224,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <returns></returns>
         public static string GetPostDataDto(this Project project, string tableName)
         {
-            return project.GetBuilder("PostDataDto") != null ? project.GetBuilder("PostDataDto").GetName(tableName) : $"{tableName}PostDataDto"; 
+            return project.GetBuilder("PostDataDto") != null ? project.GetBuilder("PostDataDto").GetName(tableName) : $"{tableName}PostDataDto";
         }
         /// <summary>
         /// 获取分页视图Dto名称
@@ -232,7 +234,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <returns></returns>
         public static string GetPageViewDto(this Project project, string tableName)
         {
-            return project.GetBuilder("PageViewDto") != null ? project.GetBuilder("PageViewDto").GetName(tableName) : $"{tableName}PageViewDto"; 
+            return project.GetBuilder("PageViewDto") != null ? project.GetBuilder("PageViewDto").GetName(tableName) : $"{tableName}PageViewDto";
         }
         /// <summary>
         /// 获取分页请求dto
@@ -242,7 +244,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <returns></returns>
         public static string GetPagedDto(this Project project, string tableName)
         {
-            return project.GetBuilder("PagedDtos") != null ? project.GetBuilder("PagedDtos").GetName(tableName) : $"{tableName}PagedDtos"; 
+            return project.GetBuilder("PagedDtos") != null ? project.GetBuilder("PagedDtos").GetName(tableName) : $"{tableName}PagedDtos";
         }
         /// <summary>
         /// 获取主键名
@@ -261,6 +263,56 @@ namespace FreeSqlBuilder.Core.Utilities
         public static string GetCsTypeName(this ColumnInfo info)
         {
             return Reflection.ToCsType(info.CsType);
+        }
+
+        public static List<TableInfo> GetNavigates(this BuildTask task)
+        {
+            var navigateKeys = task.CurrentTable.Columns.Keys.Except(task.CurrentTable.Properties.Keys);
+            var types = navigateKeys.Select(t => task.CurrentTable.Properties.FirstOrDefault(p => p.Key == t).Value.PropertyType).ToList();
+            return task.GAllTable.Where(g => types.Contains(g.Type)).ToList();
+
+        }
+        /// <summary>
+        /// 获取CRUD导航属性
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static List<TableRef> GetNavigations(this CurdTask task)
+        {
+            var navigateKeys = task.CurrentTable.Properties.Keys.Except(task.CurrentTable.Columns.Keys).ToList();
+            var types = navigateKeys.Select(t =>
+                task.CurrentTable.GetTableRef(t, false)).Where(x => x != null).ToList();
+            return types;
+        }
+        /// <summary>
+        /// 获取导航属性关联字符串
+        /// </summary>
+        /// <param name="task"></param>
+        /// <param name="Html"></param>
+        /// <returns></returns>
+        public static string GetIncludeStr(this CurdTask task, IHtmlHelper Html)
+        {
+            var nick = task.Task.CurrentTable.CsName.ToLower();
+            var includes = new List<string>();
+            var includeManys = new List<string>();
+            var navigates = task.GetNavigations();
+            if (navigates.Where(x => x.RefType == FreeSql.Internal.Model.TableRefType.OneToOne)?.Count() > 0)
+            {
+                includes.AddRange(navigates.Where(x => x.RefType == FreeSql.Internal.Model.TableRefType.OneToOne).Select(s => $"Include({nick}=>{nick}.{s.Property.Name})"));
+            }
+            var includeStr = string.Join(Html.NewLine(Html.PadLeft(8) + "."), includes);
+            includeStr = (!string.IsNullOrWhiteSpace(includeStr) ? "." : "") + includeStr;
+            if (navigates.Where(x => x.RefType == FreeSql.Internal.Model.TableRefType.ManyToOne)?.Count() > 0)
+            {
+                includeManys.AddRange(navigates.Where(x => x.RefType == FreeSql.Internal.Model.TableRefType.ManyToOne).Select(s => $"IncludeMany({nick}=>{nick}.{s.Property.Name})"));
+            }
+            if (navigates.Where(x => x.RefType == FreeSql.Internal.Model.TableRefType.ManyToMany)?.Count() > 0)
+            {
+                includeManys.AddRange(navigates.Where(x => x.RefType == FreeSql.Internal.Model.TableRefType.ManyToMany).Select(s => $"IncludeMany({nick}=>{nick}.{s.Property.Name})"));
+            }
+            var includeManysStr = string.Join(Html.NewLine(Html.PadLeft(8) + "."), includeManys);
+            includeManysStr = (!string.IsNullOrWhiteSpace(includeManysStr) ? Html.NewLine(Html.PadLeft(8) + ".") : "") + includeManysStr;
+            return $"{includeStr}{includeManysStr}";
         }
 
     }

@@ -289,11 +289,6 @@
             </summary>
             <param name="info"></param>
         </member>
-        <member name="P:FreeSqlBuilder.Modals.TableInfoDto.ColumnsByCsIgnore">
-            <summary>
-            忽略的表属性
-            </summary>
-        </member>
         <member name="P:FreeSqlBuilder.Modals.TableInfoDto.DisableSyncStructure">
             <summary>
             是否禁用数据库同步
@@ -314,34 +309,14 @@
             Csharp名
             </summary>
         </member>
-        <member name="P:FreeSqlBuilder.Modals.TableInfoDto.Indexes">
-            <summary>
-            索引属性
-            </summary>
-        </member>
         <member name="P:FreeSqlBuilder.Modals.TableInfoDto.Primarys">
             <summary>
             主键属性
             </summary>
         </member>
-        <member name="P:FreeSqlBuilder.Modals.TableInfoDto.ColumnsByPosition">
-            <summary>
-            属性排序信息
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Modals.TableInfoDto.VersionColumn">
-            <summary>
-            乐观锁列
-            </summary>
-        </member>
         <member name="P:FreeSqlBuilder.Modals.TableInfoDto.ColumnsByCs">
             <summary>
             代码中的属性信息
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Modals.TableInfoDto.Columns">
-            <summary>
-            数据库属性信息
             </summary>
         </member>
         <member name="P:FreeSqlBuilder.Modals.TableInfoDto.Comment">

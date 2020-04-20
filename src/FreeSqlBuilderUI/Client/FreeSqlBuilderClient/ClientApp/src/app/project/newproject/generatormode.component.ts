@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzModalService, NzMessageService } from 'ng-zorro-antd';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { GeneratorModeConfig, GeneratorMode } from '../modals/generatormodeconfig';
+import { GeneratorModeConfig, GeneratorMode, PickType } from '../modals/generatormodeconfig';
 import { Item } from '../modals/item';
 import { Project } from '../modals/project';
 
@@ -67,9 +67,9 @@ import { Project } from '../modals/project';
                 </nz-select>
               </nz-form-control>
               <nz-form-control [nzSm]="10" [nzXs]="24" >
-                    <nz-select formControlName="entityBaseName" nzAllowClear nzPlaceHolder="选择基类"  (ngModelChange)="entityBaseChange($event)" >
-                  <nz-option *ngFor="let item of itemList" [nzLabel]="item.key" [nzValue]="item.value"></nz-option>
-                </nz-select>
+                  <nz-select formControlName="entityBaseName" nzAllowClear nzPlaceHolder="选择基类"  (ngModelChange)="entityBaseChange($event)" >
+                    <nz-option *ngFor="let item of itemList" [nzLabel]="item.key" [nzValue]="item.value"></nz-option>
+                  </nz-select>
               </nz-form-control>
             </nz-form-item>
           </div>
@@ -78,13 +78,24 @@ import { Project } from '../modals/project';
               <button nz-button style="width:100%" (click)='submitForm()' [nzType]="'primary'">提交</button>
             </nz-form-control>
           </div>
+          <div nz-col [nzSpan]="14">
+              <nz-form-label nz-col [nzSm]="4" [nzXs]="24">确定实体方式</nz-form-label>
+              <nz-form-control [nzSm]="10" [nzXs]="24" >                
+                <nz-radio-group formControlName="pickType" [nzButtonStyle]="'solid'">
+                  <label nz-radio-button nzValue="0">选中</label>
+                  <label nz-radio-button nzValue="1">忽略</label>
+                </nz-radio-group>
+              </nz-form-control>  
+        </div>
         </div>
       </nz-card>
       <nz-form-item>
       <div nz-col [nzSpan]="24" *ngIf="this.previewShow">
         <app-table-preview  (allTable)="getAllTable($event)"
          [ignoreTables] = "this.generatorModeConfig.ignoreTables"
-         (callBack) = "getIgnoreTables($event)"
+         [pickTables] = "this.generatorModeConfig.includeTables"
+         [pickType] = "this.validateForm.get('pickType').value"
+         (callBack) = "getTables($event)"
          [entityAssemblyName]="this.validateForm.get('entityAssemblyName').value"
          [entityBaseName]="this.validateForm.get('entityBaseName').value">
         </app-table-preview>
@@ -114,10 +125,8 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
     this.project = changes['project']['currentValue'];
-    console.log(this.project, `projectOnChange`);
     if (this.project.generatorModeConfig) {
       this.generatorModeConfig = this.project.generatorModeConfig;
-      console.log(this.project, 'initValidateForm');
       this.initValidateForm();
       this.baseEntity();
     }
@@ -127,6 +136,7 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
     this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
     this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
+    this.generatorModeConfig.pickType = this.validateForm.controls['pickType'].value;
     if (!this.generatorModeConfig.generatorMode) {
       this.message.warning(`未检测到模式无法提交`);
       return;
@@ -172,10 +182,12 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
   }
 
   initValidateForm() {
+    console.log(this.generatorModeConfig.pickType);
     this.validateForm = this.fb.group({
       generatorMode: [`${this.generatorModeConfig.generatorMode}`, [Validators.required]],
       entityBaseName: [`${this.generatorModeConfig.entityBaseName}`, []],
-      entityAssemblyName: [`${this.generatorModeConfig.entityAssemblyName}`, [Validators.required]]
+      entityAssemblyName: [`${this.generatorModeConfig.entityAssemblyName}`, [Validators.required]],
+      pickType: [`${this.generatorModeConfig.pickType}`, [Validators.required]]
     });
   }
   getAssemblies() {
@@ -184,16 +196,12 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     });
   }
   assemblyChange(e): void {
-    console.log(e);
     this.baseEntity();
-    console.log('assemblyChange');
   }
   entityBaseChange(e): void {
     this.preview();
-    console.log('entityBaseChange');
   }
   baseEntity(): void {
-    // this.validateForm.setValue({ 'entityBaseName': [''] });
     this.client.get<Item[]>(`/api/BaseClass/${this.validateForm.controls['entityAssemblyName'].value}`).subscribe((data) => {
       this.itemList = data;
     });
@@ -219,7 +227,11 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
       this.message.warning(`无法找到项目`);
     }
   }
-  getIgnoreTables(e): void {
-    this.generatorModeConfig.ignoreTables = e;
+  getTables(e): void {
+    if (this.validateForm.controls['pickType'].value === "0") {
+      this.generatorModeConfig.includeTables = e;
+    } else {
+      this.generatorModeConfig.ignoreTables = e;
+    }
   }
 }
