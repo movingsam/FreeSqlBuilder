@@ -24,12 +24,12 @@
   </div>
 </div>
 <div nz-col class="steps-action">
-  <nz-button-group [nzSize]="large">
+  <nz-button-group [nzSize]="'large'">
     <button nz-button nzType="default" (click)="pre()" *ngIf="current > 0 && current !== 5"><i nz-icon
         nzType="left"></i>上一步</button>
     <button nz-button nzType="primary" (click)="next()" *ngIf="this.currentFinish[this.current] &&current < 6">下一步<i
         nz-icon nzType="right"></i></button>
-    <button nz-button nzType="primary" [nzSize]="large" class="stepbtn" (click)="finished()" *ngIf="current === 5"><i
+    <button nz-button nzType="primary" [nzSize]="'large'" class="stepbtn" (click)="finished()" *ngIf="current === 5"><i
         nz-icon nzType="check" nzTheme="outline"></i>完成 </button>
   </nz-button-group>
 

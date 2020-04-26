@@ -20,7 +20,7 @@ import { Project } from '../modals/project';
         </nz-form-label>
         <nz-form-control [nzSm]="10" [nzXs]="24" nzErrorTip="CodeFirst/DbFirst">
           <nz-radio-group formControlName="generatorMode">
-            <label nz-radio [nzDisabled]="true" nzValue=0>DbFirst</label>
+            <label nz-radio   nzValue=0>DbFirst</label>
             <label nz-radio nzValue=1>CodeFirst(当前Web项目)</label>
           </nz-radio-group>
         </nz-form-control>
@@ -49,12 +49,17 @@ import { Project } from '../modals/project';
           </div>
           <div nz-col [nzSpan]="10">
             <nz-form-item>
-              <nz-form-label nz-col [nzSm]="8" [nzXs]="24">数据库连接字符串</nz-form-label>
+              <nz-form-label nz-col [nzSm]="6" [nzXs]="24">数据库连接字符串</nz-form-label>
               <nz-form-control [nzSm]="10" [nzXs]="24">
                 <input nz-input type="text" formControlName="dataSourceConnectionStr" id="dataSourceConnectionStr"
                   name='dataSourceConnectionStr' placeholder="数据库连接字符串" />
               </nz-form-control>
             </nz-form-item>
+          <div nz-col [nzSpan]="8">
+            <nz-form-control  [nzSm]="5" [nzXs]="24">
+              <button nz-button style="width:100%" (click)='submitForm()' [nzType]="'primary'">提交</button>
+            </nz-form-control>
+          </div>
           </div>
         </div>
         <div id="baseEntity" *ngIf="this.validateForm.get('generatorMode').value === '1'">
@@ -80,12 +85,12 @@ import { Project } from '../modals/project';
           </div>
           <div nz-col [nzSpan]="14">
               <nz-form-label nz-col [nzSm]="4" [nzXs]="24">确定实体方式</nz-form-label>
-              <nz-form-control [nzSm]="10" [nzXs]="24" >                
+              <nz-form-control [nzSm]="10" [nzXs]="24" >
                 <nz-radio-group formControlName="pickType" [nzButtonStyle]="'solid'">
                   <label nz-radio-button nzValue="0">选中</label>
                   <label nz-radio-button nzValue="1">忽略</label>
                 </nz-radio-group>
-              </nz-form-control>  
+              </nz-form-control>
         </div>
         </div>
       </nz-card>
@@ -132,11 +137,15 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     }
   }
   submitForm() {
+
     this.generatorModeConfig.projectId = this.project.id;
     this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
     this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
     this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
     this.generatorModeConfig.pickType = this.validateForm.controls['pickType'].value;
+    this.generatorModeConfig.dataSource.name = this.validateForm.controls[`dataSourceDb`].value;
+    this.generatorModeConfig.dataSource.dbType = this.validateForm.controls[`dataSourceType`].value;
+    this.generatorModeConfig.dataSource.connectionString = this.validateForm.controls[`dataSourceConnectionStr`].value;
     if (!this.generatorModeConfig.generatorMode) {
       this.message.warning(`未检测到模式无法提交`);
       return;
@@ -145,9 +154,21 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
       this.message.warning(`未检测到相关项目 请先提交项目详情`);
       return;
     }
-    if (this.generatorModeConfig.entityAssemblyName === '') {
-      this.message.warning(`必须选择一个程序集进行反射`);
-      return;
+    if (this.generatorModeConfig.generatorMode === GeneratorMode.CodeFirst) {
+      if (this.generatorModeConfig.entityAssemblyName === '') {
+        this.message.warning(`必须选择一个程序集进行反射`);
+        return;
+      }
+    } else {
+      if (this.generatorModeConfig.dataSource.name === ``) {
+        this.message.warning(`必须填写数据库名称`);
+      }
+      if (!this.generatorModeConfig.dataSource.dbType) {
+        this.message.warning(`必须选择一个数据库类型`);
+      }
+      if (this.generatorModeConfig.dataSource.connectionString === ``) {
+        this.message.warning(`必须填写数据库连接字符串`);
+      }
     }
     if (this.generatorModeConfig.id && this.generatorModeConfig.id !== 0) {
       this.updateConfig();
@@ -187,7 +208,11 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
       generatorMode: [`${this.generatorModeConfig.generatorMode}`, [Validators.required]],
       entityBaseName: [`${this.generatorModeConfig.entityBaseName}`, []],
       entityAssemblyName: [`${this.generatorModeConfig.entityAssemblyName}`, [Validators.required]],
-      pickType: [`${this.generatorModeConfig.pickType}`, [Validators.required]]
+      pickType: [`${this.generatorModeConfig.pickType}`, [Validators.required]],
+      dataSourceType: [`${ this.dataSourceType[this.generatorModeConfig.dataSource.dbType]}`, [Validators.required]],
+      dataSourceDb: [`${this.generatorModeConfig.dataSource.name}`, [Validators.required]],
+      dataSourceConnectionStr: [`${this.generatorModeConfig.dataSource.connectionString}`, [Validators.required]]
+
     });
   }
   getAssemblies() {

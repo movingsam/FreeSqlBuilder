@@ -23,7 +23,7 @@ namespace AngularGenerator
             services.AddFreeSqlBuilder(opt =>
             {
                 opt.DbSet.DbType = DataType.SqlServer;
-                opt.DbSet.ConnectionString = "";
+                opt.DbSet.ConnectionString = "Data Source=.;Initial Catalog=DHQ;User Id=sa;Password=sl52788542;";
             });
         }
 

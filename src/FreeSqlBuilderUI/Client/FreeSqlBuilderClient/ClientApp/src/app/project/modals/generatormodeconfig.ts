@@ -1,11 +1,27 @@
 
+export enum DataType {
+    MySql = 0,
+    SqlServer = 1,
+    PostgreSQL = 2,
+    Oracle = 3,
+    Sqlite = 4,
+    OdbcOracle = 5,
+    OdbcSqlServer = 6,
+    OdbcMySql = 7,
+    OdbcPostgreSQL = 8,
+    Odbc = 9,
+    OdbcDameng = 10,
+    MsAccess = 11
+}
 export class DataSource {
-    id: number;
-    name: string;
-    dbType: DataType;
-    connectionString: string;
-    generatorModeConfig: GeneratorModeConfig;
-    generatorModeConfigId: number;
+    constructor(public id = 0, public name = ``, public dbType = DataType.SqlServer, public connectionString = ``
+    ) {
+
+    }
+}
+
+export enum PickType {
+    Pick, Ignore
 }
 export class GeneratorModeConfig {
     constructor(projectid: number) {
@@ -48,9 +64,6 @@ export class ColumnInfo {
     dbType: string;
     csType: string;
 }
-export enum PickType {
-    Pick, Ignore
-}
 
 // tslint:disable-next-line: no-use-before-declare
 export class NavigateColumnInfo extends ColumnInfo {
@@ -71,17 +84,3 @@ export enum GeneratorMode {
     CodeFirst
 }
 
-export enum DataType {
-    MySql = 0,
-    SqlServer = 1,
-    PostgreSQL = 2,
-    Oracle = 3,
-    Sqlite = 4,
-    OdbcOracle = 5,
-    OdbcSqlServer = 6,
-    OdbcMySql = 7,
-    OdbcPostgreSQL = 8,
-    Odbc = 9,
-    OdbcDameng = 10,
-    MsAccess = 11
-}

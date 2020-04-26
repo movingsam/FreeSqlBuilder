@@ -273,6 +273,59 @@
             数据 
             </summary>
         </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Id">
+            <summary>唯一标识</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Schema">
+            <summary>SqlServer下是Owner、PostgreSQL下是Schema、MySql下是数据库名</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Name">
+            <summary>表名</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Comment">
+            <summary>表备注，SqlServer下是扩展属性 MS_Description</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Type">
+            <summary>表/视图</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Columns">
+            <summary>列</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.Primarys">
+            <summary>主键/组合</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbTableInfoDto.ForeignsDict">
+            <summary>外键</summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Modals.DbColumnInfoDto">
+            <summary>
+            数据库列相关属性dto
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.Name">
+            <summary>列名</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.DbTypeTextFull">
+            <summary>数据库类型，字符串，varchar(255)</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.MaxLength">
+            <summary>最大长度</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.IsPrimary">
+            <summary>主键</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.IsIdentity">
+            <summary>自增标识</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.IsNullable">
+            <summary>是否可DBNull</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.Coment">
+            <summary>备注</summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.DefaultValue">
+            <summary>数据库默认值</summary>
+        </member>
         <member name="T:FreeSqlBuilder.Modals.ProjectPageRequest">
             <summary>
             项目请求参数
@@ -446,6 +499,12 @@
             </summary>
             <param name="config"></param>
             <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ProjectService.CheckConfig(FreeSqlBuilder.Core.DataSource)">
+            <summary>
+            检测必填项
+            </summary>
+            <param name="ds"></param>
         </member>
         <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
             <summary>

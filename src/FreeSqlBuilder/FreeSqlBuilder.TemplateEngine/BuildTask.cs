@@ -8,6 +8,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FreeSql.DatabaseModel;
+using FreeSqlBuilder.Core.DbFirst;
 using Microsoft.Extensions.Logging;
 using FreeSqlBuilder.TemplateEngine.Utilities;
 
@@ -19,7 +21,9 @@ namespace FreeSqlBuilder.TemplateEngine
         private RazorTemplateEngine _engine;
         private int CurrentIndex { get; set; } = 0;
         public TableInfo[] AllTable { get; set; }
+        public DbTableInfo[] AllDbTable { get; set; }
         public TableInfo[] GAllTable { get; set; }
+        public DbTableInfo CurrentDbTable => AllDbTable[CurrentIndex];
         public TableInfo CurrentTable => AllTable[CurrentIndex];
         public BuilderOptions CurrentBuilder { get; set; }
         public Project Project { get; set; }
@@ -49,6 +53,10 @@ namespace FreeSqlBuilder.TemplateEngine
             switch (this.Project.GeneratorModeConfig.GeneratorMode)
             {
                 case GeneratorMode.DbFirst:
+                    var dbHelper = new DbFirstHelper();
+                    var dataSource = this.Project.GeneratorModeConfig.DataSource;
+                    this.AllDbTable = dbHelper.GetAllTable(
+                         new DbFirstDto(dataSource.Name, dataSource.DbType, dataSource.ConnectionString)).ToArray();
                     break;
                 case GeneratorMode.CodeFirst:
                     var tempRes = _reflectionHelper
@@ -72,14 +80,30 @@ namespace FreeSqlBuilder.TemplateEngine
         {
             do
             {
-                var tableName = CurrentTable.CsName;
-                foreach (var builder in Project.Builders)//构造器
+                if (this.Project.GeneratorModeConfig.GeneratorMode == GeneratorMode.CodeFirst)
                 {
-                    CurrentBuilder = builder;//记录当前执行的构建器
-                    var content = await _engine.Render(this, builder.Template.TemplatePath);
-                    await builder.OutPut(tableName, content);
-                    _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
-                    _logger.LogInformation($"内容:{content}");
+                    var tableName = CurrentTable.CsName;
+                    foreach (var builder in Project.Builders)//构造器
+                    {
+                        CurrentBuilder = builder;//记录当前执行的构建器
+                        var content = await _engine.Render(this, builder.Template.TemplatePath);
+                        await builder.OutPut(tableName, content);
+                        _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
+                        _logger.LogInformation($"内容:{content}");
+                    }
+                }
+                else
+                {
+                    var tableName = CurrentDbTable.Name;
+                    foreach (var builder in Project.Builders)//构造器
+                    {
+                        CurrentBuilder = builder;//记录当前执行的构建器
+                        var content = await _engine.Render(this, builder.Template.TemplatePath);
+                        await builder.OutPut(tableName, content);
+                        _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
+                        _logger.LogInformation($"内容:{content}");
+                    }
+
                 }
             }
             while (Next());
@@ -94,9 +118,18 @@ namespace FreeSqlBuilder.TemplateEngine
 
         public bool Next()
         {
-            if (CurrentIndex == AllTable.Length - 1) return false;
-            CurrentIndex++;
-            return true;
+            if (Project.GeneratorModeConfig.GeneratorMode == GeneratorMode.CodeFirst)
+            {
+                if (CurrentIndex == AllTable.Length - 1) return false;
+                CurrentIndex++;
+                return true;
+            }
+            else
+            {
+                if (CurrentIndex == AllDbTable.Length - 1) return false;
+                CurrentIndex++;
+                return true;
+            }
         }
     }
 }

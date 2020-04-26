@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using FreeSqlBuilder.Core;
+using FreeSqlBuilder.Core.DbFirst;
 using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Modals;
 using FreeSqlBuilder.Modals.Base;
@@ -262,7 +263,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="entityAssemblyName"></param>
         /// <returns></returns>
         [HttpGet("/api/AllTable/{entityAssemblyName}")]
-        public async Task<IActionResult> GetAllDbTable(string entityAssemblyName,string entityBaseName)
+        public async Task<IActionResult> GetAllDbTable(string entityAssemblyName, string entityBaseName)
         {
             var res = (await _reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
             return Ok(res);
@@ -297,6 +298,13 @@ namespace FreeSqlBuilder.Controllers
             _buildTask.ImportSetting(project);
             await _buildTask.Start();
             return Ok();
+        }
+        [HttpPost("DbTableInfo")]
+        public async Task<IActionResult> GetDbTableInfo([FromBody]DbFirstDto dto)
+        {
+            var dbFirstHelper = new DbFirstHelper();
+            var res = dbFirstHelper.GetAllTable(dto);
+            return Ok(res.Select(x => new DbTableInfoDto(x)).ToList());
         }
     }
 }

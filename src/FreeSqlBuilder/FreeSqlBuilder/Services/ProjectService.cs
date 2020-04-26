@@ -88,11 +88,29 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<GeneratorModeConfig> AddGConfig(GeneratorModeConfig config)
         {
+
             var res = await _freeSql.GetRepository<GeneratorModeConfig>().InsertAsync(config);
+            if (config.GeneratorMode == GeneratorMode.DbFirst)
+            {
+                CheckConfig(config.DataSource);
+                config.DataSource.GeneratorModeConfigId = res.Id;
+                var ds = await _freeSql.GetRepository<DataSource>().InsertAsync(config.DataSource);
+                await _freeSql.Update<GeneratorModeConfig>().Set(x => x.DataSourceId, ds.Id).Where(x => x.Id == res.Id)
+                    .ExecuteAffrowsAsync();
+            }
             var project = await this.Get(config.ProjectId);
             project.GeneratorModeConfigId = res.Id;
             await this.Update(project);
             return config;
+        }
+        /// <summary>
+        /// 检测必填项
+        /// </summary>
+        /// <param name="ds"></param>
+        private void CheckConfig(DataSource ds)
+        {
+            if (string.IsNullOrWhiteSpace((ds.ConnectionString))) throw new Exception("连接数据库字符串不能为空");
+            if (string.IsNullOrWhiteSpace(ds.Name)) throw new Exception("数据库名称不能为空");
         }
         /// <summary>
         /// 更新配置 Step2
@@ -102,6 +120,12 @@ namespace FreeSqlBuilder.Services
         public async Task<GeneratorModeConfig> UpdateConfig(GeneratorModeConfig config)
         {
             await _freeSql.GetRepository<GeneratorModeConfig>().UpdateAsync(config);
+            if (config.GeneratorMode == GeneratorMode.DbFirst)
+            {
+                CheckConfig(config.DataSource);
+                var ds = await _freeSql.GetRepository<DataSource>().UpdateAsync(config.DataSource);
+            }
+
             return config;
         }
         /// <summary>
