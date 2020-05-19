@@ -20,22 +20,15 @@ namespace AngularGenerator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFreeSqlBuilder(opt =>
-            {
-                opt.DbSet.DbType = DataType.SqlServer;
-                opt.DbSet.ConnectionString = "Data Source=.;Initial Catalog=DHQ;User Id=sa;Password=sl52788542;";
-            });
+            services.AddFreeSqlBuilder();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMvc();
-            //app.UseFreeSqlBuilderUI(opt =>
-            //{
-            //    opt.Path = "Gen";//可以自行修改url
-            //});
-            app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+            app.UseFreeSqlBuilderUI();
+            //app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
 
         }
     }

@@ -19,7 +19,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             var project = options.Project;
             var root = string.IsNullOrWhiteSpace(project.ProjectInfo.RootPath) ? AppContext.BaseDirectory : project.ProjectInfo.RootPath;
             var rootPath = Path.Combine(root, project.ProjectInfo.OutPutPath);
-            var dirPath = Path.Combine(rootPath, project.ProjectInfo.ReplaceTablePath(tableName), options.ReplaceTablePath(tableName));
+            var dirPath = Path.Combine(rootPath, options.ReplaceTablePath(tableName));
             var outputPath = Path.Combine(dirPath, $"{options.GetName(tableName)}.{options.FileExtensions}");
             if (!Directory.Exists(dirPath))
             {

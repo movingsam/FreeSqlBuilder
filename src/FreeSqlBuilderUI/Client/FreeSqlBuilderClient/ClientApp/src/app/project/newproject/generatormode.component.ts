@@ -204,14 +204,29 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
 
   initValidateForm() {
     console.log(this.generatorModeConfig.pickType);
+    let entityBaseName = ``;
+    let entityAssemblyName = ``;
+    let pickType = ``;
+    let dataSourceType = `Sqlite`;
+    let dataSourceDb = ``;
+    let dataSourceConnectionStr = ``;
+    if (this.generatorModeConfig.generatorMode === GeneratorMode.CodeFirst) {
+      entityBaseName = `${this.generatorModeConfig.entityBaseName}`;
+      entityAssemblyName = `${this.generatorModeConfig.entityAssemblyName}`;
+      pickType = `${this.generatorModeConfig.pickType}`;
+    } else {
+      dataSourceType = `${this.dataSourceType[this.generatorModeConfig.dataSource.dbType]}`;
+      dataSourceDb = `${this.generatorModeConfig.dataSource.name}`;
+      dataSourceConnectionStr = `${this.generatorModeConfig.dataSource.connectionString}`;
+    }
     this.validateForm = this.fb.group({
       generatorMode: [`${this.generatorModeConfig.generatorMode}`, [Validators.required]],
-      entityBaseName: [`${this.generatorModeConfig.entityBaseName}`, []],
-      entityAssemblyName: [`${this.generatorModeConfig.entityAssemblyName}`, [Validators.required]],
-      pickType: [`${this.generatorModeConfig.pickType}`, [Validators.required]],
-      dataSourceType: [`${ this.dataSourceType[this.generatorModeConfig.dataSource.dbType]}`, [Validators.required]],
-      dataSourceDb: [`${this.generatorModeConfig.dataSource.name}`, [Validators.required]],
-      dataSourceConnectionStr: [`${this.generatorModeConfig.dataSource.connectionString}`, [Validators.required]]
+      entityBaseName: [entityBaseName, []],
+      entityAssemblyName: [entityAssemblyName, [Validators.required]],
+      pickType: [pickType, [Validators.required]],
+      dataSourceType: [dataSourceType, [Validators.required]],
+      dataSourceDb: [dataSourceDb, [Validators.required]],
+      dataSourceConnectionStr: [dataSourceConnectionStr, [Validators.required]]
 
     });
   }
@@ -234,16 +249,10 @@ export class GeneratorModeComponent implements OnInit, OnChanges {
     this.preview();
   }
   preview(): void {
-    this.validateForm.controls['entityAssemblyName'].markAsDirty();
-    this.validateForm.controls['entityAssemblyName'].updateValueAndValidity();
-    if (!this.validateForm.invalid) {
-      this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
-      this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
-      this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
-      this.previewShow = true;
-    } else {
-      this.previewShow = false;
-    }
+    this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
+    this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
+    this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
+    this.previewShow = true;
   }
   getAllTable(): void {
     if (this.project) {

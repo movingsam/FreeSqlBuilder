@@ -64,7 +64,8 @@ namespace FreeSqlBuilder.Core.Helper
         {
             try
             {
-                return _freeSql.CodeFirst.GetTableByEntity(type).Primarys.Any() ? _freeSql.CodeFirst.GetTableByEntity(type) : default;
+                //return _freeSql.CodeFirst.GetTableByEntity(type).Primarys.Any() ? _freeSql.CodeFirst.GetTableByEntity(type) : default;
+                return _freeSql.CodeFirst.GetTableByEntity(type);
             }
             catch
             {

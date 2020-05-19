@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.Encodings.Web;
-using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Services;
@@ -11,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace FreeSqlBuilder
 {
     /// <summary>
     /// 代码生成器服务相关拓展

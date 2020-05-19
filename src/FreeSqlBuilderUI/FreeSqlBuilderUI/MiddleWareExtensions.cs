@@ -1,11 +1,10 @@
 ﻿using System;
-using FreeSqlBuilderUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace FreeSqlBuilderUI
 {
     public static class MiddleWareExtensions
     {

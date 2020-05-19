@@ -22,7 +22,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<nz-steps [nzCurrent]=\"current\" nzSize=\"default\">\r\n  <nz-step nzTitle=\"项目基本信息填写\"></nz-step>\r\n  <nz-step nzTitle=\"模式选择\"></nz-step>\r\n  <nz-step nzTitle=\"表构建器参数填写\"></nz-step>\r\n  <nz-step nzTitle=\"全表构建器参数填写\"></nz-step>\r\n  <nz-step nzTitle=\"生成\"></nz-step>\r\n  <nz-step nzTitle=\"查看代码\"></nz-step>\r\n</nz-steps>\r\n<div class=\"steps-content\">\r\n  <app-project-info [projectId]=\"this.projectId\" (callBack)=\"callBack($event)\" *ngIf=\"current === 0\">\r\n  </app-project-info>\r\n  <app-generator-mode [project]=\"this.project\" (callBack)=\"callBack($event)\" *ngIf=\"current === 1\">\r\n  </app-generator-mode>\r\n  <app-builder-container *ngIf=\"current === 2\" (callBack)=\"builderCallBack($event)\" [builders]=\"this.project.builders\"\r\n    [projectid]=\"this.projectId\" [type]=\"0\">\r\n  </app-builder-container>\r\n  <app-builder-container *ngIf=\"current === 3\" [builders]=\"this.project.globalBuilders\" [projectid]=\"this.projectId\"\r\n    [type]=\"1\">\r\n  </app-builder-container>\r\n  <app-build-task (callBack)=\"IsFinish($event)\" *ngIf=\"current === 4\" [projectid]=\"this.projectId\">\r\n  </app-build-task>\r\n  <div *ngIf=\"current === 5\">\r\n    <h3>生成成功 生成路径为：{{this.getCodePath()}}</h3>\r\n  </div>\r\n</div>\r\n<div nz-col class=\"steps-action\">\r\n  <nz-button-group [nzSize]=\"large\">\r\n    <button nz-button nzType=\"default\" (click)=\"pre()\" *ngIf=\"current > 0 && current !== 5\"><i nz-icon\r\n        nzType=\"left\"></i>上一步</button>\r\n    <button nz-button nzType=\"primary\" (click)=\"next()\" *ngIf=\"this.currentFinish[this.current] &&current < 6\">下一步<i\r\n        nz-icon nzType=\"right\"></i></button>\r\n    <button nz-button nzType=\"primary\" [nzSize]=\"large\" class=\"stepbtn\" (click)=\"finished()\" *ngIf=\"current === 5\"><i\r\n        nz-icon nzType=\"check\" nzTheme=\"outline\"></i>完成 </button>\r\n  </nz-button-group>\r\n\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<nz-steps [nzCurrent]=\"current\" nzSize=\"default\">\r\n  <nz-step nzTitle=\"项目基本信息填写\"></nz-step>\r\n  <nz-step nzTitle=\"模式选择\"></nz-step>\r\n  <nz-step nzTitle=\"表构建器参数填写\"></nz-step>\r\n  <nz-step nzTitle=\"全表构建器参数填写\"></nz-step>\r\n  <nz-step nzTitle=\"生成\"></nz-step>\r\n  <nz-step nzTitle=\"查看代码\"></nz-step>\r\n</nz-steps>\r\n<div class=\"steps-content\">\r\n  <app-project-info [projectId]=\"this.projectId\" (callBack)=\"callBack($event)\" *ngIf=\"current === 0\">\r\n  </app-project-info>\r\n  <app-generator-mode [project]=\"this.project\" (callBack)=\"callBack($event)\" *ngIf=\"current === 1\">\r\n  </app-generator-mode>\r\n  <app-builder-container *ngIf=\"current === 2\" (callBack)=\"builderCallBack($event)\" [builders]=\"this.project.builders\"\r\n    [projectid]=\"this.projectId\" [type]=\"0\">\r\n  </app-builder-container>\r\n  <app-builder-container *ngIf=\"current === 3\" [builders]=\"this.project.globalBuilders\" [projectid]=\"this.projectId\"\r\n    [type]=\"1\">\r\n  </app-builder-container>\r\n  <app-build-task (callBack)=\"IsFinish($event)\" *ngIf=\"current === 4\" [projectid]=\"this.projectId\">\r\n  </app-build-task>\r\n  <div *ngIf=\"current === 5\">\r\n    <h3>生成成功 生成路径为：{{this.getCodePath()}}</h3>\r\n  </div>\r\n</div>\r\n<div nz-col class=\"steps-action\">\r\n  <nz-button-group [nzSize]=\"'large'\">\r\n    <button nz-button nzType=\"default\" (click)=\"pre()\" *ngIf=\"current > 0 && current !== 5\"><i nz-icon\r\n        nzType=\"left\"></i>上一步</button>\r\n    <button nz-button nzType=\"primary\" (click)=\"next()\" *ngIf=\"this.currentFinish[this.current] &&current < 6\">下一步<i\r\n        nz-icon nzType=\"right\"></i></button>\r\n    <button nz-button nzType=\"primary\" [nzSize]=\"'large'\" class=\"stepbtn\" (click)=\"finished()\" *ngIf=\"current === 5\"><i\r\n        nz-icon nzType=\"check\" nzTheme=\"outline\"></i>完成 </button>\r\n  </nz-button-group>\r\n\r\n</div>");
 
 /***/ }),
 
@@ -69,20 +69,20 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./src/app/project/modals/generatormodeconfig.ts ***!
   \*******************************************************/
-/*! exports provided: DataSource, GeneratorModeConfig, TableInfo, ColumnInfo, PickType, NavigateColumnInfo, NavigateCategory, GeneratorMode, DataType */
+/*! exports provided: DataType, DataSource, PickType, GeneratorModeConfig, TableInfo, ColumnInfo, NavigateColumnInfo, NavigateCategory, GeneratorMode */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataType", function() { return DataType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataSource", function() { return DataSource; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PickType", function() { return PickType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GeneratorModeConfig", function() { return GeneratorModeConfig; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TableInfo", function() { return TableInfo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ColumnInfo", function() { return ColumnInfo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PickType", function() { return PickType; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigateColumnInfo", function() { return NavigateColumnInfo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavigateCategory", function() { return NavigateCategory; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GeneratorMode", function() { return GeneratorMode; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DataType", function() { return DataType; });
 var __extends = (undefined && undefined.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -99,12 +99,40 @@ var __extends = (undefined && undefined.__extends) || (function () {
 var __importDefault = (undefined && undefined.__importDefault) || function (mod) {
   return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var DataType;
+(function (DataType) {
+    DataType[DataType["MySql"] = 0] = "MySql";
+    DataType[DataType["SqlServer"] = 1] = "SqlServer";
+    DataType[DataType["PostgreSQL"] = 2] = "PostgreSQL";
+    DataType[DataType["Oracle"] = 3] = "Oracle";
+    DataType[DataType["Sqlite"] = 4] = "Sqlite";
+    DataType[DataType["OdbcOracle"] = 5] = "OdbcOracle";
+    DataType[DataType["OdbcSqlServer"] = 6] = "OdbcSqlServer";
+    DataType[DataType["OdbcMySql"] = 7] = "OdbcMySql";
+    DataType[DataType["OdbcPostgreSQL"] = 8] = "OdbcPostgreSQL";
+    DataType[DataType["Odbc"] = 9] = "Odbc";
+    DataType[DataType["OdbcDameng"] = 10] = "OdbcDameng";
+    DataType[DataType["MsAccess"] = 11] = "MsAccess";
+})(DataType || (DataType = {}));
 var DataSource = /** @class */ (function () {
-    function DataSource() {
+    function DataSource(id, name, dbType, connectionString) {
+        if (id === void 0) { id = 0; }
+        if (name === void 0) { name = ""; }
+        if (dbType === void 0) { dbType = DataType.SqlServer; }
+        if (connectionString === void 0) { connectionString = ""; }
+        this.id = id;
+        this.name = name;
+        this.dbType = dbType;
+        this.connectionString = connectionString;
     }
     return DataSource;
 }());
 
+var PickType;
+(function (PickType) {
+    PickType[PickType["Pick"] = 0] = "Pick";
+    PickType[PickType["Ignore"] = 1] = "Ignore";
+})(PickType || (PickType = {}));
 var GeneratorModeConfig = /** @class */ (function () {
     function GeneratorModeConfig(projectid) {
         this.generatorMode = 1;
@@ -136,11 +164,6 @@ var ColumnInfo = /** @class */ (function () {
     return ColumnInfo;
 }());
 
-var PickType;
-(function (PickType) {
-    PickType[PickType["Pick"] = 0] = "Pick";
-    PickType[PickType["Ignore"] = 1] = "Ignore";
-})(PickType || (PickType = {}));
 // tslint:disable-next-line: no-use-before-declare
 var NavigateColumnInfo = /** @class */ (function (_super) {
     __extends(NavigateColumnInfo, _super);
@@ -161,21 +184,6 @@ var GeneratorMode;
     GeneratorMode[GeneratorMode["DbFirst"] = 0] = "DbFirst";
     GeneratorMode[GeneratorMode["CodeFirst"] = 1] = "CodeFirst";
 })(GeneratorMode || (GeneratorMode = {}));
-var DataType;
-(function (DataType) {
-    DataType[DataType["MySql"] = 0] = "MySql";
-    DataType[DataType["SqlServer"] = 1] = "SqlServer";
-    DataType[DataType["PostgreSQL"] = 2] = "PostgreSQL";
-    DataType[DataType["Oracle"] = 3] = "Oracle";
-    DataType[DataType["Sqlite"] = 4] = "Sqlite";
-    DataType[DataType["OdbcOracle"] = 5] = "OdbcOracle";
-    DataType[DataType["OdbcSqlServer"] = 6] = "OdbcSqlServer";
-    DataType[DataType["OdbcMySql"] = 7] = "OdbcMySql";
-    DataType[DataType["OdbcPostgreSQL"] = 8] = "OdbcPostgreSQL";
-    DataType[DataType["Odbc"] = 9] = "Odbc";
-    DataType[DataType["OdbcDameng"] = 10] = "OdbcDameng";
-    DataType[DataType["MsAccess"] = 11] = "MsAccess";
-})(DataType || (DataType = {}));
 
 
 /***/ }),
@@ -712,6 +720,9 @@ var GeneratorModeComponent = /** @class */ (function () {
         this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
         this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
         this.generatorModeConfig.pickType = this.validateForm.controls['pickType'].value;
+        this.generatorModeConfig.dataSource.name = this.validateForm.controls["dataSourceDb"].value;
+        this.generatorModeConfig.dataSource.dbType = this.validateForm.controls["dataSourceType"].value;
+        this.generatorModeConfig.dataSource.connectionString = this.validateForm.controls["dataSourceConnectionStr"].value;
         if (!this.generatorModeConfig.generatorMode) {
             this.message.warning("\u672A\u68C0\u6D4B\u5230\u6A21\u5F0F\u65E0\u6CD5\u63D0\u4EA4");
             return;
@@ -720,9 +731,22 @@ var GeneratorModeComponent = /** @class */ (function () {
             this.message.warning("\u672A\u68C0\u6D4B\u5230\u76F8\u5173\u9879\u76EE \u8BF7\u5148\u63D0\u4EA4\u9879\u76EE\u8BE6\u60C5");
             return;
         }
-        if (this.generatorModeConfig.entityAssemblyName === '') {
-            this.message.warning("\u5FC5\u987B\u9009\u62E9\u4E00\u4E2A\u7A0B\u5E8F\u96C6\u8FDB\u884C\u53CD\u5C04");
-            return;
+        if (this.generatorModeConfig.generatorMode === _modals_generatormodeconfig__WEBPACK_IMPORTED_MODULE_5__["GeneratorMode"].CodeFirst) {
+            if (this.generatorModeConfig.entityAssemblyName === '') {
+                this.message.warning("\u5FC5\u987B\u9009\u62E9\u4E00\u4E2A\u7A0B\u5E8F\u96C6\u8FDB\u884C\u53CD\u5C04");
+                return;
+            }
+        }
+        else {
+            if (this.generatorModeConfig.dataSource.name === "") {
+                this.message.warning("\u5FC5\u987B\u586B\u5199\u6570\u636E\u5E93\u540D\u79F0");
+            }
+            if (!this.generatorModeConfig.dataSource.dbType) {
+                this.message.warning("\u5FC5\u987B\u9009\u62E9\u4E00\u4E2A\u6570\u636E\u5E93\u7C7B\u578B");
+            }
+            if (this.generatorModeConfig.dataSource.connectionString === "") {
+                this.message.warning("\u5FC5\u987B\u586B\u5199\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32");
+            }
         }
         if (this.generatorModeConfig.id && this.generatorModeConfig.id !== 0) {
             this.updateConfig();
@@ -762,7 +786,10 @@ var GeneratorModeComponent = /** @class */ (function () {
             generatorMode: ["" + this.generatorModeConfig.generatorMode, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
             entityBaseName: ["" + this.generatorModeConfig.entityBaseName, []],
             entityAssemblyName: ["" + this.generatorModeConfig.entityAssemblyName, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            pickType: ["" + this.generatorModeConfig.pickType, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]]
+            pickType: ["" + this.generatorModeConfig.pickType, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            dataSourceType: ["" + this.dataSourceType[this.generatorModeConfig.dataSource.dbType], [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            dataSourceDb: ["" + this.generatorModeConfig.dataSource.name, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            dataSourceConnectionStr: ["" + this.generatorModeConfig.dataSource.connectionString, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]]
         });
     };
     GeneratorModeComponent.prototype.getAssemblies = function () {
@@ -832,7 +859,7 @@ var GeneratorModeComponent = /** @class */ (function () {
     GeneratorModeComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-generator-mode',
-            template: "\n    <form nz-form [formGroup]=\"validateForm\" >\n    <nz-form-item>\n        <nz-form-label [nzSm]=\"4\" [nzXs]=\"24\" nzFor=\"generatorMode\" nzRequired>\n          <span>\u751F\u6210\u5668\u6A21\u5F0F\n            <i nz-icon nz-tooltip nzTitle=\"CodeFirst\u4ECE\u4EE3\u7801\u5B9E\u4F53\u6D3E\u751F\u6240\u6709\u903B\u8F91DbFirst\u4ECE\u6570\u636E\u5E93\u7ED3\u6784\u6D3E\u751F\" nzType=\"question-circle\"\n              nzTheme=\"outline\"></i>\n          </span>\n        </nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"CodeFirst/DbFirst\">\n          <nz-radio-group formControlName=\"generatorMode\">\n            <label nz-radio [nzDisabled]=\"true\" nzValue=0>DbFirst</label>\n            <label nz-radio nzValue=1>CodeFirst(\u5F53\u524DWeb\u9879\u76EE)</label>\n          </nz-radio-group>\n        </nz-form-control>\n      </nz-form-item>\n      <nz-card  nzTitle=\"\u6A21\u5F0F\u76F8\u5173\u914D\u7F6E\u9879\">\n        <div id=\"dbSetting\" *ngIf=\"this.validateForm.get('generatorMode').value === '0'\">\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"6\" [nzXs]=\"24\">\u6570\u636E\u5E93\u7C7B\u578B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <nz-select formControlName=\"dataSourceType\">\n                  <nz-option *ngFor=\"let p of this.dataSourceType\" [nzValue]=\"p\" [nzLabel]=\"p\">\n                  </nz-option>\n                </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u6570\u636E\u5E93\u540D</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceDb\" id=\"dataSourceDb\" name='dataSourceDb'\n                  placeholder=\"\u6570\u636E\u5E93\u540D\u79F0\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"8\" [nzXs]=\"24\">\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceConnectionStr\" id=\"dataSourceConnectionStr\"\n                  name='dataSourceConnectionStr' placeholder=\"\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n        </div>\n        <div id=\"baseEntity\" *ngIf=\"this.validateForm.get('generatorMode').value === '1'\">\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u9009\u62E9\u76F8\u5173\u7A0B\u5E8F\u96C6/\u5B9E\u4F53\u57FA\u7C7B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                    <nz-select formControlName=\"entityAssemblyName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u7A0B\u5E8F\u96C6\" (ngModelChange)=\"assemblyChange($event)\">\n                  <nz-option *ngFor=\"let item of assemblyList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\" ></nz-option>\n                </nz-select>\n              </nz-form-control>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                  <nz-select formControlName=\"entityBaseName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u57FA\u7C7B\"  (ngModelChange)=\"entityBaseChange($event)\" >\n                    <nz-option *ngFor=\"let item of itemList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\"></nz-option>\n                  </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"8\">\n            <nz-form-control  [nzSm]=\"5\" [nzXs]=\"24\">\n              <button nz-button style=\"width:100%\" (click)='submitForm()' [nzType]=\"'primary'\">\u63D0\u4EA4</button>\n            </nz-form-control>\n          </div>\n          <div nz-col [nzSpan]=\"14\">\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u786E\u5B9A\u5B9E\u4F53\u65B9\u5F0F</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >                \n                <nz-radio-group formControlName=\"pickType\" [nzButtonStyle]=\"'solid'\">\n                  <label nz-radio-button nzValue=\"0\">\u9009\u4E2D</label>\n                  <label nz-radio-button nzValue=\"1\">\u5FFD\u7565</label>\n                </nz-radio-group>\n              </nz-form-control>  \n        </div>\n        </div>\n      </nz-card>\n      <nz-form-item>\n      <div nz-col [nzSpan]=\"24\" *ngIf=\"this.previewShow\">\n        <app-table-preview  (allTable)=\"getAllTable($event)\"\n         [ignoreTables] = \"this.generatorModeConfig.ignoreTables\"\n         [pickTables] = \"this.generatorModeConfig.includeTables\"\n         [pickType] = \"this.validateForm.get('pickType').value\"\n         (callBack) = \"getTables($event)\"\n         [entityAssemblyName]=\"this.validateForm.get('entityAssemblyName').value\"\n         [entityBaseName]=\"this.validateForm.get('entityBaseName').value\">\n        </app-table-preview>\n      </div>\n      </nz-form-item>\n</form>\n    "
+            template: "\n    <form nz-form [formGroup]=\"validateForm\" >\n    <nz-form-item>\n        <nz-form-label [nzSm]=\"4\" [nzXs]=\"24\" nzFor=\"generatorMode\" nzRequired>\n          <span>\u751F\u6210\u5668\u6A21\u5F0F\n            <i nz-icon nz-tooltip nzTitle=\"CodeFirst\u4ECE\u4EE3\u7801\u5B9E\u4F53\u6D3E\u751F\u6240\u6709\u903B\u8F91DbFirst\u4ECE\u6570\u636E\u5E93\u7ED3\u6784\u6D3E\u751F\" nzType=\"question-circle\"\n              nzTheme=\"outline\"></i>\n          </span>\n        </nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"CodeFirst/DbFirst\">\n          <nz-radio-group formControlName=\"generatorMode\">\n            <label nz-radio   nzValue=0>DbFirst</label>\n            <label nz-radio nzValue=1>CodeFirst(\u5F53\u524DWeb\u9879\u76EE)</label>\n          </nz-radio-group>\n        </nz-form-control>\n      </nz-form-item>\n      <nz-card  nzTitle=\"\u6A21\u5F0F\u76F8\u5173\u914D\u7F6E\u9879\">\n        <div id=\"dbSetting\" *ngIf=\"this.validateForm.get('generatorMode').value === '0'\">\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"6\" [nzXs]=\"24\">\u6570\u636E\u5E93\u7C7B\u578B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <nz-select formControlName=\"dataSourceType\">\n                  <nz-option *ngFor=\"let p of this.dataSourceType\" [nzValue]=\"p\" [nzLabel]=\"p\">\n                  </nz-option>\n                </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u6570\u636E\u5E93\u540D</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceDb\" id=\"dataSourceDb\" name='dataSourceDb'\n                  placeholder=\"\u6570\u636E\u5E93\u540D\u79F0\" />\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"10\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"6\" [nzXs]=\"24\">\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\">\n                <input nz-input type=\"text\" formControlName=\"dataSourceConnectionStr\" id=\"dataSourceConnectionStr\"\n                  name='dataSourceConnectionStr' placeholder=\"\u6570\u636E\u5E93\u8FDE\u63A5\u5B57\u7B26\u4E32\" />\n              </nz-form-control>\n            </nz-form-item>\n          <div nz-col [nzSpan]=\"8\">\n            <nz-form-control  [nzSm]=\"5\" [nzXs]=\"24\">\n              <button nz-button style=\"width:100%\" (click)='submitForm()' [nzType]=\"'primary'\">\u63D0\u4EA4</button>\n            </nz-form-control>\n          </div>\n          </div>\n        </div>\n        <div id=\"baseEntity\" *ngIf=\"this.validateForm.get('generatorMode').value === '1'\">\n          <div nz-col [nzSpan]=\"14\">\n            <nz-form-item>\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u9009\u62E9\u76F8\u5173\u7A0B\u5E8F\u96C6/\u5B9E\u4F53\u57FA\u7C7B</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                    <nz-select formControlName=\"entityAssemblyName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u7A0B\u5E8F\u96C6\" (ngModelChange)=\"assemblyChange($event)\">\n                  <nz-option *ngFor=\"let item of assemblyList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\" ></nz-option>\n                </nz-select>\n              </nz-form-control>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                  <nz-select formControlName=\"entityBaseName\" nzAllowClear nzPlaceHolder=\"\u9009\u62E9\u57FA\u7C7B\"  (ngModelChange)=\"entityBaseChange($event)\" >\n                    <nz-option *ngFor=\"let item of itemList\" [nzLabel]=\"item.key\" [nzValue]=\"item.value\"></nz-option>\n                  </nz-select>\n              </nz-form-control>\n            </nz-form-item>\n          </div>\n          <div nz-col [nzSpan]=\"8\">\n            <nz-form-control  [nzSm]=\"5\" [nzXs]=\"24\">\n              <button nz-button style=\"width:100%\" (click)='submitForm()' [nzType]=\"'primary'\">\u63D0\u4EA4</button>\n            </nz-form-control>\n          </div>\n          <div nz-col [nzSpan]=\"14\">\n              <nz-form-label nz-col [nzSm]=\"4\" [nzXs]=\"24\">\u786E\u5B9A\u5B9E\u4F53\u65B9\u5F0F</nz-form-label>\n              <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" >\n                <nz-radio-group formControlName=\"pickType\" [nzButtonStyle]=\"'solid'\">\n                  <label nz-radio-button nzValue=\"0\">\u9009\u4E2D</label>\n                  <label nz-radio-button nzValue=\"1\">\u5FFD\u7565</label>\n                </nz-radio-group>\n              </nz-form-control>\n        </div>\n        </div>\n      </nz-card>\n      <nz-form-item>\n      <div nz-col [nzSpan]=\"24\" *ngIf=\"this.previewShow\">\n        <app-table-preview  (allTable)=\"getAllTable($event)\"\n         [ignoreTables] = \"this.generatorModeConfig.ignoreTables\"\n         [pickTables] = \"this.generatorModeConfig.includeTables\"\n         [pickType] = \"this.validateForm.get('pickType').value\"\n         (callBack) = \"getTables($event)\"\n         [entityAssemblyName]=\"this.validateForm.get('entityAssemblyName').value\"\n         [entityBaseName]=\"this.validateForm.get('entityBaseName').value\">\n        </app-table-preview>\n      </div>\n      </nz-form-item>\n</form>\n    "
         }),
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"], ng_zorro_antd__WEBPACK_IMPORTED_MODULE_2__["NzModalService"],
             ng_zorro_antd__WEBPACK_IMPORTED_MODULE_2__["NzMessageService"],
@@ -1109,7 +1136,7 @@ var ProjectinfoComponent = /** @class */ (function () {
     ProjectinfoComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-project-info',
-            template: "\n<form nz-form [formGroup]=\"validateForm\" (ngSubmit)=\"submitForm()\">\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzRequired nzFor=\"projectName\">\u9879\u76EE\u540D\u79F0</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"\u8FD9\u91CC\u5199\u4E0B\u9879\u76EE\u540D\u79F0\">\n          <input nz-input formControlName=\"projectName\" id=\"projectName\" placeholder=\"\u9879\u76EE\u540D\u79F0\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzFor=\"rootPath\" nzRequired>\u9879\u76EE\u6839\u76EE\u5F55\u8DEF\u5F84</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"\u6839\u76EE\u5F55\u8DEF\u5F84\u5FC5\u987B\u586B\u5199\">\n          <input nz-input type=\"text\" id=\"rootPath\" formControlName=\"rootPath\" placeholder=\"\u9879\u76EE\u6587\u4EF6\u6700\u7EC8\u8F93\u51FA\u8DEF\u5F84=\u9879\u76EE\u6839\u76EE\u5F55\u8DEF\u5F84\u8F93\u51FA\u8DEF\u5F84\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzFor=\"outPutPath\" nzRequired>\u8F93\u51FA\u8DEF\u5F84</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"\u8F93\u51FA\u8DEF\u5F84\u5FC5\u987B\u586B\u5199\" >\n          <input nz-input type=\"text\" formControlName=\"outPutPath\" id=\"outPutPath\" placeholder=\"\u9879\u76EE\u6587\u4EF6\u6700\u7EC8\u8F93\u51FA\u8DEF\u5F84=\u9879\u76EE\u6839\u76EE\u5F55\u8DEF\u5F84\u8F93\u51FA\u8DEF\u5F84\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzFor=\"author\" nzRequired>\u4F5C\u8005</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\"  nzErrorTip=\"\u4F5C\u8005\u5FC5\u987B\u586B\u5199\">\n          <input nz-input type=\"text\" formControlName=\"author\" id=\"author\" placeholder=\"\u4F5C\u8005\u4F1A\u63D0\u73B0\u5728\u4EE3\u7801\u751F\u6210\u5668\u7684\u5907\u6CE8\u4E2D\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-control  [nzOffset]=\"6\" [nzXs]=\"18\"   >\n          <button nz-button type='submit'   [nzType]=\"'primary'\" >\u63D0\u4EA4</button>\n        </nz-form-control>\n      </nz-form-item>\n</form>\n  ",
+            template: "\n<form nz-form [formGroup]=\"validateForm\" (ngSubmit)=\"submitForm()\">\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzRequired nzFor=\"projectName\">\u9879\u76EE\u540D\u79F0</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"\u8FD9\u91CC\u5199\u4E0B\u9879\u76EE\u540D\u79F0\">\n          <input nz-input formControlName=\"projectName\" id=\"projectName\" placeholder=\"\u9879\u76EE\u540D\u79F0\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzFor=\"rootPath\" nzRequired>\u9879\u76EE\u6839\u76EE\u5F55\u8DEF\u5F84</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"\u6839\u76EE\u5F55\u8DEF\u5F84\u5FC5\u987B\u586B\u5199\">\n          <input nz-input type=\"text\" id=\"rootPath\" formControlName=\"rootPath\" placeholder=\"\u9879\u76EE\u6587\u4EF6\u6700\u7EC8\u8F93\u51FA\u8DEF\u5F84=\u9879\u76EE\u6839\u76EE\u5F55\u8DEF\u5F84/\u8F93\u51FA\u8DEF\u5F84\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzFor=\"outPutPath\" nzRequired>\u8F93\u51FA\u8DEF\u5F84</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\" nzErrorTip=\"\u8F93\u51FA\u8DEF\u5F84\u5FC5\u987B\u586B\u5199\" >\n          <input nz-input type=\"text\" formControlName=\"outPutPath\" id=\"outPutPath\" placeholder=\"\u9879\u76EE\u6587\u4EF6\u6700\u7EC8\u8F93\u51FA\u8DEF\u5F84=\u9879\u76EE\u6839\u76EE\u5F55\u8DEF\u5F84/\u8F93\u51FA\u8DEF\u5F84\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-label [nzSm]=\"6\" [nzXs]=\"24\" nzFor=\"author\" nzRequired>\u4F5C\u8005</nz-form-label>\n        <nz-form-control [nzSm]=\"10\" [nzXs]=\"24\"  nzErrorTip=\"\u4F5C\u8005\u5FC5\u987B\u586B\u5199\">\n          <input nz-input type=\"text\" formControlName=\"author\" id=\"author\" placeholder=\"\u4F5C\u8005\u4F1A\u63D0\u73B0\u5728\u4EE3\u7801\u751F\u6210\u5668\u7684\u5907\u6CE8\u4E2D\" />\n        </nz-form-control>\n      </nz-form-item>\n      <nz-form-item>\n        <nz-form-control  [nzOffset]=\"6\" [nzXs]=\"18\"   >\n          <button nz-button type='submit'   [nzType]=\"'primary'\" >\u63D0\u4EA4</button>\n        </nz-form-control>\n      </nz-form-item>\n</form>\n  ",
             styles: [""]
         }),
         __metadata("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormBuilder"], ng_zorro_antd__WEBPACK_IMPORTED_MODULE_2__["NzModalService"],
