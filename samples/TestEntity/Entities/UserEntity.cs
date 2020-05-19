@@ -9,6 +9,12 @@ namespace TestEntity.Entities
         public Gender Gender { get; set; }
         public string NickName { get; set; }
     }
+
+    public class EntityBase
+    {
+        public long Id { get; set; }
+    }
+
     public class Role : EntityBase
     {
         public string Name { get; set; }

@@ -2,6 +2,11 @@
 ---
 #### 一款以FreeSql为基础的代码生成器中间件
 ---
+#### 环境支持
+- dotnet core 3.1+
+- DotnetCore WebAPI/MVC/(RazorPage 未测试过理论上支持)
+- DB FreeSql驱动支持的理论上支持
+---
 ### 相关组件：
 - FreeSqlBuilder 
 - FreeSqlBuilder.Core
@@ -64,6 +69,26 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 > Step2 - DbFirst
  ![DbFirst](./doc/screen/step2.jpg)
-CodeFirst
-![CodeFirst](./doc/screen/step2codefirst.jpg)
+
+> Step3-1 - 模板配置
+ ![Template](./doc/screen/step3-1.jpg)
+> Step3-2
+ ![addtemplate](./doc/screen/step3-2.jpg)
+> 选择模板
+ ![templatecheck](./doc/screen/templatecheck.jpg)
+> 模板临时查看及编辑
+ ![codeview](./doc/screen/codeview.jpg)
+> 模板查看编辑及调试
+ ![templatereadme](./doc/screen/templatereadme.jpg)
+  [查看传入对象Modal](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/BuildTask.cs)
+  [查看CURD传入对象](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/CurdTask.cs)
+  [查看Project对象](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.Core/Project.cs)
+  [查看帮助类](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/Utilities/RazorExtensions.cs)
+> !!!全局构建器和表构建器类似，不同的是他只会执行一次 而不是每个表都执行一次
+> 注意DbFirst只能拿到CurrentDbTable对象 CurrentTable的对象无法拿到
+> 生成后会返回文件地址 
+
+<!-- > Step4 - 
+CodeFirst -->
+<!-- ![CodeFirst](./doc/screen/step2codefirst.jpg) -->
 
