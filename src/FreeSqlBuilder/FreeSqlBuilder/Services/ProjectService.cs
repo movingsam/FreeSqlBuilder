@@ -2,27 +2,32 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using FreeSql;
 using FreeSqlBuilder.Core;
+using FreeSqlBuilder.Core.Entities;
+using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FreeSqlBuilder.Services
 {
     /// <summary>
     /// 项目服务
     /// </summary>
-    public class ProjectService : IProjectService
+    public class ProjectService : ServiceBase, IProjectService
     {
-        private readonly IFreeSql<FsBuilder> _freeSql;
         private readonly IWebHostEnvironment _webHostEnv;
+        private readonly IProjectRepository _projectRep;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="service"></param>
-        public ProjectService(IServiceProvider service)
+        public ProjectService(IServiceProvider service) : base(service.GetService<IUnitOfWork>(), service.GetService<ILogger<ProjectService>>())
         {
-            _freeSql = service.GetRequiredService<IFreeSql<FsBuilder>>();
+            _projectRep = service.GetService<IProjectRepository>();
             _webHostEnv = service.GetService<IWebHostEnvironment>();
         }
         /// <summary>
@@ -32,12 +37,11 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<PageView<Project>> GetPage(PageRequest request)
         {
-            var res = await _freeSql.GetRepository<Project>().Select
+            var res = await _projectRep.Select
                 .Include(x => x.ProjectInfo)
                 .Include(x => x.GeneratorModeConfig)
                 .Include(x => x.GeneratorModeConfig.DataSource)
-                .IncludeMany(x => x.Builders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.Builder).Include(t => t.Template))
-                .IncludeMany(x => x.GlobalBuilders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.GlobalBuilder).Include(t => t.Template))
+                .IncludeMany(x => x.ProjectBuilders, then => then.Include(t => t.Builder).Include(t => t.Builder.Template))
                 .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword), x => x.ProjectInfo.ProjectName.Contains(request.Keyword))
                 .Count(out var total)
                 .Page(request.PageNumber, request.PageSize)
@@ -50,9 +54,13 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public async Task<Project> Add(Project project)
+        public async Task<Project> Add(Project project, bool autoSave = false)
         {
-            var res = await _freeSql.GetRepository<Project>().InsertAsync(project);
+            var res = await _projectRep.InsertAsync(project);
+            if (autoSave)
+            {
+                this.UnitOfWork.Commit();
+            }
             return res;
         }
         /// <summary>
@@ -60,15 +68,19 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task<Project> AddProjectInfoAsync(ProjectInfo info)
+        public async Task<Project> AddProjectInfoAsync(ProjectInfo info, bool autoSave = false)
         {
-            var res = await _freeSql.Insert(info).ExecuteIdentityAsync();
+            var res = _projectRep.Orm.Insert(info).ExecuteIdentity();
             info.Id = res;
             var project = await this.Add(new Project
             {
                 ProjectInfoId = res
             });
             project.ProjectInfo = info;
+            if (autoSave)
+            {
+                UnitOfWork.Commit();
+            }
             return project;
         }
         /// <summary>
@@ -76,68 +88,13 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public async Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info)
+        public Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info)
         {
-            var res = await _freeSql.Update<ProjectInfo>().SetSource(info).ExecuteAffrowsAsync();
-            return info;
+            var res = _projectRep.Orm.Update<ProjectInfo>(info).ExecuteUpdated().FirstOrDefault();
+            return Task.FromResult(res);
         }
-        /// <summary>
-        /// 新增配置 Step2
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        public async Task<GeneratorModeConfig> AddGConfig(GeneratorModeConfig config)
-        {
 
-            var res = await _freeSql.GetRepository<GeneratorModeConfig>().InsertAsync(config);
-            if (config.GeneratorMode == GeneratorMode.DbFirst)
-            {
-                CheckConfig(config.DataSource);
-                config.DataSource.GeneratorModeConfigId = res.Id;
-                var ds = await _freeSql.GetRepository<DataSource>().InsertAsync(config.DataSource);
-                await _freeSql.Update<GeneratorModeConfig>().Set(x => x.DataSourceId, ds.Id).Where(x => x.Id == res.Id)
-                    .ExecuteAffrowsAsync();
-            }
-            var project = await this.Get(config.ProjectId);
-            project.GeneratorModeConfigId = res.Id;
-            await this.Update(project);
-            return config;
-        }
-        /// <summary>
-        /// 检测必填项
-        /// </summary>
-        /// <param name="ds"></param>
-        private void CheckConfig(DataSource ds)
-        {
-            if (string.IsNullOrWhiteSpace((ds.ConnectionString))) throw new Exception("连接数据库字符串不能为空");
-            if (string.IsNullOrWhiteSpace(ds.Name)) throw new Exception("数据库名称不能为空");
-        }
-        /// <summary>
-        /// 更新配置 Step2
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        public async Task<GeneratorModeConfig> UpdateConfig(GeneratorModeConfig config)
-        {
-            await _freeSql.GetRepository<GeneratorModeConfig>().UpdateAsync(config);
-            if (config.GeneratorMode == GeneratorMode.DbFirst)
-            {
-                CheckConfig(config.DataSource);
-                var ds = await _freeSql.GetRepository<DataSource>().UpdateAsync(config.DataSource);
-            }
 
-            return config;
-        }
-        /// <summary>
-        /// 新增数据库配置 Step2-2
-        /// </summary>
-        /// <param name="dataSource"></param>
-        /// <returns></returns>
-        public async Task<DataSource> AddDataSource(DataSource dataSource)
-        {
-            await _freeSql.Insert(dataSource).ExecuteIdentityAsync();
-            return dataSource;
-        }
         /// <summary>
         /// 新增构建器
         /// </summary>
@@ -175,7 +132,9 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<bool> DelBuilder(long id)
         {
-            return await _freeSql.Delete<BuilderOptions>().Where(x => x.Id == id).ExecuteAffrowsAsync() > 0;
+            await _projectRep.DeleteAsync(id);
+            UnitOfWork.Commit();
+            return true;
         }
         /// <summary>
         /// 删除项目
@@ -184,7 +143,7 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<int> Remove(long id)
         {
-            return await _freeSql.GetRepository<Project>().DeleteAsync(x => x.Id == id);
+            return await _projectRep.DeleteAsync(x => x.Id == id);
         }
         /// <summary>
         /// 更新项目
@@ -193,7 +152,7 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<int> Update(Project project)
         {
-            return await _freeSql.GetRepository<Project>().UpdateAsync(project);
+            return await _projectRep.UpdateAsync(project);
         }
         /// <summary>
         /// 查询项目
@@ -201,13 +160,12 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<Project> Get(long id)
         {
-            return await _freeSql.GetRepository<Project>()
+            return await _projectRep
                 .Select
                 .Include(x => x.ProjectInfo)
                 .Include(x => x.GeneratorModeConfig)
                 .Include(x => x.GeneratorModeConfig.DataSource)
-                .IncludeMany(x => x.Builders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.Builder).Include(t => t.Template))
-                .IncludeMany(x => x.GlobalBuilders.Where(b => b.ProjectId == x.Id), then => then.Where(t => t.Type == BuilderType.GlobalBuilder).Include(t => t.Template))
+                .IncludeMany(x => x.ProjectBuilders, then => then.Include(x => x.Builder).Include(t => t.Builder.Template))
                 .Where(x => x.Id == id)
                 .ToOneAsync();
         }
@@ -218,7 +176,7 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<PageView<Template>> GetTemplatePageAsync(PageRequest request)
         {
-            var res = await _freeSql.GetRepository<Template>().Select
+            var res = await _projectRep.Select
                  .IncludeMany(x => x.BuilderOptions)
                  .Count(out var total)
                  .Page(request.PageNumber, request.PageSize)
@@ -281,118 +239,4 @@ namespace FreeSqlBuilder.Services
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface IProjectService
-    {
-        /// <summary>
-        /// 获取项目分页信息
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        Task<PageView<Project>> GetPage(PageRequest request);
-        /// <summary>
-        /// 新增项目
-        /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
-        Task<Project> Add(Project project);
-        /// <summary>
-        /// #ToDo 数据源新增 #ToDo
-        /// </summary>
-        /// <param name="dataSource"></param>
-        /// <returns></returns>
-        Task<DataSource> AddDataSource(DataSource dataSource);
-        /// <summary>
-        /// 新增配置
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        Task<GeneratorModeConfig> AddGConfig(GeneratorModeConfig config);
-        /// <summary>
-        /// 更新配置
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        Task<GeneratorModeConfig> UpdateConfig(GeneratorModeConfig config);
-        /// <summary>
-        /// 新增项目详情
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
-        Task<Project> AddProjectInfoAsync(ProjectInfo info);
-        /// <summary>
-        /// 更新项目详情
-        /// </summary>
-        /// <param name="info"></param>
-        /// <returns></returns>
-        Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info);
-        /// <summary>
-        /// 新增构建器信息
-        /// </summary>
-        /// <param name="builderOptions"></param>
-        /// <returns></returns>
-        Task<BuilderOptions> AddBuilder(BuilderOptions builderOptions);
-        /// <summary>
-        /// 更新构建器信息
-        /// </summary>
-        /// <param name="builderOptions"></param>
-        /// <returns></returns>
-        Task<BuilderOptions> UpdateBuilder(BuilderOptions builderOptions);
-        /// <summary>
-        /// 删除构建器
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<bool> DelBuilder(long id);
-        /// <summary>
-        /// 获取项目详情
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<Project> Get(long id);
-        /// <summary>
-        /// 删除ID相关项目
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<int> Remove(long id);
-        /// <summary>
-        /// 更新项目
-        /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
-        Task<int> Update(Project project);
-        /// <summary>
-        /// 获取模板
-        /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        Task<PageView<Template>> GetTemplatePageAsync(PageRequest request);
-        /// <summary>
-        /// 新增模板
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        Task<Template> AddTemplate(Template template);
-        /// <summary>
-        /// 删除模板
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<bool> RemoveTemplate(long id);
-        /// <summary>
-        /// 更新模板
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        Task<bool> UpdateTemplate(Template template);
-        /// <summary>
-        /// 获取模板
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task<Template> GetTemplateAsync(long id);
-    }
 }

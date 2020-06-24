@@ -16,7 +16,7 @@
         /// <summary>
         /// 排序字段
         /// </summary>
-        public string SortFields { get; set; } = "Id ";
+        public string SortFields { get; set; } = "a.Id ";
         /// <summary>
         /// 关键字
         /// </summary>

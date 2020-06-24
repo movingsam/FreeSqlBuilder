@@ -21,41 +21,41 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewInfo(FreeSqlBuilder.Core.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewInfo(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             项目资料
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateInfo(FreeSqlBuilder.Core.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateInfo(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             项目资料更新
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Int64)">
             <summary>
             新增配置
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
             <summary>
             配置项更新
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewBuilder(FreeSqlBuilder.Core.BuilderOptions)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
             <summary>
             新增构建器
             </summary>
             <param name="options"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateBuilder(FreeSqlBuilder.Core.BuilderOptions)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
             <summary>
             更新构建器
             </summary>
@@ -83,7 +83,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.Update(FreeSqlBuilder.Core.Project)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.Update(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             更新项目
             </summary>
@@ -110,14 +110,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateTemplate(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             更新模板
             </summary>
             <param name="template"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.AddTemplate(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.AddTemplate(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             新增模板
             </summary>
@@ -495,62 +495,62 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.Add(FreeSqlBuilder.Core.Project)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.Add(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             新增项目
             </summary>
             <param name="project"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             新增项目基础信息 Step1
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             更新项目基础信息 Step1
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddGConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Int64)">
             <summary>
             新增配置 Step2
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.CheckConfig(FreeSqlBuilder.Core.DataSource)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.CheckConfig(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
             检测必填项
             </summary>
             <param name="ds"></param>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
             <summary>
             更新配置 Step2
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddDataSource(FreeSqlBuilder.Core.DataSource)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
             新增数据库配置 Step2-2
             </summary>
             <param name="dataSource"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddBuilder(FreeSqlBuilder.Core.BuilderOptions)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
             <summary>
             新增构建器
             </summary>
             <param name="builderOptions"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateBuilder(FreeSqlBuilder.Core.BuilderOptions)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
             <summary>
             更新构建器
             </summary>
@@ -571,7 +571,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.Update(FreeSqlBuilder.Core.Project)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.Update(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             更新项目
             </summary>
@@ -590,7 +590,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddTemplate(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.AddTemplate(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             新增模板
             </summary>
@@ -604,7 +604,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateTemplate(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             更新模板
             </summary>
@@ -630,56 +630,57 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Add(FreeSqlBuilder.Core.Project)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Add(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             新增项目
             </summary>
             <param name="project"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddDataSource(FreeSqlBuilder.Core.DataSource)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
             #ToDo 数据源新增 #ToDo
             </summary>
             <param name="dataSource"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddGConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Int64)">
             <summary>
             新增配置
             </summary>
             <param name="config"></param>
+            <param name="projectId"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateConfig(FreeSqlBuilder.Core.GeneratorModeConfig)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
             <summary>
             更新配置
             </summary>
             <param name="config"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             新增项目详情
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             更新项目详情
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddBuilder(FreeSqlBuilder.Core.BuilderOptions)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
             <summary>
             新增构建器信息
             </summary>
             <param name="builderOptions"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateBuilder(FreeSqlBuilder.Core.BuilderOptions)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
             <summary>
             更新构建器信息
             </summary>
@@ -707,7 +708,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Update(FreeSqlBuilder.Core.Project)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Update(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             更新项目
             </summary>
@@ -721,7 +722,7 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddTemplate(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.AddTemplate(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             新增模板
             </summary>
@@ -735,7 +736,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateTemplate(FreeSqlBuilder.Core.Template)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             更新模板
             </summary>

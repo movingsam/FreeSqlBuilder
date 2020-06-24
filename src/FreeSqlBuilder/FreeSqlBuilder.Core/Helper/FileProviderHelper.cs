@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using FreeSqlBuilder.Core.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.FileProviders;
 
@@ -81,11 +82,7 @@ namespace FreeSqlBuilder.Core.Helper
         {
             return Task.FromResult(new ImportData(File.ReadAllText(path)));
         }
-        public void ClearTemplate()
-        {
-            var all = this._freeSql.Select<Template>().ToList(x => x.Id);
-            this._freeSql.Delete<Template>().Where(x => all.Contains(x.Id)).ExecuteAffrows();
-        }
+
         /// <summary>
         /// 复制模板文件到项目目录
         /// </summary>
@@ -143,6 +140,7 @@ namespace FreeSqlBuilder.Core.Helper
         }
         private void ImportTemplate(string outPutPath)
         {
+            var allTemplate = _freeSql.Select<Template>().ToList();
             DirectoryInfo dinfo = new DirectoryInfo(outPutPath);
             //注，这里面传的是路径，并不是文件，所以不能包含带后缀的文件                
             foreach (FileSystemInfo f in dinfo.GetFileSystemInfos())
@@ -157,14 +155,12 @@ namespace FreeSqlBuilder.Core.Helper
                         TemplateName = f.Name,
                         TemplatePath = f.FullName
                     };
-                    var template = _freeSql.Select<Template>().Where(x => x.TemplateName == file.TemplateName && x.TemplatePath == file.TemplatePath).ToOne();
+                    var template = allTemplate.FirstOrDefault(x => x.TemplateName == file.TemplateName && x.TemplatePath == file.TemplatePath);
                     if (template != null)
                     {
-                        if (template.TemplateContent != content)
-                        {
-                            template.TemplateContent = content;
-                            _freeSql.Update<Template>().SetSource(template).ExecuteAffrows();
-                        }
+                        if (template.TemplateContent.GetHashCode() == content.GetHashCode()) continue;
+                        template.TemplateContent = content;
+                        _freeSql.Update<Template>().SetSource(template).ExecuteAffrows();
                     }
                     else
                     {

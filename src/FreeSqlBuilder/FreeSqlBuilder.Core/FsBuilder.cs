@@ -1,6 +1,7 @@
-﻿namespace FreeSqlBuilder.Core
+namespace FreeSqlBuilder.Core
 {
     public interface FsBuilder
     {
+        
     }
 }

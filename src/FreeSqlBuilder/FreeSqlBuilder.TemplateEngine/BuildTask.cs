@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FreeSql.DatabaseModel;
 using FreeSqlBuilder.Core.DbFirst;
+using FreeSqlBuilder.Core.Entities;
 using Microsoft.Extensions.Logging;
 using FreeSqlBuilder.TemplateEngine.Utilities;
 
