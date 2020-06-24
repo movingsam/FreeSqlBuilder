@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.DbFirst;
+using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Modals;
 using FreeSqlBuilder.Modals.Base;
@@ -71,10 +72,10 @@ namespace FreeSqlBuilder.Controllers
         /// 新增配置
         /// </summary>
         /// <returns></returns>
-        [HttpPost("Config/New")]
-        public async Task<IActionResult> NewConfig([FromBody]GeneratorModeConfig config)
+        [HttpPost("Config/New/{projectid}")]
+        public async Task<IActionResult> NewConfig([FromBody]GeneratorModeConfig config, [FromRoute]long projectid)
         {
-            return Ok(await _projectService.AddGConfig(config));
+            return Ok(await _projectService.AddGConfig(config, projectid));
         }
         /// <summary>
         /// 配置项更新
@@ -299,6 +300,11 @@ namespace FreeSqlBuilder.Controllers
             await _buildTask.Start();
             return Ok();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
         [HttpPost("DbTableInfo")]
         public async Task<IActionResult> GetDbTableInfo([FromBody]DbFirstDto dto)
         {

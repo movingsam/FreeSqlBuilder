@@ -531,7 +531,7 @@ namespace FreeSqlBuilder.Core.Utilities
                 return type;
             return GetTopBaseType(type.BaseType);
         }
-        public static bool BaseFrome(Type type, Type baseType)
+        public static bool BaseFrom(Type type, Type baseType)
         {
             if (BaseFrome(type, baseType.Name))
             {
@@ -546,12 +546,7 @@ namespace FreeSqlBuilder.Core.Utilities
                 return true;
             }
             var typeInfo = type.GetTypeInfo();
-            if (typeInfo.ImplementedInterfaces.Count() > 0 && typeInfo.ImplementedInterfaces.Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType))
-            {
-                return true;
-            }
-            return false;
-
+            return typeInfo.ImplementedInterfaces.Any() && typeInfo.ImplementedInterfaces.Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == baseType);
         }
         public static bool BaseFrome(Type type, string baseClassName)
         {
@@ -576,13 +571,13 @@ namespace FreeSqlBuilder.Core.Utilities
             if (IsCollection(type)) return false;
             return IsString(type) || IsGuid(type) || IsBool(type) || IsDate(type) || IsEnum(type) || IsInt(type) || IsNumber(type);
         }
-
-        public static string ToCsType(Type type)
+        /// <summary>
+        /// 系统类型转换字符串
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string SystemCsType(Type type)
         {
-            if (type == null)
-            {
-                return string.Empty;
-            }
             if (type == typeof(string) || type == typeof(String)) return "string";
             if (type == typeof(bool) || type == typeof(Boolean)) return "bool";
             if (type == typeof(Guid)) return "Guid";
@@ -599,6 +594,25 @@ namespace FreeSqlBuilder.Core.Utilities
             if (type == typeof(decimal?)) return "decimal?";
             if (type == typeof(float)) return "float";
             if (type == typeof(float?)) return "float?";
+            if (type == typeof(DateTime)) return "DateTime";
+            if (type == typeof(DateTime?)) return "DateTime?";
+            if (type == typeof(DateTimeOffset)) return "DateTimeOffset";
+            if (type == typeof(DateTimeOffset?)) return "DateTimeOffset?";
+            return string.Empty;
+        }
+        /// <summary>
+        /// 转CSharp类型字符串
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string ToCsType(Type type)
+        {
+            if (type == null)
+            {
+                return string.Empty;
+            }
+            var res = SystemCsType(type);
+            if (!string.IsNullOrWhiteSpace(res)) return res;
             if (IsCollection(type))
             {
                 var typeDefinition = type.GetGenericTypeDefinition();
@@ -611,8 +625,9 @@ namespace FreeSqlBuilder.Core.Utilities
                     typeDefinition == typeof(List<>) ? "List" : "";
                 return $"{collectionType}<{types}>";
             }
-
             return type.Name;
         }
+
+
     }
 }

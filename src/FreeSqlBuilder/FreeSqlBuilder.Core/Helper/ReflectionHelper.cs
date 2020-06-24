@@ -21,7 +21,7 @@ namespace FreeSqlBuilder.Core.Helper
         /// <summary>
         /// 反射助手
         /// </summary>
-        private const string SkipAssemblies = "^System|^Mscorlib|^msvcr120|^Netstandard|^Microsoft|^Autofac|^AutoMapper|^EntityFramework|^Newtonsoft|^Castle|^NLog|^Pomelo|^AspectCore|^Xunit|^Nito|^Npgsql|^Exceptionless|^MySqlConnector|^Anonymously Hosted|^libuv|^api-ms|^clrcompression|^clretwrc|^clrjit|^coreclr|^dbgshim|^e_sqlite3|^hostfxr|^hostpolicy|^MessagePack|^mscordaccore|^mscordbi|^mscorrc|sni|sos|SOS.NETCore|^sos_amd64|^SQLitePCLRaw|^StackExchange|^Swashbuckle|WindowsBase|ucrtbase|^DotNetCore.CAP|^MongoDB|^Confluent.Kafka|^librdkafka|^EasyCaching|^RabbitMQ|^Consul|^Dapper|^EnyimMemcachedCore|^Pipelines|^DnsClient|^IdentityModel|^zlib|^YamlDotNet";
+        private const string SkipAssemblies = "^System|^Mscorlib|^msvcr120|^Netstandard|^Microsoft|^Autofac|^AutoMapper|^EntityFramework|^Newtonsoft|^Castle|^NLog|^Pomelo|^AspectCore|^Xunit|^Nito|^Npgsql|^Exceptionless|^MySqlConnector|^Anonymously Hosted|^libuv|^api-ms|^clrcompression|^clretwrc|^clrjit|^coreclr|^dbgshim|^e_sqlite3|^hostfxr|^hostpolicy|^MessagePack|^mscordaccore|^mscordbi|^mscorrc|sni|sos|SOS.NETCore|^sos_amd64|^SQLitePCLRaw|^StackExchange|^Swashbuckle|WindowsBase|ucrtbase|^DotNetCore.CAP|^MongoDB|^Confluent.Kafka|^librdkafka|^EasyCaching|^RabbitMQ|^Consul|^Dapper|^EnyimMemcachedCore|^Pipelines|^DnsClient|^IdentityModel|^zlib|^YamlDotNet|^FreeSql$|^FreeSql.Provider";
         private readonly IFreeSql<FsBuilder> _freeSql;
         public ReflectionHelper(IMemoryCache cache, IFreeSql<FsBuilder> freeSql)
         {
@@ -43,29 +43,49 @@ namespace FreeSqlBuilder.Core.Helper
         public Task<List<Item>> GetAbstractClass(string assemblyName)
         {
             var types = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName)?.GetTypes().ToList();
-            return Task.FromResult(new List<Item> { new Item("请选择基类", "") }.Concat(types.Where(x => x.IsAbstract).Select(x => new Item($"{x.Name}", x.FullName))).ToList());
+            return Task.FromResult(new List<Item> { new Item("请选择基类", "") }.Concat(types.Where(x => x.IsAbstract && !x.IsEnum && !x.IsSealed).Select(x => new Item($"{x.Name}", x.FullName))).ToList());
         }
+
         /// <summary>
         /// 获取相关表
         /// </summary>
+        /// <param name="assemblyName"></param>
         /// <param name="entityBaseName"></param>
         /// <returns></returns>
         public Task<List<TableInfo>> GetTableInfos(string assemblyName, string entityBaseName)
         {
-            var assembly = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName);
-            var types = assembly.GetTypes().ToList();
-            Type BaseType = string.IsNullOrWhiteSpace(entityBaseName) ? null : assembly.GetType(entityBaseName);
-            var res = GetTypesFromEntityBaseName(types, BaseType)
+            var assembly = GetAssemblies();
+            if (!string.IsNullOrWhiteSpace(assemblyName))
+            {
+                assembly = GetAssemblies().Where(x => x.FullName == assemblyName).ToList();
+            }
+            if (assembly == null) return default;
+            var types = assembly
+                .SelectMany(x => x.GetTypes()).ToList();
+            Type baseType = null;
+            if (!string.IsNullOrWhiteSpace(entityBaseName))
+            {
+                baseType = assembly.Select(a => a.GetType(entityBaseName)).FirstOrDefault(t => t != null);
+            }
+            var res = GetTypesFromEntityBaseName(types, baseType)
                 .Where(x => GetTableInfos(x) != null)
+                .Where(x => _freeSql.CodeFirst.GetTableByEntity(x).Primarys.Any())
                 .Select(GetTableInfos).ToList();
             return Task.FromResult(res);
+
         }
+
+        //public Task<Type> GetEntityBase(List<Assembly> assemblies,string entityBaseName)
+        //{
+        //    var res = assemblies.Select(x => x.GetType(entityBaseName));
+
+        //}
         private TableInfo GetTableInfos(Type type)
         {
             try
             {
-                //return _freeSql.CodeFirst.GetTableByEntity(type).Primarys.Any() ? _freeSql.CodeFirst.GetTableByEntity(type) : default;
-                return _freeSql.CodeFirst.GetTableByEntity(type);
+                return _freeSql.CodeFirst.GetTableByEntity(type).Primarys.Any() ? _freeSql.CodeFirst.GetTableByEntity(type) : default;
+                //return _freeSql.CodeFirst.GetTableByEntity(type);
             }
             catch
             {
@@ -73,7 +93,7 @@ namespace FreeSqlBuilder.Core.Helper
             }
         }
         /// <summary>
-        /// 从Typelist中删选baseType相关联的类
+        /// 从TypeList中删选baseType相关联的类
         /// </summary>
         /// <param name="types"></param>
         /// <param name="baseType"></param>
@@ -81,12 +101,8 @@ namespace FreeSqlBuilder.Core.Helper
         private List<Type> GetTypesFromEntityBaseName(List<Type> types, Type baseType)
         {
             var entityBaseName = baseType?.Name;
-            if (entityBaseName == null)
-            {
-                return types.Where(x => !x.IsAbstract && x.IsClass).ToList();
-            }
-            var res = types.Where(x => (Reflection.BaseFrome(x, baseType)) && !x.IsAbstract && x.IsClass).ToList();
-            return res;
+            return entityBaseName == null ? types.Where(x => !x.IsAbstract && x.IsClass).ToList() :
+                types.Where(x => Reflection.BaseFrom(x, baseType) && !x.IsAbstract && x.IsClass).ToList();
         }
 
         /// <summary>

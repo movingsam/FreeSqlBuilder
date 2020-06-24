@@ -1,10 +1,11 @@
-﻿using FreeSqlBuilder.Core.WordsConvert;
+﻿using FreeSqlBuilder.Core.Entities;
+using FreeSqlBuilder.Core.WordsConvert;
 
 namespace FreeSqlBuilder.Core.DbFirst
 {
     public class Entity : BuilderOptions
     {
-        public Entity() : base("Entity",  outputPath: "Entity", preFix: "", suffix: "", isIgnorePrefix: true, mode: ConvertMode.None)
+        public Entity() : base("Entity",  outputPath: "Entity", preFix: "", suffix: "", mode: ConvertMode.None)
         {
 
         }

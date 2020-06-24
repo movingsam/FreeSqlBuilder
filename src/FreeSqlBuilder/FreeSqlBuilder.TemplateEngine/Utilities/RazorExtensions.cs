@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FreeSqlBuilder.Core.Entities;
 
 namespace FreeSqlBuilder.TemplateEngine.Utilities
 {
@@ -176,14 +177,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             if (options == null) return tableName;
             var convert = new DefaultWordsConvert(options.Mode);
             var convertName = convert.Convert(tableName);
-            if (options.SplitDot != null)
-            {
-                var splitArray = convertName.Split(options.SplitDot);
-                if (splitArray.Length > 1) convertName = splitArray[1];
-            }
-            return options.IsIgnorePrefix
-                ? $"{options.Prefix}{convertName}{options.Suffix}"
-                : $"{options.Prefix}{convert.Convert(tableName)}{options.Suffix}";
+            return $"{options.Prefix}{convertName}{options.Suffix}";
         }
         /// <summary>
         /// 通过转换器后的字段名
@@ -268,13 +262,31 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         public static List<KeyValuePair<string, TableInfo>> GetNavigates(this BuildTask task)
         {
             var navigateKeys = task.CurrentTable.Properties.Keys.Except(task.CurrentTable.Columns.Keys);
-            var types = navigateKeys.Select(t => task.CurrentTable.Properties.FirstOrDefault(p => p.Key == t).Value.PropertyType).ToList();
-            return task.GAllTable.Where(g => types.Contains(g.Type))
-                .Select(s =>
-                new KeyValuePair<string, TableInfo>
-                (task.CurrentTable.Properties.FirstOrDefault(p => p.Value == s.Type).Key, s)
-                ).ToList();
+            var types = navigateKeys.Select(t => GetGenericFirstTypeName(task.CurrentTable.Properties.FirstOrDefault(p => p.Key == t).Value.PropertyType)).ToList();
+            var gTypes = task.AllTable.Select(s =>
+            {
+                if (s.Type.IsGenericType)
+                {
+                    return new KeyValuePair<string, TableInfo>(s.Type.GetGenericArguments().FirstOrDefault().Name, s);
+                }
+                return new KeyValuePair<string, TableInfo>(s.Type.Name, s);
+            });
+            var res = gTypes.Where(g => types.Contains(g.Key))
+                 .Select(s =>
+                 new KeyValuePair<string, TableInfo>
+                 (task.CurrentTable.Properties.FirstOrDefault(p => GetGenericFirstTypeName(p.Value.PropertyType) == s.Key).Key, s.Value)
+                 ).ToList();
+            return res;
 
+        }
+
+        private static string GetGenericFirstTypeName(this Type type)
+        {
+            if (type.IsGenericType)
+            {
+                return type.GetGenericArguments().FirstOrDefault().Name;
+            }
+            return type.Name;
         }
         /// <summary>
         /// 获取CRUD导航属性
@@ -318,6 +330,44 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             includeManysStr = (!string.IsNullOrWhiteSpace(includeManysStr) ? Html.NewLine(Html.PadLeft(8) + ".") : "") + includeManysStr;
             return $"{includeStr}{includeManysStr}";
         }
-
+        public static string ToDtoType(this Project project, Type type)
+        {
+            if (type == null)
+            {
+                return string.Empty;
+            }
+            if (Reflection.IsCollection(type))
+            {
+                var typeDefinition = type.GetGenericTypeDefinition();
+                var types = string.Join(',', type.GetGenericArguments().Select(x => project.GetDto(x.Name)));
+                var collectionType = typeDefinition == typeof(IEnumerable<>) ? "IEnumerable" :
+                    typeDefinition == typeof(IReadOnlyCollection<>) ? "IReadOnlyCollection" :
+                    typeDefinition == typeof(IReadOnlyList<>) ? "IReadOnlyList" :
+                    typeDefinition == typeof(ICollection<>) ? "ICollection" :
+                    typeDefinition == typeof(IList<>) ? "IList" :
+                    typeDefinition == typeof(List<>) ? "List" : "";
+                return $"{collectionType}<{types}>";
+            }
+            return project.GetDto(type.Name);
+        }
+        public static string ToPostDtoType(this Project project, Type type) {
+            if (type == null)
+            {
+                return string.Empty;
+            }
+            if (Reflection.IsCollection(type))
+            {
+                var typeDefinition = type.GetGenericTypeDefinition();
+                var types = string.Join(',', type.GetGenericArguments().Select(x => project.GetPostDataDto(x.Name)));
+                var collectionType = typeDefinition == typeof(IEnumerable<>) ? "IEnumerable" :
+                    typeDefinition == typeof(IReadOnlyCollection<>) ? "IReadOnlyCollection" :
+                    typeDefinition == typeof(IReadOnlyList<>) ? "IReadOnlyList" :
+                    typeDefinition == typeof(ICollection<>) ? "ICollection" :
+                    typeDefinition == typeof(IList<>) ? "IList" :
+                    typeDefinition == typeof(List<>) ? "List" : "";
+                return $"{collectionType}<{types}>";
+            }
+            return project.GetPostDataDto(type.Name);
+        }
     }
 }

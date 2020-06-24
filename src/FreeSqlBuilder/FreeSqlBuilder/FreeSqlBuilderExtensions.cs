@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Encodings.Web;
+using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Services;
@@ -47,6 +48,7 @@ namespace FreeSqlBuilder
                     builder.Aop.CommandAfter += (s, e) => Aop_CommandAfter(s, e, x.GetService<ILogger<IFreeSql>>());
                     return builder;
                 });//持久化
+            services.AddScoped<IUnitOfWork>(x => x.GetService<IFreeSql<FsBuilder>>().CreateUnitOfWork());
             services.AddScoped<ReflectionHelper>();//反射助手
             services.AddScoped<BuildTask>();//核心任务
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎

@@ -19,10 +19,11 @@ namespace FreeSqlBuilder.Core.Helper
         /// <returns></returns>
         public List<DbTableInfo> GetAllTable(DbFirstDto dto)
         {
-            IFreeSql fsql = new FreeSql.FreeSqlBuilder()
+            using IFreeSql fsql = new FreeSql.FreeSqlBuilder()
                 .UseConnectionString(dto.DbType, dto.ConnectionString)
                 .Build();
-            return fsql.DbFirst.GetTablesByDatabase();
+            var res = string.IsNullOrWhiteSpace(dto.Name) ? fsql.DbFirst.GetTablesByDatabase() : fsql.DbFirst.GetTablesByDatabase(dto.Name);
+            return res;
         }
     }
 }

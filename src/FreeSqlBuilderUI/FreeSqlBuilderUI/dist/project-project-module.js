@@ -782,14 +782,30 @@ var GeneratorModeComponent = /** @class */ (function () {
     };
     GeneratorModeComponent.prototype.initValidateForm = function () {
         console.log(this.generatorModeConfig.pickType);
+        var entityBaseName = "";
+        var entityAssemblyName = "";
+        var pickType = "";
+        var dataSourceType = "Sqlite";
+        var dataSourceDb = "";
+        var dataSourceConnectionStr = "";
+        if (this.generatorModeConfig.generatorMode === _modals_generatormodeconfig__WEBPACK_IMPORTED_MODULE_5__["GeneratorMode"].CodeFirst) {
+            entityBaseName = "" + this.generatorModeConfig.entityBaseName;
+            entityAssemblyName = "" + this.generatorModeConfig.entityAssemblyName;
+            pickType = "" + this.generatorModeConfig.pickType;
+        }
+        else {
+            dataSourceType = "" + this.dataSourceType[this.generatorModeConfig.dataSource.dbType];
+            dataSourceDb = "" + this.generatorModeConfig.dataSource.name;
+            dataSourceConnectionStr = "" + this.generatorModeConfig.dataSource.connectionString;
+        }
         this.validateForm = this.fb.group({
             generatorMode: ["" + this.generatorModeConfig.generatorMode, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            entityBaseName: ["" + this.generatorModeConfig.entityBaseName, []],
-            entityAssemblyName: ["" + this.generatorModeConfig.entityAssemblyName, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            pickType: ["" + this.generatorModeConfig.pickType, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            dataSourceType: ["" + this.dataSourceType[this.generatorModeConfig.dataSource.dbType], [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            dataSourceDb: ["" + this.generatorModeConfig.dataSource.name, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
-            dataSourceConnectionStr: ["" + this.generatorModeConfig.dataSource.connectionString, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]]
+            entityBaseName: [entityBaseName, []],
+            entityAssemblyName: [entityAssemblyName, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            pickType: [pickType, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            dataSourceType: [dataSourceType, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            dataSourceDb: [dataSourceDb, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]],
+            dataSourceConnectionStr: [dataSourceConnectionStr, [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required]]
         });
     };
     GeneratorModeComponent.prototype.getAssemblies = function () {
@@ -813,17 +829,10 @@ var GeneratorModeComponent = /** @class */ (function () {
         this.preview();
     };
     GeneratorModeComponent.prototype.preview = function () {
-        this.validateForm.controls['entityAssemblyName'].markAsDirty();
-        this.validateForm.controls['entityAssemblyName'].updateValueAndValidity();
-        if (!this.validateForm.invalid) {
-            this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
-            this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
-            this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
-            this.previewShow = true;
-        }
-        else {
-            this.previewShow = false;
-        }
+        this.generatorModeConfig.entityAssemblyName = this.validateForm.controls['entityAssemblyName'].value;
+        this.generatorModeConfig.generatorMode = this.validateForm.controls['generatorMode'].value;
+        this.generatorModeConfig.entityBaseName = this.validateForm.controls['entityBaseName'].value;
+        this.previewShow = true;
     };
     GeneratorModeComponent.prototype.getAllTable = function () {
         if (this.project) {
