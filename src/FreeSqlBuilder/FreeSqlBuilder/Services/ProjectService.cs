@@ -2,10 +2,12 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
+using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals.Base;
 using FreeSqlBuilder.Repository;
 using Microsoft.AspNetCore.Hosting;
@@ -25,7 +27,7 @@ namespace FreeSqlBuilder.Services
         /// 
         /// </summary>
         /// <param name="service"></param>
-        public ProjectService(IServiceProvider service) : base(service.GetService<IUnitOfWork>(), service.GetService<ILogger<ProjectService>>())
+        public ProjectService(IServiceProvider service) : base(service, service.GetService<ILogger<ProjectService>>())
         {
             _projectRep = service.GetService<IProjectRepository>();
             _webHostEnv = service.GetService<IWebHostEnvironment>();
@@ -37,22 +39,22 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<PageView<Project>> GetPage(PageRequest request)
         {
-            var res = await _projectRep.Select
+            var query = _projectRep.Select
                 .Include(x => x.ProjectInfo)
                 .Include(x => x.GeneratorModeConfig)
                 .Include(x => x.GeneratorModeConfig.DataSource)
-                .IncludeMany(x => x.ProjectBuilders, then => then.Include(t => t.Builder).Include(t => t.Builder.Template))
-                .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword), x => x.ProjectInfo.ProjectName.Contains(request.Keyword))
-                .Count(out var total)
-                .Page(request.PageNumber, request.PageSize)
-                .ToListAsync();
-            request.Total = total;
-            return new PageView<Project>(res, request);
+                .IncludeMany(x => x.ProjectBuilders,
+                    then => then.Include(t => t.Builder).Include(t => t.Builder.Template))
+                .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword),
+                    x => x.ProjectInfo.ProjectName.Contains(request.Keyword));
+            return await Mapper.GetPage<Project>(request, query);
         }
+
         /// <summary>
         /// 新增项目
         /// </summary>
         /// <param name="project"></param>
+        /// <param name="autoSave"></param>
         /// <returns></returns>
         public async Task<Project> Add(Project project, bool autoSave = false)
         {
@@ -63,10 +65,12 @@ namespace FreeSqlBuilder.Services
             }
             return res;
         }
+
         /// <summary>
         /// 新增项目基础信息 Step1
         /// </summary>
         /// <param name="info"></param>
+        /// <param name="autoSave"></param>
         /// <returns></returns>
         public async Task<Project> AddProjectInfoAsync(ProjectInfo info, bool autoSave = false)
         {
@@ -88,54 +92,15 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="info"></param>
         /// <returns></returns>
-        public Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info)
+        public async Task<ProjectInfo> UpdateProjectInfoAsync(ProjectInfo info, bool autoSave = false)
         {
-            var res = _projectRep.Orm.Update<ProjectInfo>(info).ExecuteUpdated().FirstOrDefault();
-            return Task.FromResult(res);
+            var res = await _projectRep.Orm.Update<ProjectInfo>(info).ExecuteAffrowsAsync();
+            if (autoSave) UnitOfWork.Commit();
+            return info;
         }
 
 
-        /// <summary>
-        /// 新增构建器
-        /// </summary>
-        /// <param name="builderOptions"></param>
-        /// <returns></returns>
-        public async Task<BuilderOptions> AddBuilder(BuilderOptions builderOptions)
-        {
-            var template = await GetTemplateAsync(builderOptions.TemplateId);
-            if (template != null)
-            {
-                builderOptions.Id = await _freeSql.Insert(builderOptions).ExecuteIdentityAsync();
-            }
-            else
-                throw new Exception("新增失败!找不到相关模板");
-            return builderOptions;
-        }
-        /// <summary>
-        /// 更新构建器
-        /// </summary>
-        /// <param name="builderOptions"></param>
-        /// <returns></returns>
-        public async Task<BuilderOptions> UpdateBuilder(BuilderOptions builderOptions)
-        {
-            var template = await GetTemplateAsync(builderOptions.TemplateId);
-            if (template != null)
-                await _freeSql.Update<BuilderOptions>().SetSource(builderOptions).ExecuteAffrowsAsync();
-            else
-                throw new Exception("更新失败!找不到相关模板");
-            return builderOptions;
-        }
-        /// <summary>
-        /// 删除某个构建器
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<bool> DelBuilder(long id)
-        {
-            await _projectRep.DeleteAsync(id);
-            UnitOfWork.Commit();
-            return true;
-        }
+      
         /// <summary>
         /// 删除项目
         /// </summary>
@@ -145,14 +110,18 @@ namespace FreeSqlBuilder.Services
         {
             return await _projectRep.DeleteAsync(x => x.Id == id);
         }
+
         /// <summary>
         /// 更新项目
         /// </summary>
         /// <param name="project"></param>
+        /// <param name="autoSave"></param>
         /// <returns></returns>
-        public async Task<int> Update(Project project)
+        public async Task<int> Update(Project project, bool autoSave = false)
         {
-            return await _projectRep.UpdateAsync(project);
+            var res = await _projectRep.UpdateAsync(project);
+            if (autoSave) UnitOfWork.Commit();
+            return res;
         }
         /// <summary>
         /// 查询项目
@@ -170,73 +139,7 @@ namespace FreeSqlBuilder.Services
                 .ToOneAsync();
         }
 
-        /// <summary>
-        /// 模板列表
-        /// </summary>
-        /// <returns></returns>
-        public async Task<PageView<Template>> GetTemplatePageAsync(PageRequest request)
-        {
-            var res = await _projectRep.Select
-                 .IncludeMany(x => x.BuilderOptions)
-                 .Count(out var total)
-                 .Page(request.PageNumber, request.PageSize)
-                 .ToListAsync();
-            request.Total = total;
-            return new PageView<Template>(res, request);
-        }
-        /// <summary>
-        /// 新增模板
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        public async Task<Template> AddTemplate(Template template)
-        {
-            _freeSql.CodeFirst.SyncStructure<Template>();
-            var path = _webHostEnv.ContentRootPath;
-            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            File.WriteAllText(template.TemplatePath, template.TemplateContent);
-            var res = await _freeSql.GetRepository<Template>()
-                .InsertAsync(template);
-            return res;
-        }
-        /// <summary>
-        /// 删除模板
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<bool> RemoveTemplate(long id)
-        {
-            var res = await _freeSql.GetRepository<Template>().DeleteAsync(x => x.Id == id);
-            return res > 0;
-        }
-        /// <summary>
-        /// 更新模板
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        public async Task<bool> UpdateTemplate(Template template)
-        {
-            if (File.Exists(template.TemplatePath))
-            {
-                File.Delete(template.TemplatePath);
-                File.WriteAllText(template.TemplatePath, template.TemplateContent);
-            }
-            var res = await _freeSql.Update<Template>().SetSource(template).ExecuteAffrowsAsync();
-            return res > 0;
-        }
-        /// <summary>
-        /// 获取某个模板内容
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<Template> GetTemplateAsync(long id)
-        {
-            var res = await _freeSql.GetRepository<Template>()
-                .Select
-                .Where(x => x.Id == id)
-                .ToOneAsync();
-            return res;
-        }
+       
     }
 
 }

@@ -17,7 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FreeSqlBuilder.Controllers
 {
     /// <summary>
-    /// 代码生成器相关控制器
+    /// 项目控制器
     /// </summary>
     [Route("api/[controller]")]
     public class ProjectController : ControllerBase
