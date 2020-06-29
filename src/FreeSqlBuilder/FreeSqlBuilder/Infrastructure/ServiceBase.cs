@@ -1,5 +1,8 @@
-﻿using FreeSql;
+﻿using System;
+using AutoMapper;
+using FreeSql;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FreeSqlBuilder.Infrastructure
 {
@@ -17,14 +20,17 @@ namespace FreeSqlBuilder.Infrastructure
         /// </summary>
         public ILogger Logger { get; }
         /// <summary>
+        /// 映射
+        /// </summary>
+        public IMapper Mapper { get; }
+        /// <summary>
         /// 构造函数
         /// </summary>
-        /// <param name="uow"></param>
-        /// <param name="logger"></param>
-        protected ServiceBase(IUnitOfWork uow, ILogger logger)
+        protected ServiceBase(IServiceProvider service, ILogger logger)
         {
-            UnitOfWork = uow;
+            UnitOfWork = service.GetService<IUnitOfWork>();
             Logger = logger;
+            Mapper = service.GetService<IMapper>();
         }
     }
 }

@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 
 namespace FreeSqlBuilder.Repository
 {
+    /// <summary>
+    /// 配置仓储
+    /// </summary>
     public class ConfigRepository : RepositoryBase<GeneratorModeConfig, long>, IConfigRepository
     {
         public ConfigRepository(IFreeSql<FsBuilder> fsql, ILogger<ConfigRepository> logger, IUnitOfWork uow) : base(fsql, logger, uow)
