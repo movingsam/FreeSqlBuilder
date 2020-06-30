@@ -20,7 +20,7 @@ namespace FreeSqlBuilder.Repository
         /// <param name="logger"></param>
         /// <param name="uow"></param>
         /// <param name="filter"></param>
-        public TemplateRepository(IFreeSql<FsBuilder> fsql, ILogger logger, IUnitOfWork uow, Expression<Func<Template, bool>> filter = null)
+        public TemplateRepository(IFreeSql<FsBuilder> fsql, ILogger<TemplateRepository> logger, IUnitOfWork uow, Expression<Func<Template, bool>> filter = null)
             : base(fsql, logger, uow, filter)
         {
         }

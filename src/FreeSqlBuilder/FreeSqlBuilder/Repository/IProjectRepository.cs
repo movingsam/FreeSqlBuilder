@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FreeSqlBuilder.Core.Entities;
+﻿using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 
 namespace FreeSqlBuilder.Repository

@@ -26,7 +26,7 @@
     "directive-selector": [
       true,
       "attribute",
-      ["app", "passport", "exception", "layout", "header"],
+      ["app", "fb","passport", "exception", "layout", "header"],
       "camelCase"
     ],
     "component-selector": [

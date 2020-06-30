@@ -4,9 +4,107 @@
         <name>FreeSqlBuilder</name>
     </assembly>
     <members>
+        <member name="T:FreeSqlBuilder.Controllers.BuilderController">
+            <summary>
+            构建器控制器
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.Get(FreeSqlBuilder.Modals.Base.Page)">
+            <summary>
+            获取构建器
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.Add(FreeSqlBuilder.Core.Entities.BuilderOptions)">
+            <summary>
+            新增构建器
+            </summary>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.DeleteBuilder(System.Int64)">
+            <summary>
+            删除构建器
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
+            <summary>
+            更新构建器
+            </summary>
+            <param name="options"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Controllers.ConfigController">
+            <summary>
+            配置项控制器
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Controllers.ConfigController.ConfigService">
+            <summary>
+            配置服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.GetPage(FreeSqlBuilder.Modals.Base.PageRequest)">
+            <summary>
+            获取配置项分页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.AddConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
+            <summary>
+            添加新配置
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
+            <summary>
+            更新配置
+            </summary>
+            <param name="config"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.DeleteConfig(System.Int64)">
+            <summary>
+            删除配置项
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            新增数据源
+            </summary>
+            <param name="ds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.UpdateDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            更新数据源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.DeleteDataqSource(System.Int64)">
+            <summary>
+            数据源删除
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.GetDataSource(FreeSqlBuilder.Modals.Base.PageRequest)">
+            <summary>
+            获取数据源分页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
         <member name="T:FreeSqlBuilder.Controllers.ProjectController">
             <summary>
-            代码生成器相关控制器
+            项目控制器
             </summary>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.#ctor(System.IServiceProvider)">
@@ -35,40 +133,6 @@
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Int64)">
-            <summary>
-            新增配置
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
-            <summary>
-            配置项更新
-            </summary>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
-            <summary>
-            新增构建器
-            </summary>
-            <param name="options"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
-            <summary>
-            更新构建器
-            </summary>
-            <param name="options"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.DelBuilder(System.Int64)">
-            <summary>
-            构建器删除
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.Remove(System.Int64)">
             <summary>
             删除项目
@@ -88,40 +152,6 @@
             更新项目
             </summary>
             <param name="project"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.TemplateGetPage(FreeSqlBuilder.Modals.Base.PageRequest)">
-            <summary>
-            模板列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.TemplateGet(System.Int64)">
-            <summary>
-            获取模板
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.TemplateRemove(System.Int64)">
-            <summary>
-            模板删除
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template)">
-            <summary>
-            更新模板
-            </summary>
-            <param name="template"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.AddTemplate(FreeSqlBuilder.Core.Entities.Template)">
-            <summary>
-            新增模板
-            </summary>
-            <param name="template"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDriveInfos">
@@ -185,6 +215,31 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDbTableInfo(FreeSqlBuilder.Core.DbFirst.DbFirstDto)">
+            <summary>
+            
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Controllers.TemplateController">
+            <summary>
+            模板控制器
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.TemplateController.GetPage(FreeSqlBuilder.Modals.Base.PageRequest)">
+            <summary>
+            获取模板分页
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.TemplateController.Add(FreeSqlBuilder.Core.Entities.Template)">
+            <summary>
+            新增模板
+            </summary>
+            <param name="template"></param>
+            <returns></returns>
+        </member>
         <member name="T:FreeSqlBuilder.FreeSqlBuilderExtensions">
             <summary>
             代码生成器服务相关拓展
@@ -207,6 +262,96 @@
             <param name="sender"></param>
             <param name="e"></param>
             <param name="logger"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Infrastructure.Extensions.PageExtensions">
+            <summary>
+            分页拓展
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Infrastructure.Extensions.PageExtensions.GetPage``1(FreeSql.ISelect{``0},FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取分页信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="query"></param>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Infrastructure.Extensions.PageExtensions.GetPage``2(FreeSql.ISelect{``0},FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取分页信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TDto"></typeparam>
+            <param name="query"></param>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Infrastructure.IRepositoryBase`2">
+            <summary>
+            仓储基类
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TKey"></typeparam>
+        </member>
+        <member name="P:FreeSqlBuilder.Infrastructure.IRepositoryBase`2.Logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Infrastructure.IServiceBase">
+            <summary>
+            服务抽象接口
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Infrastructure.IServiceBase.UnitOfWork">
+            <summary>
+            工作单元
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Infrastructure.IServiceBase.Logger">
+            <summary>
+            日志
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Infrastructure.RepositoryBase`2">
+            <summary>
+            仓储基类
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Infrastructure.RepositoryBase`2.Logger">
+            <summary>
+            日志接口
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Infrastructure.RepositoryBase`2.#ctor(IFreeSql{FreeSqlBuilder.Core.FsBuilder},Microsoft.Extensions.Logging.ILogger,FreeSql.IUnitOfWork,System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="fsql"></param>
+            <param name="logger"></param>
+            <param name="uow"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Infrastructure.ServiceBase">
+            <summary>
+            服务基类
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Infrastructure.ServiceBase.UnitOfWork">
+            <summary>
+            工作单元
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Infrastructure.ServiceBase.Logger">
+            <summary>
+            工作单元
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Infrastructure.ServiceBase.#ctor(System.IServiceProvider,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            构造函数
+            </summary>
         </member>
         <member name="T:FreeSqlBuilder.Modals.Base.IPage">
             <summary>
@@ -477,6 +622,495 @@
             
             </summary>
         </member>
+        <member name="T:FreeSqlBuilder.Repository.BuilderRepository">
+            <summary>
+            构建器仓储
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Repository.BuilderRepository.#ctor(IFreeSql{FreeSqlBuilder.Core.FsBuilder},Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Repository.BuilderRepository},FreeSql.IUnitOfWork,System.Linq.Expressions.Expression{System.Func{FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean}})">
+            <summary>
+            
+            </summary>
+            <param name="fsql"></param>
+            <param name="logger"></param>
+            <param name="uow"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.ConfigRepository">
+            <summary>
+            配置仓储
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Repository.ConfigRepository.#ctor(IFreeSql{FreeSqlBuilder.Core.FsBuilder},Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Repository.ConfigRepository},FreeSql.IUnitOfWork,System.Linq.Expressions.Expression{System.Func{FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean}})">
+            <summary>
+            
+            </summary>
+            <param name="fsql"></param>
+            <param name="logger"></param>
+            <param name="uow"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.IBuilderRepository">
+            <summary>
+            构建器仓储
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.IConfigRepository">
+            <summary>
+            生成器配置仓储
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.IProjectRepository">
+            <summary>
+            项目仓储
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.ITemplateRepository">
+            <summary>
+            模板仓储
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.ProjectRepository">
+            <summary>
+            项目仓储
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Repository.ProjectRepository.#ctor(IFreeSql{FreeSqlBuilder.Core.FsBuilder},Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Repository.ProjectRepository},FreeSql.IUnitOfWork,System.Linq.Expressions.Expression{System.Func{FreeSqlBuilder.Core.Entities.Project,System.Boolean}})">
+            <summary>
+            构造函数
+            </summary>
+            <param name="fsql"></param>
+            <param name="logger"></param>
+            <param name="uow"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Repository.TemplateRepository">
+            <summary>
+            模板仓储
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Repository.TemplateRepository.#ctor(IFreeSql{FreeSqlBuilder.Core.FsBuilder},Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Repository.TemplateRepository},FreeSql.IUnitOfWork,System.Linq.Expressions.Expression{System.Func{FreeSqlBuilder.Core.Entities.Template,System.Boolean}})">
+            <summary>
+            构造
+            </summary>
+            <param name="fsql"></param>
+            <param name="logger"></param>
+            <param name="uow"></param>
+            <param name="filter"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.BuilderService">
+            <summary>
+            构建器服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.#ctor(System.IServiceProvider,Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Services.BuilderService})">
+            <summary>
+            构造
+            </summary>
+            <param name="service"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.GetBuilderPage(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取构建器分页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean)">
+            <summary>
+            新增构建器
+            </summary>
+            <param name="builderOptions"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean)">
+            <summary>
+            更新构建器
+            </summary>
+            <param name="builderOptions"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.PickerProject(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            选择项目
+            </summary>
+            <param name="builderId"></param>
+            <param name="projectId"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.DelBuilder(System.Int64,System.Boolean)">
+            <summary>
+            删除某个构建器
+            </summary>
+            <param name="id"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.GeneratorConfigService">
+            <summary>
+            配置服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.#ctor(Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Services.GeneratorConfigService},System.IServiceProvider)">
+            <summary>
+            构造注入
+            </summary>
+            <param name="logger"></param>
+            <param name="service"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.GetConfigPage(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取配置分页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean)">
+            <summary>
+            新增配置
+            </summary>
+            <param name="config"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean)">
+            <summary>
+            更新配置 Step2
+            </summary>
+            <param name="config"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.DeleteConfig(System.Int64,System.Boolean)">
+            <summary>
+            删除配置项
+            </summary>
+            <param name="id"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource,System.Boolean)">
+            <summary>
+            新增数据源
+            </summary>
+            <param name="dataSource"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.GetDataSource(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取数据源
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.UpdateDataSource(FreeSqlBuilder.Core.Entities.DataSource,System.Boolean)">
+            <summary>
+            数据源更新
+            </summary>
+            <param name="ds"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.DeleteDataSource(System.Int64,System.Boolean)">
+            <summary>
+            删除数据源
+            </summary>
+            <param name="id"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.CheckConfig(System.Int64)">
+            <summary>
+            检测必填项
+            </summary>
+            <param name="dataSourceId"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.AddEntitySource(FreeSqlBuilder.Core.Entities.EntitySource,System.Boolean)">
+            <summary>
+            新增实体源
+            </summary>
+            <param name="entitySource"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.GetEntitySource(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取实体源
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.UpdateEntitySource(FreeSqlBuilder.Core.Entities.EntitySource,System.Boolean)">
+            <summary>
+            实体源更新
+            </summary>
+            <param name="ds"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.DeleteEntitySource(System.Int64,System.Boolean)">
+            <summary>
+            删除实体源
+            </summary>
+            <param name="id"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.CheckEntityConfig(System.Int64)">
+            <summary>
+            检测必填项
+            </summary>
+            <param name="dataSourceId"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.IBuilderService">
+            <summary>
+            构造器服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.GetBuilderPage(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取构建器分页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean)">
+            <summary>
+            新增构建器信息
+            </summary>
+            <param name="builderOptions"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean)">
+            <summary>
+            更新构建器信息
+            </summary>
+            <param name="builderOptions"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.PickerProject(System.Int64,System.Int64,System.Boolean)">
+            <summary>
+            选择项目
+            </summary>
+            <param name="builderId"></param>
+            <param name="projectId"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.DelBuilder(System.Int64,System.Boolean)">
+            <summary>
+            删除构建器
+            </summary>
+            <param name="id"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.IGeneratorConfigService">
+            <summary>
+            配置服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.GetConfigPage(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取配置分页
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean)">
+            <summary>
+            新增配置
+            </summary>
+            <param name="config"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean)">
+            <summary>
+            更新配置 Step2
+            </summary>
+            <param name="config"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.DeleteConfig(System.Int64,System.Boolean)">
+            <summary>
+            删除配置项
+            </summary>
+            <param name="id"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource,System.Boolean)">
+            <summary>
+            新增数据源
+            </summary>
+            <param name="dataSource"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.GetDataSource(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取数据源
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.UpdateDataSource(FreeSqlBuilder.Core.Entities.DataSource,System.Boolean)">
+            <summary>
+            数据源更新
+            </summary>
+            <param name="ds"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.DeleteDataSource(System.Int64,System.Boolean)">
+            <summary>
+            删除数据源
+            </summary>
+            <param name="id"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.AddEntitySource(FreeSqlBuilder.Core.Entities.EntitySource,System.Boolean)">
+            <summary>
+            新增实体源
+            </summary>
+            <param name="entitySource"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.GetEntitySource(FreeSqlBuilder.Modals.Base.IPage)">
+            <summary>
+            获取实体源
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.UpdateEntitySource(FreeSqlBuilder.Core.Entities.EntitySource,System.Boolean)">
+            <summary>
+            实体源更新
+            </summary>
+            <param name="entitySource"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.DeleteEntitySource(System.Int64,System.Boolean)">
+            <summary>
+            删除实体源
+            </summary>
+            <param name="id"></param>
+            <param name="b"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.IProjectService">
+            <summary>
+            项目服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.GetPage(FreeSqlBuilder.Modals.Base.PageRequest)">
+            <summary>
+            获取项目分页信息
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Add(FreeSqlBuilder.Core.Entities.Project,System.Boolean)">
+            <summary>
+            新增项目
+            </summary>
+            <param name="project"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo,System.Boolean)">
+            <summary>
+            新增项目详情
+            </summary>
+            <param name="info"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo,System.Boolean)">
+            <summary>
+            更新项目详情
+            </summary>
+            <param name="info"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Get(System.Int64)">
+            <summary>
+            获取项目详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Remove(System.Int64)">
+            <summary>
+            删除ID相关项目
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Update(FreeSqlBuilder.Core.Entities.Project,System.Boolean)">
+            <summary>
+            更新项目
+            </summary>
+            <param name="project"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.ITemplateService">
+            <summary>
+            模板服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ITemplateService.GetTemplatePageAsync(FreeSqlBuilder.Modals.Base.PageRequest)">
+            <summary>
+            获取模板
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ITemplateService.AddTemplate(FreeSqlBuilder.Core.Entities.Template,System.Boolean)">
+            <summary>
+            新增模板
+            </summary>
+            <param name="template"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ITemplateService.RemoveTemplate(System.Int64,System.Boolean)">
+            <summary>
+            删除模板
+            </summary>
+            <param name="id"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ITemplateService.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template,System.Boolean)">
+            <summary>
+            更新模板
+            </summary>
+            <param name="template"></param>
+            <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ITemplateService.GetTemplateAsync(System.Int64)">
+            <summary>
+            获取模板
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:FreeSqlBuilder.Services.ProjectService">
             <summary>
             项目服务
@@ -495,73 +1129,27 @@
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.Add(FreeSqlBuilder.Core.Entities.Project)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.Add(FreeSqlBuilder.Core.Entities.Project,System.Boolean)">
             <summary>
             新增项目
             </summary>
             <param name="project"></param>
+            <param name="autoSave"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo,System.Boolean)">
             <summary>
             新增项目基础信息 Step1
             </summary>
             <param name="info"></param>
+            <param name="autoSave"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo,System.Boolean)">
             <summary>
             更新项目基础信息 Step1
             </summary>
             <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Int64)">
-            <summary>
-            新增配置 Step2
-            </summary>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.CheckConfig(FreeSqlBuilder.Core.Entities.DataSource)">
-            <summary>
-            检测必填项
-            </summary>
-            <param name="ds"></param>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
-            <summary>
-            更新配置 Step2
-            </summary>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
-            <summary>
-            新增数据库配置 Step2-2
-            </summary>
-            <param name="dataSource"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
-            <summary>
-            新增构建器
-            </summary>
-            <param name="builderOptions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
-            <summary>
-            更新构建器
-            </summary>
-            <param name="builderOptions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.DelBuilder(System.Int64)">
-            <summary>
-            删除某个构建器
-            </summary>
-            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.ProjectService.Remove(System.Int64)">
@@ -571,11 +1159,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.Update(FreeSqlBuilder.Core.Entities.Project)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.Update(FreeSqlBuilder.Core.Entities.Project,System.Boolean)">
             <summary>
             更新项目
             </summary>
             <param name="project"></param>
+            <param name="autoSave"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.ProjectService.Get(System.Int64)">
@@ -584,168 +1173,51 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.GetTemplatePageAsync(FreeSqlBuilder.Modals.Base.PageRequest)">
+        <member name="T:FreeSqlBuilder.Services.TemplateService">
+            <summary>
+            模板服务
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.TemplateService.#ctor(System.IServiceProvider,Microsoft.Extensions.Logging.ILogger{FreeSqlBuilder.Services.TemplateService})">
+            <summary>
+            构造
+            </summary>
+            <param name="service"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.TemplateService.GetTemplatePageAsync(FreeSqlBuilder.Modals.Base.PageRequest)">
             <summary>
             模板列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.AddTemplate(FreeSqlBuilder.Core.Entities.Template)">
+        <member name="M:FreeSqlBuilder.Services.TemplateService.AddTemplate(FreeSqlBuilder.Core.Entities.Template,System.Boolean)">
             <summary>
             新增模板
             </summary>
             <param name="template"></param>
+            <param name="autoSave"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.RemoveTemplate(System.Int64)">
+        <member name="M:FreeSqlBuilder.Services.TemplateService.RemoveTemplate(System.Int64,System.Boolean)">
             <summary>
             删除模板
             </summary>
             <param name="id"></param>
+            <param name="autoSave"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template)">
+        <member name="M:FreeSqlBuilder.Services.TemplateService.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template,System.Boolean)">
             <summary>
             更新模板
             </summary>
             <param name="template"></param>
+            <param name="autoSave"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.GetTemplateAsync(System.Int64)">
+        <member name="M:FreeSqlBuilder.Services.TemplateService.GetTemplateAsync(System.Int64)">
             <summary>
             获取某个模板内容
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:FreeSqlBuilder.Services.IProjectService">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.GetPage(FreeSqlBuilder.Modals.Base.PageRequest)">
-            <summary>
-            获取项目分页信息
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Add(FreeSqlBuilder.Core.Entities.Project)">
-            <summary>
-            新增项目
-            </summary>
-            <param name="project"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
-            <summary>
-            #ToDo 数据源新增 #ToDo
-            </summary>
-            <param name="dataSource"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Int64)">
-            <summary>
-            新增配置
-            </summary>
-            <param name="config"></param>
-            <param name="projectId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
-            <summary>
-            更新配置
-            </summary>
-            <param name="config"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
-            <summary>
-            新增项目详情
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo)">
-            <summary>
-            更新项目详情
-            </summary>
-            <param name="info"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
-            <summary>
-            新增构建器信息
-            </summary>
-            <param name="builderOptions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions)">
-            <summary>
-            更新构建器信息
-            </summary>
-            <param name="builderOptions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.DelBuilder(System.Int64)">
-            <summary>
-            删除构建器
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Get(System.Int64)">
-            <summary>
-            获取项目详情
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Remove(System.Int64)">
-            <summary>
-            删除ID相关项目
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Update(FreeSqlBuilder.Core.Entities.Project)">
-            <summary>
-            更新项目
-            </summary>
-            <param name="project"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.GetTemplatePageAsync(FreeSqlBuilder.Modals.Base.PageRequest)">
-            <summary>
-            获取模板
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.AddTemplate(FreeSqlBuilder.Core.Entities.Template)">
-            <summary>
-            新增模板
-            </summary>
-            <param name="template"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.RemoveTemplate(System.Int64)">
-            <summary>
-            删除模板
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.UpdateTemplate(FreeSqlBuilder.Core.Entities.Template)">
-            <summary>
-            更新模板
-            </summary>
-            <param name="template"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.GetTemplateAsync(System.Int64)">
-            <summary>
-            获取模板
             </summary>
             <param name="id"></param>
             <returns></returns>

@@ -31,20 +31,20 @@ namespace FreeSqlBuilder.Infrastructure.Extensions
         /// 获取分页信息
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <typeparam name="Dto"></typeparam>
+        /// <typeparam name="TDto"></typeparam>
         /// <param name="query"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        public static async Task<PageView<Dto>> GetPage<T, Dto>(this ISelect<T> query, IPage page)
+        public static async Task<PageView<TDto>> GetPage<T, TDto>(this ISelect<T> query, IPage page)
             where T : class
-            where Dto : class
+            where TDto : class
         {
             var pgRes = await query
                 .Count(out var total)
                 .Page(page.PageNumber, page.PageSize)
-                .ToListAsync<Dto>();
+                .ToListAsync<TDto>();
             page.Total = total;
-            return new PageView<Dto>(pgRes, page);
+            return new PageView<TDto>(pgRes, page);
         }
     }
 }

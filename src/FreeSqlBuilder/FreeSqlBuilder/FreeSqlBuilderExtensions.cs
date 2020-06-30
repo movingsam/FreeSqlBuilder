@@ -3,6 +3,7 @@ using System.Text.Encodings.Web;
 using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Helper;
+using FreeSqlBuilder.Repository;
 using FreeSqlBuilder.Services;
 using FreeSqlBuilder.TemplateEngine;
 using FreeSqlBuilder.TemplateEngine.Implement;
@@ -35,7 +36,7 @@ namespace FreeSqlBuilder
             services.AddMvc(opt => opt.EnableEndpointRouting = false)
                 .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确
                 .AddRazorRuntimeCompilation();//MVC动态编译
-            services.AddScoped<IProjectService, ProjectService>();//项目核心服务
+            services.AddFreeSqlCore();
             services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文编码处理
             services.AddSingleton<FileProviderHelper>();//文件相关处理
             services.AddMemoryCache();
@@ -71,5 +72,18 @@ namespace FreeSqlBuilder
             logger.LogInformation($"======================执行语句======================");
         }
 
+        private static void AddFreeSqlCore(this IServiceCollection services)
+        {
+            //仓储
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ITemplateRepository, TemplateRepository>();
+            services.AddScoped<IConfigRepository, ConfigRepository>();
+            services.AddScoped<IBuilderRepository, BuilderRepository>();
+            //项目核心服务
+            services.AddScoped<IProjectService, ProjectService>();
+            services.AddScoped<ITemplateService, TemplateService>();
+            services.AddScoped<IBuilderService, BuilderService>();
+            services.AddScoped<IGeneratorConfigService, GeneratorConfigService>();
+        }
     }
 }

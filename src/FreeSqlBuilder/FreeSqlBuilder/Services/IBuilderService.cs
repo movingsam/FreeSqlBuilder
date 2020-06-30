@@ -3,7 +3,7 @@ using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Modals.Base;
 
-namespace FreeSqlBuilder.Repository
+namespace FreeSqlBuilder.Services
 {
     /// <summary>
     /// 构造器服务
@@ -31,11 +31,21 @@ namespace FreeSqlBuilder.Repository
         /// <param name="autoSave"></param>
         /// <returns></returns>
         Task<BuilderOptions> UpdateBuilder(BuilderOptions builderOptions, bool autoSave = false);
+
+        /// <summary>
+        /// 选择项目
+        /// </summary>
+        /// <param name="builderId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="autoSave"></param>
+        /// <returns></returns>
+        Task<bool> PickerProject(long builderId, long projectId, bool autoSave = false);
         /// <summary>
         /// 删除构建器
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="autoSave"></param>
         /// <returns></returns>
-        Task<bool> DelBuilder(long id);
+        Task<bool> DelBuilder(long id, bool autoSave = false);
     }
 }

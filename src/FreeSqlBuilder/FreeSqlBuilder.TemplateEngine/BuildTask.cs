@@ -61,7 +61,7 @@ namespace FreeSqlBuilder.TemplateEngine
                     break;
                 case GeneratorMode.CodeFirst:
                     var tempRes = _reflectionHelper
-                        .GetTableInfos(this.Project.GeneratorModeConfig.EntityAssemblyName, this.Project.GeneratorModeConfig.EntityBaseName).Result;
+                        .GetTableInfos(this.Project.GeneratorModeConfig.EntitySource.EntityAssemblyName, this.Project.GeneratorModeConfig.EntitySource.EntityBaseName).Result;
                     this.GAllTable = tempRes.ToArray();
                     if (this.Project.GeneratorModeConfig.PickType == PickType.Ignore)
                     {

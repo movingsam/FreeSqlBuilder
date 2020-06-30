@@ -1,11 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using FreeSql;
-using FreeSqlBuilder.Core;
-using FreeSqlBuilder.Core.Entities;
+﻿using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals.Base;
@@ -13,6 +6,8 @@ using FreeSqlBuilder.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace FreeSqlBuilder.Services
 {
@@ -47,7 +42,7 @@ namespace FreeSqlBuilder.Services
                     then => then.Include(t => t.Builder).Include(t => t.Builder.Template))
                 .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword),
                     x => x.ProjectInfo.ProjectName.Contains(request.Keyword));
-            return await Mapper.GetPage<Project>(request, query);
+            return await query.GetPage(request);
         }
 
         /// <summary>
@@ -100,7 +95,7 @@ namespace FreeSqlBuilder.Services
         }
 
 
-      
+
         /// <summary>
         /// 删除项目
         /// </summary>
@@ -123,6 +118,8 @@ namespace FreeSqlBuilder.Services
             if (autoSave) UnitOfWork.Commit();
             return res;
         }
+         
+
         /// <summary>
         /// 查询项目
         /// </summary>
@@ -139,7 +136,7 @@ namespace FreeSqlBuilder.Services
                 .ToOneAsync();
         }
 
-       
+
     }
 
 }

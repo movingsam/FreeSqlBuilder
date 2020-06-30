@@ -90,8 +90,8 @@ namespace XUnitTestFsBuilderCore.Test
                 .GetService<ReflectionHelper>()
                 .GetTableInfos(null, abstruct.Value);
             var projectid = fsql.Insert<Project>().AppendData(new Project()).ExecuteIdentity();
-            config.EntityAssemblyName = null;
-            config.EntityBaseName = abstruct.Value;
+            config.EntitySource.EntityAssemblyName = null;
+            config.EntitySource.EntityBaseName = abstruct.Value;
             config.PickType = PickType.Ignore;
             config.GeneratorMode = GeneratorMode.CodeFirst;
 
@@ -111,7 +111,7 @@ namespace XUnitTestFsBuilderCore.Test
             using var scope = ServiceProvider.CreateScope();
             var fsql = ServiceProvider.GetService<IFreeSql<FsBuilder>>();
             var config = new GeneratorModeConfig();
-            config.EntityAssemblyName = null;
+            config.EntitySource.EntityAssemblyName = null;
             var reflection = scope.ServiceProvider.GetService<ReflectionHelper>();
             var items = await reflection.GetAssembliesName();
             var assemblyItem = items.FirstOrDefault(x => x.Value.Equals(Assembly.GetAssembly(typeof(IKey<>)).FullName));
@@ -173,6 +173,7 @@ namespace XUnitTestFsBuilderCore.Test
                 .Include(x => x.ProjectInfo)
                 .Include(x => x.GeneratorModeConfig)
                 .Include(x => x.GeneratorModeConfig.DataSource)
+                .Include(x=>x.GeneratorModeConfig.EntitySource)
                 .IncludeMany(x => x.ProjectBuilders,
                     then => then
                         .Include(t => t.Builder)
