@@ -3,6 +3,7 @@ using System.Linq;
 using FreeSql.DataAnnotations;
 using FreeSqlBuilder.Core.Utilities;
 using FreeSqlBuilder.Core.WordsConvert;
+using Newtonsoft.Json;
 
 namespace FreeSqlBuilder.Core.Entities
 {
@@ -34,10 +35,18 @@ namespace FreeSqlBuilder.Core.Entities
         /// </summary>
         [Column(IsIdentity = true, IsPrimary = true)]
         public long Id { get; set; }
+
         /// <summary>
         /// 拓展选项
         /// </summary>
-        public IDictionary<string, string> ExtensionOptions { get; set; }
+        [Column(IsIgnore = true)]
+
+        public IDictionary<string, string> ExtensionOptions => string.IsNullOrWhiteSpace(StrExtensionOptions) ? null :
+            JsonConvert.DeserializeObject<IDictionary<string, string>>(StrExtensionOptions);
+        /// <summary>
+        /// 扩展选项入库字段
+        /// </summary>
+        public string StrExtensionOptions { get; set; }
         /// <summary>
         /// 构建器名称
         /// </summary>

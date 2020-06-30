@@ -37,7 +37,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="config"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddConfig(GeneratorModeConfig config)
+        public async Task<IActionResult> AddConfig([FromBody]GeneratorModeConfig config)
         {
             return Ok(await ConfigService.AddGConfig(config, true));
         }
@@ -47,7 +47,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="config"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateConfig(GeneratorModeConfig config)
+        public async Task<IActionResult> UpdateConfig([FromBody]GeneratorModeConfig config)
         {
             return Ok(await ConfigService.UpdateConfig(config, true));
         }
@@ -67,7 +67,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="ds"></param>
         /// <returns></returns>
         [HttpPost("DataSource")]
-        public async Task<IActionResult> AddDataSource(DataSource ds)
+        public async Task<IActionResult> AddDataSource([FromBody]DataSource ds)
         {
             return Ok(await ConfigService.AddDataSource(ds, true));
         }
@@ -76,14 +76,19 @@ namespace FreeSqlBuilder.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("DataSource")]
-        public async Task<IActionResult> UpdateDataSource(DataSource ds)
+        public async Task<IActionResult> UpdateDataSource([FromBody]DataSource ds)
         {
             return Ok(await ConfigService.UpdateDataSource(ds, true));
         }
+        /// <summary>
+        /// 数据源删除
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("DataSource/{id}")]
         public async Task<IActionResult> DeleteDataqSource(long id)
         {
-            return Ok(await ConfigService.DeleteDataSource(id,true))
+            return Ok(await ConfigService.DeleteDataSource(id, true));
         }
 
         /// <summary>
@@ -92,7 +97,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet("DataSource")]
-        public async Task<IActionResult> GetDataSource(Page page)
+        public async Task<IActionResult> GetDataSource(PageRequest page)
         {
             return Ok(await ConfigService.GetDataSource(page));
         }

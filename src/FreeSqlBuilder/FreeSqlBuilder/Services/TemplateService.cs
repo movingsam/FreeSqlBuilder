@@ -28,7 +28,6 @@ namespace FreeSqlBuilder.Services
         {
             _templateRepository = service.GetService<ITemplateRepository>();
             _webHostEnv = service.GetService<IWebHostEnvironment>();
-
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace FreeSqlBuilder.Services
         {
             var query = _templateRepository.Select
                  .IncludeMany(x => x.BuilderOptions);
-            return await Mapper.GetPage<Template>(request, query);
+            return await query.GetPage(request);
         }
 
         /// <summary>

@@ -68,55 +68,55 @@ namespace FreeSqlBuilder.Controllers
         {
             return Ok(await _projectService.UpdateProjectInfoAsync(info));
         }
-        /// <summary>
-        /// 新增配置
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost("Config/New/{projectid}")]
-        public async Task<IActionResult> NewConfig([FromBody]GeneratorModeConfig config, [FromRoute]long projectid)
-        {
-            return Ok(await _projectService.AddGConfig(config, projectid));
-        }
-        /// <summary>
-        /// 配置项更新
-        /// </summary>
-        /// <param name="config"></param>
-        /// <returns></returns>
-        [HttpPut("Config")]
-        public async Task<IActionResult> UpdateConfig([FromBody]GeneratorModeConfig config)
-        {
-            return Ok(await _projectService.UpdateConfig(config));
-        }
-        /// <summary>
-        /// 新增构建器
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        [HttpPost("Builder/New")]
-        public async Task<IActionResult> NewBuilder([FromBody]BuilderOptions options)
-        {
-            return Ok(await _projectService.AddBuilder(options));
-        }
-        /// <summary>
-        /// 更新构建器
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        [HttpPut("Builder")]
-        public async Task<IActionResult> UpdateBuilder([FromBody]BuilderOptions options)
-        {
-            return Ok(await _projectService.UpdateBuilder(options));
-        }
-        /// <summary>
-        /// 构建器删除
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("Builder/{id}")]
-        public async Task<IActionResult> DelBuilder(long id)
-        {
-            return Ok(await _projectService.DelBuilder(id));
-        }
+        ///// <summary>
+        ///// 新增配置
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpPost("Config/New/{projectid}")]
+        //public async Task<IActionResult> NewConfig([FromBody]GeneratorModeConfig config, [FromRoute]long projectid)
+        //{
+        //    return Ok(await _projectService.AddGConfig(config, projectid));
+        //}
+        ///// <summary>
+        ///// 配置项更新
+        ///// </summary>
+        ///// <param name="config"></param>
+        ///// <returns></returns>
+        //[HttpPut("Config")]
+        //public async Task<IActionResult> UpdateConfig([FromBody]GeneratorModeConfig config)
+        //{
+        //    return Ok(await _projectService.UpdateConfig(config));
+        //}
+        ///// <summary>
+        ///// 新增构建器
+        ///// </summary>
+        ///// <param name="options"></param>
+        ///// <returns></returns>
+        //[HttpPost("Builder/New")]
+        //public async Task<IActionResult> NewBuilder([FromBody]BuilderOptions options)
+        //{
+        //    return Ok(await _projectService.AddBuilder(options));
+        //}
+        ///// <summary>
+        ///// 更新构建器
+        ///// </summary>
+        ///// <param name="options"></param>
+        ///// <returns></returns>
+        //[HttpPut("Builder")]
+        //public async Task<IActionResult> UpdateBuilder([FromBody]BuilderOptions options)
+        //{
+        //    return Ok(await _projectService.UpdateBuilder(options));
+        //}
+        ///// <summary>
+        ///// 构建器删除
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //[HttpDelete("Builder/{id}")]
+        //public async Task<IActionResult> DelBuilder(long id)
+        //{
+        //    return Ok(await _projectService.DelBuilder(id));
+        //}
         /// <summary>
         /// 删除项目
         /// </summary>
@@ -147,60 +147,60 @@ namespace FreeSqlBuilder.Controllers
         {
             return Ok(await _projectService.Update(project));
         }
-        /// <summary>
-        /// 模板列表
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("/api/Template/Page")]
-        public async Task<IActionResult> TemplateGetPage(PageRequest request)
-        {
-            return Ok(await _projectService.GetTemplatePageAsync(request));
-        }
-        /// <summary>
-        /// 获取模板
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("/api/Template/{id}")]
-        public async Task<IActionResult> TemplateGet(long id)
-        {
-            return Ok(await _projectService.GetTemplateAsync(id));
-        }
+        ///// <summary>
+        ///// 模板列表
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet("/api/Template/Page")]
+        //public async Task<IActionResult> TemplateGetPage(PageRequest request)
+        //{
+        //    return Ok(await _projectService.GetTemplatePageAsync(request));
+        //}
+        ///// <summary>
+        ///// 获取模板
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //[HttpGet("/api/Template/{id}")]
+        //public async Task<IActionResult> TemplateGet(long id)
+        //{
+        //    return Ok(await _projectService.GetTemplateAsync(id));
+        //}
 
-        /// <summary>
-        /// 模板删除
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("/api/Template/{id}")]
-        public async Task<IActionResult> TemplateRemove(long id)
-        {
-            return Ok(await _projectService.RemoveTemplate(id));
-        }
-        /// <summary>
-        /// 更新模板
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        [HttpPut("/api/Template")]
-        public async Task<IActionResult> UpdateTemplate([FromBody]Template template)
-        {
-            if (await _projectService.UpdateTemplate(template))
-            {
-                return Ok(template);
-            }
-            return BadRequest();
-        }
-        /// <summary>
-        /// 新增模板
-        /// </summary>
-        /// <param name="template"></param>
-        /// <returns></returns>
-        [HttpPost("/api/Template")]
-        public async Task<IActionResult> AddTemplate([FromBody] Template template)
-        {
-            return Ok(await _projectService.AddTemplate(template));
-        }
+        ///// <summary>
+        ///// 模板删除
+        ///// </summary>
+        ///// <param name="id"></param>
+        ///// <returns></returns>
+        //[HttpDelete("/api/Template/{id}")]
+        //public async Task<IActionResult> TemplateRemove(long id)
+        //{
+        //    return Ok(await _projectService.RemoveTemplate(id));
+        //}
+        ///// <summary>
+        ///// 更新模板
+        ///// </summary>
+        ///// <param name="template"></param>
+        ///// <returns></returns>
+        //[HttpPut("/api/Template")]
+        //public async Task<IActionResult> UpdateTemplate([FromBody]Template template)
+        //{
+        //    if (await _projectService.UpdateTemplate(template))
+        //    {
+        //        return Ok(template);
+        //    }
+        //    return BadRequest();
+        //}
+        ///// <summary>
+        ///// 新增模板
+        ///// </summary>
+        ///// <param name="template"></param>
+        ///// <returns></returns>
+        //[HttpPost("/api/Template")]
+        //public async Task<IActionResult> AddTemplate([FromBody] Template template)
+        //{
+        //    return Ok(await _projectService.AddTemplate(template));
+        //}
         /// <summary>
         /// 获取服务器的盘符及相关根目录
         /// </summary>

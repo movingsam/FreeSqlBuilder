@@ -4,10 +4,11 @@ using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals.Base;
-using Microsoft.Extensions.Logging;
+using FreeSqlBuilder.Repository;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-namespace FreeSqlBuilder.Repository
+namespace FreeSqlBuilder.Services
 {
     /// <summary>
     /// 构建器服务
@@ -24,6 +25,7 @@ namespace FreeSqlBuilder.Repository
         public BuilderService(IServiceProvider service, ILogger<BuilderService> logger) : base(service, logger)
         {
             _builderRep = service.GetService<IBuilderRepository>();
+            _templateRepository = service.GetService<ITemplateRepository>();
         }
         /// <summary>
         /// 获取构建器分页
@@ -71,6 +73,24 @@ namespace FreeSqlBuilder.Repository
             if (autoSave) UnitOfWork.Commit();
             return builderOptions;
         }
+        /// <summary>
+        /// 选择项目
+        /// </summary>
+        /// <param name="builderId"></param>
+        /// <param name="projectId"></param>
+        /// <param name="autoSave"></param>
+        /// <returns></returns>
+        public async Task<bool> PickerProject(long builderId, long projectId, bool autoSave = false)
+        {
+            await _builderRep.Orm.Insert(new ProjectBuilder
+            {
+                BuilderId = builderId,
+                ProjectId = projectId
+            }).ExecuteAffrowsAsync();
+            if (autoSave) UnitOfWork.Commit();
+            return true;
+        }
+
         /// <summary>
         /// 删除某个构建器
         /// </summary>

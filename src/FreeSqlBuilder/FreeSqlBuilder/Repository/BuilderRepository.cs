@@ -13,7 +13,14 @@ namespace FreeSqlBuilder.Repository
     /// </summary>
     public class BuilderRepository : RepositoryBase<BuilderOptions, long>, IBuilderRepository
     {
-        public BuilderRepository(IFreeSql<FsBuilder> fsql, ILogger logger, IUnitOfWork uow, Expression<Func<BuilderOptions, bool>> filter = null)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fsql"></param>
+        /// <param name="logger"></param>
+        /// <param name="uow"></param>
+        /// <param name="filter"></param>
+        public BuilderRepository(IFreeSql<FsBuilder> fsql, ILogger<BuilderRepository> logger, IUnitOfWork uow, Expression<Func<BuilderOptions, bool>> filter = null)
             : base(fsql, logger, uow, filter)
         {
         }

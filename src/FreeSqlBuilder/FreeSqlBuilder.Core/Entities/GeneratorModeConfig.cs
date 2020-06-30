@@ -19,19 +19,13 @@ namespace FreeSqlBuilder.Core.Entities
         /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// 实体
-        /// </summary>
-        public string EntityAssemblyName { get; set; }
+
         /// <summary>
         /// 生成器模式 CodeFirst根据实体代码来生成 DbFirst根据数据库生成代码
         /// </summary>
         [Column(IsNullable = false)]
         public GeneratorMode GeneratorMode { get; set; } = GeneratorMode.CodeFirst;
-        /// <summary>
-        /// 基类
-        /// </summary>
-        public string EntityBaseName { get; set; }
+
         /// <summary>
         /// 数据源Id
         /// </summary>
@@ -40,6 +34,15 @@ namespace FreeSqlBuilder.Core.Entities
         /// 数据源
         /// </summary>
         public DataSource DataSource { get; set; }
+        /// <summary>
+        /// 实体源Id
+        /// </summary>
+        public long EntitySourceId { get; set; }
+        /// <summary>
+        /// 实体源
+        /// </summary>
+        public EntitySource EntitySource { get; set; }
+
         /// <summary>
         /// 选中模式
         /// </summary>
@@ -72,8 +75,7 @@ namespace FreeSqlBuilder.Core.Entities
             switch (GeneratorMode)
             {
                 case GeneratorMode.DbFirst:
-                    Check.CheckCondition(() => !string.IsNullOrWhiteSpace(this.EntityAssemblyName), "DbFirst模式不能选择程序集");
-                    Check.CheckCondition(() => !string.IsNullOrWhiteSpace(this.EntityBaseName), "DbFirst模式不能选择实体基类");
+                    Check.CheckCondition(() => this.EntitySource != null || this.EntitySource.Id > 0, "DbFirst模式不能选择实体源");
                     break;
                 case GeneratorMode.CodeFirst:
                     Check.CheckCondition(() => DataSourceId > 0 || this.DataSource != null, "CodeFirst模式不需要填写数据库信息");

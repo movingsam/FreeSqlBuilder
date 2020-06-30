@@ -1,4 +1,6 @@
-﻿using FreeSql;
+﻿using System;
+using System.Linq.Expressions;
+using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
@@ -17,8 +19,11 @@ namespace FreeSqlBuilder.Repository
         /// <param name="fsql"></param>
         /// <param name="logger"></param>
         /// <param name="uow"></param>
-        protected ProjectRepository(IFreeSql<FsBuilder> fsql, ILogger<ProjectRepository> logger, IUnitOfWork uow) : base(fsql, logger, uow)
+        /// <param name="filter"></param>
+        public ProjectRepository(IFreeSql<FsBuilder> fsql, ILogger<ProjectRepository> logger, IUnitOfWork uow, Expression<Func<Project, bool>> filter = null) : base(fsql, logger, uow, filter)
         {
+            fsql.CodeFirst.SyncStructure<Project>();
+            fsql.CodeFirst.SyncStructure<ProjectInfo>();
         }
     }
 }

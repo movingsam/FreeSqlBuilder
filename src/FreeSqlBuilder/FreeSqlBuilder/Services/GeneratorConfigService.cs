@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using FreeSql;
-using FreeSqlBuilder.Core.Entities;
+﻿using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals.Base;
 using FreeSqlBuilder.Repository;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace FreeSqlBuilder.Services
 {
@@ -28,6 +26,11 @@ namespace FreeSqlBuilder.Services
             _configRepository = service.GetService<IConfigRepository>();
         }
 
+
+        #region 配置主体
+
+
+
         /// <summary>
         /// 获取配置分页
         /// </summary>
@@ -39,7 +42,7 @@ namespace FreeSqlBuilder.Services
                 .Select
                 .Include(x => x.DataSource)
                 .IncludeMany(x => x.Projects);
-            return await Mapper.GetPage<GeneratorModeConfig>(page, res);
+            return await res.GetPage(page);
         }
 
         /// <summary>
@@ -54,6 +57,10 @@ namespace FreeSqlBuilder.Services
             {
                 CheckConfig(config.DataSourceId);
             }
+            else
+            {
+                CheckEntityConfig(config.EntitySourceId);
+            }
             var res = await _configRepository.InsertAsync(config);
             if (autoSave) UnitOfWork.Commit();
             return res;
@@ -67,14 +74,39 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<GeneratorModeConfig> UpdateConfig(GeneratorModeConfig config, bool autoSave = false)
         {
-            await _configRepository.UpdateAsync(config);
             if (config.GeneratorMode == GeneratorMode.DbFirst)
             {
                 CheckConfig(config.DataSourceId);
+                config.EntitySourceId = 0;
             }
+            else
+            {
+                CheckEntityConfig(config.EntitySourceId);
+                config.DataSourceId = 0;
+            }
+            await _configRepository.UpdateAsync(config);
             if (autoSave) UnitOfWork.Commit();
             return config;
         }
+
+
+        /// <summary>
+        /// 删除配置项
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="autoSave"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteConfig(long id, bool autoSave = false)
+        {
+            var res = await _configRepository.DeleteAsync(id);
+            if (autoSave) UnitOfWork.Commit();
+            return res > 0;
+        }
+
+
+        #endregion
+
+        #region DbFirst数据源相关
 
 
 
@@ -91,10 +123,7 @@ namespace FreeSqlBuilder.Services
                 .Insert(dataSource)
                 .ExecuteIdentityAsync();
             dataSource.Id = id;
-            if (autoSave)
-            {
-                UnitOfWork.Commit();
-            }
+            if (autoSave) UnitOfWork.Commit();
             return dataSource;
         }
 
@@ -106,7 +135,7 @@ namespace FreeSqlBuilder.Services
         public async Task<PageView<DataSource>> GetDataSource(IPage page)
         {
             var res = _configRepository.Orm.Select<DataSource>();
-            return await Mapper.GetPage<DataSource>(page, res);
+            return await res.GetPage(page);
         }
 
         /// <summary>
@@ -121,18 +150,7 @@ namespace FreeSqlBuilder.Services
             if (autoSave) UnitOfWork.Commit();
             return ds;
         }
-        /// <summary>
-        /// 删除配置项
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="autoSave"></param>
-        /// <returns></returns>
-        public async Task<bool> DeleteConfig(long id, bool autoSave = false)
-        {
-            var res = await _configRepository.DeleteAsync(id);
-            if (autoSave) UnitOfWork.Commit();
-            return res > 0;
-        }
+
         /// <summary>
         /// 删除数据源
         /// </summary>
@@ -145,7 +163,6 @@ namespace FreeSqlBuilder.Services
             if (b) UnitOfWork.Commit();
             return res > 0;
         }
-
         /// <summary>
         /// 检测必填项
         /// </summary>
@@ -155,5 +172,74 @@ namespace FreeSqlBuilder.Services
             var ds = _configRepository.Orm.Select<DataSource>().Where(x => x.Id == dataSourceId).ToOne();
             if (ds == null) throw new Exception("数据源不存在");
         }
+        #endregion
+
+        #region CodeFirst实体源相关
+        /// <summary>
+        /// 新增实体源
+        /// </summary>
+        /// <param name="entitySource"></param>
+        /// <param name="autoSave"></param>
+        /// <returns></returns>
+        public async Task<EntitySource> AddEntitySource(EntitySource entitySource, bool autoSave = false)
+        {
+            var id = await _configRepository
+                .Orm
+                .Insert(entitySource)
+                .ExecuteIdentityAsync();
+            entitySource.Id = id;
+            if (autoSave) UnitOfWork.Commit();
+            return entitySource;
+        }
+
+        /// <summary>
+        /// 获取实体源
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public async Task<PageView<EntitySource>> GetEntitySource(IPage page)
+        {
+            var res = _configRepository.Orm.Select<EntitySource>();
+            return await res.GetPage(page);
+        }
+
+        /// <summary>
+        /// 实体源更新
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="autoSave"></param>
+        /// <returns></returns>
+        public async Task<EntitySource> UpdateEntitySource(EntitySource ds, bool autoSave = false)
+        {
+            await _configRepository.Orm.Update<EntitySource>(ds).Where(x => x.Id == ds.Id).ExecuteAffrowsAsync();
+            if (autoSave) UnitOfWork.Commit();
+            return ds;
+        }
+
+        /// <summary>
+        /// 删除实体源
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public async Task<bool> DeleteEntitySource(long id, bool b)
+        {
+            var res = await _configRepository.Orm.Delete<EntitySource>().Where(x => x.Id == id).ExecuteAffrowsAsync();
+            if (b) UnitOfWork.Commit();
+            return res > 0;
+        }
+        /// <summary>
+        /// 检测必填项
+        /// </summary>
+        /// <param name="dataSourceId"></param>
+        private void CheckEntityConfig(long dataSourceId)
+        {
+            var ds = _configRepository.Orm.Select<EntitySource>().Where(x => x.Id == dataSourceId).ToOne();
+            if (ds == null) throw new Exception("数据源不存在");
+        }
+
+
+        #endregion
+
     }
 }
