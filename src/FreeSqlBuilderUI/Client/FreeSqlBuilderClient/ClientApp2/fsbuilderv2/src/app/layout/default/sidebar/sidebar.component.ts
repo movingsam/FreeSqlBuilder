@@ -4,6 +4,7 @@ import { SettingsService } from '@delon/theme';
 @Component({
   selector: 'layout-sidebar',
   templateUrl: './sidebar.component.html',
+  styles: [``],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {

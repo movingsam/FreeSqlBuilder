@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FreeSqlBuilder.Core.Entities;
+using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Modals.Base;
 using FreeSqlBuilder.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace FreeSqlBuilder.Controllers
     /// 配置项控制器
     /// </summary>
     [Route("api/[controller]")]
-    public class ConfigController : ControllerBase
+    public class ConfigController : ApiControllerBase
     {
         /// <summary>
         /// 配置服务
@@ -29,8 +30,19 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPage(PageRequest page)
         {
-            return Ok(await ConfigService.GetConfigPage(page));
+            return Success(await ConfigService.GetConfigPage(page));
         }
+        /// <summary>
+        /// 获取配置项
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet("{Id}")]
+        public async Task<IActionResult> GetConfig(long Id)
+        {
+            return Success(await ConfigService.GetConfig(Id));
+        }
+
         /// <summary>
         /// 添加新配置
         /// </summary>
@@ -39,7 +51,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpPost]
         public async Task<IActionResult> AddConfig([FromBody]GeneratorModeConfig config)
         {
-            return Ok(await ConfigService.AddGConfig(config, true));
+            return Success(await ConfigService.AddGConfig(config, true));
         }
         /// <summary>
         /// 更新配置
@@ -49,7 +61,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateConfig([FromBody]GeneratorModeConfig config)
         {
-            return Ok(await ConfigService.UpdateConfig(config, true));
+            return Success(await ConfigService.UpdateConfig(config, true));
         }
         /// <summary>
         /// 删除配置项
@@ -59,7 +71,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConfig(long id)
         {
-            return Ok(await ConfigService.DeleteConfig(id, true));
+            return Success(await ConfigService.DeleteConfig(id, true));
         }
         /// <summary>
         /// 新增数据源
@@ -69,7 +81,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpPost("DataSource")]
         public async Task<IActionResult> AddDataSource([FromBody]DataSource ds)
         {
-            return Ok(await ConfigService.AddDataSource(ds, true));
+            return Success(await ConfigService.AddDataSource(ds, true));
         }
         /// <summary>
         /// 更新数据源
@@ -78,7 +90,12 @@ namespace FreeSqlBuilder.Controllers
         [HttpPut("DataSource")]
         public async Task<IActionResult> UpdateDataSource([FromBody]DataSource ds)
         {
-            return Ok(await ConfigService.UpdateDataSource(ds, true));
+            return Success(await ConfigService.UpdateDataSource(ds, true));
+        }
+        [HttpPost("DataSource/Check")]
+        public Task<IActionResult> CheckDataSource([FromBody] DataSource ds)
+        {
+            return Task.FromResult(Success(new DbFirstHelper().CheckDataSource(ds)));
         }
         /// <summary>
         /// 数据源删除
@@ -88,7 +105,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpDelete("DataSource/{id}")]
         public async Task<IActionResult> DeleteDataqSource(long id)
         {
-            return Ok(await ConfigService.DeleteDataSource(id, true));
+            return Success(await ConfigService.DeleteDataSource(id, true));
         }
 
         /// <summary>
@@ -99,7 +116,69 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("DataSource")]
         public async Task<IActionResult> GetDataSource(PageRequest page)
         {
-            return Ok(await ConfigService.GetDataSource(page));
+            return Success(await ConfigService.GetDataSource(page));
+        }
+
+        /// <summary>
+        /// 获取数据源信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("DataSource/{id}")]
+        public async Task<IActionResult> GetDataSource(long id)
+        {
+            return Success(await ConfigService.GetDataSource(id));
+        }
+        /// <summary>
+        /// 获取实体源信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("EntitySource/{id}")]
+        public async Task<IActionResult> GetEntitySource(long id)
+        {
+            return Success(await ConfigService.GetEntitySource(id));
+        }
+
+        /// <summary>
+        /// 获取实体源列表
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        [HttpGet("EntitySource")]
+        public async Task<IActionResult> GetEntitySourceList(PageRequest page)
+        {
+            return Success(await ConfigService.GetEntitySource(page));
+        }
+        /// <summary>
+        /// 更新实体源信息
+        /// </summary>
+        /// <param name="entitySource"></param>
+        /// <returns></returns>
+        [HttpPut("EntitySource")]
+        public async Task<IActionResult> UpdateEntitySource(EntitySource entitySource)
+        {
+            return Success(await ConfigService.UpdateEntitySource(entitySource, true));
+        }
+        /// <summary>
+        /// 新增实体源信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("EntitySource")]
+        public async Task<IActionResult> NewEntitySource(EntitySource entity)
+        {
+            return Success(await ConfigService.AddEntitySource(entity));
+        }
+        /// <summary>
+        /// 删除实体源信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("EntitySource/{id}")]
+        public async Task<IActionResult> DeletEntitySource(long id)
+        {
+            return Success(await ConfigService.DeleteEntitySource(id, true));
         }
     }
 }

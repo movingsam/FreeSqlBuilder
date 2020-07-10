@@ -19,6 +19,12 @@ namespace FreeSqlBuilder.Services
         Task<PageView<GeneratorModeConfig>> GetConfigPage(IPage page);
 
         /// <summary>
+        /// 获取配置
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<GeneratorModeConfig> GetConfig(long id);
+        /// <summary>
         /// 新增配置
         /// </summary>
         /// <param name="config"></param>
@@ -56,6 +62,12 @@ namespace FreeSqlBuilder.Services
         /// <param name="page"></param>
         /// <returns></returns>
         Task<PageView<DataSource>> GetDataSource(IPage page);
+        /// <summary>
+        /// 获取数据源
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<DataSource> GetDataSource(long id);
 
         /// <summary>
         /// 数据源更新
@@ -88,6 +100,12 @@ namespace FreeSqlBuilder.Services
         /// <param name="page"></param>
         /// <returns></returns>
         Task<PageView<EntitySource>> GetEntitySource(IPage page);
+        /// <summary>
+        /// 获取实体源信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<EntitySource> GetEntitySource(long id);
 
         /// <summary>
         /// 实体源更新

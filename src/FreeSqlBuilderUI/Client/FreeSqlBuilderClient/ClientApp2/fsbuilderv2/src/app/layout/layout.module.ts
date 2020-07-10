@@ -8,6 +8,8 @@ import { HeaderNotifyComponent } from './default/header/components/notify.compon
 import { HeaderSearchComponent } from './default/header/components/search.component';
 import { HeaderStorageComponent } from './default/header/components/storage.component';
 import { HeaderTaskComponent } from './default/header/components/task.component';
+import { ToolbarComponent } from './default/header/components/toolbar.component';
+import { ToolbarmenuComponent } from './default/header/components/toolbarmenu.component';
 import { HeaderUserComponent } from './default/header/components/user.component';
 import { HeaderComponent } from './default/header/header.component';
 import { SettingDrawerItemComponent } from './default/setting-drawer/setting-drawer-item.component';
@@ -17,13 +19,7 @@ import { LayoutFullScreenComponent } from './fullscreen/fullscreen.component';
 
 const SETTINGDRAWER = [SettingDrawerComponent, SettingDrawerItemComponent];
 
-const COMPONENTS = [
-  LayoutDefaultComponent,
-  LayoutFullScreenComponent,
-  HeaderComponent,
-  SidebarComponent,
-  ...SETTINGDRAWER
-];
+const COMPONENTS = [LayoutDefaultComponent, LayoutFullScreenComponent, HeaderComponent, SidebarComponent, ...SETTINGDRAWER];
 
 const HEADERCOMPONENTS = [
   HeaderSearchComponent,
@@ -33,25 +29,18 @@ const HEADERCOMPONENTS = [
   HeaderFullScreenComponent,
   HeaderI18nComponent,
   HeaderStorageComponent,
-  HeaderUserComponent
+  HeaderUserComponent,
+  ToolbarComponent,
+  ToolbarmenuComponent,
 ];
 
 // passport
 import { LayoutPassportComponent } from './passport/passport.component';
-const PASSPORT = [
-  LayoutPassportComponent
-];
+const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
   imports: [SharedModule],
-  declarations: [
-    ...COMPONENTS,
-    ...HEADERCOMPONENTS,
-    ...PASSPORT
-  ],
-  exports: [
-    ...COMPONENTS,
-    ...PASSPORT
-  ]
+  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
+  exports: [...COMPONENTS, ...PASSPORT],
 })
-export class LayoutModule { }
+export class LayoutModule {}

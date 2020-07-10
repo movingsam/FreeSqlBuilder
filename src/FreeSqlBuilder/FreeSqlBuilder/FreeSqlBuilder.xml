@@ -4,6 +4,72 @@
         <name>FreeSqlBuilder</name>
     </assembly>
     <members>
+        <member name="T:FreeSqlBuilder.Controllers.ApiControllerBase">
+            <summary>
+            api接口基类
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ApiControllerBase.Success(System.Object,System.String)">
+            <summary>
+            返回成功消息
+            </summary>
+            <param name="data">数据</param>
+            <param name="message">消息</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ApiControllerBase.Fail(System.String)">
+            <summary>
+            返回失败消息
+            </summary>
+            <param name="message">消息</param>
+        </member>
+        <member name="T:FreeSqlBuilder.Controllers.Result">
+            <summary>
+            返回结果
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Controllers.Result.Code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Controllers.Result.Message">
+            <summary>
+            消息
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Controllers.Result.Data">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.Result.#ctor(FreeSqlBuilder.Controllers.StateCode,System.String,System.Object)">
+            <summary>
+            初始化返回结果
+            </summary>
+            <param name="code">状态码</param>
+            <param name="message">消息</param>
+            <param name="data">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.Result.ExecuteResultAsync(Microsoft.AspNetCore.Mvc.ActionContext)">
+            <summary>
+            执行结果
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Controllers.StateCode">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Controllers.StateCode.Ok">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Controllers.StateCode.Fail">
+            <summary>
+            失败
+            </summary>
+        </member>
         <member name="T:FreeSqlBuilder.Controllers.BuilderController">
             <summary>
             构建器控制器
@@ -54,6 +120,13 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.GetConfig(System.Int64)">
+            <summary>
+            获取配置项
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Controllers.ConfigController.AddConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig)">
             <summary>
             添加新配置
@@ -102,6 +175,48 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.GetDataSource(System.Int64)">
+            <summary>
+            获取数据源信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.GetEntitySource(System.Int64)">
+            <summary>
+            获取实体源信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.GetEntitySourceList(FreeSqlBuilder.Modals.Base.PageRequest)">
+            <summary>
+            获取实体源列表
+            </summary>
+            <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.UpdateEntitySource(FreeSqlBuilder.Core.Entities.EntitySource)">
+            <summary>
+            更新实体源信息
+            </summary>
+            <param name="entitySource"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.NewEntitySource(FreeSqlBuilder.Core.Entities.EntitySource)">
+            <summary>
+            新增实体源信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.DeletEntitySource(System.Int64)">
+            <summary>
+            删除实体源信息
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:FreeSqlBuilder.Controllers.ProjectController">
             <summary>
             项目控制器
@@ -121,14 +236,14 @@
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewInfo(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
-            项目资料
+            项目 基础资料
             </summary>
             <param name="info"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateInfo(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
-            项目资料更新
+            更新 项目基础资料
             </summary>
             <param name="info"></param>
             <returns></returns>
@@ -262,6 +377,16 @@
             <param name="sender"></param>
             <param name="e"></param>
             <param name="logger"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Infrastructure.Exception.ExceptionHandlerAttribute">
+            <summary>
+            异常处理过滤器
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Infrastructure.Exception.ExceptionHandlerAttribute.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext)">
+            <summary>
+            异常处理
+            </summary>
         </member>
         <member name="T:FreeSqlBuilder.Infrastructure.Extensions.PageExtensions">
             <summary>
@@ -769,6 +894,13 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.GetConfig(System.Int64)">
+            <summary>
+            获取配置项
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean)">
             <summary>
             新增配置
@@ -808,6 +940,13 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.GetDataSource(System.Int64)">
+            <summary>
+            获取数据源
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.UpdateDataSource(FreeSqlBuilder.Core.Entities.DataSource,System.Boolean)">
             <summary>
             数据源更新
@@ -843,6 +982,13 @@
             获取实体源
             </summary>
             <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.GetEntitySource(System.Int64)">
+            <summary>
+            获取实体源信息
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.GeneratorConfigService.UpdateEntitySource(FreeSqlBuilder.Core.Entities.EntitySource,System.Boolean)">
@@ -924,6 +1070,13 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.GetConfig(System.Int64)">
+            <summary>
+            获取配置
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.AddGConfig(FreeSqlBuilder.Core.Entities.GeneratorModeConfig,System.Boolean)">
             <summary>
             新增配置
@@ -963,6 +1116,13 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.GetDataSource(System.Int64)">
+            <summary>
+            获取数据源
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.UpdateDataSource(FreeSqlBuilder.Core.Entities.DataSource,System.Boolean)">
             <summary>
             数据源更新
@@ -992,6 +1152,13 @@
             获取实体源
             </summary>
             <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.GetEntitySource(System.Int64)">
+            <summary>
+            获取实体源信息
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.IGeneratorConfigService.UpdateEntitySource(FreeSqlBuilder.Core.Entities.EntitySource,System.Boolean)">

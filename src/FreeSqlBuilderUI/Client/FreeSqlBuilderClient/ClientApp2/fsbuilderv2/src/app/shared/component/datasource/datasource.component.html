@@ -1,0 +1,2 @@
+<nz-spin *ngIf="!dataSource" class="modal-spin"></nz-spin>
+<sf *ngIf="dataSource" #sf mode="default" [schema]="schema" [formData]="ds" (formChange)="change($event)" button="none"> </sf>

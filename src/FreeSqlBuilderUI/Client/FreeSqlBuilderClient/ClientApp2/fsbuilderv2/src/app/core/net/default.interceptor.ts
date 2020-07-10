@@ -1,4 +1,12 @@
-import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponseBase } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpInterceptor,
+  HttpRequest,
+  HttpResponse,
+  HttpResponseBase,
+} from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
@@ -7,6 +15,8 @@ import { environment } from '@env/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
+import { __assign } from 'tslib';
+import { AnyResult, Result } from '../services/interface/dto';
 
 const CODEMESSAGE = {
   200: '服务器成功返回请求的数据。',
@@ -98,6 +108,26 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
     if (ev instanceof HttpErrorResponse) {
       return throwError(ev);
+    } else if (ev instanceof HttpResponse) {
+      if (ev.body.code === 1) {
+        if (ev.body.message) {
+          // this.notification.success(`成功`, `${ev.body.message}`);
+        }
+      } else {
+        if (ev.body.message) {
+          this.notification.warning(`警告`, `${ev.body.message}`);
+        }
+      }
+
+      const res = ev.clone({
+        body: ev.body.data,
+        headers: ev.headers,
+        status: ev.status,
+        statusText: ev.statusText,
+        url: ev.url,
+      });
+      console.log(res);
+      return of(res);
     } else {
       return of(ev);
     }

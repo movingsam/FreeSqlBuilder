@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestFsBuilderCore", "s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XUnitTestFreeSqlBuilder", "src\test\XUnitTestFreeSqlBuilder\XUnitTestFreeSqlBuilder.csproj", "{C3FDBB91-F171-4FD3-93F8-7564C671A187}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFreeSqlBuilder", "WpfFreeSqlBuilder\WpfFreeSqlBuilder.csproj", "{5C289447-2E81-49CE-A17F-34FDD084053B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +80,10 @@ Global
 		{C3FDBB91-F171-4FD3-93F8-7564C671A187}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3FDBB91-F171-4FD3-93F8-7564C671A187}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3FDBB91-F171-4FD3-93F8-7564C671A187}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C289447-2E81-49CE-A17F-34FDD084053B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C289447-2E81-49CE-A17F-34FDD084053B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C289447-2E81-49CE-A17F-34FDD084053B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C289447-2E81-49CE-A17F-34FDD084053B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{A5830714-A1C5-4052-AC7F-7E8373DE69F4} = {BEF8E598-4157-4F96-9347-E305753FCCED}
 		{9CAD4BB0-CE0B-4D58-9F88-60ADDD2DB374} = {A5830714-A1C5-4052-AC7F-7E8373DE69F4}
 		{C3FDBB91-F171-4FD3-93F8-7564C671A187} = {A5830714-A1C5-4052-AC7F-7E8373DE69F4}
+		{5C289447-2E81-49CE-A17F-34FDD084053B} = {69990DF8-D818-4A81-A7B5-630E049B1AFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63ACA63A-1167-4236-AF7C-A68A784A6A77}

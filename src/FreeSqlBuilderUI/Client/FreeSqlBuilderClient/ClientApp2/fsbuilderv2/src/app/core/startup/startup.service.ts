@@ -29,56 +29,55 @@ export class StartupService {
     private titleService: TitleService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
-    private injector: Injector
+    private injector: Injector,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
   }
 
   private viaHttp(resolve: any, reject: any) {
-    zip(
-      this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`),
-      this.httpClient.get('assets/tmp/app-data.json')
-    ).pipe(
-      catchError((res) => {
-        console.warn(`StartupService.load: Network request failed`, res);
-        resolve(null);
-        return [];
-      })
-    ).subscribe(([langData, appData]) => {
-      // Setting language data
+    zip(this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`), this.httpClient.get('assets/tmp/app-data.json'))
+      .pipe(
+        catchError((res) => {
+          console.warn(`StartupService.load: Network request failed`, res);
+          resolve(null);
+          return [];
+        }),
+      )
+      .subscribe(
+        ([langData, appData]) => {
+          // Setting language data
+          this.translate.setTranslation(this.i18n.defaultLang, langData);
+          this.translate.setDefaultLang(this.i18n.defaultLang);
+
+          // Application data
+          const res: any = appData;
+          // Application information: including site name, description, year
+          this.settingService.setApp(res.app);
+          // User information: including name, avatar, email address
+          this.settingService.setUser(res.user);
+          // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
+          this.aclService.setFull(true);
+          // Menu data, https://ng-alain.com/theme/menu
+          this.menuService.add(res.menu);
+          // Can be set page suffix title, https://ng-alain.com/theme/title
+          this.titleService.suffix = res.app.name;
+        },
+        () => {},
+        () => {
+          resolve(null);
+        },
+      );
+  }
+
+  private viaMockI18n(resolve: any, reject: any) {
+    this.httpClient.get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`).subscribe((langData) => {
       this.translate.setTranslation(this.i18n.defaultLang, langData);
       this.translate.setDefaultLang(this.i18n.defaultLang);
 
-      // Application data
-      const res: any = appData;
-      // Application information: including site name, description, year
-      this.settingService.setApp(res.app);
-      // User information: including name, avatar, email address
-      this.settingService.setUser(res.user);
-      // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
-      this.aclService.setFull(true);
-      // Menu data, https://ng-alain.com/theme/menu
-      this.menuService.add(res.menu);
-      // Can be set page suffix title, https://ng-alain.com/theme/title
-      this.titleService.suffix = res.app.name;
-    },
-    () => { },
-    () => {
-      resolve(null);
+      this.viaMock(resolve, reject);
     });
   }
-  
-  private viaMockI18n(resolve: any, reject: any) {
-    this.httpClient
-      .get(`assets/tmp/i18n/${this.i18n.defaultLang}.json`)
-      .subscribe(langData => {
-        this.translate.setTranslation(this.i18n.defaultLang, langData);
-        this.translate.setDefaultLang(this.i18n.defaultLang);
 
-        this.viaMock(resolve, reject);
-      });
-  }
-  
   private viaMock(resolve: any, reject: any) {
     // const tokenData = this.tokenService.get();
     // if (!tokenData.token) {
@@ -88,14 +87,14 @@ export class StartupService {
     // }
     // mock
     const app: any = {
-      name: `ng-alain`,
-      description: `Ng-zorro admin panel front-end framework`
+      name: `FreeSqlBuilder`,
+      description: `FreeSqlBuilder是基于ORM FreeSql的一个代码生成器`,
     };
     const user: any = {
       name: 'Admin',
       avatar: './assets/tmp/img/avatar.jpg',
       email: 'cipchk@qq.com',
-      token: '123456789'
+      token: '123456789',
     };
     // Application information: including site name, description, year
     this.settingService.setApp(app);
@@ -106,21 +105,49 @@ export class StartupService {
     // Menu data, https://ng-alain.com/theme/menu
     this.menuService.add([
       {
-        text: 'Main',
+        text: '文件',
         group: true,
         children: [
           {
-            text: 'Dashboard',
+            text: '新建',
             link: '/dashboard',
-            icon: { type: 'icon', value: 'appstore' }
+            icon: { type: 'icon', value: 'appstore' },
+            children: [
+              {
+                text: '项目',
+                link: '/project/new',
+              },
+              {
+                text: '数据源',
+
+                link: '/datasource/new',
+              },
+              {
+                text: '构建器',
+                link: '/builderoptions/new',
+              },
+            ],
           },
           {
-            text: 'Quick Menu',
+            text: '打开',
             icon: { type: 'icon', value: 'rocket' },
-            shortcutRoot: true
-          }
-        ]
-      }
+            children: [
+              {
+                text: '项目',
+                link: '/project/index',
+              },
+              {
+                text: '配置',
+                link: '/project/config',
+              },
+              {
+                text: '构建器',
+                link: '/project/builder',
+              },
+            ],
+          },
+        ],
+      },
     ]);
     // Can be set page suffix title, https://ng-alain.com/theme/title
     this.titleService.suffix = app.name;
@@ -136,7 +163,6 @@ export class StartupService {
       // this.viaHttp(resolve, reject);
       // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
       this.viaMockI18n(resolve, reject);
-
     });
   }
 }

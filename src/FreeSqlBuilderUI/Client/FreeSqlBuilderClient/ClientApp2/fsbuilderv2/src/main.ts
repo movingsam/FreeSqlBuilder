@@ -18,7 +18,7 @@ const bootstrap = () => {
     .bootstrapModule(AppModule, {
       defaultEncapsulation: ViewEncapsulation.Emulated,
     })
-    .then(res => {
+    .then((res) => {
       if ((window as any).appBootstrap) {
         (window as any).appBootstrap();
       }
