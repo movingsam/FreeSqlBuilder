@@ -3,14 +3,23 @@ import { throwIfAlreadyLoaded } from '@core';
 import { DelonMockModule } from '@delon/mock';
 import { AlainThemeModule } from '@delon/theme';
 import { AlainConfig, ALAIN_CONFIG } from '@delon/util';
-
 // Please refer to: https://ng-alain.com/docs/global-config
 // #region NG-ALAIN Config
 
 import { DelonACLModule } from '@delon/acl';
 
 const alainConfig: AlainConfig = {
-  st: { modal: { size: 'lg' } },
+  st: {
+    modal: { size: 'lg' },
+    req: {
+      reName: { pi: 'pageNumber', ps: 'pageSize' },
+    },
+    res: {
+      reName: {
+        list: 'datas',
+      },
+    },
+  },
   pageHeader: { homeI18n: 'home' },
   lodop: {
     license: `A59B099A586B3851E0F0D7FDBF37B603`,
@@ -42,13 +51,13 @@ if (!environment.production) {
  *  </section>
  *  ```
  */
-// import { RouteReuseStrategy } from '@angular/router';
-// import { ReuseTabService, ReuseTabStrategy } from '@delon/abc/reuse-tab';
-// alainProvides.push({
-//   provide: RouteReuseStrategy,
-//   useClass: ReuseTabStrategy,
-//   deps: [ReuseTabService],
-// } as any);
+import { RouteReuseStrategy } from '@angular/router';
+import { ReuseTabService, ReuseTabStrategy } from '@delon/abc/reuse-tab';
+alainProvides.push({
+  provide: RouteReuseStrategy,
+  useClass: ReuseTabStrategy,
+  deps: [ReuseTabService],
+} as any);
 
 // #endregion
 

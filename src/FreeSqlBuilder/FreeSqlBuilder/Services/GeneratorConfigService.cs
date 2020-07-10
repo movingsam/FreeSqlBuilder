@@ -41,8 +41,23 @@ namespace FreeSqlBuilder.Services
             var res = _configRepository
                 .Select
                 .Include(x => x.DataSource)
-                .IncludeMany(x => x.Projects);
+                .Include(x=>x.EntitySource)
+                .IncludeMany(x => x.Projects, then => then.Include(t => t.ProjectInfo));
             return await res.GetPage(page);
+        }
+        /// <summary>
+        /// 获取配置项
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<GeneratorModeConfig> GetConfig(long id)
+        {
+            var res = _configRepository
+                .Select
+                .Include(x => x.DataSource)
+                .Include(x => x.EntitySource)
+                .IncludeMany(x => x.Projects,then=>then.Include(t=>t.ProjectInfo));
+            return await res.Where(x=>x.Id == id).ToOneAsync();
         }
 
         /// <summary>
@@ -137,6 +152,16 @@ namespace FreeSqlBuilder.Services
             var res = _configRepository.Orm.Select<DataSource>();
             return await res.GetPage(page);
         }
+        /// <summary>
+        /// 获取数据源
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<DataSource> GetDataSource(long id)
+        {
+            var res = _configRepository.Orm.Select<DataSource>();
+            return await res.Where(x => x.Id == id).ToOneAsync();
+        }
 
         /// <summary>
         /// 数据源更新
@@ -201,6 +226,16 @@ namespace FreeSqlBuilder.Services
         {
             var res = _configRepository.Orm.Select<EntitySource>();
             return await res.GetPage(page);
+        }
+        /// <summary>
+        /// 获取实体源信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<EntitySource> GetEntitySource(long id)
+        {
+            var res = _configRepository.Orm.Select<EntitySource>();
+            return await res.Where(x=>x.Id == id).ToOneAsync();
         }
 
         /// <summary>

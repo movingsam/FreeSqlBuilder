@@ -12,7 +12,7 @@ namespace FreeSqlBuilder.Controllers
     /// 构建器控制器
     /// </summary>
     [Route("api/[controller]")]
-    public class BuilderController : ControllerBase
+    public class BuilderController : ApiControllerBase
     {
         private IBuilderService BuilderService => HttpContext.RequestServices.GetService<IBuilderService>();
         /// <summary>
@@ -23,7 +23,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(Page page)
         {
-            return Ok(await BuilderService.GetBuilderPage(page));
+            return Success(await BuilderService.GetBuilderPage(page));
         }
         /// <summary>
         /// 新增构建器
@@ -33,7 +33,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]BuilderOptions options)
         {
-            return Ok(await BuilderService.AddBuilder(options, true));
+            return Success(await BuilderService.AddBuilder(options, true));
         }
         /// <summary>
         /// 删除构建器
@@ -43,7 +43,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBuilder(long id)
         {
-            return Ok(await BuilderService.DelBuilder(id, true));
+            return Success(await BuilderService.DelBuilder(id, true));
         }
         /// <summary>
         /// 更新构建器
@@ -53,7 +53,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateBuilder([FromBody]BuilderOptions options)
         {
-            return Ok(await BuilderService.UpdateBuilder(options, true));
+            return Success(await BuilderService.UpdateBuilder(options, true));
         }
 
 

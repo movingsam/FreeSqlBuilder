@@ -32,7 +32,7 @@
     "component-selector": [
       true,
       "element",
-      ["app", "passport", "exception", "layout", "header"],
+      ["app", "fb", "passport", "exception", "layout", "header"],
       "kebab-case"
     ],
     "eofline": true,

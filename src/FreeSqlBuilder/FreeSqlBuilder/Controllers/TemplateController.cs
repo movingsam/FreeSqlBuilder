@@ -11,7 +11,7 @@ namespace FreeSqlBuilder.Controllers
     /// 模板控制器
     /// </summary>
     [Route("api/[controller]")]
-    public class TemplateController : ControllerBase
+    public class TemplateController : ApiControllerBase
     {
         private ITemplateService TemplateService => HttpContext.RequestServices.GetService<ITemplateService>();
 
@@ -22,7 +22,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("Page")]
         public async Task<IActionResult> GetPage(PageRequest page)
         {
-            return Ok(await TemplateService.GetTemplatePageAsync(page));
+            return Success(await TemplateService.GetTemplatePageAsync(page));
         }
         /// <summary>
         /// 新增模板
@@ -32,7 +32,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpPost]
         public async Task<IActionResult> Add([FromBody]Template template)
         {
-            return Ok(await TemplateService.AddTemplate(template));
+            return Success(await TemplateService.AddTemplate(template));
         }
 
     }

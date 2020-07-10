@@ -42,31 +42,26 @@ const I18NSERVICE_MODULES = [
     loader: {
       provide: TranslateLoader,
       useFactory: I18nHttpLoaderFactory,
-      deps: [HttpClient]
-    }
-  })
+      deps: [HttpClient],
+    },
+  }),
 ];
 
-const I18NSERVICE_PROVIDES = [
-  { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false }
-];
+const I18NSERVICE_PROVIDES = [{ provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false }];
 // #region
-
-
 
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultInterceptor } from '@core';
 import { SimpleInterceptor } from '@delon/auth';
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
-  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true}
+  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
 ];
 // #endregion
 
 // #region global third module
-const GLOBAL_THIRD_MODULES = [
-];
+const GLOBAL_THIRD_MODULES = [];
 // #endregion
 
 // #region Startup Service
@@ -80,11 +75,18 @@ const APPINIT_PROVIDES = [
     provide: APP_INITIALIZER,
     useFactory: StartupServiceFactory,
     deps: [StartupService],
-    multi: true
-  }
+    multi: true,
+  },
 ];
+
+import { BuilderService } from './core/services/builder.service';
+import { GeneratorconfigService } from './core/services/generatorconfig.service';
+import { HelperService } from './core/services/helper.service';
+import { ProjectService } from './core/services/project.service';
+import { TemplateService } from './core/services/template.service';
 // #endregion
 
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { GlobalConfigModule } from './global-config.module';
@@ -94,9 +96,7 @@ import { SharedModule } from './shared/shared.module';
 import { STWidgetModule } from './shared/st-widget/st-widget.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -108,14 +108,20 @@ import { STWidgetModule } from './shared/st-widget/st-widget.module';
     RoutesModule,
     STWidgetModule,
     ...I18NSERVICE_MODULES,
-    ...GLOBAL_THIRD_MODULES
+    ...GLOBAL_THIRD_MODULES,
   ],
   providers: [
     ...LANG_PROVIDES,
     ...INTERCEPTOR_PROVIDES,
     ...I18NSERVICE_PROVIDES,
-    ...APPINIT_PROVIDES
+    ...APPINIT_PROVIDES,
+    ProjectService,
+    GeneratorconfigService,
+    BuilderService,
+    TemplateService,
+    HelperService,
+    NzNotificationService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

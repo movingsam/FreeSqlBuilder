@@ -28,7 +28,7 @@ namespace AngularGenerator
         {
             app.UseMvc();
             app.UseFreeSqlBuilderUI();
-            //app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+            app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
 
         }
     }
