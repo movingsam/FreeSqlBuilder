@@ -1,14 +1,12 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { SFComponent, SFObjectWidgetSchema, SFSchema, SFSelectWidgetSchema, SFUISchema } from '@delon/form';
-import { ModalHelper, _HttpClient } from '@delon/theme';
+import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
-import { of } from 'rxjs';
+import { DbTableInfoDto, TableInfoDto } from 'src/app/core/services/dtos/tableinfo';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { HelperService } from 'src/app/core/services/helper.service';
-import { Page } from 'src/app/core/services/interface/dto';
-import { DataSource, EntitySource, GeneratorModeConfig } from 'src/app/core/services/interface/project';
-import { DatasourceComponent } from 'src/app/shared/component/datasource/datasource.component';
+import { DataSource, EntitySource, GeneratorModeConfig, PickType } from 'src/app/core/services/interface/project';
 
 @Component({
   selector: 'fb-generator-config-edit',
@@ -23,10 +21,19 @@ import { DatasourceComponent } from 'src/app/shared/component/datasource/datasou
 })
 export class GeneratorConfigEditComponent implements OnInit {
   @ViewChild('moreDs', { static: true }) private moreDs: TemplateRef<void>;
+  @ViewChild('moreEs', { static: true }) private moreEs: TemplateRef<void>;
   @ViewChild('sf') private sf: SFComponent;
+
+  tableDto: TableInfoDto[] | DbTableInfoDto[];
+  mode = 'default';
+  title = '新增配置';
   dataSource: DataSource = new DataSource();
+  entitySource: EntitySource = new EntitySource();
+  tableInfos: TableInfoDto[];
+  dbTableInfos: DbTableInfoDto[];
   record: any = {};
-  i: GeneratorModeConfig;
+  i: GeneratorModeConfig = new GeneratorModeConfig();
+  pickType: PickType = PickType.Ignore;
   schema: SFSchema;
   ui: SFUISchema = {
     '*': {
@@ -51,36 +58,40 @@ export class GeneratorConfigEditComponent implements OnInit {
     public service: GeneratorconfigService,
     private modalHelper: NzModalService,
     public hepler: HelperService,
-  ) {}
+  ) { }
 
-  DataSource(): SFSchema {
-    return;
-  }
-
-  EntitySource(): SFSchema {
-    return;
-  }
-
+  /**
+   * 界面初始化钩子
+   */
   ngOnInit(): void {
     if (this.record.id > 0) {
+      this.mode = 'edit';
+      console.log(`${this.record.id}`);
       this.service.getGeneratorConfig(this.record.id).subscribe((t) => {
         this.i = t;
-        console.log(this.i);
-        if (!this.i.entitySource) {
-          this.i.entitySource = new EntitySource();
-        }
-        if (!this.i.dataSource) {
-          this.i.dataSource = new DataSource();
-        }
-        this.schemaInit();
+
+        this.title = `修改${t.name}的配置`;
       });
     }
-  }
+    this.schemaInit();
 
+  }
+  getTitle() {
+    return ``;
+  }
+  /**
+   * schema初始化
+   */
   schemaInit(): void {
     this.schema = {
       properties: {
-        id: { type: 'number', title: '编号' },
+        name: {
+          type: 'string', title: '名称', ui: {
+            change: (val) => {
+              this.title = `修改${val}的配置`;
+            }
+          }
+        },
         generatorMode: {
           type: 'number',
           title: '生成器模式',
@@ -98,88 +109,197 @@ export class GeneratorConfigEditComponent implements OnInit {
             },
           ],
         },
-        dataSource: {
-          type: 'object',
+        dataSourceId: {
+          type: 'number',
           title: '数据源',
           ui: {
-            type: 'card',
-            grid: { span: 24 },
-            cardExtra: this.moreDs,
-          } as SFObjectWidgetSchema,
-          properties: {
-            id: {
-              type: 'number',
-              ui: {
-                widget: 'select',
-                asyncData: () => {
-                  return this.service.getDataSourceSelect();
-                },
-              },
-              enum: [],
-              title: '选择',
+            widget: 'select',
+            dropdownRender: this.moreDs,
+            asyncData: () => {
+              return this.service.getDataSourceSelect();
             },
+            change: (val) => { this.dataSourceIdChange(val); }
           },
         },
-        entitySource: {
-          type: 'object',
+        entitySourceId: {
+          type: 'number',
           title: '实体源',
           ui: {
-            type: 'card',
-            grid: { span: 24 },
-            cardExtra: this.moreDs,
-          } as SFObjectWidgetSchema,
-          properties: {
-            id: {
-              type: 'number',
-              title: '选择',
-              ui: {
-                widget: 'select',
-                asyncData: () => {
-                  return this.service.getEntitySourceSelect();
-                },
-              },
+            widget: 'select',
+            dropdownRender: this.moreEs,
+            asyncData: () => {
+              return this.service.getEntitySourceSelect();
             },
+            change: (val) => { this.entitySourceIdChange(val); }
           },
         },
+        pickType: {
+          type: 'number',
+          title: '选择类型',
+          ui: {
+            widget: 'radio',
+            styleType: 'button',
+            buttonStyle: 'solid',
+            change: (val) => {
+              this.pickType = val;
+            }
+          },
+          default: 0,
+          enum: [{ label: '选中', value: 1 }, { label: '忽略', value: 0 }]
+
+        },
+        preview: {
+          type: 'number',
+          title: '预览',
+          ui: {
+            widget: 'custom',
+            grid: { span: 24 },
+          },
+          default: 0
+        }
       },
       if: {
         properties: { generatorMode: { enum: [0] } },
       },
       then: {
-        required: ['dataSource'],
+        required: ['dataSourceId'],
       },
       else: {
-        required: ['entitySource'],
+        required: ['entitySourceId'],
       },
+      required: ['name', 'generatorMode']
     };
+
+    console.log(this.schema, `Init`);
   }
+  /**
+   *  新增数据源组件
+   * @param component 组件
+   */
   addDataSource(component: TemplateRef<{}>): void {
     this.modalHelper.create({
       nzTitle: '新增数据源',
       nzContent: component,
+      nzWidth: '80vw',
       nzMaskClosable: false,
       nzClosable: false,
       nzOnOk: () => {
         this.service.createDataSource(this.dataSource).subscribe((r) => {
           if (r) {
             this.msgSrv.success(`新增成功!`);
-            const dslist = this.sf.getProperty('/dataSource/id');
+            const dslist = this.sf.getProperty('/dataSourceId');
             this.service.getDataSourceSelect().subscribe((t) => {
               dslist.schema.enum = t;
-              this.sf.setValue('/dataSource/id', r.id);
+              this.sf.setValue('/dataSourceId', r.id);
             });
           }
         });
       },
     });
   }
+  /**
+   * 新增实体源组件
+   * @param component 组件
+   */
+  addEntitySourrce(component: TemplateRef<{}>): void {
+    this.modalHelper.create({
+      nzTitle: '新增实体源',
+      nzContent: component,
+      nzMaskClosable: false,
+      nzClosable: false,
+      nzOnOk: () => {
+        console.log(this.entitySource);
+        this.service.createEntitySource(this.entitySource).subscribe((r) => {
+          if (r) {
+            this.msgSrv.success(`新增成功!`);
+            const esid = this.sf.getProperty('/entitySourceId');
+            this.service.getEntitySourceSelect().subscribe((t) => {
+              esid.schema.enum = t;
+              this.sf.setValue('/entitySourceId', r.id);
+            });
+          }
+        });
+      },
+    });
+  }
+  /**
+   * 数据变更回调
+   * @param value 变更数据 
+   */
   dataSourceChange(value): void {
     this.dataSource = value;
   }
-  save(value: any) {
-    this.service.updateGeneratorConfig(value);
+  /**
+   * 实体源数据变更回调
+   * @param value 变更数据
+   */
+  entitySourceChange(value): void {
+    this.entitySource = value;
+  }
+  /**
+   * 数据源id变更
+   * @param dsId 数据源id
+   */
+  dataSourceIdChange(dsId: number): void {
+    this.previewTable(dsId, true);
   }
 
+  /**
+   * 实体源id变更
+   * @param esId  实体源id
+   */
+  entitySourceIdChange(esId: number): void {
+    console.log(esId);
+    this.previewTable(esId, false);
+  }
+
+  /**
+   * 保存
+   * @param value 数据
+   */
+  save(value: any) {
+    if (this.record.id > 0) {
+      this.service.updateGeneratorConfig(value).subscribe(r => {
+        this.msgSrv.success(`保存成功`);
+        this.modal.close(true);
+      });
+    } else {
+      console.log(value);
+      // this.service.createGeneratorConfig(value).subscribe(r => {
+      //   this.msgSrv.success(`新增成功`);
+      //   this.modal.close(true);
+      // });
+    }
+  }
+
+  /**
+   * 预览接口
+   * @param id id
+   * @param isds 是否是数据源
+   */
+  previewTable(id: number, isds: boolean): void {
+    if (isds) {
+      this.service.getDataSource(id).subscribe(r => {
+        this.hepler.getTableInfo(r).subscribe(result => {
+          this.tableDto = result;
+        });
+      });
+    } else {
+      this.service.getEntitySource(id).subscribe(r => {
+        this.hepler.getTableInfo(r).subscribe(result => {
+          this.tableDto = result;
+        });
+      });
+    }
+
+
+  }
+
+
+
+  /**
+   * 关闭视窗
+   */
   close() {
     this.modal.destroy();
   }

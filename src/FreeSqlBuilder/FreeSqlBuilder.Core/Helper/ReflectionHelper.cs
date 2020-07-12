@@ -42,7 +42,15 @@ namespace FreeSqlBuilder.Core.Helper
         /// <returns></returns>
         public Task<List<Item>> GetAbstractClass(string assemblyName)
         {
-            var types = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName)?.GetTypes().ToList();
+            var types = new List<Type>();
+            if (string.IsNullOrWhiteSpace(assemblyName))
+            {
+                types = GetAssemblies().SelectMany(s => s.GetTypes()).ToList();
+            }
+            else
+            {
+                types = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName)?.GetTypes().ToList();
+            }
             return Task.FromResult(new List<Item> { new Item("请选择基类", "") }.Concat(types.Where(x => x.IsAbstract && !x.IsEnum && !x.IsSealed).Select(x => new Item($"{x.Name}", x.FullName))).ToList());
         }
 

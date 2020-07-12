@@ -34,19 +34,34 @@ export class GeneratorConfigComponent implements OnInit {
           type: 'modal',
           modal: {
             component: GeneratorConfigEditComponent,
+            modalOptions: {
+              nzWidth: '80vw',
+              nzBodyStyle: {
+                'overflow-y': 'scroll',
+                'max-height': '70vh'
+              },
+            }
           },
         },
       ],
     },
   ];
 
-  constructor(private config: GeneratorconfigService, private modal: ModalHelper) {}
+  constructor(private config: GeneratorconfigService, private modal: ModalHelper) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   add() {
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    this.modal
+      .createStatic(GeneratorConfigEditComponent, { i: { id: 0 } }, {
+        modalOptions: {
+          nzWidth: '80vw',
+          nzBodyStyle: {
+            'overflow-y': 'scroll',
+            'max-height': '70vh'
+          },
+        }
+      })
+      .subscribe(() => this.st.reload());
   }
 }

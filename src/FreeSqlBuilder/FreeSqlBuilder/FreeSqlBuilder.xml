@@ -207,7 +207,7 @@
             <summary>
             新增实体源信息
             </summary>
-            <param name="id"></param>
+            <param name="entity"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ConfigController.DeletEntitySource(System.Int64)">

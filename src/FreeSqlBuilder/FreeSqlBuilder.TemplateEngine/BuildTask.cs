@@ -54,10 +54,10 @@ namespace FreeSqlBuilder.TemplateEngine
             switch (this.Project.GeneratorModeConfig.GeneratorMode)
             {
                 case GeneratorMode.DbFirst:
-                    var dbHelper = new DbFirstHelper();
+                     
                     var dataSource = this.Project.GeneratorModeConfig.DataSource;
-                    this.AllDbTable = dbHelper.GetAllTable(
-                         new DbFirstDto(dataSource.Name, dataSource.DbType, dataSource.ConnectionString)).ToArray();
+                    this.AllDbTable = new DbFirstDto(dataSource.Name, dataSource.DbType, dataSource.ConnectionString).GetAllTable(
+                         ).ToArray();
                     break;
                 case GeneratorMode.CodeFirst:
                     var tempRes = _reflectionHelper

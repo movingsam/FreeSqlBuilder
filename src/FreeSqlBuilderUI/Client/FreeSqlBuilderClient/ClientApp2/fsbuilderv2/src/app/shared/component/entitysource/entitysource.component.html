@@ -1,0 +1,9 @@
+<nz-spin *ngIf="!entitySource" class="modal-spin"></nz-spin>
+<sf #sf *ngIf="entitySource" mode="default" [schema]="schema" [formData]="es" (formChange)="change($event)" button="none">
+  <ng-template sf-template="preview" let-me let-ui="ui" let-schema="schema">
+    <button nz-button (click)="preview(me, tablePreview)">查看</button>
+  </ng-template>
+</sf>
+<ng-template #tablePreview>
+  <fb-tableinfo [Datas]="tableInfos"></fb-tableinfo>
+</ng-template>

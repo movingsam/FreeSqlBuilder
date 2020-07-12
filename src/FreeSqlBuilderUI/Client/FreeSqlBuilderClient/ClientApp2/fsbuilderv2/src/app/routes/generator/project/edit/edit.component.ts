@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { SFObjectWidgetSchema, SFSchema, SFSelectWidgetSchema, SFTextWidgetSchema, SFUISchema } from '@delon/form';
+import { SFArrayWidgetSchema, SFObjectWidgetSchema, SFSchema, SFSelectWidgetSchema, SFTextWidgetSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
@@ -47,7 +47,7 @@ export class GeneratorProjectEditComponent implements OnInit {
     public msgSrv: NzMessageService,
     public projectService: ProjectService,
     public configService: GeneratorconfigService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.record.id > 0) {
@@ -105,6 +105,18 @@ export class GeneratorProjectEditComponent implements OnInit {
             },
           },
         },
+        projectBuilders: {
+          type: 'array',
+          title: '构建器',
+          properties: {
+
+          },
+          ui: {
+            grid: {
+              arraySpan: 24
+            }
+          } as SFArrayWidgetSchema
+        }
       },
       required: ['owner', 'callNo', 'href', 'description'],
     };
@@ -113,10 +125,10 @@ export class GeneratorProjectEditComponent implements OnInit {
     // this.modal.open()
   }
   save(value: any) {
-    // this.http.post(`/user/${this.record.id}`, value).subscribe((res) => {
-    //   this.msgSrv.success('保存成功');
-    //   this.modal.close(true);
-    // });
+    this.projectService.updateProject(value.id, value).subscribe((res) => {
+      this.msgSrv.success('保存成功');
+      this.modal.close(true);
+    });
   }
 
   close() {
