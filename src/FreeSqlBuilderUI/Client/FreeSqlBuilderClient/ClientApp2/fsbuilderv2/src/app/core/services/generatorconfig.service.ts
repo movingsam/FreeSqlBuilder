@@ -8,7 +8,7 @@ import { DataSource, EntitySource, GeneratorModeConfig } from './interface/proje
 
 @Injectable()
 export class GeneratorconfigService {
-  constructor(public client: _HttpClient) {}
+  constructor(public client: _HttpClient) { }
 
   /**
    * 获取配置分页列表
@@ -46,15 +46,15 @@ export class GeneratorconfigService {
    * 新增生成器配置项
    * @param input 新增对象
    */
-  creeateGeneratorConfig(input: GeneratorModeConfig): Observable<boolean> {
-    return this.client.post<boolean>(`api/config`, input);
+  createGeneratorConfig(input: GeneratorModeConfig): Observable<GeneratorModeConfig> {
+    return this.client.post<GeneratorModeConfig>(`api/config`, input);
   }
   /**
    * 更新生成器配置
    * @param input 更新对象
    */
-  updateGeneratorConfig(input: GeneratorModeConfig): Observable<boolean> {
-    return this.client.put<boolean>(`api/config`, input);
+  updateGeneratorConfig(input: GeneratorModeConfig): Observable<GeneratorModeConfig> {
+    return this.client.put<GeneratorModeConfig>(`api/config`, input);
   }
   /**
    * 获取数据源分页
@@ -78,6 +78,10 @@ export class GeneratorconfigService {
         }),
       ),
     );
+  }
+
+  checkConnectioon(ds: DataSource): Observable<boolean> {
+    return this.client.post<boolean>(`api/config/DataSource/Check`, ds);
   }
 
   /**
@@ -110,5 +114,20 @@ export class GeneratorconfigService {
         }),
       ),
     );
+  }
+  /**
+   * 获取实体源
+   * @param id 实体源id
+   */
+  getEntitySource(id: number): Observable<EntitySource> {
+    return this.client.get<EntitySource>(`api/config/entitySource/${id}`);
+  }
+
+  /**
+   * 新增一个实体源
+   * @param es 实体源
+   */
+  createEntitySource(es: EntitySource): Observable<EntitySource> {
+    return this.client.post<EntitySource>(`api/config/entitySource`, es);
   }
 }

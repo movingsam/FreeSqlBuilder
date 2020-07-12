@@ -32,9 +32,12 @@ namespace XUnitTestFsBuilderProject
 
             });
             Service.AddFreeSqlBuilder(x =>
-            {
-                x.DbSet = new DbSet();
-            });
+                {
+                    x.DbSet.ConnectionString =
+                       "Data Source=G:\\github\\movingsam\\FreeSqlBuilder\\samples\\AngularGenerator\\fsbuilder.db;Version=3";
+                    x.DbSet.DbType = DataType.Sqlite;
+                    
+                });
         }
 
         [Fact]
@@ -73,6 +76,10 @@ namespace XUnitTestFsBuilderProject
                 Assert.True(res > 0);
             }
         }
+
+      
+
+
         [Fact]
         public void TestDataSourceInit()
         {
@@ -80,7 +87,26 @@ namespace XUnitTestFsBuilderProject
             {
                 var sp = scope.ServiceProvider;
                 var dataSource = sp.GetService<IGeneratorConfigService>().AddDataSource(DataFaker.GetDataSource(), true).Result;
+
                 Assert.True(dataSource.Id > 0);
+            }
+        }
+        [Fact]
+        public void TestDataSourceCheck()
+        {
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                var sp = scope.ServiceProvider; 
+               var page=  scope.ServiceProvider.GetService<IGeneratorConfigService>()
+                    .GetDataSource(new PageRequest()).Result;
+               var res= page.Datas.First().CheckDataSource();
+                Assert.True(res);
+                var error= new DataSource()
+                {
+                    ConnectionString = "testset",
+                    DbType = DataType.Sqlite
+                }.CheckDataSource();
+                Assert.False(error);
             }
         }
 
@@ -123,6 +149,9 @@ namespace XUnitTestFsBuilderProject
                 Assert.True(r.Id > 0);
             }
         }
+
+
+
         [Fact]
         public void TestDataSourcePick()
         {

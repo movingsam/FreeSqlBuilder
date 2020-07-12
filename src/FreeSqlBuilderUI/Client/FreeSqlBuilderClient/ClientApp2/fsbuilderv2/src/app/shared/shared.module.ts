@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DelonACLModule } from '@delon/acl';
@@ -8,9 +8,10 @@ import { AlainThemeModule } from '@delon/theme';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { DatasourceComponent } from './component/datasource/datasource.component';
+import { EntitysourceComponent } from './component/entitysource/entitysource.component';
+import { TableinfoComponent } from './component/tableinfo/tableinfo.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
-
 // #region third libs
 
 const THIRDMODULES = [];
@@ -19,7 +20,7 @@ const THIRDMODULES = [];
 
 // #region your componets & directives
 
-const COMPONENTS = [DatasourceComponent];
+const COMPONENTS = [DatasourceComponent, EntitysourceComponent, TableinfoComponent];
 const DIRECTIVES = [];
 
 // #endregion
@@ -58,5 +59,6 @@ const DIRECTIVES = [];
     ...COMPONENTS,
     ...DIRECTIVES,
   ],
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class SharedModule {}
+export class SharedModule { }

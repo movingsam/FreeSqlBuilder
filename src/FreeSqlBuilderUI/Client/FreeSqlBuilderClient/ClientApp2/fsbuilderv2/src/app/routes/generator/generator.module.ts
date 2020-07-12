@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { SharedModule } from '@shared';
 import { GeneratorBuilderComponent } from './builder/builder.component';
 import { GeneratorBuilderEditComponent } from './builder/edit/edit.component';
@@ -34,5 +34,6 @@ const COMPONENTS_NOROUNT = [
 @NgModule({
   imports: [SharedModule, GeneratorRoutingModule],
   declarations: [...COMPONENTS, ...COMPONENTS_NOROUNT],
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class GeneratorModule {}
+export class GeneratorModule { }

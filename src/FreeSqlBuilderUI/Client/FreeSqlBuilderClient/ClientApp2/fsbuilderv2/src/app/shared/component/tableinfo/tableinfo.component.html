@@ -1,0 +1,23 @@
+<div sg-container="2">
+  <sg *ngFor="let item of Datas; let idx = index">
+    <nz-card *ngIf="isDs(item); else elseTemplate" style="width: 100%;" [nzTitle]="item.comment" [nzExtra]="extraTemplate">
+      <nz-descriptions [nzTitle]="item.name" [nzColumn]="1" nzBordered nzSize="small">
+        <nz-descriptions-item *ngFor="let column of item.columns" [nzTitle]="getDbColumnTitle(column)">
+          {{ column.dbTypeTextFull }}({{ column.maxLength }})</nz-descriptions-item
+        >
+      </nz-descriptions>
+    </nz-card>
+    <ng-template #elseTemplate>
+      <nz-card style="width: 100%;" [nzTitle]="item.comment" [nzExtra]="extraTemplate">
+        <nz-descriptions [nzTitle]="item.dbName" [nzColumn]="1" nzBordered nzSize="small">
+          <nz-descriptions-item *ngFor="let column of item.columnsByCs" [nzTitle]="getColumnTitle(column)">
+            {{ column.dbTypeText }}({{ column.dbSize }})</nz-descriptions-item
+          >
+        </nz-descriptions>
+      </nz-card>
+    </ng-template>
+    <ng-template #extraTemplate>
+      <a>{{ getType() }}</a>
+    </ng-template>
+  </sg>
+</div>

@@ -17,17 +17,17 @@ export class ProjectInfo {
 }
 
 export class GeneratorModeConfig {
-  id: number;
-  name: string;
-  generatorMode: GeneratorMode;
-  dataSourceId: number;
+  id = 0;
+  name = ``;
+  generatorMode: GeneratorMode = GeneratorMode.DbFirst;
+  dataSourceId = 0;
   dataSource: DataSource = new DataSource();
-  entitySourceId: number;
+  entitySourceId = 0;
   entitySource: EntitySource = new EntitySource();
-  pickType: PickType;
+  pickType: PickType = PickType.Ignore;
   projects: Project[];
-  includeTables: string;
-  ignoreTables: string;
+  includeTables = ``;
+  ignoreTables = ``;
 }
 
 export enum PickType {

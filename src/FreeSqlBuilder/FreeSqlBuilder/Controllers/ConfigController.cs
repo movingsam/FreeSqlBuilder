@@ -49,7 +49,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="config"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddConfig([FromBody]GeneratorModeConfig config)
+        public async Task<IActionResult> AddConfig([FromBody] GeneratorModeConfig config)
         {
             return Success(await ConfigService.AddGConfig(config, true));
         }
@@ -59,7 +59,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="config"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateConfig([FromBody]GeneratorModeConfig config)
+        public async Task<IActionResult> UpdateConfig([FromBody] GeneratorModeConfig config)
         {
             return Success(await ConfigService.UpdateConfig(config, true));
         }
@@ -79,7 +79,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="ds"></param>
         /// <returns></returns>
         [HttpPost("DataSource")]
-        public async Task<IActionResult> AddDataSource([FromBody]DataSource ds)
+        public async Task<IActionResult> AddDataSource([FromBody] DataSource ds)
         {
             return Success(await ConfigService.AddDataSource(ds, true));
         }
@@ -88,14 +88,14 @@ namespace FreeSqlBuilder.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut("DataSource")]
-        public async Task<IActionResult> UpdateDataSource([FromBody]DataSource ds)
+        public async Task<IActionResult> UpdateDataSource([FromBody] DataSource ds)
         {
             return Success(await ConfigService.UpdateDataSource(ds, true));
         }
         [HttpPost("DataSource/Check")]
         public Task<IActionResult> CheckDataSource([FromBody] DataSource ds)
         {
-            return Task.FromResult(Success(new DbFirstHelper().CheckDataSource(ds)));
+            return Task.FromResult(Success(ds.CheckDataSource()));
         }
         /// <summary>
         /// 数据源删除
@@ -156,19 +156,19 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="entitySource"></param>
         /// <returns></returns>
         [HttpPut("EntitySource")]
-        public async Task<IActionResult> UpdateEntitySource(EntitySource entitySource)
+        public async Task<IActionResult> UpdateEntitySource([FromBody] EntitySource entitySource)
         {
             return Success(await ConfigService.UpdateEntitySource(entitySource, true));
         }
         /// <summary>
         /// 新增实体源信息
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="entity"></param>
         /// <returns></returns>
         [HttpPost("EntitySource")]
-        public async Task<IActionResult> NewEntitySource(EntitySource entity)
+        public async Task<IActionResult> NewEntitySource([FromBody]EntitySource entity)
         {
-            return Success(await ConfigService.AddEntitySource(entity));
+            return Success(await ConfigService.AddEntitySource(entity,true));
         }
         /// <summary>
         /// 删除实体源信息
@@ -180,5 +180,6 @@ namespace FreeSqlBuilder.Controllers
         {
             return Success(await ConfigService.DeleteEntitySource(id, true));
         }
+         
     }
 }

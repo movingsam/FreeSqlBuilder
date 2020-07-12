@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { SharedModule } from '@shared';
 // single pages
@@ -25,10 +25,11 @@ const COMPONENTS = [
 const COMPONENTS_NOROUNT = [];
 
 @NgModule({
-  imports: [ SharedModule, RouteRoutingModule ],
+  imports: [SharedModule, RouteRoutingModule],
   declarations: [
     ...COMPONENTS,
     ...COMPONENTS_NOROUNT
   ],
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class RoutesModule {}
+export class RoutesModule { }

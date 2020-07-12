@@ -8,38 +8,32 @@ using FreeSqlBuilder.Core.Entities;
 
 namespace FreeSqlBuilder.Core.Helper
 {
-    public class DbFirstHelper
+    public static class DbFirstHelper
     {
-        public DbFirstHelper()
-        {
 
-        }
         /// <summary>
         /// 获取相关数据库所有表结构
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public List<DbTableInfo> GetAllTable(DbFirstDto dto)
+        public static List<DbTableInfo> GetAllTable(this DbFirstDto dto)
         {
             using IFreeSql fsql = new FreeSql.FreeSqlBuilder()
                 .UseConnectionString(dto.DbType, dto.ConnectionString)
-                .Build();
-            var res = string.IsNullOrWhiteSpace(dto.Name) ? fsql.DbFirst.GetTablesByDatabase() : fsql.DbFirst.GetTablesByDatabase(dto.Name);
+                .Build(); 
+            var res = fsql.DbFirst.GetTablesByDatabase();
             return res;
         }
-
-        public bool CheckDataSource(DataSource ds)
+        /// <summary>
+        /// 数据库检测
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        public static bool CheckDataSource(this DataSource ds)
         {
-            try
-            {
-                using IFreeSql fsql = new FreeSql.FreeSqlBuilder().UseConnectionString(ds.DbType, ds.ConnectionString)
-                    .Build();
-                return fsql.Ado.Query<bool>("select 1").FirstOrDefault();
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            using IFreeSql fsql = new FreeSql.FreeSqlBuilder().UseConnectionString(ds.DbType, ds.ConnectionString)
+                .Build();
+            return fsql.Ado.Query<bool>("select 1").FirstOrDefault();
 
         }
     }

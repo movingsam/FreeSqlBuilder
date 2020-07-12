@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { STComponent } from '@delon/abc/st';
-import { SFSchema } from '@delon/form';
+import { SFComponent, SFSchema } from '@delon/form';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { DataSource } from 'src/app/core/services/interface/project';
 
@@ -10,8 +11,7 @@ import { DataSource } from 'src/app/core/services/interface/project';
   styles: [],
 })
 export class DatasourceComponent implements OnInit {
-  @ViewChild('sf', { static: false }) sf: STComponent;
-
+  @ViewChild('sf') sf: SFComponent;
   ds: DataSource = new DataSource();
   /**
    * 数据源
@@ -23,9 +23,9 @@ export class DatasourceComponent implements OnInit {
    */
   schema: SFSchema = {
     properties: {
-      connectionString: {
+      name: {
         type: 'string',
-        title: '数据库链接',
+        title: '名称',
       },
       dbType: {
         type: 'number',
@@ -48,22 +48,45 @@ export class DatasourceComponent implements OnInit {
           { label: 'ShenTong', value: 14 },
         ],
       },
-      name: {
+      connectionString: {
         type: 'string',
-        title: '名称',
+        title: '数据库链接',
+        ui: {
+          widget: 'custom'
+        },
+        default: ''
       },
     },
   };
 
+  checkConnection() {
+    console.log(`checkConnection`);
+    const ds = new DataSource();
+    console.log(this.sf);
+    ds.connectionString = this.sf.getProperty('/connectionString').value;
+    ds.dbType = this.sf.getProperty('/dbType').value;
+    console.log(ds);
+    this.service.checkConnectioon(ds)
+      .subscribe(r => {
+        if (r) {
+          this.msgServe.success(`连接成功`);
+        }
+        else {
+          this.msgServe.warning(`连接失败`);
+        }
+      });
+  }
   /**
    * 构造
    */
-  constructor() {}
+  constructor(private service: GeneratorconfigService, private msgServe: NzMessageService) {
+
+  }
 
   change(ds): void {
     this.dataSource = ds;
     this.dataSourceChange.emit(this.dataSource);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

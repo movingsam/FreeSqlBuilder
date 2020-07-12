@@ -162,7 +162,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="entityBaseName"></param>
         /// <param name="entityAssemblyName"></param>
         /// <returns></returns>
-        [HttpGet("/api/AllTable/{entityAssemblyName}")]
+        [HttpGet("/api/AllTable")]
         public async Task<IActionResult> GetAllDbTable(string entityAssemblyName, string entityBaseName)
         {
             var res = (await _reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
@@ -172,7 +172,7 @@ namespace FreeSqlBuilder.Controllers
         /// 获取所有的基类
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/api/BaseClass/{entityAssemblyName}")]
+        [HttpGet("/api/BaseClass")]
         public async Task<IActionResult> GetAllAbstractClass(string entityAssemblyName)
         {
             return Success(await _reflection.GetAbstractClass(entityAssemblyName));
@@ -206,9 +206,8 @@ namespace FreeSqlBuilder.Controllers
         /// <returns></returns>
         [HttpPost("DbTableInfo")]
         public async Task<IActionResult> GetDbTableInfo([FromBody]DbFirstDto dto)
-        {
-            var dbFirstHelper = new DbFirstHelper();
-            var res = dbFirstHelper.GetAllTable(dto);
+        { 
+            var res = dto.GetAllTable();
             return Success(res.Select(x => new DbTableInfoDto(x)).ToList());
         }
     }

@@ -64,5 +64,7 @@ namespace XUnitTestFsBuilderProject
             .RuleFor(x=>x.Name,f=>f.Random.Words(2))
             .RuleFor(x=>x.OutPutPath,t=>t.Random.Words())
             .RuleFor(x=>x.Type,f=>f.PickRandom<BuilderType>());
+
+         
     }
 }
