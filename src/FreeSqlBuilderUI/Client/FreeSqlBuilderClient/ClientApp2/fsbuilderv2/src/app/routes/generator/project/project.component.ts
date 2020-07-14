@@ -49,6 +49,14 @@ export class GeneratorProjectComponent implements OnInit {
           type: 'modal',
           modal: {
             component: GeneratorProjectEditComponent,
+            modalOptions: {
+              nzOnOk: (res) => {
+                console.log(res);
+                if (res === true) {
+                  this.st.reload();
+                }
+              },
+            },
           },
         },
       ],

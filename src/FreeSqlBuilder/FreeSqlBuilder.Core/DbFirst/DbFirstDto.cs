@@ -11,7 +11,7 @@ namespace FreeSqlBuilder.Core.DbFirst
         {
         }
 
-        public DbFirstDto(string name, DataType dbType, string connectionString)
+        public DbFirstDto(string name, DataType dbType, string connectionString,string[] dataBaseNames)
         {
             this.Name = name;
             this.DbType = dbType;

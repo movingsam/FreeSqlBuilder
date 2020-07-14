@@ -205,9 +205,9 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("DbTableInfo")]
-        public async Task<IActionResult> GetDbTableInfo([FromBody]DbFirstDto dto)
+        public async Task<IActionResult> GetDbTableInfo([FromBody]DataSource ds)
         { 
-            var res = dto.GetAllTable();
+            var res = ds.GetAllTable();
             return Success(res.Select(x => new DbTableInfoDto(x)).ToList());
         }
     }

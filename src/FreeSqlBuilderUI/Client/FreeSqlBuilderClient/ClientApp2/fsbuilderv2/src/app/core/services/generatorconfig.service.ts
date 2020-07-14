@@ -8,7 +8,7 @@ import { DataSource, EntitySource, GeneratorModeConfig } from './interface/proje
 
 @Injectable()
 export class GeneratorconfigService {
-  constructor(public client: _HttpClient) { }
+  constructor(public client: _HttpClient) {}
 
   /**
    * 获取配置分页列表
@@ -79,7 +79,10 @@ export class GeneratorconfigService {
       ),
     );
   }
-
+  /**
+   * 检测数据源是否可以链接
+   * @param ds 数据源
+   */
   checkConnectioon(ds: DataSource): Observable<boolean> {
     return this.client.post<boolean>(`api/config/DataSource/Check`, ds);
   }

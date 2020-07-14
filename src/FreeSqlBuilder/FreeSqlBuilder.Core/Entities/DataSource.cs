@@ -11,7 +11,7 @@ namespace FreeSqlBuilder.Core.Entities
         [Column(IsIdentity = true, IsPrimary = true)]
         public long Id { get; set; }
         /// <summary>
-        /// 数据库名
+        /// 数据源名称
         /// </summary>
         public string Name { get; set; }
         /// <summary>
@@ -40,6 +40,15 @@ namespace FreeSqlBuilder.Core.Entities
         /// Dameng,
         /// </summary>
         public DataType DbType { get; set; }
+        /// <summary>
+        /// 数据库名称
+        /// </summary>
+        public string DataBaseName { get; set; }
+        /// <summary>
+        /// 选中的数据库
+        /// </summary>
+        [Column(IsIgnore = true)]
+        public string[] DataBaseNames => DataBaseName?.Split(',');
         /// <summary>
         /// 数据库连接字符串
         /// </summary>

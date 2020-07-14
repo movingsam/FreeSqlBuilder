@@ -330,7 +330,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDbTableInfo(FreeSqlBuilder.Core.DbFirst.DbFirstDto)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDbTableInfo(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
             
             </summary>
