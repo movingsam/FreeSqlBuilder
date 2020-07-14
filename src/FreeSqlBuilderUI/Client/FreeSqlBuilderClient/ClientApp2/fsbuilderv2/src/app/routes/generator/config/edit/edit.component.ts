@@ -20,6 +20,13 @@ import { DataSource, EntitySource, GeneratorModeConfig, PickType } from 'src/app
   ],
 })
 export class GeneratorConfigEditComponent implements OnInit {
+  constructor(
+    private modal: NzModalRef,
+    private msgSrv: NzMessageService,
+    public service: GeneratorconfigService,
+    private modalHelper: NzModalService,
+    public hepler: HelperService,
+  ) {}
   @ViewChild('moreDs', { static: true }) private moreDs: TemplateRef<void>;
   @ViewChild('moreEs', { static: true }) private moreEs: TemplateRef<void>;
   @ViewChild('sf') private sf: SFComponent;
@@ -51,14 +58,7 @@ export class GeneratorConfigEditComponent implements OnInit {
       grid: { span: 24 },
     },
   };
-
-  constructor(
-    private modal: NzModalRef,
-    private msgSrv: NzMessageService,
-    public service: GeneratorconfigService,
-    private modalHelper: NzModalService,
-    public hepler: HelperService,
-  ) { }
+  tableNames: string[] = [];
 
   /**
    * 界面初始化钩子
@@ -69,15 +69,15 @@ export class GeneratorConfigEditComponent implements OnInit {
       console.log(`${this.record.id}`);
       this.service.getGeneratorConfig(this.record.id).subscribe((t) => {
         this.i = t;
-
         this.title = `修改${t.name}的配置`;
       });
+      setTimeout(() => {
+        const isDs = this.sf.getProperty('/generatorMode').value === 0;
+        const id = isDs ? this.sf.getProperty('/dataSourceId').value : this.sf.getProperty('/entitySourceId').value;
+        this.previewTable(id, isDs);
+      }, 1000);
     }
     this.schemaInit();
-
-  }
-  getTitle() {
-    return ``;
   }
   /**
    * schema初始化
@@ -86,17 +86,24 @@ export class GeneratorConfigEditComponent implements OnInit {
     this.schema = {
       properties: {
         name: {
-          type: 'string', title: '名称', ui: {
+          type: 'string',
+          title: '名称',
+          ui: {
             change: (val) => {
               this.title = `修改${val}的配置`;
-            }
-          }
+            },
+          },
         },
         generatorMode: {
           type: 'number',
           title: '生成器模式',
           ui: {
             widget: 'radio',
+            change: (val) => {
+              const isDs = val === 0;
+              const id = isDs ? this.sf.getProperty('/dataSourceId').value : this.sf.getProperty('/entitySourceId').value;
+              this.previewTable(id, isDs);
+            },
           },
           enum: [
             {
@@ -118,7 +125,9 @@ export class GeneratorConfigEditComponent implements OnInit {
             asyncData: () => {
               return this.service.getDataSourceSelect();
             },
-            change: (val) => { this.dataSourceIdChange(val); }
+            change: (val) => {
+              this.dataSourceIdChange(val);
+            },
           },
         },
         entitySourceId: {
@@ -130,7 +139,9 @@ export class GeneratorConfigEditComponent implements OnInit {
             asyncData: () => {
               return this.service.getEntitySourceSelect();
             },
-            change: (val) => { this.entitySourceIdChange(val); }
+            change: (val) => {
+              this.entitySourceIdChange(val);
+            },
           },
         },
         pickType: {
@@ -142,11 +153,13 @@ export class GeneratorConfigEditComponent implements OnInit {
             buttonStyle: 'solid',
             change: (val) => {
               this.pickType = val;
-            }
+            },
           },
           default: 0,
-          enum: [{ label: '选中', value: 1 }, { label: '忽略', value: 0 }]
-
+          enum: [
+            { label: '选中', value: 0 },
+            { label: '忽略', value: 1 },
+          ],
         },
         preview: {
           type: 'number',
@@ -155,8 +168,35 @@ export class GeneratorConfigEditComponent implements OnInit {
             widget: 'custom',
             grid: { span: 24 },
           },
-          default: 0
-        }
+          default: 0,
+        },
+        ignoreTables: {
+          type: 'string',
+          title: '忽略的数据表',
+          ui: {
+            widget: 'custom',
+            grid: { span: 24 },
+            visibleIf: {
+              pickType: (value: any) => value === 1,
+            },
+            change: (val) => {
+              console.log(val);
+            },
+          },
+          default: '',
+        },
+        includeTables: {
+          type: 'string',
+          title: '包含的数据表',
+          ui: {
+            widget: 'custom',
+            grid: { span: 24 },
+            visibleIf: {
+              pickType: (value: any) => value === 0,
+            },
+          },
+          default: '',
+        },
       },
       if: {
         properties: { generatorMode: { enum: [0] } },
@@ -167,7 +207,8 @@ export class GeneratorConfigEditComponent implements OnInit {
       else: {
         required: ['entitySourceId'],
       },
-      required: ['name', 'generatorMode']
+
+      required: ['name', 'generatorMode'],
     };
 
     console.log(this.schema, `Init`);
@@ -224,7 +265,7 @@ export class GeneratorConfigEditComponent implements OnInit {
   }
   /**
    * 数据变更回调
-   * @param value 变更数据 
+   * @param value 变更数据
    */
   dataSourceChange(value): void {
     this.dataSource = value;
@@ -249,7 +290,6 @@ export class GeneratorConfigEditComponent implements OnInit {
    * @param esId  实体源id
    */
   entitySourceIdChange(esId: number): void {
-    console.log(esId);
     this.previewTable(esId, false);
   }
 
@@ -259,16 +299,16 @@ export class GeneratorConfigEditComponent implements OnInit {
    */
   save(value: any) {
     if (this.record.id > 0) {
-      this.service.updateGeneratorConfig(value).subscribe(r => {
+      this.service.updateGeneratorConfig(value).subscribe((r) => {
         this.msgSrv.success(`保存成功`);
         this.modal.close(true);
       });
     } else {
       console.log(value);
-      // this.service.createGeneratorConfig(value).subscribe(r => {
-      //   this.msgSrv.success(`新增成功`);
-      //   this.modal.close(true);
-      // });
+      this.service.createGeneratorConfig(value).subscribe((r) => {
+        this.msgSrv.success(`新增成功`);
+        this.modal.close(true);
+      });
     }
   }
 
@@ -278,24 +318,37 @@ export class GeneratorConfigEditComponent implements OnInit {
    * @param isds 是否是数据源
    */
   previewTable(id: number, isds: boolean): void {
-    if (isds) {
-      this.service.getDataSource(id).subscribe(r => {
-        this.hepler.getTableInfo(r).subscribe(result => {
-          this.tableDto = result;
+    if (id > 0) {
+      if (isds) {
+        this.service.getDataSource(id).subscribe((r) => {
+          this.hepler.getTableInfo(r).subscribe((result) => {
+            this.tableDto = result;
+          });
         });
-      });
-    } else {
-      this.service.getEntitySource(id).subscribe(r => {
-        this.hepler.getTableInfo(r).subscribe(result => {
-          this.tableDto = result;
+      } else {
+        this.service.getEntitySource(id).subscribe((r) => {
+          this.hepler.getTableInfo(r).subscribe((result) => {
+            this.tableDto = result;
+          });
         });
-      });
+      }
     }
-
-
   }
 
-
+  console(val) {
+    console.log(val);
+  }
+  tableNameChange(value): void {
+    console.log(value, `tableNameChange`);
+    if (this.pickType === PickType.Ignore) {
+      console.log(value, `ignoreTables`);
+      this.sf.setValue('/ignoreTables', value.join(','));
+    } else {
+      console.log(value, `includeTables`);
+      this.sf.setValue('/includeTables', value.join(','));
+    }
+    this.tableNames = value;
+  }
 
   /**
    * 关闭视窗

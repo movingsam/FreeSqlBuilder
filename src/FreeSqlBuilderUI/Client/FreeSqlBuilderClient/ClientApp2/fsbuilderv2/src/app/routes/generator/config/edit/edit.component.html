@@ -4,7 +4,23 @@
 <nz-spin *ngIf="!i" class="modal-spin"></nz-spin>
 <sf *ngIf="i" #sf [mode]="mode" [schema]="schema" [ui]="ui" [formData]="i" button="none">
   <ng-template sf-template="preview" let-me let-ui="ui" let-schema="schema">
-    <fb-tableinfo *ngIf="tableDto" [Datas]="tableDto" [PickerType]="pickType"></fb-tableinfo>
+    <fb-tableinfo
+      *ngIf="tableDto"
+      [Style]="{
+        'overflow-y': 'scroll',
+        'max-height': '300px'
+      }"
+      [Datas]="tableDto"
+      [PickerType]="pickType"
+      [tableNames]="tableNames"
+      (TableNamesChange)="tableNameChange($event)"
+    ></fb-tableinfo>
+  </ng-template>
+  <ng-template sf-template="ignoreTables" let-me let-ui="ui" let-schema="schema">
+    <nz-tag *ngFor="let t of me.value?.split(',')" nzColor="error">{{ t }}</nz-tag>
+  </ng-template>
+  <ng-template sf-template="includeTables" let-me let-ui="ui" let-schema="schema">
+    <nz-tag *ngFor="let t of me.value?.split(',')" nzColor="success">{{ t }}</nz-tag>
   </ng-template>
   <div class="modal-footer">
     <button nz-button type="button" (click)="close()">关闭</button>
@@ -24,6 +40,6 @@
   <button nz-button nzType="dashed" nzBlock (click)="addEntitySourrce(es)">新增</button>
 </ng-template>
 <ng-template #es>
-  <fb-entitysource [(entitySource)]="entitySource" (entitySourceChange)="entitySourceChange($event)"></fb-entitysource>
+  <fb-entitysource [(entitySource)]="entitySource" (entitySourceChange)="entitySourceChange($event)"> </fb-entitysource>
 </ng-template>
 <!-- <ng-template #tablePreview> </ng-template> -->

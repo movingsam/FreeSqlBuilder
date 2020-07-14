@@ -56,7 +56,7 @@ namespace FreeSqlBuilder.TemplateEngine
                 case GeneratorMode.DbFirst:
                      
                     var dataSource = this.Project.GeneratorModeConfig.DataSource;
-                    this.AllDbTable = new DbFirstDto(dataSource.Name, dataSource.DbType, dataSource.ConnectionString).GetAllTable(
+                    this.AllDbTable = dataSource.GetAllTable(
                          ).ToArray();
                     break;
                 case GeneratorMode.CodeFirst:

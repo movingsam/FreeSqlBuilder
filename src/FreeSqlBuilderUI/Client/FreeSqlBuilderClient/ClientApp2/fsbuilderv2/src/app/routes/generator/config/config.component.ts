@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
@@ -23,7 +23,7 @@ export class GeneratorConfigComponent implements OnInit {
   columns: STColumn[] = [
     { title: '编号', index: 'id' },
     { title: '配置名称', index: 'name' },
-    { title: '配置类型', type: 'enum', enum: { 0: 'CodeFirst', 1: 'DbFirst' }, index: 'generatorMode' },
+    { title: '配置类型', type: 'enum', enum: { 0: 'DbFirst', 1: 'CodeFirst' }, index: 'generatorMode' },
     { title: '选中模式', type: 'enum', enum: { 0: '选中', 1: '忽略' }, index: 'pickType' },
     {
       title: '操作',
@@ -38,8 +38,13 @@ export class GeneratorConfigComponent implements OnInit {
               nzWidth: '80vw',
               nzBodyStyle: {
                 'overflow-y': 'scroll',
-                'max-height': '70vh'
+                'max-height': '70vh',
               },
+            },
+          },
+          click: (val, modal) => {
+            if (modal === true) {
+              this.st.reload();
             }
           },
         },
@@ -47,21 +52,25 @@ export class GeneratorConfigComponent implements OnInit {
     },
   ];
 
-  constructor(private config: GeneratorconfigService, private modal: ModalHelper) { }
+  constructor(private config: GeneratorconfigService, private modal: ModalHelper) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   add() {
     this.modal
-      .createStatic(GeneratorConfigEditComponent, { i: { id: 0 } }, {
-        modalOptions: {
-          nzWidth: '80vw',
-          nzBodyStyle: {
-            'overflow-y': 'scroll',
-            'max-height': '70vh'
+      .createStatic(
+        GeneratorConfigEditComponent,
+        { i: { id: 0 } },
+        {
+          modalOptions: {
+            nzWidth: '80vw',
+            nzBodyStyle: {
+              'overflow-y': 'scroll',
+              'max-height': '70vh',
+            },
           },
-        }
-      })
+        },
+      )
       .subscribe(() => this.st.reload());
   }
 }

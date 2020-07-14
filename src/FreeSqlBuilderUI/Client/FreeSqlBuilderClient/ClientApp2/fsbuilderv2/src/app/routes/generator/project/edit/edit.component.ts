@@ -17,6 +17,12 @@ import { ProjectService } from 'src/app/core/services/project.service';
       :host ::ng-deep .sf__fixed {
         flex-flow: wrap;
       }
+
+      ::-webkit-scrollbar {
+        /*隐藏滚轮*/
+
+        display: none;
+      }
     `,
   ],
 })
@@ -47,7 +53,7 @@ export class GeneratorProjectEditComponent implements OnInit {
     public msgSrv: NzMessageService,
     public projectService: ProjectService,
     public configService: GeneratorconfigService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.record.id > 0) {
@@ -108,15 +114,13 @@ export class GeneratorProjectEditComponent implements OnInit {
         projectBuilders: {
           type: 'array',
           title: '构建器',
-          properties: {
-
-          },
+          properties: {},
           ui: {
             grid: {
-              arraySpan: 24
-            }
-          } as SFArrayWidgetSchema
-        }
+              arraySpan: 24,
+            },
+          } as SFArrayWidgetSchema,
+        },
       },
       required: ['owner', 'callNo', 'href', 'description'],
     };

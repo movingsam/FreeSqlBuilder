@@ -1,4 +1,4 @@
-<div sg-container="2">
+<div sg-container="2" [style]="Style">
   <sg *ngFor="let item of Datas; let idx = index">
     <nz-card *ngIf="isDs(item); else elseTemplate" style="width: 100%;" [nzTitle]="item.comment" [nzExtra]="extraTemplate">
       <nz-descriptions [nzTitle]="item.name" [nzColumn]="1" nzBordered nzSize="small">
@@ -7,6 +7,9 @@
         >
       </nz-descriptions>
     </nz-card>
+    <ng-template #extraTemplate let-data>
+      <label nz-checkbox (click)="pick(idx)">{{ getType() }}</label>
+    </ng-template>
     <ng-template #elseTemplate>
       <nz-card style="width: 100%;" [nzTitle]="item.comment" [nzExtra]="extraTemplate">
         <nz-descriptions [nzTitle]="item.dbName" [nzColumn]="1" nzBordered nzSize="small">
@@ -15,9 +18,9 @@
           >
         </nz-descriptions>
       </nz-card>
-    </ng-template>
-    <ng-template #extraTemplate>
-      <a>{{ getType() }}</a>
+      <ng-template #extraTemplate let-data>
+        <label nz-checkbox [nzValue]="checked(idx)" (click)="pick(idx)">{{ getType() }}</label>
+      </ng-template>
     </ng-template>
   </sg>
 </div>

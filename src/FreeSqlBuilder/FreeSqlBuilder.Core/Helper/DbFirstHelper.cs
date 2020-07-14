@@ -16,12 +16,12 @@ namespace FreeSqlBuilder.Core.Helper
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static List<DbTableInfo> GetAllTable(this DbFirstDto dto)
+        public static List<DbTableInfo> GetAllTable(this DataSource ds)
         {
             using IFreeSql fsql = new FreeSql.FreeSqlBuilder()
-                .UseConnectionString(dto.DbType, dto.ConnectionString)
+                .UseConnectionString(ds.DbType, ds.ConnectionString)
                 .Build(); 
-            var res = fsql.DbFirst.GetTablesByDatabase();
+            var res = fsql.DbFirst.GetTablesByDatabase(ds.DataBaseNames);
             return res;
         }
         /// <summary>
