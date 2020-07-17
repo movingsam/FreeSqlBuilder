@@ -59,6 +59,16 @@ namespace FreeSqlBuilder.Controllers
             return Success(await _projectService.AddProjectInfoAsync(info));
         }
         /// <summary>
+        /// 项目新增
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> NewProject([FromBody]Project project)
+        {
+            return Success(await _projectService.Add(project, true));
+        }
+        /// <summary>
         /// 更新 项目基础资料
         /// </summary>
         /// <param name="info"></param>
@@ -66,9 +76,9 @@ namespace FreeSqlBuilder.Controllers
         [HttpPut("Info")]
         public async Task<IActionResult> UpdateInfo([FromBody]ProjectInfo info)
         {
-            return Success(await _projectService.UpdateProjectInfoAsync(info));
+            return Success(await _projectService.UpdateProjectInfoAsync(info, true));
         }
-      
+
         /// <summary>
         /// 删除项目
         /// </summary>
@@ -97,9 +107,9 @@ namespace FreeSqlBuilder.Controllers
         [HttpPut]
         public async Task<IActionResult> Update([FromBody]Project project)
         {
-            return Success(await _projectService.Update(project));
+            return Success(await _projectService.Update(project, true));
         }
-        
+
         /// <summary>
         /// 获取服务器的盘符及相关根目录
         /// </summary>
@@ -206,7 +216,7 @@ namespace FreeSqlBuilder.Controllers
         /// <returns></returns>
         [HttpPost("DbTableInfo")]
         public async Task<IActionResult> GetDbTableInfo([FromBody]DataSource ds)
-        { 
+        {
             var res = ds.GetAllTable();
             return Success(res.Select(x => new DbTableInfoDto(x)).ToList());
         }

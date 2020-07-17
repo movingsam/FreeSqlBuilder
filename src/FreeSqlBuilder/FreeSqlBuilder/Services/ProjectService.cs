@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FreeSqlBuilder.Services
@@ -54,6 +56,24 @@ namespace FreeSqlBuilder.Services
         public async Task<Project> Add(Project project, bool autoSave = false)
         {
             var res = await _projectRep.InsertAsync(project);
+            if (project.ProjectInfo != null)
+            {
+                var projectInfoId = _projectRep.Orm.Insert<ProjectInfo>().AppendData(project.ProjectInfo)
+                    .ExecuteIdentity();
+                await _projectRep.UpdateDiy.Set(x => x.ProjectInfoId, projectInfoId).Where(x => x.Id == res.Id)
+                    .ExecuteAffrowsAsync();
+            }
+            if (project.Builders.Count > 0)
+            {
+                var inserts = new List<ProjectBuilder>();
+                project.Builders.Select(x => new ProjectBuilder()
+                {
+                    BuilderId = x.Id,
+                    ProjectId = res.Id
+                });
+                _projectRep.Orm.Insert<ProjectBuilder>().AppendData(inserts).ExecuteAffrows();
+            }
+
             if (autoSave)
             {
                 this.UnitOfWork.Commit();
@@ -114,11 +134,18 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<int> Update(Project project, bool autoSave = false)
         {
+            project.ProjectInfo.Id = project.ProjectInfoId;
             var res = await _projectRep.UpdateAsync(project);
+            if (project.ProjectInfo != null)
+            {
+                await _projectRep.Orm.Update<ProjectInfo>().SetSource(project.ProjectInfo).ExecuteAffrowsAsync();
+            }
+            //##ToDo
+            //比较两次Builder之间的区别
             if (autoSave) UnitOfWork.Commit();
             return res;
         }
-         
+
 
         /// <summary>
         /// 查询项目

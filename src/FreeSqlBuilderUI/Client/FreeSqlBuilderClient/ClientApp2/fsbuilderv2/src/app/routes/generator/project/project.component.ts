@@ -49,14 +49,11 @@ export class GeneratorProjectComponent implements OnInit {
           type: 'modal',
           modal: {
             component: GeneratorProjectEditComponent,
-            modalOptions: {
-              nzOnOk: (res) => {
-                console.log(res);
-                if (res === true) {
-                  this.st.reload();
-                }
-              },
-            },
+          },
+          click: (val, modal) => {
+            if (modal === true) {
+              this.st.reload();
+            }
           },
         },
       ],
@@ -75,10 +72,23 @@ export class GeneratorProjectComponent implements OnInit {
 
   ngOnInit() {}
   add() {
-    console.log(this.st);
-    // console.log(this.st.dataSource);
-    // this.modal
-    //   .createStatic(FormEditComponent, { i: { id: 0 } })
-    //   .subscribe(() => this.st.reload());
+    this.modal
+      .createStatic(
+        GeneratorProjectEditComponent,
+        { i: { id: 0 } },
+        {
+          modalOptions: {
+            nzWidth: '80vw',
+            nzBodyStyle: {
+              'overflow-y': 'scroll',
+              'max-height': '70vh',
+            },
+          },
+        },
+      )
+      .subscribe(() => {
+        console.log(`刷新`);
+        this.st.reload();
+      });
   }
 }

@@ -32,8 +32,8 @@ export class ProjectService {
    * @param id 主键
    * @param project 项目实体
    */
-  updateProject(id: number, project: Project): Observable<boolean> {
-    return this.client.put<boolean>(`api/project/${id}`);
+  updateProject(project: Project): Observable<boolean> {
+    return this.client.put<boolean>(`api/project`, project);
   }
 
   /**

@@ -19,6 +19,9 @@ import { DataSource, EntitySource, GeneratorModeConfig, PickType } from 'src/app
     `,
   ],
 })
+/**
+ * 生成器配置编辑页
+ */
 export class GeneratorConfigEditComponent implements OnInit {
   constructor(
     private modal: NzModalRef,
@@ -74,6 +77,14 @@ export class GeneratorConfigEditComponent implements OnInit {
       setTimeout(() => {
         const isDs = this.sf.getProperty('/generatorMode').value === 0;
         const id = isDs ? this.sf.getProperty('/dataSourceId').value : this.sf.getProperty('/entitySourceId').value;
+        if (this.pickType === PickType.Ignore) {
+          this.tableNames = this.sf.getProperty('/ignoreTables').value.split(',');
+        } else {
+          this.tableNames = this.sf.getProperty('/includeTables').value.split(',');
+        }
+        if (this.tableNames[0] === '' && this.tableNames.length === 1) {
+          this.tableNames = [];
+        }
         this.previewTable(id, isDs);
       }, 1000);
     }
@@ -153,6 +164,14 @@ export class GeneratorConfigEditComponent implements OnInit {
             buttonStyle: 'solid',
             change: (val) => {
               this.pickType = val;
+              if (this.pickType === PickType.Ignore) {
+                this.tableNames = this.sf.getProperty('/ignoreTables').value.split(',');
+              } else {
+                this.tableNames = this.sf.getProperty('/includeTables').value.split(',');
+              }
+              if (this.tableNames[0] === '' && this.tableNames.length === 1) {
+                this.tableNames = [];
+              }
             },
           },
           default: 0,
@@ -335,11 +354,11 @@ export class GeneratorConfigEditComponent implements OnInit {
     }
   }
 
-  console(val) {
-    console.log(val);
-  }
+  /**
+   * 忽略或者包含表名数据变更回调
+   * @param value 值
+   */
   tableNameChange(value): void {
-    console.log(value, `tableNameChange`);
     if (this.pickType === PickType.Ignore) {
       console.log(value, `ignoreTables`);
       this.sf.setValue('/ignoreTables', value.join(','));

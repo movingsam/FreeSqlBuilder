@@ -1,13 +1,23 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { SFArrayWidgetSchema, SFObjectWidgetSchema, SFSchema, SFSelectWidgetSchema, SFTextWidgetSchema, SFUISchema } from '@delon/form';
-import { _HttpClient } from '@delon/theme';
+import {
+  SFArrayWidgetSchema,
+  SFComponent,
+  SFObjectWidgetSchema,
+  SFSchema,
+  SFSelectWidgetSchema,
+  SFTextWidgetSchema,
+  SFUISchema,
+} from '@delon/form';
+import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
 import { of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { Page } from 'src/app/core/services/interface/dto';
+import { Project } from 'src/app/core/services/interface/project';
 import { ProjectService } from 'src/app/core/services/project.service';
+import { GeneratorConfigEditComponent } from '../../config/edit/edit.component';
 
 @Component({
   selector: 'fb-generator-project-edit',
@@ -29,7 +39,9 @@ import { ProjectService } from 'src/app/core/services/project.service';
 export class GeneratorProjectEditComponent implements OnInit {
   record: any = {};
   @ViewChild('moreConfig', { static: true }) private moreConfig: TemplateRef<void>;
-  i: any;
+  @ViewChild('sf') sf: SFComponent;
+  Title = '新增项目';
+  i: Project;
   schema: SFSchema;
   ui: SFUISchema = {
     '*': {
@@ -50,6 +62,7 @@ export class GeneratorProjectEditComponent implements OnInit {
 
   constructor(
     private modal: NzModalRef,
+    private modalHelper: ModalHelper,
     public msgSrv: NzMessageService,
     public projectService: ProjectService,
     public configService: GeneratorconfigService,
@@ -57,9 +70,15 @@ export class GeneratorProjectEditComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.record.id > 0) {
-      this.projectService.getProject(this.record.id).subscribe((t) => (this.i = t));
+      this.projectService.getProject(this.record.id).subscribe((t) => {
+        this.i = t;
+        this.Title = `编辑项目:${t.projectInfo.projectName}`;
+      });
     }
-    this.schema = {
+    this.schema = this.SchemaInit();
+  }
+  SchemaInit(): SFSchema {
+    return {
       properties: {
         id: { type: 'number', ui: { widget: 'text' } as SFTextWidgetSchema, title: '编号' },
         projectInfo: {
@@ -74,6 +93,11 @@ export class GeneratorProjectEditComponent implements OnInit {
               type: 'string',
               title: '项目名称',
               description: '项目的名称',
+              ui: {
+                change: (value) => {
+                  this.Title = `编辑项目${value}`;
+                },
+              },
             },
             author: {
               type: 'string',
@@ -122,17 +146,45 @@ export class GeneratorProjectEditComponent implements OnInit {
           } as SFArrayWidgetSchema,
         },
       },
-      required: ['owner', 'callNo', 'href', 'description'],
+      required: ['projectInfo.projectName', 'projectInfo.author', 'projectInfo.outPutPath', 'projectInfo.rootPath'],
     };
   }
+
+  /**
+   * 新配置
+   */
   newConfig() {
-    // this.modal.open()
+    this.modalHelper
+      .createStatic(
+        GeneratorConfigEditComponent,
+        { i: { id: 0 } },
+        {
+          modalOptions: {
+            nzWidth: '80vw',
+            nzBodyStyle: {
+              'overflow-y': 'scroll',
+              'max-height': '70vh',
+            },
+          },
+        },
+      )
+      .subscribe(() => this.sf.refreshSchema(this.SchemaInit()));
   }
-  save(value: any) {
-    this.projectService.updateProject(value.id, value).subscribe((res) => {
-      this.msgSrv.success('保存成功');
-      this.modal.close(true);
-    });
+  /**
+   * 保存
+   */
+  save(value) {
+    if (this.record.id > 0) {
+      this.projectService.updateProject(value as Project).subscribe((res) => {
+        this.msgSrv.success('保存成功');
+        this.modal.close(true);
+      });
+    } else {
+      this.projectService.createProject(value as Project).subscribe((res) => {
+        this.msgSrv.success('新增成功');
+        this.modal.close(true);
+      });
+    }
   }
 
   close() {

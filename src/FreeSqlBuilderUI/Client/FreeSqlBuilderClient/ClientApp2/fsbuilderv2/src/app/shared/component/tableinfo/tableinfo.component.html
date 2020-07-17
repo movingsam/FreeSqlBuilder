@@ -8,7 +8,7 @@
       </nz-descriptions>
     </nz-card>
     <ng-template #extraTemplate let-data>
-      <label nz-checkbox (click)="pick(idx)">{{ getType() }}</label>
+      <label nz-checkbox [ngModel]="checked(idx)" (click)="pick(idx)">{{ getType() }}</label>
     </ng-template>
     <ng-template #elseTemplate>
       <nz-card style="width: 100%;" [nzTitle]="item.comment" [nzExtra]="extraTemplate">
@@ -19,7 +19,7 @@
         </nz-descriptions>
       </nz-card>
       <ng-template #extraTemplate let-data>
-        <label nz-checkbox [nzValue]="checked(idx)" (click)="pick(idx)">{{ getType() }}</label>
+        <label nz-checkbox [ngModel]="checked(idx)" (click)="pick(idx)">{{ getType() }}</label>
       </ng-template>
     </ng-template>
   </sg>
