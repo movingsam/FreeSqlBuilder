@@ -30,6 +30,11 @@ export class TableinfoComponent implements OnInit {
   getType() {
     return this.PickerType === PickType.Ignore ? `忽略` : `选中`;
   }
+
+  /**
+   * 选择
+   * @param value 值
+   */
   pick(value) {
     if (this.isDs(this.Datas[0])) {
       const tableName = (this.Datas[value] as DbTableInfoDto).name;
@@ -54,14 +59,11 @@ export class TableinfoComponent implements OnInit {
   }
 
   checked(index: number): boolean {
-    console.log(index);
     if (this.isDs(this.Datas[0])) {
       const tableName = (this.Datas[index] as DbTableInfoDto).name;
-      console.log(tableName, `tableName`);
       return this.tableNames.indexOf(tableName) !== -1;
     } else {
       const tableName = (this.Datas[index] as TableInfoDto).csName;
-      console.log(tableName, `tableName`);
       return this.tableNames.indexOf(tableName) !== -1;
     }
   }

@@ -1,0 +1,1215 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FreeSqlBuilder.Core</name>
+    </assembly>
+    <members>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.ExtensionOptions">
+            <summary>
+            拓展选项
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.StrExtensionOptions">
+            <summary>
+            扩展选项入库字段
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Name">
+            <summary>
+            构建器名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Prefix">
+            <summary>
+            前缀
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.OutPutPath">
+            <summary>
+            输出路径
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Mode">
+            <summary>
+            名称转换模式
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Template">
+            <summary>
+            模板
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.TemplateId">
+            <summary>
+            模板ID
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Suffix">
+            <summary>
+            后缀
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Type">
+            <summary>
+            构建类型
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.FileExtensions">
+            <summary>
+            生成文件的类型
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.DataSource.Name">
+            <summary>
+            数据源名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.DataSource.DbType">
+            <summary>
+            MySql,
+            SqlServer,
+            PostgreSQL,
+            Oracle,
+            Sqlite,
+            OdbcOracle,
+            OdbcSqlServer,
+            OdbcMySql,
+            OdbcPostgreSQL,
+            <summary>
+            通用的 Odbc 实现，只能做基本的 Crud 操作 <para></para>
+            不支持实体结构迁移、不支持分页（只能 Take 查询） <para></para>
+            
+            通用实现为了让用户自己适配更多的数据库，比如连接 mssql 2000、db2 等数据库<para></para>
+            默认适配 SqlServer，可以继承后重新适配 FreeSql.Odbc.Default.OdbcAdapter，最好去看下代码 <para></para> 
+            适配新的 OdbcAdapter，请在 FreeSqlBuilder.Build 之后调用 IFreeSql.SetOdbcAdapter 方法设置
+            </summary>Odbc,
+            <summary>武汉达梦数据库有限公司，基于 Odbc 的实现</summary>
+            OdbcDameng,
+            <summary>Microsoft Office Access 是由微软发布的关联式数据库管理系统</summary>
+            MsAccess,
+            <summary>武汉达梦数据库有限公司，基于 DmProvider.dll 的实现</summary>
+            Dameng,
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.DataSource.DataBaseName">
+            <summary>
+            数据库名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.DataSource.DataBaseNames">
+            <summary>
+            选中的数据库
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.DataSource.ConnectionString">
+            <summary>
+            数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.DataSource.GeneratorModeConfigs">
+            <summary>
+            生成器配置
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.EntitySource">
+            <summary>
+            实体来源
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.EntitySource.Id">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.EntitySource.Name">
+            <summary>
+            CodeFirst实体来源名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.EntitySource.EntityAssemblyName">
+            <summary>
+            从哪个程序集反射获取
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.EntitySource.EntityBaseName">
+            <summary>
+            基类
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.Id">
+            <summary>
+            唯一标识
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.GeneratorMode">
+            <summary>
+            生成器模式 CodeFirst根据实体代码来生成 DbFirst根据数据库生成代码
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.DataSourceId">
+            <summary>
+            数据源Id
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.DataSource">
+            <summary>
+            数据源
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.EntitySourceId">
+            <summary>
+            实体源Id
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.EntitySource">
+            <summary>
+            实体源
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.PickType">
+            <summary>
+            选中模式
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.Projects">
+            <summary>
+            项目对象
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.IncludeTables">
+            <summary>
+            只生成某些表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.IgnoreTables">
+            <summary>
+            忽略某些表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.IncludeTable">
+            <summary>
+            只生成某些表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.IgnoreTable">
+            <summary>
+            忽略某些表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.ProjectInfoId">
+            <summary>
+            项目ID
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.ProjectInfo">
+            <summary>
+            项目基本信息
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.GeneratorModeConfigId">
+            <summary>
+            生成器模式Id
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.GeneratorModeConfig">
+            <summary>
+            生成器模式相关配置
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.ProjectBuilders">
+            <summary>
+            项目构建器中间表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.Builders">
+            <summary>
+            多表构建器
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.GlobalBuilders">
+            <summary>
+            全表构建器
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.ProjectBuilder">
+            <summary>
+            项目-构建器中间表
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.ProjectInfo">
+            <summary>
+            项目基本信息
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.ProjectName">
+            <summary>
+            项目名——命名空间
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.RootPath">
+            <summary>
+            根目录
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.OutPutPath">
+            <summary>
+            输出路径 默认Output
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.Author">
+            <summary>
+            作者
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.Template">
+            <summary>
+            模板
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Template.BuilderOptions">
+            <summary>
+            构建配置
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Template.TemplateName">
+            <summary>
+            模板名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Template.TemplatePath">
+            <summary>                    
+            模板路径                     
+            </summary>                   
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Template.TemplateContent">
+            <summary>
+            模板内容
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Template.FileExtension">
+            <summary>
+            生成的文件后缀
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.DbFirstHelper.GetAllTable(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            获取相关数据库所有表结构
+            </summary>
+            <param name="dto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.DbFirstHelper.CheckDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            数据库检测
+            </summary>
+            <param name="ds"></param>
+            <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Helper.FileProviderHelper">
+            <summary>
+            文件提供助手
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,IFreeSql{FreeSqlBuilder.Core.FsBuilder},FreeSqlBuilder.Core.TemplateOptions)">
+            <summary>
+            文件提供助手
+            </summary>
+            <param name="_webEnv"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.GetDriveInfos">
+            <summary>
+            获取盘符
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.GetPathExsitDir(System.String)">
+            <summary>
+            获取路径下所有文件夹
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.GetPathExsitCshtml(System.String,System.String)">
+            <summary>
+            cshtml
+            </summary>
+            <param name="path"></param>
+            <param name="endwith"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.GetCshtml(System.String)">
+            <summary>
+            获取cshtml
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.CopyToProjectRoot(System.Type)">
+            <summary>
+            复制模板文件到项目目录
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.CopyFolder(System.String,System.String)">
+            <summary>
+            复制源文件夹下所有文件到目标文件夹
+            </summary>
+            <param name="sources"></param>
+            <param name="dest"></param>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Helper.ReflectionHelper">
+            <summary>
+            反射助手
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Helper.ReflectionHelper.SkipAssemblies">
+            <summary>
+            反射助手
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetAssembliesName">
+            <summary>
+            获取程序集名称
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetAbstractClass(System.String)">
+            <summary>
+            获取基类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetTableInfos(System.String,System.String)">
+            <summary>
+            获取相关表
+            </summary>
+            <param name="assemblyName"></param>
+            <param name="entityBaseName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetTypesFromEntityBaseName(System.Collections.Generic.List{System.Type},System.Type)">
+            <summary>
+            从TypeList中删选baseType相关联的类
+            </summary>
+            <param name="types"></param>
+            <param name="baseType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetAssemblies">
+            <summary>
+            获取程序集列表
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.LoadAssemblies(System.String)">
+            <summary>
+            加载程序集到当前应用程序域
+            </summary>
+            <param name="path">目录绝对路径</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.LoadAssemblyToAppDomain(System.String)">
+            <summary>
+            将程序集添加当前应用程序域
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetAssembliesFromCurrentAppDomain">
+            <summary>
+            从当前应用程序域获取程序集列表
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.Match(System.Reflection.Assembly)">
+            <summary>
+            程序集是否匹配
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.Match(System.String)">
+            <summary>
+            程序集是否匹配
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Helper.Item">
+            <summary>
+            项
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.Item.#ctor(System.String,System.String)">
+            <summary>
+            构造
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.IOutPut.OutPutPath">
+            <summary>
+            输出路径
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.IPrefix.Prefix">
+            <summary>
+            前缀
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.ITemplate.TemplateName">
+            <summary>
+            模板名称
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.ITemplate.TemplatePath">
+            <summary>
+            模板路径
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.ITemplate.TemplateContent">
+            <summary>
+            模板内容
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.ITemplate.FileExtension">
+            <summary>
+            文件后缀
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.TemplateOptions.DbSet">
+            <summary>
+            Sqlite持久化地址
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Check.NotNull``1(``0,System.String,System.String)">
+            <summary>
+            判断对象是否为空 若为空抛出异常
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <param name="parameterName"></param>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Check.NotNull``1(System.Nullable{``0},System.String,System.String)">
+            <summary>
+            判断对象是否为空 若为空抛出异常
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="value"></param>
+            <param name="message"></param>
+            <param name="parameterName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Check.NotEmpty(System.String,System.String)">
+            <summary>
+            判断字符串是否为空
+            </summary>
+            <param name="value"></param>
+            <param name="parameterName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Comment.GetProperyCommentBySummary(System.Type)">
+            <summary>
+            通过属性的注释文本，通过 xml 读取
+            </summary>
+            <param name="type"></param>
+            <returns>Dict：key=属性名，value=注释</returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Utilities.Common">
+            <summary>
+            常用公共操作
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Common.GetType``1">
+            <summary>
+            获取类型
+            </summary>
+            <typeparam name="T">类型</typeparam>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Common.GetType(System.Type)">
+            <summary>
+            获取类型
+            </summary>
+            <param name="type">类型</param>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Utilities.Common.Line">
+            <summary>
+            换行符
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Utilities.Common.IsLinux">
+            <summary>
+            是否Linux操作系统
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Utilities.Common.IsWindows">
+            <summary>
+            是否Windows操作系统
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Utilities.Common.IsOsx">
+            <summary>
+            是否苹果操作系统
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Utilities.Common.System">
+            <summary>
+            当前操作系统
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Utilities.ConvertHelper">
+            <summary>
+            类型转换帮助类
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToInt(System.Object)">
+            <summary>
+            转换为32位整型
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToIntOrNull(System.Object)">
+            <summary>
+            转换为32位可空整型
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToLong(System.Object)">
+            <summary>
+            转换为64位整型
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToLongOrNull(System.Object)">
+            <summary>
+            转换为64位可空整型
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToFloat(System.Object,System.Nullable{System.Int32})">
+            <summary>
+            转换为32位浮点型,并按指定小数位舍入
+            </summary>
+            <param name="input">输入值</param>
+            <param name="digits">小数位数</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToFloatOrNull(System.Object,System.Nullable{System.Int32})">
+            <summary>
+            转换为32位可空浮点型,并按指定小数位舍入
+            </summary>
+            <param name="input">输入值</param>
+            <param name="digits">小数位数</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToDouble(System.Object,System.Nullable{System.Int32})">
+            <summary>
+            转换为64位浮点型,并按指定小数位舍入
+            </summary>
+            <param name="input">输入值</param>
+            <param name="digits">小数位数</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToDoubleOrNull(System.Object,System.Nullable{System.Int32})">
+            <summary>
+            转换为64位可空浮点型,并按指定小数位舍入
+            </summary>
+            <param name="input">输入值</param>
+            <param name="digits">小数位数</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToDecimal(System.Object,System.Nullable{System.Int32})">
+            <summary>
+            转换为128位浮点型,并按指定小数位舍入
+            </summary>
+            <param name="input">输入值</param>
+            <param name="digits">小数位数</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToDecimalOrNull(System.Object,System.Nullable{System.Int32})">
+            <summary>
+            转换为128位可空浮点型,并按指定小数位舍入
+            </summary>
+            <param name="input">输入值</param>
+            <param name="digits">小数位数</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToBool(System.Object)">
+            <summary>
+            转换为布尔值
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToBoolOrNull(System.Object)">
+            <summary>
+            转换为可空布尔值
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.GetBool(System.Object)">
+            <summary>
+            获取布尔值
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToDate(System.Object)">
+            <summary>
+            转换为日期
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToDateOrNull(System.Object)">
+            <summary>
+            转换为可空日期
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToGuid(System.Object)">
+            <summary>
+            转换为Guid
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToGuidOrNull(System.Object)">
+            <summary>
+            转换为可空Guid
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToGuidList(System.String)">
+            <summary>
+            转换为Guid集合
+            </summary>
+            <param name="input">以逗号分隔的Guid集合字符串，范例:83B0233C-A24F-49FD-8083-1337209EBC9A,EAB523C6-2FE7-47BE-89D5-C6D440C3033A</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToList``1(System.String)">
+            <summary>
+            泛型集合转换
+            </summary>
+            <typeparam name="T">目标元素类型</typeparam>
+            <param name="input">以逗号分隔的元素集合字符串，范例:83B0233C-A24F-49FD-8083-1337209EBC9A,EAB523C6-2FE7-47BE-89D5-C6D440C3033A</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.To``1(System.Object)">
+            <summary>
+            通用泛型转换
+            </summary>
+            <typeparam name="T">目标类型</typeparam>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToBytes(System.String)">
+            <summary>
+            转换为字节数组
+            </summary>
+            <param name="input">输入值</param>        
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.ConvertHelper.ToBytes(System.String,System.Text.Encoding)">
+            <summary>
+            转换为字节数组
+            </summary>
+            <param name="input">输入值</param>
+            <param name="encoding">字符编码</param>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Utilities.Enum">
+            <summary>
+            枚举操作
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.Parse``1(System.Object)">
+            <summary>
+            获取实例
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+            <param name="member">成员名或值,范例:Enum1枚举有成员A=0,则传入"A"或"0"获取 Enum1.A</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetName``1(System.Object)">
+            <summary>
+            获取成员名
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+            <param name="member">成员名、值、实例均可,范例:Enum1枚举有成员A=0,则传入Enum1.A或0,获取成员名"A"</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetName(System.Type,System.Object)">
+            <summary>
+            获取成员名
+            </summary>
+            <param name="type">枚举类型</param>
+            <param name="member">成员名、值、实例均可</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetValue``1(System.Object)">
+            <summary>
+            获取成员值
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+            <param name="member">成员名、值、实例均可，范例:Enum1枚举有成员A=0,可传入"A"、0、Enum1.A，获取值0</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetValue(System.Type,System.Object)">
+            <summary>
+            获取成员值
+            </summary>
+            <param name="type">枚举类型</param>
+            <param name="member">成员名、值、实例均可</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetDescription``1(System.Object)">
+            <summary>
+            获取描述,使用System.ComponentModel.Description特性设置描述
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+            <param name="member">成员名、值、实例均可</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetDescription(System.Type,System.Object)">
+            <summary>
+            获取描述,使用System.ComponentModel.Description特性设置描述
+            </summary>
+            <param name="type">枚举类型</param>
+            <param name="member">成员名、值、实例均可</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetNames``1">
+            <summary>
+            获取名称集合
+            </summary>
+            <typeparam name="TEnum">枚举类型</typeparam>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Enum.GetNames(System.Type)">
+            <summary>
+            获取名称集合
+            </summary>
+            <param name="type">枚举类型</param>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Utilities.Finder">
+            <summary>
+            类型查找器
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Utilities.Finder.SkipAssemblies">
+            <summary>
+            跳过的程序集
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.GetAssemblies">
+            <summary>
+            获取程序集列表
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.LoadAssemblies(System.String)">
+            <summary>
+            加载程序集到当前应用程序域
+            </summary>
+            <param name="path">目录绝对路径</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.Match(System.String)">
+            <summary>
+            程序集是否匹配
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.LoadAssemblyToAppDomain(System.String)">
+            <summary>
+            将程序集添加当前应用程序域
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.GetAssembliesFromCurrentAppDomain">
+            <summary>
+            从当前应用程序域获取程序集列表
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.Match(System.Reflection.Assembly)">
+            <summary>
+            程序集是否匹配
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.Find``1(System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            查找类型列表
+            </summary>
+            <typeparam name="T">查找类型</typeparam>
+            <param name="assemblies">在指定的程序集列表中查找</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Finder.Find(System.Type,System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            查找类型列表
+            </summary>
+            <param name="findType">查找类型</param>
+            <param name="assemblies">在指定的程序集列表中查找</param>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Utilities.IFind">
+            <summary>
+            类型查找器
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.IFind.GetAssemblies">
+            <summary>
+            获取程序集列表
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.IFind.Find``1(System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            查找类型列表
+            </summary>
+            <typeparam name="T">查找类型</typeparam>
+            <param name="assemblies">在指定的程序集列表中查找</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.IFind.Find(System.Type,System.Collections.Generic.List{System.Reflection.Assembly})">
+            <summary>
+            查找类型列表
+            </summary>
+            <param name="findType">查找类型</param>
+            <param name="assemblies">在指定的程序集列表中查找</param>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Utilities.Reflection">
+            <summary>
+            反射操作
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDescription``1">
+            <summary>
+            获取类型描述，使用DescriptionAttribute设置描述
+            </summary>
+            <typeparam name="T">类型</typeparam>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDescription``1(System.String)">
+            <summary>
+            获取类型成员描述，使用DescriptionAttribute设置描述
+            </summary>
+            <typeparam name="T">类型</typeparam>
+            <param name="memberName">成员名称</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDescription(System.Type,System.String)">
+            <summary>
+            获取类型成员描述，使用DescriptionAttribute设置描述
+            </summary>
+            <param name="type">类型</param>
+            <param name="memberName">成员名称</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDescription(System.Reflection.MemberInfo)">
+            <summary>
+            获取类型成员描述，使用DescriptionAttribute设置描述
+            </summary>
+            <param name="member">成员</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDisplayName``1">
+            <summary>
+            获取显示名称，使用DisplayNameAttribute设置显示名称
+            </summary>
+            <typeparam name="T">类型</typeparam>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDisplayName(System.Reflection.MemberInfo)">
+            <summary>
+            获取显示名称，使用DisplayAttribute或DisplayNameAttribute设置显示名称
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDisplayNameOrDescription``1">
+            <summary>
+            获取显示名称或描述,使用DisplayNameAttribute设置显示名称,使用DescriptionAttribute设置描述
+            </summary>
+            <typeparam name="T">类型</typeparam>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetDisplayNameOrDescription(System.Reflection.MemberInfo)">
+            <summary>
+            获取属性显示名称或描述,使用DisplayAttribute或DisplayNameAttribute设置显示名称,使用DescriptionAttribute设置描述
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.FindTypes``1(System.Reflection.Assembly[])">
+            <summary>
+            查找类型列表
+            </summary>
+            <typeparam name="TFind">查找类型</typeparam>
+            <param name="assemblies">待查找的程序集列表</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.FindTypes(System.Type,System.Reflection.Assembly[])">
+            <summary>
+            查找类型列表
+            </summary>
+            <param name="findType">查找类型</param>
+            <param name="assemblies">待查找的程序集列表</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetTypes(System.Type,System.Reflection.Assembly)">
+            <summary>
+            获取类型列表
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.AddType(System.Collections.Generic.List{System.Type},System.Type,System.Type)">
+            <summary>
+            添加类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.MatchGeneric(System.Type,System.Type)">
+            <summary>
+            泛型匹配
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetInstancesByInterface``1(System.Reflection.Assembly[])">
+            <summary>
+            获取实现了接口的所有实例
+            </summary>
+            <typeparam name="TInterface">接口类型</typeparam>
+            <param name="assemblies">待查找的程序集列表</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.CreateInstance``1(System.Type,System.Object[])">
+            <summary>
+            动态创建实例
+            </summary>
+            <typeparam name="T">目标类型</typeparam>
+            <param name="type">类型</param>
+            <param name="parameters">传递给构造函数的参数</param>        
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetAssembly(System.String)">
+            <summary>
+            获取程序集
+            </summary>
+            <param name="assemblyName">程序集名称</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsString(System.Reflection.PropertyInfo)">
+            <summary>
+            是否布尔类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsBool(System.Reflection.MemberInfo)">
+            <summary>
+            是否布尔类型
+            </summary>
+            <param name="member">成员</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsBool(System.Reflection.PropertyInfo)">
+            <summary>
+            是否布尔类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsEnum(System.Reflection.MemberInfo)">
+            <summary>
+            是否枚举类型
+            </summary>
+            <param name="member">成员</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsEnum(System.Reflection.PropertyInfo)">
+            <summary>
+            是否枚举类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsDate(System.Reflection.MemberInfo)">
+            <summary>
+            是否日期类型
+            </summary>
+            <param name="member">成员</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsDate(System.Reflection.PropertyInfo)">
+            <summary>
+            是否日期类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsInt(System.Reflection.MemberInfo)">
+            <summary>
+            是否整型
+            </summary>
+            <param name="member">成员</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsInt(System.Reflection.PropertyInfo)">
+            <summary>
+            是否整型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsNumber(System.Reflection.MemberInfo)">
+            <summary>
+            是否数值类型
+            </summary>
+            <param name="member">成员</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsNumber(System.Reflection.PropertyInfo)">
+            <summary>
+            是否数值类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsGuid(System.Reflection.MemberInfo)">
+            <summary>
+            是否Guid类型
+            </summary>
+            <param name="member"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsGuid(System.Reflection.PropertyInfo)">
+            <summary>
+            是否Guid类型
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsCollection(System.Type)">
+            <summary>
+            是否集合
+            </summary>
+            <param name="type">类型</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsGenericCollection(System.Type)">
+            <summary>
+            是否泛型集合
+            </summary>
+            <param name="type">类型</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetAssemblies(System.String)">
+            <summary>
+            从目录中获取所有程序集
+            </summary>
+            <param name="directoryPath">目录绝对路径</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetTopBaseType``1">
+            <summary>
+            获取顶级基类
+            </summary>
+            <typeparam name="T">类型</typeparam>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.GetTopBaseType(System.Type)">
+            <summary>
+            获取顶级基类
+            </summary>
+            <param name="type">类型</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.IsBaseType(System.Type)">
+            <summary>
+            是否是基础类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.SystemCsType(System.Type)">
+            <summary>
+            系统类型转换字符串
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.Reflection.ToCsType(System.Type)">
+            <summary>
+            转CSharp类型字符串
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.SafeString(System.Object)">
+            <summary>
+            安全转换为字符串，去除两端空格，当值为null时返回""
+            </summary>
+            <param name="input">输入值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToBool(System.String)">
+            <summary>
+            转换为bool
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToBoolOrNull(System.String)">
+            <summary>
+            转换为可空bool
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToInt(System.String)">
+            <summary>
+            转换为int
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToIntOrNull(System.String)">
+            <summary>
+            转换为可空int
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToLong(System.String)">
+            <summary>
+            转换为long
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToLongOrNull(System.String)">
+            <summary>
+            转换为可空long
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToDouble(System.String)">
+            <summary>
+            转换为double
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToDoubleOrNull(System.String)">
+            <summary>
+            转换为可空double
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToDecimal(System.String)">
+            <summary>
+            转换为decimal
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToDecimalOrNull(System.String)">
+            <summary>
+            转换为可空decimal
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToDate(System.String)">
+            <summary>
+            转换为日期
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToDateOrNull(System.String)">
+            <summary>
+            转换为可空日期
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToGuid(System.String)">
+            <summary>
+            转换为Guid
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToGuidOrNull(System.String)">
+            <summary>
+            转换为可空Guid
+            </summary>
+            <param name="obj">数据</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToGuidList(System.String)">
+            <summary>
+            转换为Guid集合
+            </summary>
+            <param name="obj">数据,范例: "83B0233C-A24F-49FD-8083-1337209EBC9A,EAB523C6-2FE7-47BE-89D5-C6D440C3033A"</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.ToGuidList(System.Collections.Generic.IList{System.String})">
+            <summary>
+            转换为Guid集合
+            </summary>
+            <param name="obj">字符串集合</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.Join``1(System.Collections.Generic.IEnumerable{``0},System.String,System.String)">
+            <summary>
+            将集合连接为带分隔符的字符串
+            </summary>
+            <typeparam name="T">集合元素类型</typeparam>
+            <param name="list">集合</param>
+            <param name="quotes">引号，默认不带引号，范例：单引号 "'"</param>
+            <param name="separator">分隔符，默认使用逗号分隔</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.FirstLowerCase(System.String)">
+            <summary>
+            首字母小写
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.FirstUpperCase(System.String)">
+            <summary>
+            首字母大写
+            </summary>
+            <param name="value">值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.RemoveEnd(System.String,System.String)">
+            <summary>
+            移除末尾字符串
+            </summary>
+            <param name="value">值</param>
+            <param name="removeValue">要移除的值</param>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Utilities.StringHelper.SplitWordGroup(System.String,System.Char)">
+            <summary>
+            分隔词组
+            </summary>
+            <param name="value">值</param>
+            <param name="separator">分隔符，默认使用"-"分隔</param>
+        </member>
+    </members>
+</doc>

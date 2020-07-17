@@ -241,6 +241,13 @@
             <param name="info"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewProject(FreeSqlBuilder.Core.Entities.Project)">
+            <summary>
+            项目新增
+            </summary>
+            <param name="project"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.UpdateInfo(FreeSqlBuilder.Core.Entities.ProjectInfo)">
             <summary>
             更新 项目基础资料
