@@ -53,7 +53,7 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<int> Remove(long id);
+        Task<int> Remove(long id,bool autoSave=false);
 
         /// <summary>
         /// 更新项目

@@ -63,12 +63,12 @@ namespace FreeSqlBuilder.Core.Entities
         /// 只生成某些表
         /// </summary>
         [Column(IsIgnore = true)]
-        public List<string> IncludeTable => IncludeTables?.Split(",").ToList();
+        public List<string> IncludeTable => IncludeTables?.Split(",").ToList() ?? new List<string>();
         /// <summary>
         /// 忽略某些表
         /// </summary>
         [Column(IsIgnore = true)]
-        public List<string> IgnoreTable => IgnoreTables?.Split(",").ToList();
+        public List<string> IgnoreTable => IgnoreTables?.Split(",").ToList() ?? new List<string>();
 
         public void Validate()
         {

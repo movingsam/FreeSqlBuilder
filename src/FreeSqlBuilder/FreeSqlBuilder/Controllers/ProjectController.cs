@@ -6,13 +6,16 @@ using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.DbFirst;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Core.Helper;
+using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals;
 using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Modals.Dtos;
 using FreeSqlBuilder.Services;
 using FreeSqlBuilder.TemplateEngine;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 
 namespace FreeSqlBuilder.Controllers
 {
@@ -27,6 +30,7 @@ namespace FreeSqlBuilder.Controllers
         private readonly IWebHostEnvironment _webHostEnv;
         private readonly ReflectionHelper _reflection;
         private readonly BuildTask _buildTask;
+        private readonly TempBuildTask _tempBuildTask;
         /// <summary>
         /// 控制器构造注入
         /// </summary>
@@ -38,6 +42,7 @@ namespace FreeSqlBuilder.Controllers
             _webHostEnv = service.GetService<IWebHostEnvironment>();
             _reflection = service.GetService<ReflectionHelper>();
             _buildTask = service.GetService<BuildTask>();
+            _tempBuildTask = service.GetService<TempBuildTask>();
         }
         /// <summary>
         /// 分页查询
@@ -54,7 +59,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPost("Info/New")]
-        public async Task<IActionResult> NewInfo([FromBody]ProjectInfo info)
+        public async Task<IActionResult> NewInfo([FromBody] ProjectInfo info)
         {
             return Success(await _projectService.AddProjectInfoAsync(info));
         }
@@ -64,9 +69,9 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="project"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> NewProject([FromBody]Project project)
+        public async Task<IActionResult> NewProject([FromBody] ProjectDto project)
         {
-            return Success(await _projectService.Add(project, true));
+            return Success(await _projectService.Add(project.ToEntity(), true));
         }
         /// <summary>
         /// 更新 项目基础资料
@@ -74,7 +79,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="info"></param>
         /// <returns></returns>
         [HttpPut("Info")]
-        public async Task<IActionResult> UpdateInfo([FromBody]ProjectInfo info)
+        public async Task<IActionResult> UpdateInfo([FromBody] ProjectInfo info)
         {
             return Success(await _projectService.UpdateProjectInfoAsync(info, true));
         }
@@ -87,7 +92,7 @@ namespace FreeSqlBuilder.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Remove(long id)
         {
-            return Success(await _projectService.Remove(id));
+            return Success(await _projectService.Remove(id, true));
         }
         /// <summary>
         /// 获取项目
@@ -105,9 +110,9 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="project"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody]Project project)
+        public async Task<IActionResult> Update([FromBody] ProjectDto project)
         {
-            return Success(await _projectService.Update(project, true));
+            return Success(await _projectService.Update(project.ToEntity(), true));
         }
 
         /// <summary>
@@ -138,7 +143,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="type"></param>
         /// <returns></returns>
         [HttpGet("/api/File/{type}")]
-        public async Task<IActionResult> GetCshtml(string path, [FromRoute]string type)
+        public async Task<IActionResult> GetCshtml(string path, [FromRoute] string type)
         {
             return Success(await _fileProvider.GetPathExsitCshtml(path, type));
         }
@@ -210,12 +215,27 @@ namespace FreeSqlBuilder.Controllers
             return Success();
         }
         /// <summary>
+        /// 临时任务,只通过构建器生成任务
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost("Task/Temp/Build/{id}")]
+        public async Task<IActionResult> TempBuildTask(long id)
+        {
+            var builder = await HttpContext.RequestServices.GetService<IBuilderService>().GetBuilder(id);
+            _tempBuildTask.ImportSetting(builder);
+            await _tempBuildTask.Start();
+            var res = Path.Combine(AppContext.BaseDirectory, "FreeSqlBuilder",
+                builder.OutPutPath);
+            return Success(res);
+        }
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="dto"></param>
         /// <returns></returns>
         [HttpPost("DbTableInfo")]
-        public async Task<IActionResult> GetDbTableInfo([FromBody]DataSource ds)
+        public async Task<IActionResult> GetDbTableInfo([FromBody] DataSource ds)
         {
             var res = ds.GetAllTable();
             return Success(res.Select(x => new DbTableInfoDto(x)).ToList());

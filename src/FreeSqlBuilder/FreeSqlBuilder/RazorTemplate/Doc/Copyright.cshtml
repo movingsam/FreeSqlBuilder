@@ -1,9 +1,9 @@
-﻿@model FreeSqlBuilder.TemplateEngine.BuildTask
+﻿@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    var project = Model.Project;
+    var author = Model.Author;
 }
 //*******************************
-// 创建者 @project.ProjectInfo.Author
+// 创建者 @author
 // 创建日期 @DateTime.Now.ToString("yyyy-MM-dd HH:mm")
 // 创建引擎 FreeSqlBuilder
 //*******************************

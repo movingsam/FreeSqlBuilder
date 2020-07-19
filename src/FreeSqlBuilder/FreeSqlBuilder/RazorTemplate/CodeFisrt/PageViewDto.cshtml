@@ -1,11 +1,9 @@
 ﻿@using FreeSqlBuilder.TemplateEngine.Utilities
-@model FreeSqlBuilder.TemplateEngine.BuildTask
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    Layout = "_Layout.cshtml";
-    var project = Model.Project;
+    Layout = "_Layout.cshtml"; 
     var table = Model.CurrentTable;
-    var builder = Model.CurrentBuilder;
-    var dtoName =  project.GetBuilder("Dtos").GetName(table.CsName);
+    var builder = Model.CurrentBuilder; 
     var primaryKeyType = table.GetPrimarysName();
     var className = builder.GetName(table.CsName);
 }
@@ -14,11 +12,11 @@ using SFast.Infrastructure.Dtos;
 using System.Collections.Generic;
 @table.GetNameSpaceUsing()
 
-namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
-    public class @className : PageViewDtoBase<@($"{dtoName},{primaryKeyType}")>
+    public class @className : PageViewDtoBase<@($"{table.CsName},{primaryKeyType}")>
     {
-       public @className (IPaged paged, List<@dtoName> datas):base(paged,datas)
+       public @className (IPaged paged, List<@table.CsName> datas):base(paged,datas)
        {
         
        }

@@ -1,5 +1,5 @@
 <nz-spin *ngIf="!dataSource" class="modal-spin"></nz-spin>
-<sf #sf *ngIf="dataSource" #sf mode="default" [schema]="schema" [formData]="ds" (formChange)="change($event)" button="none">
+<sf #sf *ngIf="dataSource" #sf mode="default" [ui]="ui" [schema]="schema" [formData]="ds" (formChange)="change($event)" button="none">
   <ng-template sf-template="connectionString" let-me let-ui="ui" let-schema="schema">
     <nz-input-group nzSearch [nzAddOnAfter]="suffixButton">
       <input
@@ -14,6 +14,15 @@
     </nz-input-group>
     <ng-template #suffixButton>
       <button nz-button nzType="primary" (click)="checkConnection()">检查连接</button>
+      <!-- <button nz-button>预览</button> -->
     </ng-template>
   </ng-template>
 </sf>
+<fb-tableinfo
+  *ngIf="tableInfos"
+  [Style]="{
+    'overflow-y': 'scroll',
+    'max-height': '300px'
+  }"
+  [Datas]="tableInfos"
+></fb-tableinfo>

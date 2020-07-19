@@ -16,19 +16,52 @@ using FreeSqlBuilder.TemplateEngine.Utilities;
 
 namespace FreeSqlBuilder.TemplateEngine
 {
-    public class BuildTask
+    public class BuildTask : IBuilderTask
     {
-        public IFreeSql FreeSql { get; set; }
-        private RazorTemplateEngine _engine;
+        /// <summary>
+        /// 引擎对象
+        /// </summary>
+        private readonly RazorTemplateEngine _engine;
         private int CurrentIndex { get; set; } = 0;
+        /// <summary>
+        /// 所有实体表 忽略后的
+        /// </summary>
         public TableInfo[] AllTable { get; set; }
-        public DbTableInfo[] AllDbTable { get; set; }
+        /// <summary>
+        /// 全局获取所有实体表 不管有没有忽略生成
+        /// </summary>
         public TableInfo[] GAllTable { get; set; }
+        /// <summary>
+        /// 所有数据库中的表
+        /// </summary>
+        public DbTableInfo[] AllDbTable { get; set; }
+        /// <summary>
+        /// 当前数据库表
+        /// </summary>
         public DbTableInfo CurrentDbTable => AllDbTable[CurrentIndex];
+        /// <summary>
+        /// 当前实体表
+        /// </summary>
         public TableInfo CurrentTable => AllTable[CurrentIndex];
+        /// <summary>
+        /// 当前构建器选项
+        /// </summary>
         public BuilderOptions CurrentBuilder { get; set; }
+        /// <summary>
+        /// 作者
+        /// </summary>
+        public string Author => Project.ProjectInfo.Author;
+        /// <summary>
+        /// 所有项目信息
+        /// </summary>
         public Project Project { get; set; }
+        /// <summary>
+        /// 反射帮助类
+        /// </summary>
         private readonly ReflectionHelper _reflectionHelper;
+        /// <summary>
+        /// 日志帮助
+        /// </summary>
         private readonly ILogger<BuildTask> _logger;
         public BuildTask(IServiceProvider serviceProvider)
         {
@@ -47,30 +80,24 @@ namespace FreeSqlBuilder.TemplateEngine
                 this.ImportSetting(JsonConvert.DeserializeObject<Project>(jsonConfigStr));
             }
         }
-
+        /// <summary>
+        /// 配置导入
+        /// </summary>
+        /// <param name="project"></param>
         public void ImportSetting(Project project)
         {
             this.Project = project;
             switch (this.Project.GeneratorModeConfig.GeneratorMode)
             {
                 case GeneratorMode.DbFirst:
-                     
                     var dataSource = this.Project.GeneratorModeConfig.DataSource;
-                    this.AllDbTable = dataSource.GetAllTable(
-                         ).ToArray();
+                    this.AllDbTable = dataSource.GetAllTable().ToArray();
                     break;
                 case GeneratorMode.CodeFirst:
                     var tempRes = _reflectionHelper
                         .GetTableInfos(this.Project.GeneratorModeConfig.EntitySource.EntityAssemblyName, this.Project.GeneratorModeConfig.EntitySource.EntityBaseName).Result;
                     this.GAllTable = tempRes.ToArray();
-                    if (this.Project.GeneratorModeConfig.PickType == PickType.Ignore)
-                    {
-                        this.AllTable = tempRes.Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.CsName)).ToArray();
-                    }
-                    else
-                    {
-                        this.AllTable = tempRes.Where(x => this.Project.GeneratorModeConfig.IncludeTable.Contains(x.CsName)).ToArray();
-                    }
+                    this.AllTable = this.Project.GeneratorModeConfig.PickType == PickType.Ignore ? tempRes.Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.CsName)).ToArray() : tempRes.Where(x => this.Project.GeneratorModeConfig.IncludeTable.Contains(x.CsName)).ToArray();
                     break;
                 default:
                     break;
@@ -81,30 +108,14 @@ namespace FreeSqlBuilder.TemplateEngine
         {
             do
             {
-                if (this.Project.GeneratorModeConfig.GeneratorMode == GeneratorMode.CodeFirst)
+                var tableName = this.Project.GeneratorModeConfig.GeneratorMode == GeneratorMode.CodeFirst ? CurrentTable.CsName : CurrentDbTable.Name;
+                foreach (var builder in Project.Builders)//构造器
                 {
-                    var tableName = CurrentTable.CsName;
-                    foreach (var builder in Project.Builders)//构造器
-                    {
-                        CurrentBuilder = builder;//记录当前执行的构建器
-                        var content = await _engine.Render(this, builder.Template.TemplatePath);
-                        await builder.OutPut(tableName, content);
-                        _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
-                        _logger.LogInformation($"内容:{content}");
-                    }
-                }
-                else
-                {
-                    var tableName = CurrentDbTable.Name;
-                    foreach (var builder in Project.Builders)//构造器
-                    {
-                        CurrentBuilder = builder;//记录当前执行的构建器
-                        var content = await _engine.Render(this, builder.Template.TemplatePath);
-                        await builder.OutPut(tableName, content);
-                        _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
-                        _logger.LogInformation($"内容:{content}");
-                    }
-
+                    CurrentBuilder = builder;//记录当前执行的构建器
+                    var content = await _engine.Render(this, builder.Template.TemplatePath);
+                    await builder.OutPut(tableName, content);
+                    _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
+                    _logger.LogInformation($"内容:{content}");
                 }
             }
             while (Next());
@@ -125,12 +136,9 @@ namespace FreeSqlBuilder.TemplateEngine
                 CurrentIndex++;
                 return true;
             }
-            else
-            {
-                if (CurrentIndex == AllDbTable.Length - 1) return false;
-                CurrentIndex++;
-                return true;
-            }
+            if (CurrentIndex == AllDbTable.Length - 1) return false;
+            CurrentIndex++;
+            return true;
         }
     }
 }

@@ -3,6 +3,7 @@ import { STColumn, STComponent, STData, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { Console } from 'console';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Page, PageView } from 'src/app/core/services/interface/dto';
 import { Project } from 'src/app/core/services/interface/project';
 import { ProjectService } from 'src/app/core/services/project.service';
@@ -42,7 +43,14 @@ export class GeneratorProjectComponent implements OnInit {
     {
       title: '操作',
       buttons: [
-        { text: '查看', click: (item: any) => `/form/${item.id}` },
+        {
+          text: '生成', type: 'link', click: (item: any) => {
+            this.projectService.buildTask(item.id).subscribe(r => {
+              this.msgSer.success(`生成成功`);
+              this.st.reload();
+            });
+          }
+        },
         {
           icon: 'edit',
           text: '编辑',
@@ -55,6 +63,13 @@ export class GeneratorProjectComponent implements OnInit {
               this.st.reload();
             }
           },
+        }, {
+          text: '删除', type: 'del', click: (item: any) => {
+            this.projectService.deleteProject(item.id).subscribe(r => {
+              this.msgSer.success(`删除成功`);
+              this.st.reload();
+            });
+          }
         },
       ],
     },
@@ -66,11 +81,11 @@ export class GeneratorProjectComponent implements OnInit {
   //   return data;
   // };
 
-  constructor(private projectService: ProjectService, private modal: ModalHelper) {
+  constructor(private projectService: ProjectService, private modal: ModalHelper, private msgSer: NzMessageService) {
     this.page = new Page();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
   add() {
     this.modal
       .createStatic(

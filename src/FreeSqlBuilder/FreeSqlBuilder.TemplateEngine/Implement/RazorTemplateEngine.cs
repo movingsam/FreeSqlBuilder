@@ -1,4 +1,5 @@
-﻿using FreeSqlBuilder.Core.Utilities;
+﻿using System;
+using FreeSqlBuilder.Core.Utilities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -14,14 +15,15 @@ namespace FreeSqlBuilder.TemplateEngine.Implement
         public string Name { get; private set; } = "Razor";
         private readonly string _root;
         private readonly IServiceScopeFactory _scopeFactory;
+        private string _tempDir;
         public RazorTemplateEngine(IServiceScopeFactory service)
         {
             _scopeFactory = service;
             _root = service.CreateScope().ServiceProvider.GetService<IWebHostEnvironment>().ContentRootPath;
-            var temp = Path.Combine(_root, TEMP);
-            if (!Directory.Exists(temp))
+            _tempDir = Path.Combine(_root, TEMP);
+            if (!Directory.Exists(_tempDir))
             {
-                Directory.CreateDirectory(temp);
+                Directory.CreateDirectory(_tempDir);
             }
         }
 
@@ -30,15 +32,33 @@ namespace FreeSqlBuilder.TemplateEngine.Implement
             using var serviceScope = _scopeFactory.CreateScope();
             var helper = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRender>();
             if (!Path.IsPathRooted(viewPath)) return await helper.RenderViewToStringAsync(viewPath, context);
-            viewPath = GetAbsolutePath(viewPath);
-            var result = await helper.RenderViewToStringAsync(viewPath, context);
+            viewPath = GetTempViewPath(viewPath);
+            var rel = Path.GetRelativePath(_root, viewPath);
+            var result = await helper.RenderViewToStringAsync(rel, context);
+            File.Delete(viewPath);
             return result;
 
         }
 
-        private string GetAbsolutePath(string viewPath)
+        public async Task<string> Render(TempBuildTask context, string viewPath)
         {
-            return Path.GetRelativePath(this._root, viewPath);
+            using var serviceScope = _scopeFactory.CreateScope();
+            var helper = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRender>();
+            if (!Path.IsPathRooted(viewPath)) return await helper.RenderViewToStringAsync(viewPath, context);
+            viewPath = GetTempViewPath(viewPath);
+            var rel = Path.GetRelativePath(_root, viewPath);
+            var result = await helper.RenderViewToStringAsync(rel, context);
+            File.Delete(viewPath);
+            return result;
+
         }
+
+        private string GetTempViewPath(string viewPath)
+        {
+            var tempFileName = $"{Path.GetFileNameWithoutExtension(viewPath)}-{Guid.NewGuid():N}{Path.GetExtension(viewPath)}";
+            var destFileName = Path.Combine(_tempDir, tempFileName);
+            File.Copy(viewPath, destFileName); 
+            return destFileName;
+        } 
     }
 }

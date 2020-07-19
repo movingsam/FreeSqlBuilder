@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { STComponent } from '@delon/abc/st';
-import { SFComponent, SFSchema } from '@delon/form';
+import { SFComponent, SFSchema, SFUISchema } from '@delon/form';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { TableInfoDto } from 'src/app/core/services/dtos/tableinfo';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
+import { HelperService } from 'src/app/core/services/helper.service';
 import { DataSource } from 'src/app/core/services/interface/project';
 
 @Component({
@@ -11,8 +13,15 @@ import { DataSource } from 'src/app/core/services/interface/project';
   styles: [],
 })
 export class DatasourceComponent implements OnInit {
+  /**
+   * 构造
+   */
+  constructor(private service: GeneratorconfigService, private helper: HelperService, private msgServe: NzMessageService) {
+
+  }
   @ViewChild('sf') sf: SFComponent;
   ds: DataSource = new DataSource();
+  tableInfos: TableInfoDto[];
   /**
    * 数据源
    */
@@ -52,10 +61,17 @@ export class DatasourceComponent implements OnInit {
         type: 'string',
         title: '数据库链接',
         ui: {
-          widget: 'custom'
+          widget: 'custom',
+          grid: { span: 24 }
         },
         default: ''
       },
+    },
+  };
+  ui: SFUISchema = {
+    '*': {
+      spanLabelFixed: 100,
+      grid: { span: 12 },
     },
   };
 
@@ -70,19 +86,15 @@ export class DatasourceComponent implements OnInit {
       .subscribe(r => {
         if (r) {
           this.msgServe.success(`连接成功`);
+          this.helper.getTableInfo(ds).subscribe((tbInfo: TableInfoDto[]) => {
+            this.tableInfos = tbInfo;
+          });
         }
         else {
           this.msgServe.warning(`连接失败`);
         }
       });
   }
-  /**
-   * 构造
-   */
-  constructor(private service: GeneratorconfigService, private msgServe: NzMessageService) {
-
-  }
-
   change(ds): void {
     this.dataSource = ds;
     this.dataSourceChange.emit(this.dataSource);

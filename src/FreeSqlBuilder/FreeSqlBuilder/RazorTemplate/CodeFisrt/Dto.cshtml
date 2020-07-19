@@ -1,21 +1,19 @@
 ﻿@using FreeSqlBuilder.TemplateEngine.Utilities
 @using FreeSqlBuilder.Core.Utilities
-@model FreeSqlBuilder.TemplateEngine.BuildTask
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    Layout = "_Layout.cshtml";
-    var project = Model.Project;
+    Layout = "_Layout.cshtml"; 
     var table = Model.CurrentTable;
     var builder = Model.CurrentBuilder;
     var navigates = table.Properties.Keys.Except(table.Columns.Keys);
 
 }
 
-using SFast.Infrastructure.Dtos;
 @table.GetNameSpaceUsing()
 
-namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
-    @($"{table.Comment}Dtos".GetCSharpSummary())
+    @($"{table.Comment}Dto".GetCSharpSummary())
     public class @builder.GetName(table.CsName) : DtoBase<@table.GetPrimarysName()>
     {
         @foreach (var column in table.Columns)

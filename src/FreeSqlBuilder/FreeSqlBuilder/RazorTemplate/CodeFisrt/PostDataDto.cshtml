@@ -1,8 +1,7 @@
 ﻿@using FreeSqlBuilder.TemplateEngine.Utilities
-@model FreeSqlBuilder.TemplateEngine.BuildTask
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    Layout = "_Layout.cshtml";
-    var project = Model.Project;//当前执行项目
+    Layout = "_Layout.cshtml"; 
     var table = Model.CurrentTable;//当前执行表
     var builder = Model.CurrentBuilder;//当前执行构建器
     var className = builder.GetName(table.CsName);//通过转换器转换名称
@@ -12,7 +11,7 @@ using SFast.Infrastructure.Dtos;
 using System.ComponentModel.DataAnnotations;
 @table.GetNameSpaceUsing()
 
-namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/", "."))
+namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/", "."))
 {
     public class @className : PostDataDtoBase
     {
@@ -22,7 +21,7 @@ namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTable
         {
             continue;
         }
-        @column.Value.CsName.GetCSharpSummary()
+        @column.Value.Comment.GetCSharpSummary()
         @Html.NewLine()
         @column.Value.GetDtoAttribute()
         @:public  @column.Value.GetCsTypeName() @column.Value.CsName { get; set; }

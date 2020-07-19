@@ -1,9 +1,9 @@
-﻿@model FreeSqlBuilder.TemplateEngine.BuildTask
+﻿@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    var project = Model.Project;
+    var m = Model;
 }
 //*******************************
-// Create By @project.ProjectInfo.Author
+// Create By @m.Author
 // Date @DateTime.Now.ToString("yyyy-MM-dd HH:mm")
 // Code Generate By FreeSqlGenerator
 //*******************************

@@ -40,6 +40,20 @@ namespace FreeSqlBuilder.Services
                 .GetPage(page);
         }
         /// <summary>
+        /// 通过Id获取构建器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<BuilderOptions> GetBuilder(long id)
+        {
+            return await _builderRep.Select.Include(x => x.Template)
+                .LeftJoin(x => x.Config.Id == x.FastConfigId)
+                .Include(x => x.Config.DataSource)
+                .Include(x => x.Config.EntitySource)
+                .Where(x => x.Id == id).ToOneAsync();
+        }
+
+        /// <summary>
         /// 新增构建器
         /// </summary>
         /// <param name="builderOptions"></param>

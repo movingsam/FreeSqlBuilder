@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text.Encodings.Web;
-using FreeSql;
+﻿using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Repository;
@@ -8,11 +6,12 @@ using FreeSqlBuilder.Services;
 using FreeSqlBuilder.TemplateEngine;
 using FreeSqlBuilder.TemplateEngine.Implement;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Text.Encodings.Web;
 
 // ReSharper disable once CheckNamespace
-namespace FreeSqlBuilder
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// 代码生成器服务相关拓展
@@ -23,7 +22,6 @@ namespace FreeSqlBuilder
         /// 添加FreeSqlGen相关 
         /// 模板地址默认:DefaultTemplatePath = "RazorTemplate"
         /// sqlite持久化默认地址 SqliteDbConnectionString="Data Source=fsbuilder.db;Version=3"
-        /// 
         /// </summary>
         /// <param name="services"></param>
         /// <param name="setupAction">生成器模板配置项</param>
@@ -34,8 +32,9 @@ namespace FreeSqlBuilder
             if (string.IsNullOrWhiteSpace(options.DbSet.ConnectionString)) throw new Exception("ConnectionString必须填写");
             services.AddSingleton(options);//配置导入
             services.AddMvc(opt => opt.EnableEndpointRouting = false)
-                .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确
-                .AddRazorRuntimeCompilation();//MVC动态编译
+                .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确 
+                .AddRazorRuntimeCompilation();//MVC动态编译 
+            ;
             services.AddFreeSqlCore();
             services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文编码处理
             services.AddSingleton<FileProviderHelper>();//文件相关处理
@@ -52,6 +51,7 @@ namespace FreeSqlBuilder
             services.AddScoped<IUnitOfWork>(x => x.GetService<IFreeSql<FsBuilder>>().CreateUnitOfWork());
             services.AddScoped<ReflectionHelper>();//反射助手
             services.AddScoped<BuildTask>();//核心任务
+            services.AddScoped<TempBuildTask>();//快速构建器任务
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎
             services.AddTransient<RazorViewToStringRender>();//Razor渲染字符串工具
             var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();

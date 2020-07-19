@@ -1,8 +1,7 @@
 ﻿@using FreeSqlBuilder.TemplateEngine.Utilities
-@model FreeSqlBuilder.TemplateEngine.BuildTask
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    Layout = "_Layout.cshtml";
-    var project = Model.Project;
+    Layout = "_Layout.cshtml"; 
     var table = Model.CurrentTable;
     var builder = Model.CurrentBuilder;
 }
@@ -10,7 +9,7 @@
 using SFast.Infrastructure.Dtos;
 using System;
 
-namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
     public class @builder.GetName(table.CsName) : RequestDtoBase
     {

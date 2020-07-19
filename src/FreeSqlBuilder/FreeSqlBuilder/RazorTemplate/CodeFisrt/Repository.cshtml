@@ -1,14 +1,13 @@
 ﻿@using FreeSqlBuilder.TemplateEngine.Utilities
-@model FreeSqlBuilder.TemplateEngine.BuildTask
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
     Layout = "_Layout.cshtml";
-    var project = Model.Project;
     var table = Model.CurrentTable;
     var primaryKeyType = table.GetPrimarysName();
     var name = Model.CurrentBuilder.GetName(table.CsName);
     var isTree = (table.Properties.Keys.Intersect(new[] { "Level", "ParentId", "Parent","Children","NodePath","IsDeleted","Enabled" })).Count() ==7;
-    var baseClass = isTree ? $"TreeRepository<{table.CsName},{table.GetPrimarysName()},{table.GetPrimarysName()}?,I{project.ProjectInfo.ProjectName}DbContext>,I{name}"
-        : $"RepositoryBase<{table.CsName},I{project.ProjectInfo.ProjectName}DbContext>,I{name}";
+    var baseClass = isTree ? $"TreeRepository<{table.CsName},{table.GetPrimarysName()},{table.GetPrimarysName()}?,IDbContext>,I{name}"
+        : $"RepositoryBase<{table.CsName},IDbContext>,I{name}";
 }
 
 using System;
@@ -21,7 +20,7 @@ using Microsoft.Extensions.Logging;
 using @table.Type.Namespace;
 using SFast.IRepositories;
 
-namespace @(project.ProjectInfo.ProjectName).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
 
 @($"{table.Comment}仓储".GetCSharpSummary())

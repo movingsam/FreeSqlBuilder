@@ -20,7 +20,7 @@ namespace AngularGenerator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFreeSqlBuilder();
+            services.AddFreeSqlBuilder(x => { x.DbSet.ConnectionString = "Data Source=G:\\github\\movingsam\\FreeSqlBuilder\\samples\\AngularGenerator\\fsbuilder.db;Version=3"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
