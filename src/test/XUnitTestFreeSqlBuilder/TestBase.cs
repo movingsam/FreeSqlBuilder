@@ -1,6 +1,11 @@
 using System;
+using System.Diagnostics;
+using AngularGenerator;
 using FreeSql;
 using FreeSqlBuilder.Core;
+using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -25,10 +30,14 @@ namespace XUnitTestFsBuilderProject
                 .UseConnectionString(DataType.Sqlite, Configuration.GetConnectionString("Sqlite"))
                 .UseAutoSyncStructure(true)
                 .Build<FsBuilder>());
+            var listener = new DiagnosticListener("Microsoft.AspNetCore");
+            Service.AddSingleton<DiagnosticListener>(listener);
+            Service.AddSingleton<DiagnosticSource>(listener);
             ServiceProvider = Build();
         }
 
         public abstract void ServiceConfig();
+        
 
         public IServiceProvider Build()
         {
@@ -36,5 +45,20 @@ namespace XUnitTestFsBuilderProject
             return Service.BuildServiceProvider();
         }
 
+    }
+
+    public class TestServerFactory : WebApplicationFactory<Startup>
+    {
+        protected override IWebHostBuilder CreateWebHostBuilder()
+        {
+            return WebHost.CreateDefaultBuilder(null)
+                .UseStartup<Startup>();
+        }
+    }
+    public class TestStartup : Startup
+    {
+        public TestStartup(IConfiguration configuration) : base(configuration)
+        {
+        }
     }
 }

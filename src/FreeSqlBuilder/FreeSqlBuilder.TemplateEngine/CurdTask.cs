@@ -7,7 +7,7 @@ namespace FreeSqlBuilder.TemplateEngine
     /// </summary>
     public class CurdTask
     {
-        public CurdTask(BuildTask task, TableInfo info)
+        public CurdTask(IBuilderTask task, TableInfo info)
         {
             this.Task = task;
             this.CurrentTable = info;
@@ -16,7 +16,7 @@ namespace FreeSqlBuilder.TemplateEngine
         /// <summary>
         /// 任务进程
         /// </summary>
-        public BuildTask Task { get; set; }
+        public IBuilderTask Task { get; set; }
         /// <summary>
         /// 当前执行的表
         /// </summary>

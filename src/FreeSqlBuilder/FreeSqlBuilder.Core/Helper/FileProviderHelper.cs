@@ -141,6 +141,7 @@ namespace FreeSqlBuilder.Core.Helper
         private void ImportTemplate(string outPutPath)
         {
             var allTemplate = _freeSql.Select<Template>().ToList();
+            var root = Directory.GetCurrentDirectory();
             DirectoryInfo dinfo = new DirectoryInfo(outPutPath);
             //注，这里面传的是路径，并不是文件，所以不能包含带后缀的文件                
             foreach (FileSystemInfo f in dinfo.GetFileSystemInfos())
@@ -153,13 +154,14 @@ namespace FreeSqlBuilder.Core.Helper
                     {
                         TemplateContent = content,
                         TemplateName = f.Name,
-                        TemplatePath = f.FullName
+                        TemplatePath = Path.GetRelativePath(root, f.FullName)
                     };
-                    var template = allTemplate.FirstOrDefault(x => x.TemplateName == file.TemplateName && x.TemplatePath == file.TemplatePath);
+                    var template = allTemplate.FirstOrDefault(x => x.TemplateName == file.TemplateName);
                     if (template != null)
                     {
-                        if (template.TemplateContent.GetHashCode() == content.GetHashCode()) continue;
+                        if (template.TemplateContent.GetHashCode() == content.GetHashCode() && template.TemplatePath.GetHashCode() == file.TemplatePath.GetHashCode()) continue;
                         template.TemplateContent = content;
+                        template.TemplatePath = file.TemplatePath;
                         _freeSql.Update<Template>().SetSource(template).ExecuteAffrows();
                     }
                     else

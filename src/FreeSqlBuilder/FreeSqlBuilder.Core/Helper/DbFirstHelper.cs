@@ -10,11 +10,10 @@ namespace FreeSqlBuilder.Core.Helper
 {
     public static class DbFirstHelper
     {
-
         /// <summary>
         /// 获取相关数据库所有表结构
         /// </summary>
-        /// <param name="dto"></param>
+        /// <param name="ds"></param>
         /// <returns></returns>
         public static List<DbTableInfo> GetAllTable(this DataSource ds)
         {

@@ -17,6 +17,12 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         Task<PageView<BuilderOptions>> GetBuilderPage(IPage page);
         /// <summary>
+        /// 通过id获取构建器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<BuilderOptions> GetBuilder(long id);
+        /// <summary>
         /// 新增构建器信息
         /// </summary>
         /// <param name="builderOptions"></param>

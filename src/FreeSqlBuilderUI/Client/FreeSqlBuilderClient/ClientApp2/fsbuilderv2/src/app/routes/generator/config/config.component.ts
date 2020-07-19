@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { GeneratorConfigEditComponent } from './edit/edit.component';
 
@@ -47,14 +48,23 @@ export class GeneratorConfigComponent implements OnInit {
               this.st.reload();
             }
           },
-        },
+        }, {
+          text: '删除',
+          type: 'del',
+          click: (value: any) => {
+            this.config.delConfig(value.id).subscribe(r => {
+              this.msgSer.success(`删除成功`);
+              this.st.reload();
+            });
+          }
+        }
       ],
     },
   ];
 
-  constructor(private config: GeneratorconfigService, private modal: ModalHelper) {}
+  constructor(private config: GeneratorconfigService, private modal: ModalHelper, private msgSer: NzMessageService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   add() {
     this.modal

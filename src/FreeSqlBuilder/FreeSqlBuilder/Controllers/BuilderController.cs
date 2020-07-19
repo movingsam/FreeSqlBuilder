@@ -21,9 +21,20 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get(Page page)
+        public async Task<IActionResult> Get(PageRequest page)
         {
             return Success(await BuilderService.GetBuilderPage(page));
+        }
+        /// <summary>
+        /// 通过ID获取构建器
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(long id)
+        {
+            return Success(await BuilderService.GetBuilder(id));
+
         }
         /// <summary>
         /// 新增构建器
@@ -31,7 +42,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="options"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]BuilderOptions options)
+        public async Task<IActionResult> Add([FromBody] BuilderOptions options)
         {
             return Success(await BuilderService.AddBuilder(options, true));
         }
@@ -51,7 +62,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="options"></param>
         /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateBuilder([FromBody]BuilderOptions options)
+        public async Task<IActionResult> UpdateBuilder([FromBody] BuilderOptions options)
         {
             return Success(await BuilderService.UpdateBuilder(options, true));
         }

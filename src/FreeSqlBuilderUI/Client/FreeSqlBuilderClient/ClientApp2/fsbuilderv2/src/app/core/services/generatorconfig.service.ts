@@ -8,7 +8,7 @@ import { DataSource, EntitySource, GeneratorModeConfig } from './interface/proje
 
 @Injectable()
 export class GeneratorconfigService {
-  constructor(public client: _HttpClient) {}
+  constructor(public client: _HttpClient) { }
 
   /**
    * 获取配置分页列表
@@ -132,5 +132,9 @@ export class GeneratorconfigService {
    */
   createEntitySource(es: EntitySource): Observable<EntitySource> {
     return this.client.post<EntitySource>(`api/config/entitySource`, es);
+  }
+
+  delConfig(id: number): Observable<boolean> {
+    return this.client.delete<boolean>(`api/config/${id}`);
   }
 }

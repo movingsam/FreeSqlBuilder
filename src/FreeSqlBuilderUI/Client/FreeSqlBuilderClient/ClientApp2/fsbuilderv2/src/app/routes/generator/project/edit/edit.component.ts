@@ -1,5 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {
+  FormProperty,
   SFArrayWidgetSchema,
   SFComponent,
   SFObjectWidgetSchema,
@@ -11,8 +12,10 @@ import {
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { TransferChange, TransferItem, TransferSelectChange } from 'ng-zorro-antd/transfer';
 import { of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
+import { BuilderService } from 'src/app/core/services/builder.service';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { Page } from 'src/app/core/services/interface/dto';
 import { Project } from 'src/app/core/services/interface/project';
@@ -26,12 +29,6 @@ import { GeneratorConfigEditComponent } from '../../config/edit/edit.component';
     `
       :host ::ng-deep .sf__fixed {
         flex-flow: wrap;
-      }
-
-      ::-webkit-scrollbar {
-        /*隐藏滚轮*/
-
-        display: none;
       }
     `,
   ],
@@ -48,16 +45,22 @@ export class GeneratorProjectEditComponent implements OnInit {
       spanLabelFixed: 100,
       grid: { span: 12 },
     },
-    $no: {
-      widget: 'text',
+    $generatorModeConfigId: {
+      ui: { spanControl: 9 },
+      grid: { span: 24 }
     },
-    $href: {
-      widget: 'string',
-    },
-    $description: {
-      widget: 'textarea',
-      grid: { span: 24 },
-    },
+    $projectBuilders: {
+      items: {
+        properties: {
+          '*': {
+            ui: {
+              spanControl: 12
+            }
+          }
+        }
+      }
+    }
+
   };
 
   constructor(
@@ -65,8 +68,9 @@ export class GeneratorProjectEditComponent implements OnInit {
     private modalHelper: ModalHelper,
     public msgSrv: NzMessageService,
     public projectService: ProjectService,
+    public builderService: BuilderService,
     public configService: GeneratorconfigService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.record.id > 0) {
@@ -80,7 +84,7 @@ export class GeneratorProjectEditComponent implements OnInit {
   SchemaInit(): SFSchema {
     return {
       properties: {
-        id: { type: 'number', ui: { widget: 'text' } as SFTextWidgetSchema, title: '编号' },
+        // id: { type: 'number', ui: { widget: 'text' } as SFTextWidgetSchema, title: '编号' },
         projectInfo: {
           title: '项目信息',
           type: 'object',
@@ -116,35 +120,36 @@ export class GeneratorProjectEditComponent implements OnInit {
             },
           },
         },
-        generatorModeConfig: {
-          type: 'object',
+        generatorModeConfigId: {
+          type: 'number',
           title: '生成器配置',
           ui: {
-            type: 'card',
-            cardExtra: this.moreConfig,
-            grid: { span: 24 },
+            widget: 'select',
+            dropdownRender: this.moreConfig,
+            asyncData: () => this.configService.getGeneratorConfigSelect(),
           } as SFObjectWidgetSchema,
-          properties: {
-            id: {
-              type: 'number',
-              ui: {
-                widget: 'select',
-                asyncData: () => this.configService.getGeneratorConfigSelect(),
-              } as SFSelectWidgetSchema,
-              title: '选择',
+        },
+        buildersId: {
+          type: 'number',
+          title: '构建器',
+          uniqueItems: true,
+          ui: {
+            widget: 'transfer',
+            titles: ['未选中', '选中'],
+            grid: { span: 24 },
+            asyncData: () => {
+              return this.builderService.getBuilderSelect();
             },
+            selectChange: (val: TransferSelectChange) => {
+              console.log(val);
+              this.sf.setValue('/_buildersId', val.list.map<number>((x) => x.key));
+            }
           },
         },
-        projectBuilders: {
+        _buildersId: {
           type: 'array',
-          title: '构建器',
-          properties: {},
-          ui: {
-            grid: {
-              arraySpan: 24,
-            },
-          } as SFArrayWidgetSchema,
-        },
+          ui: { hidden: true }
+        }
       },
       required: ['projectInfo.projectName', 'projectInfo.author', 'projectInfo.outPutPath', 'projectInfo.rootPath'],
     };
@@ -168,7 +173,13 @@ export class GeneratorProjectEditComponent implements OnInit {
           },
         },
       )
-      .subscribe(() => this.sf.refreshSchema(this.SchemaInit()));
+      .subscribe((id) => {
+        const generatorModeConfigId = this.sf.getProperty('/generatorModeConfigId');
+        this.configService.getGeneratorConfigSelect().subscribe(r => {
+          generatorModeConfigId.schema.enum = r;
+          this.sf.setValue('/generatorModeConfigId', id);
+        });
+      });
   }
   /**
    * 保存

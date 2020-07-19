@@ -12,6 +12,10 @@ using FreeSqlBuilder.Core.Entities;
 
 namespace FreeSqlBuilder.TemplateEngine.Utilities
 {
+    /// <summary>
+    /// Razor拓展
+    /// 若有别的想法 可以自定义 在模板中可以自行调用
+    /// </summary>
     public static class RazorExtensions
     {
         /// <summary>
@@ -85,7 +89,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             csharpSummary.Append("        ///</summary>");
             return csharpSummary.ToString();
         }
-
+        /// <summary>
+        /// 计算引用
+        /// </summary>
+        /// <param name="usings"></param>
+        /// <returns></returns>
         public static string GetUsing(this List<string> usings)
         {
             StringBuilder usingStr = new StringBuilder();
@@ -258,8 +266,12 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         {
             return Reflection.ToCsType(info.CsType);
         }
-
-        public static List<KeyValuePair<string, TableInfo>> GetNavigates(this BuildTask task)
+        /// <summary>
+        /// 获取导航属性
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static List<KeyValuePair<string, TableInfo>> GetNavigates(this IBuilderTask task)
         {
             var navigateKeys = task.CurrentTable.Properties.Keys.Except(task.CurrentTable.Columns.Keys);
             var types = navigateKeys.Select(t => GetGenericFirstTypeName(task.CurrentTable.Properties.FirstOrDefault(p => p.Key == t).Value.PropertyType)).ToList();

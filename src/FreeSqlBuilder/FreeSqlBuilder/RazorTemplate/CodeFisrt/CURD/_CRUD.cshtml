@@ -2,8 +2,7 @@
 @using CurdTask = FreeSqlBuilder.TemplateEngine.CurdTask
 @model CurdTask
 @{
-    var task = Model;
-    var project = task.Task.Project;
+    var task = Model; 
     var table = task.CurrentTable;
     var nick = table?.CsName?.ToLower();
     var repName = $"_{nick}Rep";
@@ -21,7 +20,7 @@
     var includeManysStr = string.Join(Html.NewLine(Html.PadLeft(8)+"."),includeManys);
     includeManysStr = (!string.IsNullOrWhiteSpace(includeManysStr) ? Html.NewLine(Html.PadLeft(8)+".") : "") + includeManysStr;
 }
-@(Html.NewLine($"#region {table?.Comment}相关增删改查"))
+@*@(Html.NewLine($"#region {table?.Comment}相关增删改查"))
 @Html.PadLeft(4)@($"{table?.Comment}分页查询".GetCSharpSummary())
 @Html.PadLeft(4)public async Task<@(project.GetPageViewDto(table.CsName))>Query@(table.CsName)Page (@project.GetPagedDto(table.CsName) dto){
 @($@"
@@ -59,4 +58,4 @@
       return Mapper.Map<@($"{project.GetDto(table.CsName)}")>(res);
 }
 @(Html.NewLine("#endregion"))
-@(Html.NewLine())
+@(Html.NewLine())*@

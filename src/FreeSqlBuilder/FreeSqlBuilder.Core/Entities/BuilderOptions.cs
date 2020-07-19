@@ -83,8 +83,22 @@ namespace FreeSqlBuilder.Core.Entities
         /// 生成文件的类型
         /// </summary>
         public string FileExtensions { get; set; } = "cs";
-        public virtual ICollection<ProjectBuilder> ProjectBuilders { get; set; }
+        /// <summary>
+        /// 快速生成使用的配置
+        /// </summary>
+        public long FastConfigId { get; set; }
+        /// <summary>
+        /// 配置对象
+        /// </summary>
+        public GeneratorModeConfig Config { get; set; }
 
+        /// <summary>
+        /// 项目构建器中间表
+        /// </summary>
+        public virtual ICollection<ProjectBuilder> ProjectBuilders { get; set; }
+        /// <summary>
+        /// 项目
+        /// </summary>
         public virtual ICollection<Project> Projects
         {
             get
@@ -93,14 +107,26 @@ namespace FreeSqlBuilder.Core.Entities
                 return ProjectBuilders?.Select(x => x.Project).ToList();
             }
         }
-
+        /// <summary>
+        /// 验证
+        /// </summary>
         public void Validate()
         {
             Check.CheckCondition(() => !(TemplateId > 0), "模板必须选择 否则无法生成代码");
         }
     }
+    /// <summary>
+    /// 构建器类型
+    /// </summary>
     public enum BuilderType
     {
-        Builder, GlobalBuilder
+        /// <summary>
+        /// 单表构建器
+        /// </summary>
+        Builder,
+        /// <summary>
+        /// 全表构建器
+        /// </summary>
+        GlobalBuilder
     }
 }

@@ -63,17 +63,10 @@ namespace FreeSqlBuilder.Services
                 await _projectRep.UpdateDiy.Set(x => x.ProjectInfoId, projectInfoId).Where(x => x.Id == res.Id)
                     .ExecuteAffrowsAsync();
             }
-            if (project.Builders.Count > 0)
+            if (project.ProjectBuilders.Count > 0)
             {
-                var inserts = new List<ProjectBuilder>();
-                project.Builders.Select(x => new ProjectBuilder()
-                {
-                    BuilderId = x.Id,
-                    ProjectId = res.Id
-                });
-                _projectRep.Orm.Insert<ProjectBuilder>().AppendData(inserts).ExecuteAffrows();
+                _projectRep.Orm.Insert<ProjectBuilder>().AppendData(project.ProjectBuilders).ExecuteAffrows();
             }
-
             if (autoSave)
             {
                 this.UnitOfWork.Commit();
@@ -121,9 +114,11 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<int> Remove(long id)
+        public async Task<int> Remove(long id, bool autoSave = false)
         {
-            return await _projectRep.DeleteAsync(x => x.Id == id);
+            var res = await _projectRep.DeleteAsync(x => x.Id == id);
+            if (autoSave) UnitOfWork.Commit();
+            return res;
         }
 
         /// <summary>
@@ -140,11 +135,34 @@ namespace FreeSqlBuilder.Services
             {
                 await _projectRep.Orm.Update<ProjectInfo>().SetSource(project.ProjectInfo).ExecuteAffrowsAsync();
             }
-            //##ToDo
             //比较两次Builder之间的区别
+            if (project.ProjectBuilders.Count > 0)
+            {
+                var update = builderChange(project);
+                var insert = update.insert.Select(s => new ProjectBuilder() { BuilderId = s, ProjectId = project.Id });
+                _projectRep.Orm.Insert<ProjectBuilder>().AppendData(insert).ExecuteAffrows();
+                _projectRep.Orm.Delete<ProjectBuilder>().Where(x => x.ProjectId == project.Id && update.delete.Contains(x.BuilderId)).ExecuteAffrows();
+            }
             if (autoSave) UnitOfWork.Commit();
             return res;
         }
+        /// <summary>
+        /// 计算新旧差别并计算出新增删除的中间表
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        private (List<long> insert, List<long> delete) builderChange(Project project)
+        {
+            var oldBuilderList = _projectRep.Orm.Select<ProjectBuilder>()
+                .Where(x => x.ProjectId == project.Id)
+                .ToList(x => x.BuilderId);
+            var newBuilderList = project.ProjectBuilders.Select(s => s.BuilderId);
+            var intersect = project.BuildersId.Intersect(oldBuilderList);
+            var insert = newBuilderList.Except(intersect).ToList();
+            var delete = oldBuilderList.Except(intersect).ToList();
+            return (insert, delete);
+        }
+
 
 
         /// <summary>
@@ -153,14 +171,17 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<Project> Get(long id)
         {
-            return await _projectRep
+            var res = await _projectRep
                 .Select
                 .Include(x => x.ProjectInfo)
                 .Include(x => x.GeneratorModeConfig)
                 .Include(x => x.GeneratorModeConfig.DataSource)
+                .Include(x => x.GeneratorModeConfig.EntitySource)
                 .IncludeMany(x => x.ProjectBuilders, then => then.Include(x => x.Builder).Include(t => t.Builder.Template))
                 .Where(x => x.Id == id)
                 .ToOneAsync();
+            res.GeneratorModeConfig.Projects = new List<Project> { res };
+            return res;
         }
 
 

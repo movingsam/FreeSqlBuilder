@@ -10,7 +10,21 @@ import { Project } from './interface/project';
  */
 @Injectable()
 export class ProjectService {
-  constructor(public client: _HttpClient) {}
+  constructor(public client: _HttpClient) { }
+  /**
+   * 项目生成
+   * @param id 项目主键 
+   */
+  buildTask(id: number): Observable<boolean> {
+    return this.client.post<boolean>(`api/project/task/build/${id}`);
+  }
+  /**
+   * 构建器快速生成
+   * @param id 构建器主键
+   */
+  buildTempTask(id: number): Observable<boolean> {
+    return this.client.post<boolean>(`api/project/task/temp/build/${id}`);
+  }
 
   /**
    * 获取项目分页

@@ -11,6 +11,6 @@ export const STWIDGET_COMPONENTS = [];
 })
 export class STWidgetModule {
   // constructor(widgetRegistry: STWidgetRegistry) {
-  //   widgetRegistry.register(STImgWidget.KEY, STImgWidget);
+  // widgetRegistry.register(BuilderoptionWidget.KEY, BuilderoptionWidget);
   // }
 }

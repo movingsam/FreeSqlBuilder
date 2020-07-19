@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Bogus;
@@ -12,13 +13,15 @@ using FreeSqlBuilder.Repository;
 using FreeSqlBuilder.Services;
 using FreeSqlBuilder.TemplateEngine;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.ObjectPool;
 using Xunit;
 
 namespace XUnitTestFsBuilderProject
 {
-    public class FreeSqlBuilderTemplateEngine : TestBase
+    public class FreeSqlBuilderServiceTest : TestBase
     {
         public override void ServiceConfig()
         {
@@ -31,12 +34,11 @@ namespace XUnitTestFsBuilderProject
                 ContentRootPath = Directory.GetCurrentDirectory()
 
             });
+            Service.AddSingleton<ObjectPoolProvider, DefaultObjectPoolProvider>();
             Service.AddFreeSqlBuilder(x =>
                 {
                     x.DbSet.ConnectionString =
-                       "Data Source=E:\\Github\\movingsam\\FreeSqlBuilder\\samples\\AngularGenerator\\fsbuilder.db;Version=3";
-                    x.DbSet.DbType = DataType.Sqlite;
-                    
+                        @"Data Source=G:\\github\\movingsam\\FreeSqlBuilder\\samples\\AngularGenerator\\fsbuilder.db;Version=3";
                 });
         }
 
@@ -77,7 +79,7 @@ namespace XUnitTestFsBuilderProject
             }
         }
 
-      
+
 
 
         [Fact]
@@ -96,12 +98,12 @@ namespace XUnitTestFsBuilderProject
         {
             using (var scope = ServiceProvider.CreateScope())
             {
-                var sp = scope.ServiceProvider; 
-               var page=  scope.ServiceProvider.GetService<IGeneratorConfigService>()
-                    .GetDataSource(new PageRequest()).Result;
-               var res= page.Datas.First().CheckDataSource();
+                var sp = scope.ServiceProvider;
+                var page = scope.ServiceProvider.GetService<IGeneratorConfigService>()
+                     .GetDataSource(new PageRequest()).Result;
+                var res = page.Datas.First().CheckDataSource();
                 Assert.True(res);
-                var error= new DataSource()
+                var error = new DataSource()
                 {
                     ConnectionString = "testset",
                     DbType = DataType.Sqlite
@@ -114,7 +116,7 @@ namespace XUnitTestFsBuilderProject
         [Fact]
         public void TestDataSourceGetAllTable()
         {
-            using (var scope= ServiceProvider.CreateScope())
+            using (var scope = ServiceProvider.CreateScope())
             {
                 var sp = scope.ServiceProvider;
                 var page = scope.ServiceProvider.GetService<IGeneratorConfigService>()
@@ -215,6 +217,25 @@ namespace XUnitTestFsBuilderProject
                 sp.GetService<IBuilderService>().PickerProject(choice.Id, projectid, true);
                 var res = sp.GetService<IProjectService>().GetPage(new PageRequest()).Result.Datas.FirstOrDefault(x => x.Id == projectid);
                 Assert.True(res.Builders.Count > 0);
+            }
+
+        }
+
+        [Fact]
+        public void TestTempBuilderOptionsRunTask()
+        {
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                var sp = scope.ServiceProvider;
+                var dl = sp.GetService<DiagnosticListener>();
+                var options = sp.GetService<IBuilderService>().GetBuilderPage(new PageRequest()).Result.Datas
+                    .FirstOrDefault();
+                var config = sp.GetService<IGeneratorConfigService>().GetConfigPage(new PageRequest()).Result.Datas.Where(x => x.PickType == PickType.Ignore).FirstOrDefault();
+                options.Config = config;
+                var task = sp.GetService<TempBuildTask>();
+                task.ImportSetting(options);
+                task.Start().Wait();
+                ;
             }
 
         }

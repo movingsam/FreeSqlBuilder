@@ -1,9 +1,8 @@
 @using FreeSqlBuilder.TemplateEngine.Utilities
 @using FreeSqlBuilder.Core.Utilities
-@model FreeSqlBuilder.TemplateEngine.BuildTask
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
     Layout = "_Layout.cshtml";
-    var project = Model.Project;
     var allTable = Model.AllDbTable;
     var builder = Model.CurrentBuilder;
 

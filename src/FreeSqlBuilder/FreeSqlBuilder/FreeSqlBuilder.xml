@@ -75,11 +75,18 @@
             构建器控制器
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.BuilderController.Get(FreeSqlBuilder.Modals.Base.Page)">
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.Get(FreeSqlBuilder.Modals.Base.PageRequest)">
             <summary>
             获取构建器
             </summary>
             <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.GetById(System.Int64)">
+            <summary>
+            通过ID获取构建器
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.BuilderController.Add(FreeSqlBuilder.Core.Entities.BuilderOptions)">
@@ -241,7 +248,7 @@
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewProject(FreeSqlBuilder.Core.Entities.Project)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.NewProject(FreeSqlBuilder.Modals.Dtos.ProjectDto)">
             <summary>
             项目新增
             </summary>
@@ -269,7 +276,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.Update(FreeSqlBuilder.Core.Entities.Project)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.Update(FreeSqlBuilder.Modals.Dtos.ProjectDto)">
             <summary>
             更新项目
             </summary>
@@ -337,6 +344,13 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.TempBuildTask(System.Int64)">
+            <summary>
+            临时任务,只通过构建器生成任务
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDbTableInfo(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
             
@@ -361,29 +375,6 @@
             </summary>
             <param name="template"></param>
             <returns></returns>
-        </member>
-        <member name="T:FreeSqlBuilder.FreeSqlBuilderExtensions">
-            <summary>
-            代码生成器服务相关拓展
-            </summary>
-        </member>
-        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.AddFreeSqlBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSqlBuilder.Core.TemplateOptions})">
-            <summary>
-            添加FreeSqlGen相关 
-            模板地址默认:DefaultTemplatePath = "RazorTemplate"
-            sqlite持久化默认地址 SqliteDbConnectionString="Data Source=fsbuilder.db;Version=3"
-            
-            </summary>
-            <param name="services"></param>
-            <param name="setupAction">生成器模板配置项</param>
-        </member>
-        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.Aop_CommandAfter(System.Object,FreeSql.Aop.CommandAfterEventArgs,Microsoft.Extensions.Logging.ILogger)">
-            <summary>
-            sql监控
-            </summary>
-            <param name="sender"></param>
-            <param name="e"></param>
-            <param name="logger"></param>
         </member>
         <member name="T:FreeSqlBuilder.Infrastructure.Exception.ExceptionHandlerAttribute">
             <summary>
@@ -626,6 +617,46 @@
         <member name="P:FreeSqlBuilder.Modals.DbColumnInfoDto.DefaultValue">
             <summary>数据库默认值</summary>
         </member>
+        <member name="T:FreeSqlBuilder.Modals.Dtos.ProjectDto">
+            <summary>
+            项目领域模型
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.ProjectInfoId">
+            <summary>
+            项目ID
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.ProjectInfo">
+            <summary>
+            项目基本信息
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.GeneratorModeConfigId">
+            <summary>
+            生成器模式Id
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.GeneratorModeConfig">
+            <summary>
+            生成器模式相关配置
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.ProjectBuilders">
+            <summary>
+            项目构建器中间表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.BuildersId">
+            <summary>
+            单表构建器Id集合
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Dtos.ProjectDto.GlobalBuildersId">
+            <summary>
+            全表构建器
+            </summary>
+        </member>
         <member name="T:FreeSqlBuilder.Modals.ProjectPageRequest">
             <summary>
             项目请求参数
@@ -849,6 +880,13 @@
             <param name="page"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Services.BuilderService.GetBuilder(System.Int64)">
+            <summary>
+            通过Id获取构建器
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Services.BuilderService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean)">
             <summary>
             新增构建器
@@ -1030,6 +1068,13 @@
             获取构建器分页
             </summary>
             <param name="page"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.GetBuilder(System.Int64)">
+            <summary>
+            通过id获取构建器
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.IBuilderService.AddBuilder(FreeSqlBuilder.Core.Entities.BuilderOptions,System.Boolean)">
@@ -1227,7 +1272,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IProjectService.Remove(System.Int64)">
+        <member name="M:FreeSqlBuilder.Services.IProjectService.Remove(System.Int64,System.Boolean)">
             <summary>
             删除ID相关项目
             </summary>
@@ -1326,7 +1371,7 @@
             <param name="info"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.Remove(System.Int64)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.Remove(System.Int64,System.Boolean)">
             <summary>
             删除项目
             </summary>
@@ -1339,6 +1384,13 @@
             </summary>
             <param name="project"></param>
             <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ProjectService.builderChange(FreeSqlBuilder.Core.Entities.Project)">
+            <summary>
+            计算新旧差别并计算出新增删除的中间表
+            </summary>
+            <param name="project"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.ProjectService.Get(System.Int64)">
@@ -1395,6 +1447,28 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.FreeSqlBuilderExtensions">
+            <summary>
+            代码生成器服务相关拓展
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.FreeSqlBuilderExtensions.AddFreeSqlBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSqlBuilder.Core.TemplateOptions})">
+            <summary>
+            添加FreeSqlGen相关 
+            模板地址默认:DefaultTemplatePath = "RazorTemplate"
+            sqlite持久化默认地址 SqliteDbConnectionString="Data Source=fsbuilder.db;Version=3"
+            </summary>
+            <param name="services"></param>
+            <param name="setupAction">生成器模板配置项</param>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.FreeSqlBuilderExtensions.Aop_CommandAfter(System.Object,FreeSql.Aop.CommandAfterEventArgs,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            sql监控
+            </summary>
+            <param name="sender"></param>
+            <param name="e"></param>
+            <param name="logger"></param>
         </member>
     </members>
 </doc>

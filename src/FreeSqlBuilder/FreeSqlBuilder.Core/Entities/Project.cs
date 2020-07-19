@@ -7,6 +7,8 @@ namespace FreeSqlBuilder.Core.Entities
     [Table(Name = "Project")]
     public class Project : IKey<long>
     {
+        public Project() { }
+
         [Column(IsPrimary = true, IsIdentity = true)]
         public long Id { get; set; }
         /// <summary>
@@ -37,8 +39,20 @@ namespace FreeSqlBuilder.Core.Entities
         {
             get
             {
-                if (ProjectBuilders == null) return default;
+                if (ProjectBuilders == null || ProjectBuilders.Any(a => a.Builder == null)) return default;
                 return ProjectBuilders?.Where(x => x.Builder.Type == BuilderType.Builder).Select(s => s.Builder).ToList();
+            }
+        }
+        /// <summary>
+        /// 单表构建器Id集合
+        /// </summary>
+        public List<long> BuildersId
+        {
+            get
+            {
+                if (ProjectBuilders == null || ProjectBuilders.Any(a => a.Builder == null)) return new List<long>();
+                return ProjectBuilders.Where(x => x.Builder.Type == BuilderType.Builder).Select(x => x.BuilderId)
+                    .ToList();
             }
         }
 
@@ -49,12 +63,23 @@ namespace FreeSqlBuilder.Core.Entities
         {
             get
             {
-                if (ProjectBuilders == null) return default;
+                if (ProjectBuilders == null|| ProjectBuilders.Any(a => a.Builder == null)) return new List<BuilderOptions>();
                 return ProjectBuilders?.Where(x => x.Builder.Type == BuilderType.GlobalBuilder).Select(s => s.Builder)
                     .ToList();
             }
         }
-
+        /// <summary>
+        /// 全表构建器
+        /// </summary>
+        public ICollection<long> GlobalBuildersId
+        {
+            get
+            {
+                if (ProjectBuilders == null || ProjectBuilders.Any(a => a.Builder == null)) return default;
+                return ProjectBuilders?.Where(x => x.Builder.Type == BuilderType.GlobalBuilder).Select(s => s.BuilderId)
+                    .ToList();
+            }
+        }
 
     }
 

@@ -5,7 +5,11 @@ export class Project {
   generatorModeConfigId: number;
   generatorModeConfig: GeneratorModeConfig;
   builders: BuilderOptions[];
+  buildersId: number[];
+  _buildersId: number[];
   globalBuilders: BuilderOptions[];
+  globalBuildersId: number[];
+  _globalBuildersId: number[];
 }
 
 export class ProjectInfo {

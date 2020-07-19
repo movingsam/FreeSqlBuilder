@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FreeSqlBuilder.Core.Entities;
 
@@ -18,9 +19,10 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <returns></returns>
         public static async Task OutPut(this BuilderOptions options, string tableName, string content)
         {
-            var project = options.Projects.FirstOrDefault();
-            var root = string.IsNullOrWhiteSpace(project.ProjectInfo.RootPath) ? AppContext.BaseDirectory : project.ProjectInfo.RootPath;
-            var rootPath = Path.Combine(root, project.ProjectInfo.OutPutPath);
+            var project = options.Projects?.FirstOrDefault();
+            var root = project == null ? AppContext.BaseDirectory : project.ProjectInfo.RootPath;
+            var outPutPath = project == null ? "FreeSqlBuilder" : project.ProjectInfo.OutPutPath;
+            var rootPath = Path.Combine(root, outPutPath);
             var dirPath = Path.Combine(rootPath, options.ReplaceTablePath(tableName));
             var outputPath = Path.Combine(dirPath, $"{options.GetName(tableName)}.{options.FileExtensions}");
             if (!Directory.Exists(dirPath))

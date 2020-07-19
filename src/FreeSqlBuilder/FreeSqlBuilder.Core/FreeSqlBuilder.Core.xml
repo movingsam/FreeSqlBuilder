@@ -64,6 +64,46 @@
             生成文件的类型
             </summary>
         </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.FastConfigId">
+            <summary>
+            快速生成使用的配置
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Config">
+            <summary>
+            配置对象
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.ProjectBuilders">
+            <summary>
+            项目构建器中间表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Projects">
+            <summary>
+            项目
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Entities.BuilderOptions.Validate">
+            <summary>
+            验证
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.BuilderType">
+            <summary>
+            构建器类型
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.BuilderType.Builder">
+            <summary>
+            单表构建器
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.BuilderType.GlobalBuilder">
+            <summary>
+            全表构建器
+            </summary>
+        </member>
         <member name="P:FreeSqlBuilder.Core.Entities.DataSource.Name">
             <summary>
             数据源名称
@@ -236,7 +276,17 @@
             多表构建器
             </summary>
         </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.BuildersId">
+            <summary>
+            单表构建器Id集合
+            </summary>
+        </member>
         <member name="P:FreeSqlBuilder.Core.Entities.Project.GlobalBuilders">
+            <summary>
+            全表构建器
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Project.GlobalBuildersId">
             <summary>
             全表构建器
             </summary>
@@ -244,6 +294,26 @@
         <member name="T:FreeSqlBuilder.Core.Entities.ProjectBuilder">
             <summary>
             项目-构建器中间表
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectBuilder.ProjectId">
+            <summary>
+            项目ID
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectBuilder.BuilderId">
+            <summary>
+            构建器Id
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectBuilder.Project">
+            <summary>
+            项目
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectBuilder.Builder">
+            <summary>
+            构建器
             </summary>
         </member>
         <member name="T:FreeSqlBuilder.Core.Entities.ProjectInfo">
@@ -305,7 +375,7 @@
             <summary>
             获取相关数据库所有表结构
             </summary>
-            <param name="dto"></param>
+            <param name="ds"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Core.Helper.DbFirstHelper.CheckDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
@@ -477,9 +547,34 @@
             文件后缀
             </summary>
         </member>
+        <member name="T:FreeSqlBuilder.Core.TemplateOptions">
+            <summary>
+            模板配置项
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.TemplateOptions.DefaultTemplatePath">
+            <summary>
+            默认模板路径
+            </summary>
+        </member>
         <member name="P:FreeSqlBuilder.Core.TemplateOptions.DbSet">
             <summary>
             Sqlite持久化地址
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.DbSet">
+            <summary>
+            数据源
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.DbSet.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.DbSet.ConnectionString">
+            <summary>
+            数据库连接字符串
             </summary>
         </member>
         <member name="M:FreeSqlBuilder.Core.Utilities.Check.NotNull``1(``0,System.String,System.String)">

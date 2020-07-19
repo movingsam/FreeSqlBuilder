@@ -29,7 +29,7 @@ export class GeneratorConfigEditComponent implements OnInit {
     public service: GeneratorconfigService,
     private modalHelper: NzModalService,
     public hepler: HelperService,
-  ) {}
+  ) { }
   @ViewChild('moreDs', { static: true }) private moreDs: TemplateRef<void>;
   @ViewChild('moreEs', { static: true }) private moreEs: TemplateRef<void>;
   @ViewChild('sf') private sf: SFComponent;
@@ -191,7 +191,7 @@ export class GeneratorConfigEditComponent implements OnInit {
         },
         ignoreTables: {
           type: 'string',
-          title: '忽略的数据表',
+          title: '忽略的表',
           ui: {
             widget: 'custom',
             grid: { span: 24 },
@@ -206,7 +206,7 @@ export class GeneratorConfigEditComponent implements OnInit {
         },
         includeTables: {
           type: 'string',
-          title: '包含的数据表',
+          title: '包含的表',
           ui: {
             widget: 'custom',
             grid: { span: 24 },
@@ -226,7 +226,6 @@ export class GeneratorConfigEditComponent implements OnInit {
       else: {
         required: ['entitySourceId'],
       },
-
       required: ['name', 'generatorMode'],
     };
 
@@ -326,7 +325,7 @@ export class GeneratorConfigEditComponent implements OnInit {
       console.log(value);
       this.service.createGeneratorConfig(value).subscribe((r) => {
         this.msgSrv.success(`新增成功`);
-        this.modal.close(true);
+        this.modal.close(r.id);
       });
     }
   }
