@@ -7,6 +7,10 @@ using Newtonsoft.Json;
 
 namespace FreeSqlBuilder.Core.Entities
 {
+    /// <summary>
+    /// 构建器
+    /// </summary>
+    [Index("builderOptions_index", nameof(Name), true)]
     public class BuilderOptions : IKey<long>, IPrefix, IOutPut, IConvertMode, ISuffix
     {
         public BuilderOptions()
@@ -86,11 +90,19 @@ namespace FreeSqlBuilder.Core.Entities
         /// <summary>
         /// 快速生成使用的配置
         /// </summary>
-        public long FastConfigId { get; set; }
+        public long DefaultConfigId { get; set; }
         /// <summary>
         /// 配置对象
         /// </summary>
-        public GeneratorModeConfig Config { get; set; }
+        public GeneratorModeConfig DefaultConfig { get; set; }
+        /// <summary>
+        /// 默认项目id
+        /// </summary>
+        public long DefaultProjectId { get; set; }
+        /// <summary>
+        /// 默认项目
+        /// </summary>
+        public Project DefaultProject { get; set; }
 
         /// <summary>
         /// 项目构建器中间表

@@ -231,7 +231,7 @@ namespace XUnitTestFsBuilderProject
                 var options = sp.GetService<IBuilderService>().GetBuilderPage(new PageRequest()).Result.Datas
                     .FirstOrDefault();
                 var config = sp.GetService<IGeneratorConfigService>().GetConfigPage(new PageRequest()).Result.Datas.Where(x => x.PickType == PickType.Ignore).FirstOrDefault();
-                options.Config = config;
+                options.DefaultConfig = config;
                 var task = sp.GetService<TempBuildTask>();
                 task.ImportSetting(options);
                 task.Start().Wait();

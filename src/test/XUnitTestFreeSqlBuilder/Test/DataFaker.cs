@@ -13,7 +13,7 @@ namespace XUnitTestFsBuilderProject
     {
         public static Faker<ProjectInfo> GetProjectInfo() => new Faker<ProjectInfo>()
                 .RuleFor(x => x.Author, f => f.Random.Words(f.Random.Number(1, 2)))
-                .RuleFor(x => x.ProjectName, x => x.Random.Words(x.Random.Number(1, 2)))
+                .RuleFor(x => x.NameSpace, x => x.Random.Words(x.Random.Number(1, 2)))
                 .RuleFor(x => x.RootPath, f => Directory.GetCurrentDirectory())
                 .RuleFor(x => x.OutPutPath, x => "Test");
 

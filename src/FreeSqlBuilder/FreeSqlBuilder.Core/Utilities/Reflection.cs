@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -54,7 +55,7 @@ namespace FreeSqlBuilder.Core.Utilities
         {
             if (member == null)
                 return string.Empty;
-            return member.GetCustomAttribute<DescriptionAttribute>() is DescriptionAttribute attribute ? attribute.Description : member.Name;
+            return member.GetCustomAttribute<DescriptionAttribute>() is { } attribute ? attribute.Description : member.Name;
         }
 
         /// <summary>
@@ -73,9 +74,9 @@ namespace FreeSqlBuilder.Core.Utilities
         {
             if (member == null)
                 return string.Empty;
-            if (member.GetCustomAttribute<DisplayAttribute>() is DisplayAttribute displayAttribute)
+            if (member.GetCustomAttribute<DisplayAttribute>() is { } displayAttribute)
                 return displayAttribute.Name;
-            if (member.GetCustomAttribute<DisplayNameAttribute>() is DisplayNameAttribute displayNameAttribute)
+            if (member.GetCustomAttribute<DisplayNameAttribute>() is { } displayNameAttribute)
                 return displayNameAttribute.DisplayName;
             return string.Empty;
         }
@@ -465,6 +466,7 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <param name="type">类型</param>
         public static bool IsCollection(Type type)
         {
+            
             if (type.IsArray)
                 return true;
             return IsGenericCollection(type);
@@ -484,7 +486,8 @@ namespace FreeSqlBuilder.Core.Utilities
                    || typeDefinition == typeof(IReadOnlyList<>)
                    || typeDefinition == typeof(ICollection<>)
                    || typeDefinition == typeof(IList<>)
-                   || typeDefinition == typeof(List<>);
+                   || typeDefinition == typeof(List<>) 
+                   || typeDefinition == typeof(IDictionary<,>);
         }
 
         /// <summary>
@@ -578,18 +581,18 @@ namespace FreeSqlBuilder.Core.Utilities
         /// <returns></returns>
         public static string SystemCsType(Type type)
         {
-            if (type == typeof(string) || type == typeof(String)) return "string";
-            if (type == typeof(bool) || type == typeof(Boolean)) return "bool";
+            if (type == typeof(string)) return "string";
+            if (type == typeof(bool)) return "bool";
             if (type == typeof(Guid)) return "Guid";
             if (type == typeof(Guid?)) return "Guid?";
-            if (type == typeof(short) || type == typeof(Int16)) return "short";
-            if (type == typeof(short?) || type == typeof(Int16?)) return "short?";
-            if (type == typeof(int) || type == typeof(Int32)) return "int";
-            if (type == typeof(int?) || type == typeof(Int32?)) return "int?";
-            if (type == typeof(long) || type == typeof(Int64)) return "long";
-            if (type == typeof(long?) || type == typeof(Int64?)) return "long?";
-            if (type == typeof(double) || type == typeof(Double)) return "double";
-            if (type == typeof(double?) || type == typeof(Double?)) return "double?";
+            if (type == typeof(short)) return "short";
+            if (type == typeof(short?)) return "short?";
+            if (type == typeof(int)) return "int";
+            if (type == typeof(int?)) return "int?";
+            if (type == typeof(long)) return "long";
+            if (type == typeof(long?)) return "long?";
+            if (type == typeof(double)) return "double";
+            if (type == typeof(double?)) return "double?";
             if (type == typeof(decimal)) return "decimal";
             if (type == typeof(decimal?)) return "decimal?";
             if (type == typeof(float)) return "float";
@@ -622,7 +625,8 @@ namespace FreeSqlBuilder.Core.Utilities
                     typeDefinition == typeof(IReadOnlyList<>) ? "IReadOnlyList" :
                     typeDefinition == typeof(ICollection<>) ? "ICollection" :
                     typeDefinition == typeof(IList<>) ? "IList" :
-                    typeDefinition == typeof(List<>) ? "List" : "";
+                    typeDefinition == typeof(List<>) ? "List" :
+                    typeDefinition == typeof(IDictionary<,>)? "IDictionary" : "" ;
                 return $"{collectionType}<{types}>";
             }
             return type.Name;

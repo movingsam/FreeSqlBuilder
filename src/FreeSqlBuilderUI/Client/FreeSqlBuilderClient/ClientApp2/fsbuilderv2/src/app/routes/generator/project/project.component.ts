@@ -29,9 +29,9 @@ export class GeneratorProjectComponent implements OnInit {
 
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      keyword: {
         type: 'string',
-        title: '编号',
+        title: '关键字',
       },
     },
   };
@@ -44,12 +44,14 @@ export class GeneratorProjectComponent implements OnInit {
       title: '操作',
       buttons: [
         {
-          text: '生成', type: 'link', click: (item: any) => {
-            this.projectService.buildTask(item.id).subscribe(r => {
+          text: '生成',
+          type: 'link',
+          click: (item: any) => {
+            this.projectService.buildTask(item.id).subscribe((r) => {
               this.msgSer.success(`生成成功`);
               this.st.reload();
             });
-          }
+          },
         },
         {
           icon: 'edit',
@@ -63,13 +65,16 @@ export class GeneratorProjectComponent implements OnInit {
               this.st.reload();
             }
           },
-        }, {
-          text: '删除', type: 'del', click: (item: any) => {
-            this.projectService.deleteProject(item.id).subscribe(r => {
+        },
+        {
+          text: '删除',
+          type: 'del',
+          click: (item: any) => {
+            this.projectService.deleteProject(item.id).subscribe((r) => {
               this.msgSer.success(`删除成功`);
               this.st.reload();
             });
-          }
+          },
         },
       ],
     },
@@ -85,7 +90,7 @@ export class GeneratorProjectComponent implements OnInit {
     this.page = new Page();
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
   add() {
     this.modal
       .createStatic(

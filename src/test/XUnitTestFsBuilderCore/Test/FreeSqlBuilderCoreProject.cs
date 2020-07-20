@@ -35,9 +35,8 @@ namespace XUnitTestFsBuilderCore.Test
             var projectInfo = new ProjectInfo
             {
                 Author = "Sam",
-                ProjectName = "TestProject",
+                NameSpace = "TestProject",
                 RootPath = Directory.GetCurrentDirectory(),
-                OutPutPath = "Test"
             };
             var projectInfoId = scope.Insert<ProjectInfo>().AppendData(projectInfo).ExecuteIdentity();
             var projectId = scope.Insert<Project>().AppendData(new Project

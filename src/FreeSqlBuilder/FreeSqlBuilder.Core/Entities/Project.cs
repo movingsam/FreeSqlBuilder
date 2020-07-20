@@ -4,7 +4,7 @@ using FreeSql.DataAnnotations;
 
 namespace FreeSqlBuilder.Core.Entities
 {
-    [Table(Name = "Project")]
+    [Table(Name = "Project"), Index("union_name", nameof(Entities.ProjectInfo.NameSpace), true)]
     public class Project : IKey<long>
     {
         public Project() { }
@@ -63,7 +63,7 @@ namespace FreeSqlBuilder.Core.Entities
         {
             get
             {
-                if (ProjectBuilders == null|| ProjectBuilders.Any(a => a.Builder == null)) return new List<BuilderOptions>();
+                if (ProjectBuilders == null || ProjectBuilders.Any(a => a.Builder == null)) return new List<BuilderOptions>();
                 return ProjectBuilders?.Where(x => x.Builder.Type == BuilderType.GlobalBuilder).Select(s => s.Builder)
                     .ToList();
             }

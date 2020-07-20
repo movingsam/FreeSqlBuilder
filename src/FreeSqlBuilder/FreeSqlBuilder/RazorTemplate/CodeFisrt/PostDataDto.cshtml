@@ -5,13 +5,14 @@
     var table = Model.CurrentTable;//当前执行表
     var builder = Model.CurrentBuilder;//当前执行构建器
     var className = builder.GetName(table.CsName);//通过转换器转换名称
+    var nameSpace = Model.Project.ProjectInfo.NameSpace;
 }
 
 using SFast.Infrastructure.Dtos;
 using System.ComponentModel.DataAnnotations;
 @table.GetNameSpaceUsing()
 
-namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/", "."))
+namespace @(nameSpace)@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/", "."))
 {
     public class @className : PostDataDtoBase
     {
