@@ -321,9 +321,14 @@
             项目基本信息
             </summary>
         </member>
-        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.ProjectName">
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.Id">
             <summary>
-            项目名——命名空间
+            主键
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.NameSpace">
+            <summary>
+            命名空间
             </summary>
         </member>
         <member name="P:FreeSqlBuilder.Core.Entities.ProjectInfo.RootPath">

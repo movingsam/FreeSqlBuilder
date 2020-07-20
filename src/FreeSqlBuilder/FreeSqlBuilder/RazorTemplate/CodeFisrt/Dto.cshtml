@@ -5,13 +5,14 @@
     Layout = "_Layout.cshtml"; 
     var table = Model.CurrentTable;
     var builder = Model.CurrentBuilder;
+    var nameSpace = Model.Project.ProjectInfo.NameSpace;
     var navigates = table.Properties.Keys.Except(table.Columns.Keys);
 
 }
 
 @table.GetNameSpaceUsing()
 
-namespace @(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(nameSpace).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
 {
     @($"{table.Comment}Dto".GetCSharpSummary())
     public class @builder.GetName(table.CsName) : DtoBase<@table.GetPrimarysName()>

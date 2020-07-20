@@ -5,7 +5,7 @@ using FreeSql.DataAnnotations;
 
 namespace FreeSqlBuilder.Core.Entities
 {
-    [Index("fk_datasource_name_index", nameof(Name))]
+    [Index("fk_datasource_name_index", nameof(Name), true)]
     public class DataSource
     {
         [Column(IsIdentity = true, IsPrimary = true)]

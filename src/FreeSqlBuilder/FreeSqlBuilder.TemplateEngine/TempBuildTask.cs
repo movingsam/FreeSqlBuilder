@@ -46,35 +46,7 @@ namespace FreeSqlBuilder.TemplateEngine
         /// 当前构建器选项
         /// </summary>
         public BuilderOptions CurrentBuilder { get; set; }
-        public string Author { get; set; }
-        ///// <summary>
-        ///// 默认项目
-        ///// </summary>
-        //public Project Project
-        //{
-        //    get
-        //    {
-        //        var project = new Project
-        //        {
-        //            ProjectInfo =new ProjectInfo
-        //            {
-        //                Author = "FreeSqlBuilder",
-        //                RootPath = Directory.GetCurrentDirectory(),
-        //                ProjectName = "Default",
-        //                OutPutPath = "FreeSqlBuilder"
-        //            },
-        //        };
-
-        //        project.GeneratorModeConfig = CurrentBuilder.Config;
-        //        Project.ProjectBuilders = new List<ProjectBuilder>
-        //        { new ProjectBuilder
-        //        {
-        //            BuilderId = CurrentBuilder.Id,
-        //            ProjectId =  project.Id
-        //        } };
-        //        return project;
-        //    }
-        //}
+        public Project Project { get; set; }
 
         /// <summary>
         /// 反射帮助类
@@ -83,12 +55,12 @@ namespace FreeSqlBuilder.TemplateEngine
         /// <summary>
         /// 日志帮助
         /// </summary>
-        private readonly ILogger<BuildTask> _logger;
+        private readonly ILogger<TempBuildTask> _logger;
         public TempBuildTask(IServiceProvider serviceProvider)
         {
             _reflectionHelper = serviceProvider.GetService<ReflectionHelper>();
             _engine = serviceProvider.GetRequiredService<RazorTemplateEngine>();
-            _logger = serviceProvider.GetRequiredService<ILogger<BuildTask>>();
+            _logger = serviceProvider.GetRequiredService<ILogger<TempBuildTask>>();
         }
 
 
@@ -99,17 +71,17 @@ namespace FreeSqlBuilder.TemplateEngine
         public void ImportSetting(BuilderOptions builderOptions)
         {
             CurrentBuilder = builderOptions;
-            switch (this.CurrentBuilder.Config.GeneratorMode)
+            switch (this.CurrentBuilder.DefaultConfig.GeneratorMode)
             {
                 case GeneratorMode.DbFirst:
-                    var dataSource = this.CurrentBuilder.Config.DataSource;
+                    var dataSource = this.CurrentBuilder.DefaultConfig.DataSource;
                     this.AllDbTable = dataSource.GetAllTable().ToArray();
                     break;
                 case GeneratorMode.CodeFirst:
                     var tempRes = _reflectionHelper
-                        .GetTableInfos(CurrentBuilder.Config.EntitySource.EntityAssemblyName, this.CurrentBuilder.Config.EntitySource.EntityBaseName).Result;
+                        .GetTableInfos(CurrentBuilder.DefaultConfig.EntitySource.EntityAssemblyName, this.CurrentBuilder.DefaultConfig.EntitySource.EntityBaseName).Result;
                     this.GAllTable = tempRes.ToArray();
-                    this.AllTable = this.CurrentBuilder.Config.PickType == PickType.Ignore ? tempRes.Where(t => !this.CurrentBuilder.Config.IgnoreTable.Contains(t.CsName)).ToArray() : tempRes.Where(x => this.CurrentBuilder.Config.IncludeTable.Contains(x.CsName)).ToArray();
+                    this.AllTable = this.CurrentBuilder.DefaultConfig.PickType == PickType.Ignore ? tempRes.Where(t => !this.CurrentBuilder.DefaultConfig.IgnoreTable.Contains(t.CsName)).ToArray() : tempRes.Where(x => this.CurrentBuilder.DefaultConfig.IncludeTable.Contains(x.CsName)).ToArray();
                     break;
                 default:
                     break;
@@ -124,7 +96,7 @@ namespace FreeSqlBuilder.TemplateEngine
 
             while (Next())
             {
-                var tableName = this.CurrentBuilder.Config.GeneratorMode == GeneratorMode.CodeFirst ? CurrentTable.CsName : CurrentDbTable.Name;
+                var tableName = this.CurrentBuilder.DefaultConfig.GeneratorMode == GeneratorMode.CodeFirst ? CurrentTable.CsName : CurrentDbTable.Name;
                 var content = await _engine.Render(this, CurrentBuilder.Template.TemplatePath);
                 await CurrentBuilder.OutPut(tableName, content);
                 _logger.LogInformation($"生成文件{CurrentBuilder.GetName(tableName)}");
@@ -139,7 +111,7 @@ namespace FreeSqlBuilder.TemplateEngine
         /// <returns></returns>
         public bool Next()
         {
-            if (CurrentBuilder.Config.GeneratorMode == GeneratorMode.CodeFirst)
+            if (CurrentBuilder.DefaultConfig.GeneratorMode == GeneratorMode.CodeFirst)
             {
                 if (CurrentIndex == AllTable.Length - 1) return false;
                 CurrentIndex++;

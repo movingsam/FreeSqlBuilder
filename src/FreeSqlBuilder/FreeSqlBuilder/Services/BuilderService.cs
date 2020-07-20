@@ -37,6 +37,7 @@ namespace FreeSqlBuilder.Services
             return await _builderRep
                 .Select
                 .Include(x => x.Template)
+                .WhereIf(!string.IsNullOrWhiteSpace(page.Keyword), x => x.Name.Contains(page.Keyword))
                 .GetPage(page);
         }
         /// <summary>
@@ -47,9 +48,10 @@ namespace FreeSqlBuilder.Services
         public async Task<BuilderOptions> GetBuilder(long id)
         {
             return await _builderRep.Select.Include(x => x.Template)
-                .LeftJoin(x => x.Config.Id == x.FastConfigId)
-                .Include(x => x.Config.DataSource)
-                .Include(x => x.Config.EntitySource)
+                .LeftJoin(x => x.DefaultConfig.Id == x.DefaultConfigId)
+                .LeftJoin(x => x.DefaultProject.Id == x.DefaultProjectId)
+                .Include(x => x.DefaultConfig.DataSource)
+                .Include(x => x.DefaultConfig.EntitySource)
                 .Where(x => x.Id == id).ToOneAsync();
         }
 

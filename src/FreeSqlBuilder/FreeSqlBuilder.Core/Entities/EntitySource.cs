@@ -5,6 +5,7 @@ namespace FreeSqlBuilder.Core.Entities
     /// <summary>
     /// 实体来源
     /// </summary>
+    [Index("es_name_index", nameof(Name), true)]
     public class EntitySource : IKey<long>
     {
         /// <summary>

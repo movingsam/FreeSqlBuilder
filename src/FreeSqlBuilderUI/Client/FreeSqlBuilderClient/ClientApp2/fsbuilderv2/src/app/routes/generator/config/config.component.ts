@@ -29,7 +29,6 @@ export class GeneratorConfigComponent implements OnInit {
     {
       title: '操作',
       buttons: [
-        { text: '查看', click: (item: any) => `/form/${item.id}` },
         {
           text: '编辑',
           type: 'modal',
@@ -48,23 +47,24 @@ export class GeneratorConfigComponent implements OnInit {
               this.st.reload();
             }
           },
-        }, {
+        },
+        {
           text: '删除',
           type: 'del',
           click: (value: any) => {
-            this.config.delConfig(value.id).subscribe(r => {
+            this.config.delConfig(value.id).subscribe((r) => {
               this.msgSer.success(`删除成功`);
               this.st.reload();
             });
-          }
-        }
+          },
+        },
       ],
     },
   ];
 
-  constructor(private config: GeneratorconfigService, private modal: ModalHelper, private msgSer: NzMessageService) { }
+  constructor(private config: GeneratorconfigService, private modal: ModalHelper, private msgSer: NzMessageService) {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   add() {
     this.modal

@@ -41,8 +41,9 @@ namespace FreeSqlBuilder.Services
             var res = _configRepository
                 .Select
                 .Include(x => x.DataSource)
-                .Include(x=>x.EntitySource)
-                .IncludeMany(x => x.Projects, then => then.Include(t => t.ProjectInfo));
+                .Include(x => x.EntitySource)
+                .IncludeMany(x => x.Projects, then => then.Include(t => t.ProjectInfo))
+                .WhereIf(!string.IsNullOrWhiteSpace(page.Keyword), x => x.Name.Contains(page.Keyword));
             return await res.GetPage(page);
         }
         /// <summary>
@@ -56,8 +57,8 @@ namespace FreeSqlBuilder.Services
                 .Select
                 .Include(x => x.DataSource)
                 .Include(x => x.EntitySource)
-                .IncludeMany(x => x.Projects,then=>then.Include(t=>t.ProjectInfo));
-            return await res.Where(x=>x.Id == id).ToOneAsync();
+                .IncludeMany(x => x.Projects, then => then.Include(t => t.ProjectInfo));
+            return await res.Where(x => x.Id == id).ToOneAsync();
         }
 
         /// <summary>
@@ -235,7 +236,7 @@ namespace FreeSqlBuilder.Services
         public async Task<EntitySource> GetEntitySource(long id)
         {
             var res = _configRepository.Orm.Select<EntitySource>();
-            return await res.Where(x=>x.Id == id).ToOneAsync();
+            return await res.Where(x => x.Id == id).ToOneAsync();
         }
 
         /// <summary>

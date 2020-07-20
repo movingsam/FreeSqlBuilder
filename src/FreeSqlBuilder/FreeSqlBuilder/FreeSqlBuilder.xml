@@ -1386,7 +1386,7 @@
             <param name="autoSave"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.ProjectService.builderChange(FreeSqlBuilder.Core.Entities.Project)">
+        <member name="M:FreeSqlBuilder.Services.ProjectService.BuilderChange(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             计算新旧差别并计算出新增删除的中间表
             </summary>

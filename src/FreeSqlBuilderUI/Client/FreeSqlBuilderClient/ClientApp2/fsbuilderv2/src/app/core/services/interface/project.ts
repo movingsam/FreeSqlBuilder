@@ -3,7 +3,7 @@ export class Project {
   projectInfoId: number;
   projectInfo: ProjectInfo;
   generatorModeConfigId: number;
-  generatorModeConfig: GeneratorModeConfig;
+  generatorModeConfig: GeneratorModeConfig = new GeneratorModeConfig();
   builders: BuilderOptions[];
   buildersId: number[];
   _buildersId: number[];
@@ -23,7 +23,7 @@ export class ProjectInfo {
 export class GeneratorModeConfig {
   id = 0;
   name = ``;
-  generatorMode: GeneratorMode = GeneratorMode.DbFirst;
+  generatorMode: GeneratorMode = GeneratorMode.CodeFirst;
   dataSourceId = 0;
   dataSource: DataSource = new DataSource();
   entitySourceId = 0;
@@ -52,7 +52,7 @@ export class EntitySource {
 export class DataSource {
   id = 0;
   name = '';
-  dbType: DataType = DataType.SqlServer;
+  dbType: DataType = DataType.Sqlite;
   connectionString = '';
   generatorModeConfigs: GeneratorModeConfig[];
 }
@@ -81,12 +81,12 @@ export class BuilderOptions {
   name: string;
   prefix: string;
   outPutPath: string;
-  mode: ConvertMode;
+  mode: ConvertMode = ConvertMode.None;
   template: Template;
   templateId: number;
   suffix: string;
-  type: BuilderType;
-  fileExtensions: string;
+  type: BuilderType = BuilderType.Builder;
+  fileExtensions = `cs`;
   projects: Project[];
 }
 

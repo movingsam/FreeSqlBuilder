@@ -29,7 +29,7 @@ export class GeneratorConfigEditComponent implements OnInit {
     public service: GeneratorconfigService,
     private modalHelper: NzModalService,
     public hepler: HelperService,
-  ) { }
+  ) {}
   @ViewChild('moreDs', { static: true }) private moreDs: TemplateRef<void>;
   @ViewChild('moreEs', { static: true }) private moreEs: TemplateRef<void>;
   @ViewChild('sf') private sf: SFComponent;
@@ -86,7 +86,7 @@ export class GeneratorConfigEditComponent implements OnInit {
           this.tableNames = [];
         }
         this.previewTable(id, isDs);
-      }, 1000);
+      }, 500);
     }
     this.schemaInit();
   }
@@ -116,6 +116,7 @@ export class GeneratorConfigEditComponent implements OnInit {
               this.previewTable(id, isDs);
             },
           },
+          default: 1,
           enum: [
             {
               label: 'DbFirst',
@@ -174,7 +175,7 @@ export class GeneratorConfigEditComponent implements OnInit {
               }
             },
           },
-          default: 0,
+          default: 1,
           enum: [
             { label: '选中', value: 0 },
             { label: '忽略', value: 1 },
@@ -322,7 +323,6 @@ export class GeneratorConfigEditComponent implements OnInit {
         this.modal.close(true);
       });
     } else {
-      console.log(value);
       this.service.createGeneratorConfig(value).subscribe((r) => {
         this.msgSrv.success(`新增成功`);
         this.modal.close(r.id);

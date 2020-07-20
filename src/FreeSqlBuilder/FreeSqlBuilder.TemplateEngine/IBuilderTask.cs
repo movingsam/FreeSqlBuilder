@@ -12,7 +12,7 @@ namespace FreeSqlBuilder.TemplateEngine
         DbTableInfo CurrentDbTable { get; }
         TableInfo CurrentTable { get; }
         BuilderOptions CurrentBuilder { get; }
-        string Author { get; }
+        Project Project { get; }
 
     }
 }

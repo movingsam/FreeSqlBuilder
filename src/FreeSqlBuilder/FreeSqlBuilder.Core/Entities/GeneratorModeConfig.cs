@@ -7,6 +7,7 @@ using FreeSqlBuilder.Core.Utilities;
 
 namespace FreeSqlBuilder.Core.Entities
 {
+    [Index("uni_name_index", "Name,GeneratorMode", true)]
     public class GeneratorModeConfig : IKey<long>
     {
         /// <summary>
@@ -18,14 +19,11 @@ namespace FreeSqlBuilder.Core.Entities
         /// 名称
         /// </summary>
         public string Name { get; set; }
-
-
         /// <summary>
         /// 生成器模式 CodeFirst根据实体代码来生成 DbFirst根据数据库生成代码
         /// </summary>
         [Column(IsNullable = false)]
         public GeneratorMode GeneratorMode { get; set; } = GeneratorMode.CodeFirst;
-
         /// <summary>
         /// 数据源Id
         /// </summary>

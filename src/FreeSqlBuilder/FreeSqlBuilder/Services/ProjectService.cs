@@ -43,7 +43,7 @@ namespace FreeSqlBuilder.Services
                 .IncludeMany(x => x.ProjectBuilders,
                     then => then.Include(t => t.Builder).Include(t => t.Builder.Template))
                 .WhereIf(!string.IsNullOrWhiteSpace(request.Keyword),
-                    x => x.ProjectInfo.ProjectName.Contains(request.Keyword));
+                    x => x.ProjectInfo.NameSpace.Contains(request.Keyword));
             return await query.GetPage(request);
         }
 
@@ -138,7 +138,7 @@ namespace FreeSqlBuilder.Services
             //比较两次Builder之间的区别
             if (project.ProjectBuilders.Count > 0)
             {
-                var update = builderChange(project);
+                var update = BuilderChange(project);
                 var insert = update.insert.Select(s => new ProjectBuilder() { BuilderId = s, ProjectId = project.Id });
                 _projectRep.Orm.Insert<ProjectBuilder>().AppendData(insert).ExecuteAffrows();
                 _projectRep.Orm.Delete<ProjectBuilder>().Where(x => x.ProjectId == project.Id && update.delete.Contains(x.BuilderId)).ExecuteAffrows();
@@ -151,7 +151,7 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        private (List<long> insert, List<long> delete) builderChange(Project project)
+        private (List<long> insert, List<long> delete) BuilderChange(Project project)
         {
             var oldBuilderList = _projectRep.Orm.Select<ProjectBuilder>()
                 .Where(x => x.ProjectId == project.Id)

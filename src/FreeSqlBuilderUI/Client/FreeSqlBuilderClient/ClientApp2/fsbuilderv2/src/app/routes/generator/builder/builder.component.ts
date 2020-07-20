@@ -18,11 +18,11 @@ export class GeneratorBuilderComponent implements OnInit {
   url = `api/builder`;
   searchSchema: SFSchema = {
     properties: {
-      no: {
+      keyword: {
         type: 'string',
-        title: '编号'
-      }
-    }
+        title: '关键字',
+      },
+    },
   };
   formData: BuilderOptions[] = [];
   @ViewChild('st', { static: false }) st: STComponent;
@@ -51,14 +51,15 @@ export class GeneratorBuilderComponent implements OnInit {
           type: 'link',
           click: (value: any) => {
             console.log(value, `click`);
-            this.projectService.buildTempTask(value.id)
-              .subscribe(x => {
-                this.msgServ.success(`生成成功!文件地址${x}`);
-              });
-          }
+            this.projectService.buildTempTask(value.id).subscribe((x) => {
+              this.msgServ.success(`生成成功!文件地址${x}`);
+            });
+          },
         },
         {
-          text: '编辑', type: 'modal', modal: {
+          text: '编辑',
+          type: 'modal',
+          modal: {
             component: GeneratorBuilderEditComponent,
             modalOptions: {
               nzWidth: '80vw',
@@ -73,19 +74,27 @@ export class GeneratorBuilderComponent implements OnInit {
               this.st.reload();
             }
           },
-        }, {
-          text: '删除', type: 'del', click: (value: any) => {
-            this.service.deleteBuilder(value.id).subscribe(r => {
+        },
+        {
+          text: '删除',
+          type: 'del',
+          click: (value: any) => {
+            this.service.deleteBuilder(value.id).subscribe((r) => {
               this.msgServ.success(`成功删除构建器${value.name}`);
               this.st.reload();
             });
-          }
-        }
-      ]
-    }
+          },
+        },
+      ],
+    },
   ];
 
-  constructor(private service: BuilderService, private modal: ModalHelper, private msgServ: NzMessageService, private projectService: ProjectService) { }
+  constructor(
+    private service: BuilderService,
+    private modal: ModalHelper,
+    private msgServ: NzMessageService,
+    private projectService: ProjectService,
+  ) {}
 
   ngOnInit() {
     // this.service.getBuilder(new Page()).subscribe(r => {
@@ -94,9 +103,6 @@ export class GeneratorBuilderComponent implements OnInit {
   }
 
   add() {
-    this.modal
-      .createStatic(GeneratorBuilderEditComponent, { i: { id: 0 } })
-      .subscribe(() => this.st.reload());
+    this.modal.createStatic(GeneratorBuilderEditComponent, { i: { id: 0 } }).subscribe(() => this.st.reload());
   }
-
 }
