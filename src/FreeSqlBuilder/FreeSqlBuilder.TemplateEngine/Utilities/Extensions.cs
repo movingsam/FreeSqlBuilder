@@ -13,18 +13,18 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <summary>
         /// 输出文件拓展
         /// </summary>
-        /// <param name="options"></param>
+        /// <param name="task"></param>
         /// <param name="tableName"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public static async Task OutPut(this BuilderOptions options, string tableName, string content)
+        public static async Task OutPut(this IBuilderTask task, string tableName, string content)
         {
-            var project = options.Projects?.FirstOrDefault();
+            var project = task.Project;
             var root = project == null ? AppContext.BaseDirectory : project.ProjectInfo.RootPath;
             var outPutPath = project == null ? "FreeSqlBuilder" : project.ProjectInfo.OutPutPath;
             var rootPath = Path.Combine(root, outPutPath);
-            var dirPath = Path.Combine(rootPath, options.ReplaceTablePath(tableName));
-            var outputPath = Path.Combine(dirPath, $"{options.GetName(tableName)}.{options.FileExtensions}");
+            var dirPath = Path.Combine(rootPath, project?.ProjectInfo.ReplaceTablePath(tableName));
+            var outputPath = Path.Combine(dirPath, $"{task.CurrentBuilder.GetName(tableName)}.{task.CurrentBuilder.FileExtensions}");
             if (!Directory.Exists(dirPath))
             {
                 Directory.CreateDirectory(dirPath);

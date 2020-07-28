@@ -51,12 +51,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IUnitOfWork>(x => x.GetService<IFreeSql<FsBuilder>>().CreateUnitOfWork());
             services.AddScoped<ReflectionHelper>();//反射助手
             services.AddScoped<BuildTask>();//核心任务
-            services.AddScoped<TempBuildTask>();//快速构建器任务
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎
             services.AddTransient<RazorViewToStringRender>();//Razor渲染字符串工具
-            var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
-            fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
-            fileProvider.InitTemplate();//导入模板到数据库
+            //var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
+            //fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
+            //fileProvider.InitTemplate();//导入模板到数据库
         }
         /// <summary>
         /// sql监控

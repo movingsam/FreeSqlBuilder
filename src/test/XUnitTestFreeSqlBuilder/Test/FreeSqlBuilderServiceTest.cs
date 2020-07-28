@@ -222,22 +222,31 @@ namespace XUnitTestFsBuilderProject
         }
 
         [Fact]
-        public void TestTempBuilderOptionsRunTask()
+        public void TestInitData()
         {
-            using (var scope = ServiceProvider.CreateScope())
-            {
-                var sp = scope.ServiceProvider;
-                var dl = sp.GetService<DiagnosticListener>();
-                var options = sp.GetService<IBuilderService>().GetBuilderPage(new PageRequest()).Result.Datas
-                    .FirstOrDefault();
-                var config = sp.GetService<IGeneratorConfigService>().GetConfigPage(new PageRequest()).Result.Datas.Where(x => x.PickType == PickType.Ignore).FirstOrDefault();
-                options.DefaultConfig = config;
-                var task = sp.GetService<TempBuildTask>();
-                task.ImportSetting(options);
-                task.Start().Wait();
-                ;
-            }
-
+            var service = new DefaultDataInit(ServiceProvider);
+            ServiceProvider.GetService<IFreeSql<FsBuilder>>().Delete<Project>().Where(x => x.Id > 0).ExecuteAffrows();
+            service.DefaultConfigCheck();
+            ;
         }
+
+        //[Fact]
+        //public void TestTempBuilderOptionsRunTask()
+        //{
+        //    using (var scope = ServiceProvider.CreateScope())
+        //    {
+        //        var sp = scope.ServiceProvider;
+        //        var dl = sp.GetService<DiagnosticListener>();
+        //        var options = sp.GetService<IBuilderService>().GetBuilderPage(new PageRequest()).Result.Datas
+        //            .FirstOrDefault();
+        //        var config = sp.GetService<IGeneratorConfigService>().GetConfigPage(new PageRequest()).Result.Datas.Where(x => x.PickType == PickType.Ignore).FirstOrDefault();
+        //        options.DefaultConfig = config;
+        //        var task = sp.GetService<TempBuildTask>();
+        //        task.ImportSetting(options);
+        //        task.Start().Wait();
+        //        ;
+        //    }
+
+        //}
     }
 }

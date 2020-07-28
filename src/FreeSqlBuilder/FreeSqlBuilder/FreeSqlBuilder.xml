@@ -283,48 +283,6 @@
             <param name="project"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDriveInfos">
-            <summary>
-            获取服务器的盘符及相关根目录
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDir(System.String)">
-            <summary>
-            通过目录获取下一层级的目录
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetCshtml(System.String,System.String)">
-            <summary>
-             通过目录获取下一层级的目录及cshtml文件
-            </summary>
-            <param name="path"></param>
-            <param name="type"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.ImportCshtml(System.String)">
-            <summary>
-            获取cshtml相关内容
-            </summary>
-            <param name="path"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetRootPath">
-            <summary>
-            获取当前项目的根目录+模板路径
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllDbTable(System.String,System.String)">
-            <summary>
-            获取所有表
-            </summary>
-            <param name="entityBaseName"></param>
-            <param name="entityAssemblyName"></param>
-            <returns></returns>
-        </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllAbstractClass(System.String)">
             <summary>
             获取所有的基类
@@ -335,6 +293,21 @@
             <summary>
             获取程序集名称项
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDbTableInfo(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            数据库获取表结构
+            </summary>
+            <param name="ds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllDbTable(System.String,System.String)">
+            <summary>
+            获取所有表
+            </summary>
+            <param name="entityBaseName"></param>
+            <param name="entityAssemblyName"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.BuildTask(System.Int64)">
@@ -349,13 +322,6 @@
             临时任务,只通过构建器生成任务
             </summary>
             <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetDbTableInfo(FreeSqlBuilder.Core.Entities.DataSource)">
-            <summary>
-            
-            </summary>
-            <param name="dto"></param>
             <returns></returns>
         </member>
         <member name="T:FreeSqlBuilder.Controllers.TemplateController">
@@ -919,6 +885,49 @@
             <param name="id"></param>
             <param name="autoSave"></param>
             <returns></returns>
+        </member>
+        <member name="T:FreeSqlBuilder.Services.DefaultDataInit">
+            <summary>
+            默认数据初始化帮助类
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.#ctor(System.IServiceProvider)">
+            <summary>
+            构造
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultConfigCheck">
+            <summary>
+            默认配置检测
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultProjectInit">
+            <summary>
+            默认项目初始化
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultGeneratorModeConfig">
+            <summary>
+            默认生成器配置新增
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            默认数据源新增
+            </summary>
+            <param name="ds"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultEntitySource(FreeSqlBuilder.Core.Entities.EntitySource)">
+            <summary>
+            默认实体源新增
+            </summary>
+            <param name="es"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.InitBuilder">
+            <summary>
+            初始化构建器
+            </summary>
         </member>
         <member name="T:FreeSqlBuilder.Services.GeneratorConfigService">
             <summary>

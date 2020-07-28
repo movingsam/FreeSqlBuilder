@@ -12,7 +12,7 @@ import {
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { TransferChange, TransferItem, TransferSelectChange } from 'ng-zorro-antd/transfer';
+import { TransferChange, TransferItem } from 'ng-zorro-antd/transfer';
 import { of } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
 import { BuilderService } from 'src/app/core/services/builder.service';
@@ -76,7 +76,7 @@ export class GeneratorProjectEditComponent implements OnInit {
     if (this.record.id > 0) {
       this.projectService.getProject(this.record.id).subscribe((t) => {
         this.i = t;
-        this.Title = `编辑项目:${t.projectInfo.projectName}`;
+        this.Title = `编辑项目:${t.projectInfo.nameSpace}`;
       });
     }
     this.schema = this.SchemaInit();
@@ -93,7 +93,7 @@ export class GeneratorProjectEditComponent implements OnInit {
             grid: { span: 24 },
           } as SFObjectWidgetSchema,
           properties: {
-            projectName: {
+            nameSpace: {
               type: 'string',
               title: '项目名称',
               description: '项目的名称',
@@ -140,10 +140,7 @@ export class GeneratorProjectEditComponent implements OnInit {
             asyncData: () => {
               return this.builderService.getBuilderSelect();
             },
-            selectChange: (val: TransferSelectChange) => {
-              console.log(val);
-              this.sf.setValue('/_buildersId', val.list.map<number>((x) => x.key));
-            }
+
           },
         },
         _buildersId: {

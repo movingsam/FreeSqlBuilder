@@ -7,6 +7,7 @@ import { type } from 'os';
 import { BuilderService } from 'src/app/core/services/builder.service';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { BuilderOptions, GeneratorModeConfig } from 'src/app/core/services/interface/project';
+import { ProjectService } from 'src/app/core/services/project.service';
 import { TemplateService } from 'src/app/core/services/template.service';
 
 @Component({
@@ -61,13 +62,23 @@ export class GeneratorBuilderEditComponent implements OnInit {
         type: 'string',
         title: '文件后缀'
       },
-      fastConfigId: {
+      defaultConfigId: {
         type: 'number',
         title: '默认配置',
         ui: {
           widget: 'select',
           asyncData: () => {
             return this.configService.getGeneratorConfigSelect();
+          }
+        }
+      },
+      defaultProjectId: {
+        type: 'number',
+        title: '默认项目',
+        ui: {
+          widget: 'select',
+          asyncData: () => {
+            return this.projectService.getSelect();
           }
         }
       }
@@ -98,6 +109,7 @@ export class GeneratorBuilderEditComponent implements OnInit {
     private configService: GeneratorconfigService,
     private templateService: TemplateService,
     public http: _HttpClient,
+    private projectService: ProjectService
   ) { }
 
   ngOnInit(): void {
