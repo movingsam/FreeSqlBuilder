@@ -14,7 +14,7 @@ export class Project {
 
 export class ProjectInfo {
   id: number;
-  projectName: string;
+  nameSpace: string;
   rootPath: string;
   outPutPath: string;
   author: string;

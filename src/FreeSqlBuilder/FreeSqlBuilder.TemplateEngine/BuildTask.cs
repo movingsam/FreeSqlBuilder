@@ -109,7 +109,7 @@ namespace FreeSqlBuilder.TemplateEngine
                 {
                     CurrentBuilder = builder;//记录当前执行的构建器
                     var content = await _engine.Render(this, builder.Template.TemplatePath);
-                    await builder.OutPut(tableName, content);
+                    await this.OutPut(tableName, content);
                     _logger.LogInformation($"生成文件{builder.GetName(tableName)}");
                     _logger.LogInformation($"内容:{content}");
                 }
@@ -119,7 +119,7 @@ namespace FreeSqlBuilder.TemplateEngine
             {
                 CurrentBuilder = value;//记录当前执行的构建器
                 var content = await _engine.Render(this, value.Template.TemplatePath);
-                await value.OutPut(this.Project.ProjectInfo.NameSpace, content);
+                await this.OutPut(this.Project.ProjectInfo.NameSpace, content);
                 _logger.LogInformation($"生成文件{value.GetName(tableName)}");
                 _logger.LogInformation($"内容:{content}");
             }

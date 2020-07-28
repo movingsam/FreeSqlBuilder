@@ -105,31 +105,41 @@ export class StartupService {
     // Menu data, https://ng-alain.com/theme/menu
     this.menuService.add([
       {
-        text: '快速开始',
+        text: '导航',
         link: '/project/builder',
         group: true,
-        icon: { type: 'icon', value: 'appstore' },
+        hideInBreadcrumb: true,
         children: [
           {
-
-            text: '构建器',
+            text: '快速开始',
             link: '/project/builder',
-          }
+            group: true,
+            hideInBreadcrumb: true,
+            icon: { type: 'icon', value: 'star' },
+            children: [
+              {
+
+                text: '构建器',
+                link: '/project/builder',
+              }
+            ]
+          }, {
+            text: '代码生成器',
+            icon: { type: 'icon', value: 'appstore' },
+            children: [
+              {
+                text: '项目',
+                link: '/project/index',
+              },
+              {
+                text: '配置',
+                link: '/project/config',
+              },
+            ],
+          },
         ]
       },
-      {
-        text: '代码生成器',
-        children: [
-          {
-            text: '项目',
-            link: '/project/index',
-          },
-          {
-            text: '配置',
-            link: '/project/config',
-          },
-        ],
-      },
+
 
     ]);
     // Can be set page suffix title, https://ng-alain.com/theme/title

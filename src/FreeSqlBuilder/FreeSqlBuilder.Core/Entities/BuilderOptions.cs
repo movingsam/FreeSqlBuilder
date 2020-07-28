@@ -88,14 +88,6 @@ namespace FreeSqlBuilder.Core.Entities
         /// </summary>
         public string FileExtensions { get; set; } = "cs";
         /// <summary>
-        /// 快速生成使用的配置
-        /// </summary>
-        public long DefaultConfigId { get; set; }
-        /// <summary>
-        /// 配置对象
-        /// </summary>
-        public GeneratorModeConfig DefaultConfig { get; set; }
-        /// <summary>
         /// 默认项目id
         /// </summary>
         public long DefaultProjectId { get; set; }
@@ -103,22 +95,6 @@ namespace FreeSqlBuilder.Core.Entities
         /// 默认项目
         /// </summary>
         public Project DefaultProject { get; set; }
-
-        /// <summary>
-        /// 项目构建器中间表
-        /// </summary>
-        public virtual ICollection<ProjectBuilder> ProjectBuilders { get; set; }
-        /// <summary>
-        /// 项目
-        /// </summary>
-        public virtual ICollection<Project> Projects
-        {
-            get
-            {
-                if (ProjectBuilders == null) return default;
-                return ProjectBuilders?.Select(x => x.Project).ToList();
-            }
-        }
         /// <summary>
         /// 验证
         /// </summary>

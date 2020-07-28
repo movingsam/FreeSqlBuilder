@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { promise } from 'protractor';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Page, PageView, Result } from './interface/dto';
 import { Project } from './interface/project';
+import { SelectItem } from './interface/selectItem';
 
 /**
  * 项目服务
@@ -32,6 +34,14 @@ export class ProjectService {
    */
   getlist(page: Page): Observable<PageView<Project>> {
     return this.client.get<PageView<Project>>(`api/project/page?pageNumber=${page.pageNumber}&pageSize=${page.pageSize}`);
+  }
+  /**
+   *  获取选择列表
+   */
+  getSelect(): Observable<SelectItem[]> {
+    return this.client.get<PageView<Project>>(`api/project/page?pageNumber=1&pageSize=100`).pipe(map(m => m.datas.map<SelectItem>(d => {
+      return new SelectItem(d.id.toString(), d.id, d.projectInfo.nameSpace, d.projectInfo.nameSpace);
+    })));
   }
 
   /**
