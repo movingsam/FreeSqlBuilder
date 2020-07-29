@@ -1,0 +1,16 @@
+<form nz-form (ngSubmit)="submit()" [formGroup]="formGroup">
+  <nz-form-item>
+    <nz-form-label [nzSpan]="4">选择默认配置</nz-form-label>
+    <nz-form-control [nzSpan]="14">
+      <nz-radio-group formControlName="defaultSource">
+        <label nz-radio-button [nzValue]="0">数据源(DbFirst)</label>
+        <label nz-radio-button [nzValue]="1">实体源(CodeFirst)</label>
+      </nz-radio-group>
+    </nz-form-control>
+  </nz-form-item>
+  <div class="modal-footer">
+    <button nz-button type="submit" nzType="primary">
+      添加
+    </button>
+  </div>
+</form>
