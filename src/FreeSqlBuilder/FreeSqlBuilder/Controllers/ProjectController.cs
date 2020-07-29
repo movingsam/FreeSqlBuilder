@@ -256,5 +256,18 @@ namespace FreeSqlBuilder.Controllers
         }
         #endregion
 
+
+        #region Helper
+        /// <summary>
+        /// 检测默认数据
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/api/Check")]
+        public Task<IActionResult> Check()
+        {
+            var res = HttpContext.RequestServices.GetService<DefaultDataInit>().CheckDefaultData();
+            return Task.FromResult(Success(res));
+        }
+        #endregion
     }
 }

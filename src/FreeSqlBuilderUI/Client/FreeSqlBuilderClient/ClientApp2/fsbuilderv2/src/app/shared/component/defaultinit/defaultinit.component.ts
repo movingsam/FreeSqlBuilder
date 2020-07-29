@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ModalHelper } from '@delon/theme';
-import { EntitysourceComponent } from '../entitysource/entitysource.component';
-import { DatasourceComponent } from '../datasource/datasource.component';
 import { EntitySource } from 'src/app/core/services/interface/project';
+import { DatasourceComponent } from '../datasource/datasource.component';
+import { EntitysourceComponent } from '../entitysource/entitysource.component';
 
 @Component({
   selector: 'fb-defaultinit',
@@ -21,10 +21,10 @@ export class DefaultinitComponent implements OnInit {
     });
   }
   validate() {
-    for (const i in this.formGroup.controls) {
-      this.formGroup.controls[i].markAsDirty();
-      this.formGroup.controls[i].updateValueAndValidity();
-    }
+    // for (const i in this.formGroup.controls) {
+    //   this.formGroup.controls[i].markAsDirty();
+    //   this.formGroup.controls[i].updateValueAndValidity();
+    // }
   }
   submit() {
     this.validate();
@@ -46,9 +46,20 @@ export class DefaultinitComponent implements OnInit {
                 'overflow-y': 'scroll',
                 'max-height': '70vh',
               },
+              nzFooter: [
+                {
+                  label: '取消',
+                  type: 'default',
+                  onClick: () => {},
+                },
+                {
+                  label: '确认',
+                  type: 'primary',
+                  onClick: () => {},
+                },
+              ],
               nzOnOk: () => {},
               nzCancelDisabled: true,
-              nzClosable: false,
               nzMaskClosable: false,
             },
           },

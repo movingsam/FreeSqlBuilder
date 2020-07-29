@@ -324,6 +324,12 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.Check">
+            <summary>
+            检测默认数据
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:FreeSqlBuilder.Controllers.TemplateController">
             <summary>
             模板控制器
@@ -901,6 +907,12 @@
             <summary>
             默认配置检测
             </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.CheckDefaultData">
+            <summary>
+            检测默认数据是否创建
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultProjectInit">
             <summary>

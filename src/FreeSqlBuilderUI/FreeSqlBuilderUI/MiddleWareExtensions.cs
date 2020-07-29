@@ -33,7 +33,7 @@ namespace FreeSqlBuilderUI
 
             var fileHelper = app.ApplicationServices.GetService<FileProviderHelper>();
             fileHelper.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));
-            fileHelper.InitTemplate();
+            fileHelper.RefreshTemplate();
             app.UseMvcWithDefaultRoute();
             app.UseMiddleware<FreeSqlBuilderUIMiddleware>(options);
         }

@@ -1,5 +1,10 @@
 <form nz-form (ngSubmit)="submit()" [formGroup]="formGroup">
   <nz-form-item>
+    <nz-form-label nzOffset="4" nzNoColon="true"
+      ><label style="color: red;">检测发现您没有默认配置，初次使用请创建一个默认的配置以使生成器可以正常运行</label>
+    </nz-form-label>
+  </nz-form-item>
+  <nz-form-item>
     <nz-form-label [nzSpan]="4">选择默认配置</nz-form-label>
     <nz-form-control [nzSpan]="14">
       <nz-radio-group formControlName="defaultSource">

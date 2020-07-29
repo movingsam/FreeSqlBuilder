@@ -34,7 +34,15 @@ namespace FreeSqlBuilder.Core.Helper
         /// <returns></returns>
         public Task<List<Item>> GetAssembliesName()
         {
-            return Task.FromResult(new List<Item> { new Item("请选择程序集", "") }.Concat(GetAssemblies().Select(x => new Item(x.FullName.Split(",")[0], x.FullName)).ToList()).ToList());
+            return Task.FromResult(new List<Item> { new Item("请选择程序集", "") }.Concat(GetAssemblies().Select(x =>
+            {
+                var item = new Item(x.FullName.Split(",")[0], x.FullName)
+                {
+                    Title = x.FullName,
+                    Children = GetAbstractClass(x.FullName).Result
+                };
+                return item;
+            }).ToList()).ToList());
         }
         /// <summary>
         /// 获取基类
@@ -51,7 +59,14 @@ namespace FreeSqlBuilder.Core.Helper
             {
                 types = GetAssemblies().FirstOrDefault(x => x.FullName == assemblyName)?.GetTypes().ToList();
             }
-            return Task.FromResult(new List<Item> { new Item("请选择基类", "") }.Concat(types.Where(x => x.IsAbstract && !x.IsEnum && !x.IsSealed).Select(x => new Item($"{x.Name}", x.FullName))).ToList());
+            if (types == null) return Task.FromResult(default(List<Item>));
+            return Task.FromResult(types.Where(x => x.IsAbstract && !x.IsEnum && !x.IsSealed).Select(x =>
+                new Item($"{x.Name}", x.FullName)
+                {
+                    Title = x.FullName,
+                    IsLeft = true
+
+                }).ToList());
         }
 
         /// <summary>
@@ -202,7 +217,35 @@ namespace FreeSqlBuilder.Core.Helper
             Key = key;
             Value = value;
         }
+        /// <summary>
+        /// 标识
+        /// </summary>
         public string Key { get; set; }
+        /// <summary>
+        /// 值
+        /// </summary>
         public string Value { get; set; }
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public string Title { get; set; }
+
+        public string Label => Title;
+        public bool IsLeft { get; set; } = false;
+
+
+        /// <summary>
+        /// 禁用
+        /// </summary>
+        public bool Disabled { get; set; } = false;
+
+        /// <summary>
+        /// 选中
+        /// </summary>
+        public bool Checked { get; set; } = false;
+        /// <summary>
+        /// 子项
+        /// </summary>
+        public List<Item> Children { get; set; }
     }
 }

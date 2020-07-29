@@ -444,6 +444,11 @@
             复制模板文件到项目目录
             </summary>
         </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.RefreshTemplate">
+            <summary>
+            刷新模板
+            </summary>
+        </member>
         <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.CopyFolder(System.String,System.String)">
             <summary>
             复制源文件夹下所有文件到目标文件夹
@@ -531,6 +536,36 @@
             </summary>
             <param name="key"></param>
             <param name="value"></param>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Helper.Item.Key">
+            <summary>
+            标识
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Helper.Item.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Helper.Item.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Helper.Item.Disabled">
+            <summary>
+            禁用
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Helper.Item.Checked">
+            <summary>
+            选中
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.Helper.Item.Children">
+            <summary>
+            子项
+            </summary>
         </member>
         <member name="P:FreeSqlBuilder.Core.IOutPut.OutPutPath">
             <summary>
