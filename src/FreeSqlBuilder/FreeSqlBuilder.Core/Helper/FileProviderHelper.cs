@@ -131,8 +131,10 @@ namespace FreeSqlBuilder.Core.Helper
         }
 
 
-
-        public void InitTemplate()
+        /// <summary>
+        /// 刷新模板
+        /// </summary>
+        public void RefreshTemplate()
         {
             var outPutPath = Path.Combine(webEnv.ContentRootPath, _options.DefaultTemplatePath);//目标
             ImportTemplate(outPutPath);

@@ -8,6 +8,7 @@ import { AlainThemeModule } from '@delon/theme';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { DatasourceComponent } from './component/datasource/datasource.component';
+import { DefaultinitComponent } from './component/defaultinit/defaultinit.component';
 import { EntitysourceComponent } from './component/entitysource/entitysource.component';
 import { TableinfoComponent } from './component/tableinfo/tableinfo.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
@@ -20,7 +21,7 @@ const THIRDMODULES = [];
 
 // #region your componets & directives
 
-const COMPONENTS = [DatasourceComponent, EntitysourceComponent, TableinfoComponent];
+const COMPONENTS = [DatasourceComponent, EntitysourceComponent, TableinfoComponent, DefaultinitComponent];
 const DIRECTIVES = [];
 
 // #endregion
@@ -59,6 +60,6 @@ const DIRECTIVES = [];
     ...COMPONENTS,
     ...DIRECTIVES,
   ],
-  schemas: [NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA],
 })
-export class SharedModule { }
+export class SharedModule {}

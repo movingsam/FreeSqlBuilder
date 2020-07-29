@@ -7,7 +7,7 @@ namespace FreeSqlBuilder.Core.Entities
     /// <summary>
     /// 模板
     /// </summary>
-    [Index("template_name_index", nameof(TemplateName), true)]
+    [Index("template_name_index", nameof(TemplatePath), true)]
     public class Template : ITemplate, IKey<long>
     {
         [Column(IsIdentity = true, IsPrimary = true)]

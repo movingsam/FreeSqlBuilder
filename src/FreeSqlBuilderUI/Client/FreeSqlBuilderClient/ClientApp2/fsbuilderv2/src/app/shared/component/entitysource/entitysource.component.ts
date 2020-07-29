@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { SFComponent, SFSchema } from '@delon/form';
+import { NzCascaderOption } from 'ng-zorro-antd/cascader';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { title } from 'process';
 import { Observable, of } from 'rxjs';
@@ -11,8 +12,7 @@ import { EntitySource } from 'src/app/core/services/interface/project';
 @Component({
   selector: 'fb-entitysource',
   templateUrl: './entitysource.component.html',
-  styles: [`
-  `]
+  styles: [``],
 })
 export class EntitysourceComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
@@ -29,43 +29,32 @@ export class EntitysourceComponent implements OnInit {
           type: 'string',
           title: '名称',
         },
-        entityAssemblyName: {
-          type: 'string',
-          title: '程序集',
-          ui: {
-            widget: 'select',
-            asyncData: () => {
-              console.log('getAssemblies');
-              return this.service.getAssemblies();
-            },
-            change: (ngModel, orgData) => {
-              const entityBase = this.sf.getProperty('/entityBaseName');
-              this.service.getAbstractEntity(ngModel)
-                .subscribe(r => {
-                  entityBase.schema.enum = r;
-                  this.sf.setValue('/entityBaseName', entityBase);
-                });
-            }
-          }
-        },
         entityBaseName: {
           type: 'string',
           title: '实体基类',
+          enum: [],
           ui: {
-            widget: 'select',
+            widget: 'cascader',
+            showArrow: false,
+            expandTrigger: 'hover',
           },
         },
+        // entityBaseName: {
+        //   type: 'string',
+        //   title: '实体基类',
+        //   ui: {
+        //     widget: 'select',
+        //   },
+        // },
         preview: {
           type: 'string',
           title: '预览',
           ui: {
-            widget: 'custom'
-          }
-        }
+            widget: 'custom',
+          },
+        },
       },
     };
-
-
   }
 
   change(es: EntitySource): void {
@@ -77,12 +66,10 @@ export class EntitysourceComponent implements OnInit {
     const entitySource = new EntitySource();
     entitySource.entityAssemblyName = this.sf.getProperty('/entityAssemblyName').value;
     entitySource.entityBaseName = this.sf.getProperty('/entityBaseName').value;
-    this.service.getTableInfo(entitySource)
-      .subscribe((r: TableInfoDto[]) => {
-        this.tableInfos = r;
-        this.showPreview(component);
-      });
-
+    this.service.getTableInfo(entitySource).subscribe((r: TableInfoDto[]) => {
+      this.tableInfos = r;
+      this.showPreview(component);
+    });
   }
 
   showPreview(component: TemplateRef<{}>): void {
@@ -94,19 +81,18 @@ export class EntitysourceComponent implements OnInit {
       nzClosable: false,
       nzBodyStyle: {
         'overflow-y': 'scroll',
-        'max-height': '70vh'
+        'max-height': '70vh',
       },
-      nzOnOk: () => {
-      },
+      nzOnOk: () => {},
     });
   }
 
   ngOnInit() {
-    this.service.getAbstractEntity('').subscribe(r => {
+    this.service.getAssemblies().subscribe((r) => {
       const entityBaseName = this.sf.getProperty('/entityBaseName');
       entityBaseName.schema.enum = r;
+      console.log(r);
       this.sf.setValue('/entityBaseName', entityBaseName);
     });
   }
-
 }

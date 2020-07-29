@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SFSchemaEnumType } from '@delon/form';
+import { CascaderWidget, SFSchemaEnumType } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,19 +15,8 @@ export class HelperService {
   /**
    * 获取当前站点入口目录下的程序集
    */
-  getAssemblies(): Observable<SFSchemaEnumType[]> {
-    return this.client.get<SelectItem[]>(`api/Assemblies`).pipe(
-      map((m) =>
-        m.map<SFSchemaEnumType>((t) => {
-          return {
-            key: t.key,
-            value: t.value,
-            title: t.key,
-            label: t.key,
-          };
-        }),
-      ),
-    );
+  getAssemblies(): Observable<SelectItem[]> {
+    return this.client.get<SelectItem[]>(`api/Assemblies`);
   }
 
   /**
@@ -59,5 +48,11 @@ export class HelperService {
     } else {
       return this.client.post<DbTableInfoDto[]>(`api/project/DbTableInfo`, input);
     }
+  }
+  /**
+   * 默认配置检测
+   */
+  checkConfig(): Observable<boolean> {
+    return this.client.get<boolean>(`api/check`);
   }
 }
