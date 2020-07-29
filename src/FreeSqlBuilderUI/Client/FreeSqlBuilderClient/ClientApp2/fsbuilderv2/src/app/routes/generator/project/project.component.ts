@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { STColumn, STComponent, STData, STRes } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
-import { Console } from 'console';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Page, PageView } from 'src/app/core/services/interface/dto';
 import { Project } from 'src/app/core/services/interface/project';
@@ -38,7 +37,7 @@ export class GeneratorProjectComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
     { title: '编号', index: 'id' },
-    { title: '项目名称', index: 'projectInfo.projectName' },
+    { title: '项目名称', index: 'projectInfo.nameSpace' },
     { title: '配置名称', index: 'generatorModeConfig.name' },
     {
       title: '操作',
@@ -90,7 +89,7 @@ export class GeneratorProjectComponent implements OnInit {
     this.page = new Page();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
   add() {
     this.modal
       .createStatic(

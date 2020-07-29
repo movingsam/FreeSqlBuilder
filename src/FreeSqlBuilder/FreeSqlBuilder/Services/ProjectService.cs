@@ -63,7 +63,7 @@ namespace FreeSqlBuilder.Services
                 await _projectRep.UpdateDiy.Set(x => x.ProjectInfoId, projectInfoId).Where(x => x.Id == res.Id)
                     .ExecuteAffrowsAsync();
             }
-            if (project.ProjectBuilders.Count > 0)
+            if (project.ProjectBuilders?.Count > 0)
             {
                 _projectRep.Orm.Insert<ProjectBuilder>().AppendData(project.ProjectBuilders).ExecuteAffrows();
             }

@@ -26,4 +26,4 @@ export class TemplateService {
     return this.client.get<PageView<Template>>(`api/template/Page?pageNumber=1&pageSize=100`).pipe(map(m => m.datas.map<SelectItem>(d =>
       new SelectItem(d.id.toString(), d.id, d.templateName, d.templateName))));
   }
-}
+}  

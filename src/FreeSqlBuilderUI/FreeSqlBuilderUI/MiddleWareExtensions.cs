@@ -1,4 +1,5 @@
 ﻿using System;
+using FreeSqlBuilder.Core.Helper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -29,6 +30,10 @@ namespace FreeSqlBuilderUI
             {
                 options = app.ApplicationServices.GetRequiredService<IOptions<BuilderUIOptions>>().Value;
             }
+
+            var fileHelper = app.ApplicationServices.GetService<FileProviderHelper>();
+            fileHelper.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));
+            fileHelper.InitTemplate();
             app.UseMvcWithDefaultRoute();
             app.UseMiddleware<FreeSqlBuilderUIMiddleware>(options);
         }

@@ -48,10 +48,11 @@ namespace FreeSqlBuilder.Services
         public async Task<BuilderOptions> GetBuilder(long id)
         {
             return await _builderRep.Select.Include(x => x.Template)
-                .LeftJoin(x => x.DefaultConfig.Id == x.DefaultConfigId)
                 .LeftJoin(x => x.DefaultProject.Id == x.DefaultProjectId)
-                .Include(x => x.DefaultConfig.DataSource)
-                .Include(x => x.DefaultConfig.EntitySource)
+                .Include(x => x.DefaultProject.ProjectInfo)
+                .Include(x => x.DefaultProject.GeneratorModeConfig)
+                .Include(x => x.DefaultProject.GeneratorModeConfig.DataSource)
+                .Include(x => x.DefaultProject.GeneratorModeConfig.EntitySource)
                 .Where(x => x.Id == id).ToOneAsync();
         }
 

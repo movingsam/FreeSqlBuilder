@@ -30,7 +30,6 @@ namespace FreeSqlBuilder.Controllers
         private readonly IWebHostEnvironment _webHostEnv;
         private readonly ReflectionHelper _reflection;
         private readonly BuildTask _buildTask;
-        private readonly TempBuildTask _tempBuildTask;
         /// <summary>
         /// 控制器构造注入
         /// </summary>
@@ -42,8 +41,10 @@ namespace FreeSqlBuilder.Controllers
             _webHostEnv = service.GetService<IWebHostEnvironment>();
             _reflection = service.GetService<ReflectionHelper>();
             _buildTask = service.GetService<BuildTask>();
-            _tempBuildTask = service.GetService<TempBuildTask>();
         }
+
+        #region 项目部分
+
         /// <summary>
         /// 分页查询
         /// </summary>
@@ -115,74 +116,75 @@ namespace FreeSqlBuilder.Controllers
             return Success(await _projectService.Update(project.ToEntity(), true));
         }
 
-        /// <summary>
-        /// 获取服务器的盘符及相关根目录
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("/api/DriveInofs")]
-        public async Task<IActionResult> GetDriveInfos()
-        {
-            return Success(await _fileProvider.GetDriveInfos());
-        }
-        /// <summary>
-        /// 通过目录获取下一层级的目录
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        [HttpGet("/api/DriveInfos/Dir")]
-        public async Task<IActionResult> GetDir(string path)
-        {
-            return Success(await _fileProvider.GetPathExsitDir(path));
+        #endregion
+        #region ToDo 待完成部分
 
-        }
 
-        /// <summary>
-        ///  通过目录获取下一层级的目录及cshtml文件
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [HttpGet("/api/File/{type}")]
-        public async Task<IActionResult> GetCshtml(string path, [FromRoute] string type)
-        {
-            return Success(await _fileProvider.GetPathExsitCshtml(path, type));
-        }
-        /// <summary>
-        /// 获取cshtml相关内容
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        [HttpGet("/api/Cshtml/Import")]
-        public async Task<IActionResult> ImportCshtml(string path)
-        {
-            return Success(await _fileProvider.GetCshtml(path));
-        }
-        /// <summary>
-        /// 获取当前项目的根目录+模板路径
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("/api/RootPath")]
-        public IActionResult GetRootPath()
-        {
-            var path = Path.Combine(_webHostEnv.ContentRootPath, "Template", "Razor");
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-            }
-            return Success(new { root = path });
-        }
-        /// <summary>
-        /// 获取所有表
-        /// </summary>
-        /// <param name="entityBaseName"></param>
-        /// <param name="entityAssemblyName"></param>
-        /// <returns></returns>
-        [HttpGet("/api/AllTable")]
-        public async Task<IActionResult> GetAllDbTable(string entityAssemblyName, string entityBaseName)
-        {
-            var res = (await _reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
-            return Success(res);
-        }
+        ///// <summary>
+        ///// 获取服务器的盘符及相关根目录
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet("/api/DriveInofs")]
+        //public async Task<IActionResult> GetDriveInfos()
+        //{
+        //    return Success(await _fileProvider.GetDriveInfos());
+        //}
+
+
+        ///// <summary>
+        ///// 通过目录获取下一层级的目录
+        ///// </summary>
+        ///// <param name="path"></param>
+        ///// <returns></returns>
+        //[HttpGet("/api/DriveInfos/Dir")]
+        //public async Task<IActionResult> GetDir(string path)
+        //{
+        //    return Success(await _fileProvider.GetPathExsitDir(path));
+
+        //}
+
+        ///// <summary>
+        /////  通过目录获取下一层级的目录及cshtml文件
+        ///// </summary>
+        ///// <param name="path"></param>
+        ///// <param name="type"></param>
+        ///// <returns></returns>
+        //[HttpGet("/api/File/{type}")]
+        //public async Task<IActionResult> GetCshtml(string path, [FromRoute] string type)
+        //{
+        //    return Success(await _fileProvider.GetPathExsitCshtml(path, type));
+        //}
+        ///// <summary>
+        ///// 获取cshtml相关内容
+        ///// </summary>
+        ///// <param name="path"></param>
+        ///// <returns></returns>
+        //[HttpGet("/api/Cshtml/Import")]
+        //public async Task<IActionResult> ImportCshtml(string path)
+        //{
+        //    return Success(await _fileProvider.GetCshtml(path));
+        //}
+        ///// <summary>
+        ///// 获取当前项目的根目录+模板路径
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet("/api/RootPath")]
+        //public IActionResult GetRootPath()
+        //{
+        //    var path = Path.Combine(_webHostEnv.ContentRootPath, "Template", "Razor");
+        //    if (!Directory.Exists(path))
+        //    {
+        //        Directory.CreateDirectory(path);
+        //    }
+        //    return Success(new { root = path });
+        //}
+
+
+        #endregion
+        #region CodeFirst/DbFirst
+
+
+
         /// <summary>
         /// 获取所有的基类
         /// </summary>
@@ -202,6 +204,32 @@ namespace FreeSqlBuilder.Controllers
             return Success(await _reflection.GetAssembliesName());
         }
         /// <summary>
+        /// 数据库获取表结构
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        [HttpPost("DbTableInfo")]
+        public Task<IActionResult> GetDbTableInfo([FromBody] DataSource ds)
+        {
+            var res = ds.GetAllTable();
+            return Task.FromResult(Success(res.Select(x => new DbTableInfoDto(x)).ToList()));
+        }
+        /// <summary>
+        /// 获取所有表
+        /// </summary>
+        /// <param name="entityBaseName"></param>
+        /// <param name="entityAssemblyName"></param>
+        /// <returns></returns>
+        [HttpGet("/api/AllTable")]
+        public async Task<IActionResult> GetAllDbTable(string entityAssemblyName, string entityBaseName)
+        {
+            var res = (await _reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
+            return Success(res);
+        }
+        #endregion
+        #region 生成器
+
+        /// <summary>
         /// 生成项目
         /// </summary>
         /// <param name="id"></param>
@@ -212,7 +240,8 @@ namespace FreeSqlBuilder.Controllers
             var project = await _projectService.Get(id);
             _buildTask.ImportSetting(project);
             await _buildTask.Start();
-            return Success();
+            var output = Path.Combine(project.ProjectInfo.RootPath, project.ProjectInfo.NameSpace);
+            return Success(output);
         }
         /// <summary>
         /// 临时任务,只通过构建器生成任务
@@ -223,22 +252,9 @@ namespace FreeSqlBuilder.Controllers
         public async Task<IActionResult> TempBuildTask(long id)
         {
             var builder = await HttpContext.RequestServices.GetService<IBuilderService>().GetBuilder(id);
-            _tempBuildTask.ImportSetting(builder);
-            await _tempBuildTask.Start();
-            var res = Path.Combine(AppContext.BaseDirectory, "FreeSqlBuilder",
-                builder.OutPutPath);
-            return Success(res);
+            return await this.BuildTask(builder.DefaultProjectId);
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        [HttpPost("DbTableInfo")]
-        public async Task<IActionResult> GetDbTableInfo([FromBody] DataSource ds)
-        {
-            var res = ds.GetAllTable();
-            return Success(res.Select(x => new DbTableInfoDto(x)).ToList());
-        }
+        #endregion
+
     }
 }

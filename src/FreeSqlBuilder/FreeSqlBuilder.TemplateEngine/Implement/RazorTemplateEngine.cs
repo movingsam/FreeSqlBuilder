@@ -40,18 +40,18 @@ namespace FreeSqlBuilder.TemplateEngine.Implement
 
         }
 
-        public async Task<string> Render(TempBuildTask context, string viewPath)
-        {
-            using var serviceScope = _scopeFactory.CreateScope();
-            var helper = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRender>();
-            if (!Path.IsPathRooted(viewPath)) return await helper.RenderViewToStringAsync(viewPath, context);
-            viewPath = GetTempViewPath(viewPath);
-            var rel = Path.GetRelativePath(_root, viewPath);
-            var result = await helper.RenderViewToStringAsync(rel, context);
-            File.Delete(viewPath);
-            return result;
+        //public async Task<string> Render(TempBuildTask context, string viewPath)
+        //{
+        //    using var serviceScope = _scopeFactory.CreateScope();
+        //    var helper = serviceScope.ServiceProvider.GetRequiredService<RazorViewToStringRender>();
+        //    if (!Path.IsPathRooted(viewPath)) return await helper.RenderViewToStringAsync(viewPath, context);
+        //    viewPath = GetTempViewPath(viewPath);
+        //    var rel = Path.GetRelativePath(_root, viewPath);
+        //    var result = await helper.RenderViewToStringAsync(rel, context);
+        //    File.Delete(viewPath);
+        //    return result;
 
-        }
+        //}
 
         private string GetTempViewPath(string viewPath)
         {

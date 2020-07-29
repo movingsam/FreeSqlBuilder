@@ -15,4 +15,8 @@
     <EmbeddedResource Include="dist/*" Exclude="**/**/*.map;**/**/*.json;**/**/*.md" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\FreeSqlBuilder\FreeSqlBuilder\FreeSqlBuilder.csproj" />
+  </ItemGroup>
+
 </Project>

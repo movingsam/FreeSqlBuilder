@@ -4,6 +4,11 @@
         <name>FreeSqlBuilder.Core</name>
     </assembly>
     <members>
+        <member name="T:FreeSqlBuilder.Core.Entities.BuilderOptions">
+            <summary>
+            构建器
+            </summary>
+        </member>
         <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Id">
             <summary>
             主键
@@ -64,24 +69,14 @@
             生成文件的类型
             </summary>
         </member>
-        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.FastConfigId">
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.DefaultProjectId">
             <summary>
-            快速生成使用的配置
+            默认项目id
             </summary>
         </member>
-        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Config">
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.DefaultProject">
             <summary>
-            配置对象
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.ProjectBuilders">
-            <summary>
-            项目构建器中间表
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.Projects">
-            <summary>
-            项目
+            默认项目
             </summary>
         </member>
         <member name="M:FreeSqlBuilder.Core.Entities.BuilderOptions.Validate">
@@ -179,6 +174,21 @@
         <member name="P:FreeSqlBuilder.Core.Entities.EntitySource.EntityBaseName">
             <summary>
             基类
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.GeneratorMode">
+            <summary>
+            生成器模式
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.GeneratorMode.DbFirst">
+            <summary>
+            数据库优先
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.GeneratorMode.CodeFirst">
+            <summary>
+            代码优先
             </summary>
         </member>
         <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.Id">
