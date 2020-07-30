@@ -53,7 +53,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<BuildTask>();//核心任务
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎
             services.AddTransient<RazorViewToStringRender>();//Razor渲染字符串
-            services.AddSingleton<DefaultDataInit>();
+            services.AddScoped<DefaultDataInit>();
             //var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
             //fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
             //fileProvider.InitTemplate();//导入模板到数据库

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using FreeSqlBuilder.Core.Entities;
+using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals.Base;
@@ -19,6 +20,7 @@ namespace FreeSqlBuilder.Services
     {
         private readonly ITemplateRepository _templateRepository;
         private readonly IWebHostEnvironment _webHostEnv;
+        private readonly FileProviderHelper _fileProvider;
         /// <summary>
         /// 构造
         /// </summary>
@@ -28,8 +30,14 @@ namespace FreeSqlBuilder.Services
         {
             _templateRepository = service.GetService<ITemplateRepository>();
             _webHostEnv = service.GetService<IWebHostEnvironment>();
+            _fileProvider = service.GetService<FileProviderHelper>();
         }
 
+        public void RefreshTemplate()
+        {
+            _fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));
+            _fileProvider.RefreshTemplate();
+        }
         /// <summary>
         /// 模板列表
         /// </summary>

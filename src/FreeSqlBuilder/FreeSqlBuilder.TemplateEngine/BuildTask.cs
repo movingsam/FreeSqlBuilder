@@ -5,6 +5,7 @@ using FreeSqlBuilder.TemplateEngine.Implement;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -91,13 +92,18 @@ namespace FreeSqlBuilder.TemplateEngine
                     break;
                 case GeneratorMode.CodeFirst:
                     var tempRes = _reflectionHelper
-                        .GetTableInfos(this.Project.GeneratorModeConfig.EntitySource.EntityAssemblyName, this.Project.GeneratorModeConfig.EntitySource.EntityBaseName).Result;
+                        .GetTableInfos(this.Project.GeneratorModeConfig.EntitySource).Result;
                     this.GAllTable = tempRes.ToArray();
                     this.AllTable = this.Project.GeneratorModeConfig.PickType == PickType.Ignore ? tempRes.Where(t => !this.Project.GeneratorModeConfig.IgnoreTable.Contains(t.CsName)).ToArray() : tempRes.Where(x => this.Project.GeneratorModeConfig.IncludeTable.Contains(x.CsName)).ToArray();
                     break;
                 default:
                     break;
             }
+        }
+
+        public void ImportSetting(BuilderOptions builderOption)
+        {
+            this.ImportSetting(builderOption.DefaultProject);
         }
 
         public async Task Start()

@@ -75,7 +75,7 @@
             构建器控制器
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.BuilderController.Get(FreeSqlBuilder.Modals.Base.PageRequest)">
+        <member name="M:FreeSqlBuilder.Controllers.BuilderController.Get(FreeSqlBuilder.Modals.Dtos.BuilderPageParam)">
             <summary>
             获取构建器
             </summary>
@@ -283,7 +283,7 @@
             <param name="project"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllAbstractClass(System.String)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllAbstractClass">
             <summary>
             获取所有的基类
             </summary>
@@ -302,12 +302,11 @@
             <param name="ds"></param>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllDbTable(System.String,System.String)">
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.GetAllDbTable(FreeSqlBuilder.Core.Entities.EntitySource)">
             <summary>
             获取所有表
             </summary>
-            <param name="entityBaseName"></param>
-            <param name="entityAssemblyName"></param>
+            <param name="es"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Controllers.ProjectController.BuildTask(System.Int64)">
@@ -328,6 +327,20 @@
             <summary>
             检测默认数据
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.DefaultEntitySource(FreeSqlBuilder.Core.Entities.EntitySource)">
+            <summary>
+            默认实体源新增
+            </summary>
+            <param name="es"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Controllers.ProjectController.DefaultDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            默认数据源新增
+            </summary>
+            <param name="ds"></param>
             <returns></returns>
         </member>
         <member name="T:FreeSqlBuilder.Controllers.TemplateController">
@@ -845,7 +858,7 @@
             <param name="service"></param>
             <param name="logger"></param>
         </member>
-        <member name="M:FreeSqlBuilder.Services.BuilderService.GetBuilderPage(FreeSqlBuilder.Modals.Base.IPage)">
+        <member name="M:FreeSqlBuilder.Services.BuilderService.GetBuilderPage(FreeSqlBuilder.Modals.Dtos.BuilderPageParam)">
             <summary>
             获取构建器分页
             </summary>
@@ -903,26 +916,34 @@
             </summary>
             <param name="service"></param>
         </member>
-        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultConfigCheck">
-            <summary>
-            默认配置检测
-            </summary>
-        </member>
         <member name="M:FreeSqlBuilder.Services.DefaultDataInit.CheckDefaultData">
             <summary>
             检测默认数据是否创建
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultProjectInit">
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultProjectInit(FreeSqlBuilder.Core.Entities.EntitySource)">
             <summary>
             默认项目初始化
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultGeneratorModeConfig">
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultProjectInit(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
-            默认生成器配置新增
+            默认项目初始化
             </summary>
+            <param name="ds"></param>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultGeneratorModeConfig(FreeSqlBuilder.Core.Entities.EntitySource)">
+            <summary>
+            默认生成器实体源配置新增
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultGeneratorModeConfig(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            默认生成器数据源新增
+            </summary>
+            <param name="ds"></param>
+            <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.DefaultDataInit.DefaultDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
             <summary>
@@ -936,7 +957,7 @@
             </summary>
             <param name="es"></param>
         </member>
-        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.InitBuilder">
+        <member name="M:FreeSqlBuilder.Services.DefaultDataInit.InitBuilder(FreeSqlBuilder.Core.Entities.Project)">
             <summary>
             初始化构建器
             </summary>
@@ -1084,7 +1105,7 @@
             构造器服务
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.Services.IBuilderService.GetBuilderPage(FreeSqlBuilder.Modals.Base.IPage)">
+        <member name="M:FreeSqlBuilder.Services.IBuilderService.GetBuilderPage(FreeSqlBuilder.Modals.Dtos.BuilderPageParam)">
             <summary>
             获取构建器分页
             </summary>

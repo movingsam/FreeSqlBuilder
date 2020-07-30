@@ -466,9 +466,15 @@
             反射助手
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetAssembliesName">
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetEntityBase">
             <summary>
-            获取程序集名称
+            获取实体基类
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetAssembliesNameItems">
+            <summary>
+            获取所有程序集
             </summary>
             <returns></returns>
         </member>
@@ -478,12 +484,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetTableInfos(System.String,System.String)">
+        <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetTableInfos(FreeSqlBuilder.Core.Entities.EntitySource)">
             <summary>
             获取相关表
             </summary>
-            <param name="assemblyName"></param>
-            <param name="entityBaseName"></param>
+            <param name="es"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Core.Helper.ReflectionHelper.GetTypesFromEntityBaseName(System.Collections.Generic.List{System.Type},System.Type)">

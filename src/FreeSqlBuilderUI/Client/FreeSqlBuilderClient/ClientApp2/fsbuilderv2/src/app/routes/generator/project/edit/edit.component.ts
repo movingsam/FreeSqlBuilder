@@ -18,7 +18,7 @@ import { map } from 'rxjs/internal/operators/map';
 import { BuilderService } from 'src/app/core/services/builder.service';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { Page } from 'src/app/core/services/interface/dto';
-import { Project } from 'src/app/core/services/interface/project';
+import { BuilderType, Project } from 'src/app/core/services/interface/project';
 import { ProjectService } from 'src/app/core/services/project.service';
 import { GeneratorConfigEditComponent } from '../../config/edit/edit.component';
 
@@ -47,20 +47,19 @@ export class GeneratorProjectEditComponent implements OnInit {
     },
     $generatorModeConfigId: {
       ui: { spanControl: 9 },
-      grid: { span: 24 }
+      grid: { span: 24 },
     },
     $projectBuilders: {
       items: {
         properties: {
           '*': {
             ui: {
-              spanControl: 12
-            }
-          }
-        }
-      }
-    }
-
+              spanControl: 12,
+            },
+          },
+        },
+      },
+    },
   };
 
   constructor(
@@ -70,7 +69,7 @@ export class GeneratorProjectEditComponent implements OnInit {
     public projectService: ProjectService,
     public builderService: BuilderService,
     public configService: GeneratorconfigService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     if (this.record.id > 0) {
@@ -138,15 +137,27 @@ export class GeneratorProjectEditComponent implements OnInit {
             titles: ['未选中', '选中'],
             grid: { span: 24 },
             asyncData: () => {
-              return this.builderService.getBuilderSelect();
+              return this.builderService.getBuilderSelect(BuilderType.Builder);
             },
-
+          },
+        },
+        globalBuildersId: {
+          type: 'number',
+          title: '全表构建器',
+          uniqueItems: true,
+          ui: {
+            widget: 'transfer',
+            titles: ['未选中', '选中'],
+            grid: { span: 24 },
+            asyncData: () => {
+              return this.builderService.getBuilderSelect(BuilderType.GlobalBuilder);
+            },
           },
         },
         _buildersId: {
           type: 'array',
-          ui: { hidden: true }
-        }
+          ui: { hidden: true },
+        },
       },
       required: ['projectInfo.projectName', 'projectInfo.author', 'projectInfo.outPutPath', 'projectInfo.rootPath'],
     };
@@ -172,7 +183,7 @@ export class GeneratorProjectEditComponent implements OnInit {
       )
       .subscribe((id) => {
         const generatorModeConfigId = this.sf.getProperty('/generatorModeConfigId');
-        this.configService.getGeneratorConfigSelect().subscribe(r => {
+        this.configService.getGeneratorConfigSelect().subscribe((r) => {
           generatorModeConfigId.schema.enum = r;
           this.sf.setValue('/generatorModeConfigId', id);
         });

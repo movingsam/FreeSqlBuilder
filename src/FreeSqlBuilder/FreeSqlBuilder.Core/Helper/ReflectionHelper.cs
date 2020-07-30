@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FreeSql.Internal.Model;
+using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Core.Utilities;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -29,20 +30,37 @@ namespace FreeSqlBuilder.Core.Helper
             _freeSql = freeSql;
         }
         /// <summary>
-        /// 获取程序集名称
+        /// 获取实体基类
         /// </summary>
         /// <returns></returns>
-        public Task<List<Item>> GetAssembliesName()
+        public Task<List<Item>> GetEntityBase()
         {
-            return Task.FromResult(new List<Item> { new Item("请选择程序集", "") }.Concat(GetAssemblies().Select(x =>
+            var res = GetAssemblies().Select(x =>
             {
                 var item = new Item(x.FullName.Split(",")[0], x.FullName)
                 {
-                    Title = x.FullName,
+                    Title = x.FullName.Split(",")[0],
                     Children = GetAbstractClass(x.FullName).Result
                 };
                 return item;
-            }).ToList()).ToList());
+            }).ToList();
+            res = res.Where(x => x.Children != null && x.Children.Count > 0).ToList();
+            return Task.FromResult(res);
+        }
+        /// <summary>
+        /// 获取所有程序集
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<Item>> GetAssembliesNameItems()
+        {
+            return Task.FromResult(GetAssemblies().Select(x =>
+            {
+                var item = new Item(x.FullName.Split(",")[0], x.FullName)
+                {
+                    Title = x.FullName.Split(",")[0],
+                };
+                return item;
+            }).ToList());
         }
         /// <summary>
         /// 获取基类
@@ -63,8 +81,8 @@ namespace FreeSqlBuilder.Core.Helper
             return Task.FromResult(types.Where(x => x.IsAbstract && !x.IsEnum && !x.IsSealed).Select(x =>
                 new Item($"{x.Name}", x.FullName)
                 {
-                    Title = x.FullName,
-                    IsLeft = true
+                    Title = x.Name,
+                    isLeaf = true
 
                 }).ToList());
         }
@@ -72,28 +90,33 @@ namespace FreeSqlBuilder.Core.Helper
         /// <summary>
         /// 获取相关表
         /// </summary>
-        /// <param name="assemblyName"></param>
-        /// <param name="entityBaseName"></param>
+        /// <param name="es"></param>
         /// <returns></returns>
-        public Task<List<TableInfo>> GetTableInfos(string assemblyName, string entityBaseName)
+        public Task<List<TableInfo>> GetTableInfos(EntitySource es)
         {
             var assembly = GetAssemblies();
-            if (!string.IsNullOrWhiteSpace(assemblyName))
+            var entityAssembly = assembly;
+            if (!string.IsNullOrWhiteSpace(es.EntityAssemblyName))
             {
-                assembly = GetAssemblies().Where(x => x.FullName == assemblyName).ToList();
+                var entityAssemblies = es.EntityAssemblyName.Split(";");
+                entityAssembly = assembly.Where(x => entityAssemblies.Contains(x.FullName)).ToList();
             }
-            if (assembly == null) return default;
-            var types = assembly
+            if (entityAssembly == null) return default;
+            var types = entityAssembly
                 .SelectMany(x => x.GetTypes()).ToList();
             Type baseType = null;
-            if (!string.IsNullOrWhiteSpace(entityBaseName))
+            if (!string.IsNullOrWhiteSpace(es.EntityBaseName))
             {
-                baseType = assembly.Select(a => a.GetType(entityBaseName)).FirstOrDefault(t => t != null);
+                var split = es.EntityBaseName.Split(";");
+                var entityBaseAssembly = split[0];
+                var entityBaseName = split[1];
+                var filterAssembly = assembly.FirstOrDefault(x => x.FullName == entityBaseAssembly);
+                baseType = filterAssembly.GetType(entityBaseName);
             }
             var res = GetTypesFromEntityBaseName(types, baseType)
-                .Where(x => GetTableInfos(x) != null)
-                .Where(x => _freeSql.CodeFirst.GetTableByEntity(x).Primarys.Any())
-                .Select(GetTableInfos).ToList();
+                .Select(GetTableInfos)
+                .Where(x => x != null)
+                .ToList();
             return Task.FromResult(res);
 
         }
@@ -231,7 +254,7 @@ namespace FreeSqlBuilder.Core.Helper
         public string Title { get; set; }
 
         public string Label => Title;
-        public bool IsLeft { get; set; } = false;
+        public bool isLeaf { get; set; } = false;
 
 
         /// <summary>

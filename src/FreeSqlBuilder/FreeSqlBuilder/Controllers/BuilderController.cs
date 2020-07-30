@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Modals.Dtos;
 using FreeSqlBuilder.Repository;
 using FreeSqlBuilder.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace FreeSqlBuilder.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Get(PageRequest page)
+        public async Task<IActionResult> Get(BuilderPageParam page)
         {
             return Success(await BuilderService.GetBuilderPage(page));
         }
