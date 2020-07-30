@@ -21,9 +21,9 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         {
             var project = task.Project;
             var root = project == null ? AppContext.BaseDirectory : project.ProjectInfo.RootPath;
-            var outPutPath = project == null ? "FreeSqlBuilder" : project.ProjectInfo.OutPutPath;
+            var outPutPath = project == null ? "FreeSqlBuilder" : project?.ProjectInfo.ReplaceTablePath(tableName);
             var rootPath = Path.Combine(root, outPutPath);
-            var dirPath = Path.Combine(rootPath, project?.ProjectInfo.ReplaceTablePath(tableName));
+            var dirPath = Path.Combine(rootPath, task.CurrentBuilder.ReplaceTablePath(tableName));
             var outputPath = Path.Combine(dirPath, $"{task.CurrentBuilder.GetName(tableName)}.{task.CurrentBuilder.FileExtensions}");
             if (!Directory.Exists(dirPath))
             {

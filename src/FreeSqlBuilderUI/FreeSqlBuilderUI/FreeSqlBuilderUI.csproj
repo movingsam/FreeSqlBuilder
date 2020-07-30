@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\FreeSqlBuilder\FreeSqlBuilder\FreeSqlBuilder.csproj" />
+    <ProjectReference Include="..\..\FreeSqlBuilder\FreeSqlBuilder.Core\FreeSqlBuilder.Core.csproj" />
   </ItemGroup>
 
 </Project>

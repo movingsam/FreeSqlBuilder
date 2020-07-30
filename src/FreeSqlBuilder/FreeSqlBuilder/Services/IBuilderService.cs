@@ -2,6 +2,7 @@
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Modals.Dtos;
 
 namespace FreeSqlBuilder.Services
 {
@@ -15,7 +16,7 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        Task<PageView<BuilderOptions>> GetBuilderPage(IPage page);
+        Task<PageView<BuilderOptions>> GetBuilderPage(BuilderPageParam page);
         /// <summary>
         /// 通过id获取构建器
         /// </summary>

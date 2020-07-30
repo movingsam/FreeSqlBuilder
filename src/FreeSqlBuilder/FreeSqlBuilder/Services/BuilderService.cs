@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Infrastructure;
 using FreeSqlBuilder.Infrastructure.Extensions;
 using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Modals.Dtos;
 using FreeSqlBuilder.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -32,11 +34,12 @@ namespace FreeSqlBuilder.Services
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
-        public async Task<PageView<BuilderOptions>> GetBuilderPage(IPage page)
+        public async Task<PageView<BuilderOptions>> GetBuilderPage(BuilderPageParam page)
         {
             return await _builderRep
                 .Select
                 .Include(x => x.Template)
+                .WhereIf(page.BuilderType != null, x => x.Type == page.BuilderType)
                 .WhereIf(!string.IsNullOrWhiteSpace(page.Keyword), x => x.Name.Contains(page.Keyword))
                 .GetPage(page);
         }
@@ -47,13 +50,24 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<BuilderOptions> GetBuilder(long id)
         {
-            return await _builderRep.Select.Include(x => x.Template)
+            var builders = await _builderRep.Select.Include(x => x.Template)
                 .LeftJoin(x => x.DefaultProject.Id == x.DefaultProjectId)
                 .Include(x => x.DefaultProject.ProjectInfo)
                 .Include(x => x.DefaultProject.GeneratorModeConfig)
                 .Include(x => x.DefaultProject.GeneratorModeConfig.DataSource)
                 .Include(x => x.DefaultProject.GeneratorModeConfig.EntitySource)
                 .Where(x => x.Id == id).ToOneAsync();
+            builders.DefaultProject.ProjectBuilders = new List<ProjectBuilder>()
+            {
+                new ProjectBuilder()
+                {
+                    BuilderId = builders.Id,
+                    Builder= builders,
+                    Project = builders.DefaultProject,
+                    ProjectId = builders.DefaultProjectId
+                }
+            };
+            return builders;
         }
 
         /// <summary>

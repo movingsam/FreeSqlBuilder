@@ -23,18 +23,8 @@ export class HelperService {
    * 获取某个程序集下的所有基类
    * @param asemblyName 程序集名称
    */
-  getAbstractEntity(asemblyName: string): Observable<SFSchemaEnumType[]> {
-    return this.client.get<SelectItem[]>(`api/BaseClass?entityAssemblyName=${asemblyName}`).pipe(
-      map((m) =>
-        m.map<SFSchemaEnumType>((d) => {
-          return {
-            key: d.key,
-            value: d.value,
-            label: d.key,
-          };
-        }),
-      ),
-    );
+  getAbstractEntity(): Observable<SelectItem[]> {
+    return this.client.get<SelectItem[]>(`api/BaseClass`);
   }
 
   /**
@@ -44,7 +34,7 @@ export class HelperService {
   getTableInfo(input: DataSource | EntitySource): Observable<TableInfoDto[] | DbTableInfoDto[]> {
     if ((input as EntitySource).entityAssemblyName !== undefined) {
       const i = input as EntitySource;
-      return this.client.get<TableInfoDto[]>(`api/AllTable?assemblyName=${i.entityAssemblyName}&entityBaseName=${i.entityBaseName}`);
+      return this.client.post<TableInfoDto[]>(`api/AllTable`, input);
     } else {
       return this.client.post<DbTableInfoDto[]>(`api/project/DbTableInfo`, input);
     }
@@ -54,5 +44,17 @@ export class HelperService {
    */
   checkConfig(): Observable<boolean> {
     return this.client.get<boolean>(`api/check`);
+  }
+  /**
+   * 默认源创建
+   * @param input 实体源/数据源
+   */
+  initDefault(input: EntitySource | DataSource): Observable<boolean> {
+    if ((input as EntitySource).entityAssemblyName !== undefined) {
+      const i = input as EntitySource;
+      return this.client.post<boolean>(`api/Check/DefaultEntitySource`, input);
+    } else {
+      return this.client.post<boolean>(`api/Check/DefaultDataSource`, input);
+    }
   }
 }

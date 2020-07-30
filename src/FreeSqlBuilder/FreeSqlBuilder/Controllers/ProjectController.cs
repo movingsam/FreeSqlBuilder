@@ -190,9 +190,9 @@ namespace FreeSqlBuilder.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("/api/BaseClass")]
-        public async Task<IActionResult> GetAllAbstractClass(string entityAssemblyName)
+        public async Task<IActionResult> GetAllAbstractClass()
         {
-            return Success(await _reflection.GetAbstractClass(entityAssemblyName));
+            return Success(await _reflection.GetEntityBase());
         }
         /// <summary>
         /// 获取程序集名称项
@@ -201,8 +201,10 @@ namespace FreeSqlBuilder.Controllers
         [HttpGet("/api/Assemblies")]
         public async Task<IActionResult> GetAssemblies()
         {
-            return Success(await _reflection.GetAssembliesName());
+            return Success(await _reflection.GetAssembliesNameItems());
         }
+
+
         /// <summary>
         /// 数据库获取表结构
         /// </summary>
@@ -217,13 +219,12 @@ namespace FreeSqlBuilder.Controllers
         /// <summary>
         /// 获取所有表
         /// </summary>
-        /// <param name="entityBaseName"></param>
-        /// <param name="entityAssemblyName"></param>
+        /// <param name="es"></param>
         /// <returns></returns>
-        [HttpGet("/api/AllTable")]
-        public async Task<IActionResult> GetAllDbTable(string entityAssemblyName, string entityBaseName)
+        [HttpPost("/api/AllTable")]
+        public async Task<IActionResult> GetAllDbTable([FromBody]EntitySource es)
         {
-            var res = (await _reflection.GetTableInfos(entityAssemblyName, entityBaseName)).Select(x => new TableInfoDto(x)).ToList();
+            var res = (await _reflection.GetTableInfos(es)).Select(x => new TableInfoDto(x)).ToList();
             return Success(res);
         }
         #endregion
@@ -252,7 +253,10 @@ namespace FreeSqlBuilder.Controllers
         public async Task<IActionResult> TempBuildTask(long id)
         {
             var builder = await HttpContext.RequestServices.GetService<IBuilderService>().GetBuilder(id);
-            return await this.BuildTask(builder.DefaultProjectId);
+            _buildTask.ImportSetting(builder);
+            await _buildTask.Start();
+            var output = Path.Combine(builder.DefaultProject.ProjectInfo.RootPath, builder.DefaultProject.ProjectInfo.NameSpace);
+            return Success(output);
         }
         #endregion
 
@@ -267,6 +271,31 @@ namespace FreeSqlBuilder.Controllers
         {
             var res = HttpContext.RequestServices.GetService<DefaultDataInit>().CheckDefaultData();
             return Task.FromResult(Success(res));
+        }
+        /// <summary>
+        /// 默认实体源新增
+        /// </summary>
+        /// <param name="es"></param>
+        /// <returns></returns>
+        [HttpPost("/api/Check/DefaultEntitySource")]
+        public async Task<IActionResult> DefaultEntitySource([FromBody] EntitySource es)
+        {
+            var helper = HttpContext.RequestServices.GetService<DefaultDataInit>();
+            var res = await helper.DefaultEntitySource(es);
+            helper.DefaultProjectInit(res);
+            return Success(true);
+        }
+        /// <summary>
+        /// 默认数据源新增
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        [HttpPost("/api/Check/DefaultDataSource")]
+        public async Task<IActionResult> DefaultDataSource([FromBody] DataSource ds)
+        {
+            var helper = HttpContext.RequestServices.GetService<DefaultDataInit>();
+            helper.DefaultProjectInit(await helper.DefaultDataSource(ds));
+            return Success(true);
         }
         #endregion
     }

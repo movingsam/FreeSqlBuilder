@@ -79,15 +79,14 @@ namespace XUnitTestFsBuilderCore.Test
             var fsql = ServiceProvider.GetService<IFreeSql<FsBuilder>>();
             var config = new GeneratorModeConfig();
             var reflection = scope.ServiceProvider.GetService<ReflectionHelper>();
-            var items = await reflection.GetAssembliesName();
+            var items = await reflection.GetAssembliesNameItems();
             var assemblyItem = items.FirstOrDefault(x => x.Value.Equals(Assembly.GetAssembly(typeof(IKey<>)).FullName));
             Assert.True(assemblyItem != null);
             var typeItem = await reflection.GetAbstractClass(assemblyItem.Value);
             var abstruct = typeItem.FirstOrDefault(x => x.Value == typeof(IKey<>).FullName);
             Assert.True(abstruct != null);
-            var tables = await scope.ServiceProvider
-                .GetService<ReflectionHelper>()
-                .GetTableInfos(null, abstruct.Value);
+            var tables =  scope.ServiceProvider
+                .GetService<ReflectionHelper>();
             var projectid = fsql.Insert<Project>().AppendData(new Project()).ExecuteIdentity();
             config.EntitySource.EntityAssemblyName = null;
             config.EntitySource.EntityBaseName = abstruct.Value;
@@ -112,7 +111,7 @@ namespace XUnitTestFsBuilderCore.Test
             var config = new GeneratorModeConfig();
             config.EntitySource.EntityAssemblyName = null;
             var reflection = scope.ServiceProvider.GetService<ReflectionHelper>();
-            var items = await reflection.GetAssembliesName();
+            var items = await reflection.GetAssembliesNameItems();
             var assemblyItem = items.FirstOrDefault(x => x.Value.Equals(Assembly.GetAssembly(typeof(IKey<>)).FullName));
             var typeItem = await reflection.GetAbstractClass(assemblyItem.Value);
             var abstruct = typeItem.FirstOrDefault(x => x.Value == typeof(IKey<>).FullName);

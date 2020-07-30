@@ -7,7 +7,6 @@ export class SelectItem implements SFSchemaEnum {
     public title: string,
     public label: string,
     public disabled: boolean = false,
-    public chidren: any = null,
-    public isLeft: boolean = false,
+    public isLeaf: boolean = false,
   ) {}
 }

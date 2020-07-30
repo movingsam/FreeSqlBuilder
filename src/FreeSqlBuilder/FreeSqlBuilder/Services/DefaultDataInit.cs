@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Modals.Base;
+using FreeSqlBuilder.Modals.Dtos;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FreeSqlBuilder.Services
@@ -28,20 +30,7 @@ namespace FreeSqlBuilder.Services
         }
 
 
-        /// <summary>
-        /// 默认配置检测
-        /// </summary>
-        public void DefaultConfigCheck()
-        {
-            var anyProject = _freeSql.Select<Project>().Any();
-            if (anyProject) return;
-            DefaultProjectInit();
-            DefaultGeneratorModeConfig();
-            DefaultDataSource(new DataSource());
-            DefaultEntitySource(new EntitySource());
-            this.InitBuilder();
-            _serviceProvider.GetService<IUnitOfWork>().Commit();
-        }
+
         /// <summary>
         /// 检测默认数据是否创建
         /// </summary>
@@ -57,7 +46,7 @@ namespace FreeSqlBuilder.Services
         /// <summary>
         /// 默认项目初始化
         /// </summary>
-        public void DefaultProjectInit()
+        public void DefaultProjectInit(EntitySource es)
         {
             var projectService = _serviceProvider.GetService<IProjectService>();
             var project = new Project();
@@ -68,20 +57,60 @@ namespace FreeSqlBuilder.Services
                 RootPath = Directory.GetCurrentDirectory()
             };
             project.ProjectInfo = info;
-            project.GeneratorModeConfig = DefaultGeneratorModeConfig();
-            projectService.Add(project);
+            project.GeneratorModeConfigId = DefaultGeneratorModeConfig(es).Id;
+            var p = projectService.Add(project).Result;
+            InitBuilder(p);
+            projectService.UnitOfWork.Commit();
         }
         /// <summary>
-        /// 默认生成器配置新增
+        /// 默认项目初始化
         /// </summary>
-        public GeneratorModeConfig DefaultGeneratorModeConfig()
+        /// <param name="ds"></param>
+        public void DefaultProjectInit(DataSource ds)
+        {
+            var projectService = _serviceProvider.GetService<IProjectService>();
+            var project = new Project();
+            var info = new ProjectInfo
+            {
+                Author = "UnKnow",
+                NameSpace = "Default",
+                RootPath = Directory.GetCurrentDirectory()
+            };
+            project.ProjectInfo = info;
+            project.GeneratorModeConfigId = DefaultGeneratorModeConfig(ds).Id;
+            var defaultProject = projectService.Add(project).Result;
+            InitBuilder(defaultProject);
+            projectService.UnitOfWork.Commit();
+        }
+        /// <summary>
+        /// 默认生成器实体源配置新增
+        /// </summary>
+        public GeneratorModeConfig DefaultGeneratorModeConfig(EntitySource es)
         {
             var config = _serviceProvider.GetService<IGeneratorConfigService>();
-            var defaultConfig = new GeneratorModeConfig
+            var defaultConfig = new GeneratorModeConfig()
             {
-                GeneratorMode = GeneratorMode.DbFirst,
                 Name = "DefaultConfig",
-                PickType = PickType.Ignore
+                PickType = PickType.Ignore,
+                GeneratorMode = GeneratorMode.CodeFirst,
+                EntitySourceId = es.Id
+            };
+            return config.AddGConfig(defaultConfig).Result;
+        }
+        /// <summary>
+        /// 默认生成器数据源新增
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        public GeneratorModeConfig DefaultGeneratorModeConfig(DataSource ds)
+        {
+            var config = _serviceProvider.GetService<IGeneratorConfigService>();
+            var defaultConfig = new GeneratorModeConfig()
+            {
+                Name = "DefaultConfig",
+                PickType = PickType.Ignore,
+                GeneratorMode = GeneratorMode.DbFirst,
+                EntitySourceId = ds.Id
             };
             return config.AddGConfig(defaultConfig).Result;
         }
@@ -89,30 +118,31 @@ namespace FreeSqlBuilder.Services
         /// 默认数据源新增
         /// </summary>
         /// <param name="ds"></param>
-        public void DefaultDataSource(DataSource ds)
+        public async Task<DataSource> DefaultDataSource(DataSource ds)
         {
             var dsService = _serviceProvider.GetService<IGeneratorConfigService>();
             ds.Name = "DefaultDataSource";
-            dsService.AddDataSource(ds);
+            return await dsService.AddDataSource(ds);
         }
         /// <summary>
         /// 默认实体源新增
         /// </summary>
         /// <param name="es"></param>
-        public void DefaultEntitySource(EntitySource es)
+        public Task<EntitySource> DefaultEntitySource(EntitySource es)
         {
             var configService = _serviceProvider.GetService<IGeneratorConfigService>();
             es.Name = "DefaultEntitySource";
-            configService.AddEntitySource(es);
+            return configService.AddEntitySource(es);
         }
         /// <summary>
         /// 初始化构建器
         /// </summary>
-        public List<BuilderOptions> InitBuilder()
+        public List<BuilderOptions> InitBuilder(Project project)
         {
-            var page = new PageRequest { PageNumber = 1, PageSize = 1000 };
+            var page = new BuilderPageParam { PageNumber = 1, PageSize = 1000, BuilderType = BuilderType.Builder };
             //获取所有构建器
-            var allBuilders = _serviceProvider.GetService<IBuilderService>().GetBuilderPage(page).Result.Datas.ToList();
+            var builderParam = page;
+            var allBuilders = _serviceProvider.GetService<IBuilderService>().GetBuilderPage(builderParam).Result.Datas.ToList();
             //获取所有模板
             var templates = _serviceProvider.GetService<ITemplateService>().GetTemplatePageAsync(page).Result.Datas
                 .ToList();
@@ -122,12 +152,12 @@ namespace FreeSqlBuilder.Services
             var needInsert = templateIds.Except(builderTemplateId);
             //筛选出模板
             var ts = templates.Where(x => needInsert.Contains(x.Id)).ToList();
-            var defaultProjectId = _freeSql.Select<Project>().Include(x => x.ProjectInfo)
-                .Where(x => x.ProjectInfo.NameSpace == "Default").ToOne(x => x.Id);
+            var defaultProjectId = project.Id;
             //添加模板对应的构建器 名称和路径均为模板名
             var builders = ts.Select(x =>
             {
-                var builder = new BuilderOptions(x.TemplateName, x.TemplatePath, "", "")
+                var output = Path.GetFileNameWithoutExtension(x.TemplateName);
+                var builder = new BuilderOptions(x.TemplateName, output, "", output)
                 {
                     TemplateId = x.Id,
                     DefaultProjectId = defaultProjectId

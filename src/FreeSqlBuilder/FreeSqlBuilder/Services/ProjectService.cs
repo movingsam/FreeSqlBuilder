@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -138,10 +139,16 @@ namespace FreeSqlBuilder.Services
             //比较两次Builder之间的区别
             if (project.ProjectBuilders.Count > 0)
             {
-                var update = BuilderChange(project);
-                var insert = update.insert.Select(s => new ProjectBuilder() { BuilderId = s, ProjectId = project.Id });
-                _projectRep.Orm.Insert<ProjectBuilder>().AppendData(insert).ExecuteAffrows();
-                _projectRep.Orm.Delete<ProjectBuilder>().Where(x => x.ProjectId == project.Id && update.delete.Contains(x.BuilderId)).ExecuteAffrows();
+                var change = BuilderChange(project);
+                if (change.insert.Count > 0)
+                {
+                    var insert = change.insert.Select(s => new ProjectBuilder() { BuilderId = s, ProjectId = project.Id });
+                    _projectRep.Orm.Insert<ProjectBuilder>().AppendData(insert).ExecuteAffrows();
+                }
+                if (change.delete.Count > 0)
+                {
+                    _projectRep.Orm.Delete<ProjectBuilder>().Where(x => x.ProjectId == project.Id && change.delete.Contains(x.BuilderId)).ExecuteAffrows();
+                }
             }
             if (autoSave) UnitOfWork.Commit();
             return res;
@@ -156,11 +163,20 @@ namespace FreeSqlBuilder.Services
             var oldBuilderList = _projectRep.Orm.Select<ProjectBuilder>()
                 .Where(x => x.ProjectId == project.Id)
                 .ToList(x => x.BuilderId);
-            var newBuilderList = project.ProjectBuilders.Select(s => s.BuilderId);
-            var intersect = project.BuildersId.Intersect(oldBuilderList);
-            var insert = newBuilderList.Except(intersect).ToList();
-            var delete = oldBuilderList.Except(intersect).ToList();
-            return (insert, delete);
+            var newBuilderList = project.ProjectBuilders.Select(s => s.BuilderId).ToList();
+            var totalBuilderId = newBuilderList;
+            if (project.GlobalBuildersId?.Count > 0)
+            {
+                totalBuilderId = project.BuildersId?.Union(project.GlobalBuildersId).ToList();
+            }
+            if (totalBuilderId?.Count > 0)
+            {
+                var intersect = totalBuilderId?.Intersect(oldBuilderList).ToList();
+                var insert = newBuilderList.Except(intersect).ToList();
+                var delete = oldBuilderList.Except(intersect).ToList();
+                return (insert, delete);
+            }
+            return (totalBuilderId, oldBuilderList);
         }
 
 

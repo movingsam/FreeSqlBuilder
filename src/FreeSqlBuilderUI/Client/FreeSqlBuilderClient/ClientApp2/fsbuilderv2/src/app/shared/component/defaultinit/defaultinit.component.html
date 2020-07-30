@@ -19,3 +19,7 @@
     </button>
   </div>
 </form>
+
+<ng-template #es>
+  <fb-entitysource [isDefault]="true" [(entitySource)]="entitySource" (entitySourceChange)="Change($event)"> </fb-entitysource>
+</ng-template>

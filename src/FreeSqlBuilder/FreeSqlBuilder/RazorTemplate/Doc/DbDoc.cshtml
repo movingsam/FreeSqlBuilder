@@ -8,7 +8,7 @@
     var builder = Model.CurrentBuilder;
 
 }
-
+@if (allTable != null) { 
 @foreach (var table in allTable)
 {
 @:# @table.Name 表 --- @table.Comment
@@ -17,5 +17,6 @@
 @foreach (var column in table.Columns)
 {
 @: @column.Name | @column.DbTypeTextFull | @column.Coment |@(column.MaxLength)|@(column.IsPrimary ? "是" : "否") |@(column.IsIdentity ? "是" : "否")|@(column.IsNullable ? "是" : "否")
+}
 }
 }
