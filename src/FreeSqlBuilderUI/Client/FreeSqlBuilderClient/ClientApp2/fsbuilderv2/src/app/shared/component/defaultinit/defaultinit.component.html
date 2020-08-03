@@ -21,5 +21,8 @@
 </form>
 
 <ng-template #es>
-  <fb-entitysource [isDefault]="true" [(entitySource)]="entitySource" (entitySourceChange)="Change($event)"> </fb-entitysource>
+  <fb-entitysource [isDefault]="true" [(entitySource)]="entitySource"> </fb-entitysource>
+</ng-template>
+<ng-template #ds>
+  <fb-datasource [isDefault]="true" [(dataSource)]="dataSource"> </fb-datasource>
 </ng-template>

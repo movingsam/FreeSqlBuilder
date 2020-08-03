@@ -1,8 +1,9 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { SFComponent, SFObjectWidgetSchema, SFSchema, SFSelectWidgetSchema, SFUISchema } from '@delon/form';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { SFComponent, SFObjectWidgetSchema, SFSchema, SFSchemaEnum, SFSchemaEnumType, SFSelectWidgetSchema, SFUISchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { NzOptionComponent } from 'ng-zorro-antd/select';
 import { DbTableInfoDto, TableInfoDto } from 'src/app/core/services/dtos/tableinfo';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { HelperService } from 'src/app/core/services/helper.service';
@@ -29,11 +30,11 @@ export class GeneratorConfigEditComponent implements OnInit {
     public service: GeneratorconfigService,
     private modalHelper: NzModalService,
     public hepler: HelperService,
-  ) {}
+  ) { }
   @ViewChild('moreDs', { static: true }) private moreDs: TemplateRef<void>;
   @ViewChild('moreEs', { static: true }) private moreEs: TemplateRef<void>;
   @ViewChild('sf') private sf: SFComponent;
-
+  @ViewChild('multFunctionOptions', { static: true }) private multFunctionOptions: TemplateRef<{ $implicit: NzOptionComponent }>;
   tableDto: TableInfoDto[] | DbTableInfoDto[];
   mode = 'default';
   title = '新增配置';
@@ -62,7 +63,14 @@ export class GeneratorConfigEditComponent implements OnInit {
     },
   };
   tableNames: string[] = [];
+  dataSourceSelects: SFSchemaEnum[];
+  dataSourceId = 0;
 
+  // ngAfterViewInit(): void {
+  //   const dsschema = this.sf.getProperty('/dataSourceId');
+  //   dsschema.ui.customTemplate = this.multFunctionOptions;
+  //   this.sf.setValue('/dataSourceId', dsschema);
+  // }
   /**
    * 界面初始化钩子
    */
@@ -86,8 +94,10 @@ export class GeneratorConfigEditComponent implements OnInit {
           this.tableNames = [];
         }
         this.previewTable(id, isDs);
+        console.log(this.multFunctionOptions);
       }, 500);
     }
+    this.dataSourceIdList();
     this.schemaInit();
   }
   /**
@@ -232,6 +242,7 @@ export class GeneratorConfigEditComponent implements OnInit {
 
     console.log(this.schema, `Init`);
   }
+
   /**
    *  新增数据源组件
    * @param component 组件
@@ -256,6 +267,9 @@ export class GeneratorConfigEditComponent implements OnInit {
         });
       },
     });
+  }
+  dataSourceIdList(): void {
+    this.service.getDataSourceSelect().subscribe(r => this.dataSourceSelects = r);
   }
   /**
    * 新增实体源组件
@@ -287,6 +301,7 @@ export class GeneratorConfigEditComponent implements OnInit {
    * @param value 变更数据
    */
   dataSourceChange(value): void {
+    console.log(value);
     this.dataSource = value;
   }
   /**
@@ -301,6 +316,7 @@ export class GeneratorConfigEditComponent implements OnInit {
    * @param dsId 数据源id
    */
   dataSourceIdChange(dsId: number): void {
+    this.dataSourceId = dsId;
     this.previewTable(dsId, true);
   }
 

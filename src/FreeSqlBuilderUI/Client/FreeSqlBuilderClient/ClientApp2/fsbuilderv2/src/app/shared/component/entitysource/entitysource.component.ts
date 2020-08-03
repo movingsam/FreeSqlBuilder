@@ -16,7 +16,7 @@ import { isArray } from 'util';
   styles: [``],
 })
 export class EntitysourceComponent implements OnInit {
-  constructor(private service: HelperService, private modal: NzModalService, private configService: GeneratorconfigService) {}
+  constructor(private service: HelperService, private modal: NzModalService, private configService: GeneratorconfigService) { }
   @ViewChild('sf') sf: SFComponent;
   @Input() entitySource: EntitySource;
   @Input() isDefault: boolean;
@@ -33,6 +33,7 @@ export class EntitysourceComponent implements OnInit {
 
   checkEntitySourceData(): EntitySource {
     const entitySource = new EntitySource();
+    entitySource.name = this.sf.getProperty('/name').value;
     const es: string[] = this.sf.getProperty('/entityBaseName').value;
     const assemblies: string[] = this.sf.getProperty('/entityAssemblies').value;
     if (assemblies && assemblies.length > 0) {
@@ -63,7 +64,7 @@ export class EntitysourceComponent implements OnInit {
         'overflow-y': 'scroll',
         'max-height': '70vh',
       },
-      nzOnOk: () => {},
+      nzOnOk: () => { },
     });
   }
 
@@ -136,5 +137,5 @@ export class EntitysourceComponent implements OnInit {
       },
     };
   }
-  Close() {}
+  Close() { }
 }

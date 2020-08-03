@@ -5,7 +5,7 @@ import { SFComponent } from '@delon/form';
 import { ModalHelper } from '@delon/theme';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { HelperService } from 'src/app/core/services/helper.service';
-import { EntitySource } from 'src/app/core/services/interface/project';
+import { DataSource, EntitySource } from 'src/app/core/services/interface/project';
 import { ProjectService } from 'src/app/core/services/project.service';
 import { DatasourceComponent } from '../datasource/datasource.component';
 import { EntitysourceComponent } from '../entitysource/entitysource.component';
@@ -17,9 +17,11 @@ import { EntitysourceComponent } from '../entitysource/entitysource.component';
 })
 export class DefaultinitComponent implements OnInit {
   formGroup: FormGroup;
-  constructor(private fb: FormBuilder, private modal: NzModalService, private service: HelperService) {}
+  constructor(private fb: FormBuilder, private modal: NzModalService, private service: HelperService) { }
   entitySource: EntitySource = new EntitySource();
+  dataSource: DataSource = new DataSource();
   @ViewChild('es', { static: true }) es: TemplateRef<{}>;
+  @ViewChild('ds', { static: true }) ds: TemplateRef<{}>;
   ngOnInit() {
     this.formGroup = this.fb.group({
       defaultSource: [null, [Validators.required]],
@@ -34,22 +36,49 @@ export class DefaultinitComponent implements OnInit {
   submit() {
     this.validate();
     if (this.formGroup.valid) {
-      this.modal.create({
-        nzContent: this.es,
-        nzWidth: '80vw',
-        nzStyle: {
-          top: '35vh',
-        },
-        nzBodyStyle: {
-          'overflow-y': 'scroll',
-          'max-height': '70vh',
-        },
-        nzOnOk: () => {
-          this.service.initDefault(this.entitySource).subscribe((r) => console.log(r));
-        },
-        nzCancelDisabled: true,
-        nzMaskClosable: false,
-      });
+      if (this.formGroup.value.defaultSource === 1) {
+        this.modal.create({
+          nzContent: this.es,
+          nzWidth: '80vw',
+          nzStyle: {
+            top: '35vh',
+          },
+          nzBodyStyle: {
+            'overflow-y': 'scroll',
+            'max-height': '70vh',
+          },
+          nzOnOk: () => {
+            this.service.initDefault(this.entitySource).subscribe((r) => {
+              if (r) {
+                this.modal.closeAll();
+              }
+            });
+          },
+          nzCancelDisabled: true,
+          nzMaskClosable: false,
+        });
+      } else {
+        this.modal.create({
+          nzContent: this.ds,
+          nzWidth: '80vw',
+          nzStyle: {
+            top: '35vh',
+          },
+          nzBodyStyle: {
+            'overflow-y': 'scroll',
+            'max-height': '70vh',
+          },
+          nzOnOk: () => {
+            this.service.initDefault(this.dataSource).subscribe((r) => {
+              if (r) {
+                this.modal.closeAll();
+              }
+            });
+          },
+          nzCancelDisabled: true,
+          nzMaskClosable: false,
+        });
+      }
     }
   }
 

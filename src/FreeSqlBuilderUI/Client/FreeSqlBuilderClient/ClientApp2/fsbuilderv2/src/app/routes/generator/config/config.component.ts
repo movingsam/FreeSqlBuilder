@@ -4,6 +4,7 @@ import { SFSchema } from '@delon/form';
 import { ModalHelper, _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
+import { DatasourceIndexComponent } from './datasource/datasource.component';
 import { GeneratorConfigEditComponent } from './edit/edit.component';
 
 @Component({
@@ -62,9 +63,24 @@ export class GeneratorConfigComponent implements OnInit {
     },
   ];
 
-  constructor(private config: GeneratorconfigService, private modal: ModalHelper, private msgSer: NzMessageService) {}
+  constructor(private config: GeneratorconfigService, private modal: ModalHelper, private msgSer: NzMessageService) { }
 
-  ngOnInit() {}
+  checkDataSource() {
+    this.modal.create(DatasourceIndexComponent, {}, {
+      modalOptions: {
+        nzWidth: '80vw',
+        nzBodyStyle: {
+          'overflow-y': 'scroll',
+          'max-height': '70vh',
+        },
+      },
+    }).subscribe(() => this.st.reload());
+  }
+
+  checkEntitySource() {
+
+  }
+  ngOnInit() { }
 
   add() {
     this.modal

@@ -62,4 +62,4 @@ const DIRECTIVES = [];
   ],
   schemas: [NO_ERRORS_SCHEMA],
 })
-export class SharedModule {}
+export class SharedModule { }

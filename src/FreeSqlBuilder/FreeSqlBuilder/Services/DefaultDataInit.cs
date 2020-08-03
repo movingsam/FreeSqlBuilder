@@ -110,7 +110,7 @@ namespace FreeSqlBuilder.Services
                 Name = "DefaultConfig",
                 PickType = PickType.Ignore,
                 GeneratorMode = GeneratorMode.DbFirst,
-                EntitySourceId = ds.Id
+                DataSourceId = ds.Id
             };
             return config.AddGConfig(defaultConfig).Result;
         }
