@@ -37,6 +37,7 @@ export class GeneratorProjectEditComponent implements OnInit {
   record: any = {};
   @ViewChild('moreConfig', { static: true }) private moreConfig: TemplateRef<void>;
   @ViewChild('sf') sf: SFComponent;
+  @ViewChild('deleteBtn') deleteBtn: TemplateRef<{}>;
   Title = '新增项目';
   i: Project;
   schema: SFSchema;
@@ -69,7 +70,7 @@ export class GeneratorProjectEditComponent implements OnInit {
     public projectService: ProjectService,
     public builderService: BuilderService,
     public configService: GeneratorconfigService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.record.id > 0) {
@@ -125,8 +126,9 @@ export class GeneratorProjectEditComponent implements OnInit {
           ui: {
             widget: 'select',
             dropdownRender: this.moreConfig,
+            suffixIcon: this.deleteBtn,
             asyncData: () => this.configService.getGeneratorConfigSelect(),
-          } as SFObjectWidgetSchema,
+          },
         },
         buildersId: {
           type: 'number',

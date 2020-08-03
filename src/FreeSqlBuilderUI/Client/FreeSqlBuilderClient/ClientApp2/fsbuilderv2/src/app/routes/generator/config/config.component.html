@@ -1,5 +1,7 @@
 <page-header [action]="phActionTpl">
   <ng-template #phActionTpl>
+    <button (click)="checkDataSource()" nz-button nzType="default">数据源</button>
+    <button (click)="checkEntitySource()" nz-button nzType="default">实体源</button>
     <button (click)="add()" nz-button nzType="primary">新建</button>
   </ng-template>
 </page-header>

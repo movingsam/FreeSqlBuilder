@@ -354,6 +354,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.TemplateController.Referesh">
+            <summary>
+            刷新模板
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Controllers.TemplateController.Add(FreeSqlBuilder.Core.Entities.Template)">
             <summary>
             新增模板

@@ -20,6 +20,12 @@ export class TemplateService {
     return this.client.get<PageView<Template>>(`api/template/Page?pageNumber=${page.pageNumber}&pageSize=${page.pageSize}`);
   }
   /**
+   * 刷新模板
+   */
+  refreshTemplate() {
+    return this.client.get<boolean>(`api/template/refresh`);
+  }
+  /**
    * 获取模板选项
    */
   getTemplateSelect(): Observable<SelectItem[]> {

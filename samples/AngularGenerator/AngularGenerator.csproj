@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\FreeSqlBuilderUI\FreeSqlBuilderUI\FreeSqlBuilderUI.csproj" />
+    <ProjectReference Include="..\..\src\FreeSqlBuilder\FreeSqlBuilder\FreeSqlBuilder.csproj" />
     <ProjectReference Include="..\TestEntity\TestEntity.csproj" />
   </ItemGroup>
 

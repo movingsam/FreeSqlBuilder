@@ -13,6 +13,7 @@ import { DataSource } from 'src/app/core/services/interface/project';
   styles: [],
 })
 export class DatasourceComponent implements OnInit {
+  record: any = {};
   /**
    * 构造
    */
@@ -22,52 +23,17 @@ export class DatasourceComponent implements OnInit {
   @ViewChild('sf') sf: SFComponent;
   ds: DataSource = new DataSource();
   tableInfos: TableInfoDto[];
+  @Input() isDefault = false;
   /**
    * 数据源
    */
   @Input() dataSource: DataSource = new DataSource();
   @Output() dataSourceChange = new EventEmitter();
+  nameUI = {};
   /**
    * JsonSchema
    */
-  schema: SFSchema = {
-    properties: {
-      name: {
-        type: 'string',
-        title: '名称',
-      },
-      dbType: {
-        type: 'number',
-        title: '数据库类型',
-        enum: [
-          { label: 'MySql', value: 0 },
-          { label: 'SqlServer', value: 1 },
-          { label: 'PostgreSQL', value: 2 },
-          { label: 'Oracle', value: 3 },
-          { label: 'Sqlite', value: 4 },
-          { label: 'OdbcOracle', value: 5 },
-          { label: 'OdbcSqlServer', value: 6 },
-          { label: 'OdbcMySql', value: 7 },
-          { label: 'OdbcPostgreSQL', value: 8 },
-          { label: 'Odbc', value: 9 },
-          { label: 'OdbcDameng', value: 10 },
-          { label: 'MsAccess', value: 11 },
-          { label: 'Dameng', value: 12 },
-          { label: 'OdbcKingbaseES', value: 13 },
-          { label: 'ShenTong', value: 14 },
-        ],
-      },
-      connectionString: {
-        type: 'string',
-        title: '数据库链接',
-        ui: {
-          widget: 'custom',
-          grid: { span: 24 }
-        },
-        default: ''
-      },
-    },
-  };
+  schema: SFSchema;
   ui: SFUISchema = {
     '*': {
       spanLabelFixed: 100,
@@ -100,5 +66,58 @@ export class DatasourceComponent implements OnInit {
     this.dataSourceChange.emit(this.dataSource);
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    if (this.record.id > 0) {
+      this.service.getDataSource(this.record.id).subscribe(r =>
+        this.ds = r
+      );
+    }
+
+    if (this.isDefault) {
+      this.nameUI = {
+        widget: 'text'
+      };
+      setTimeout(() => this.sf.setValue('/name', 'DefaultDataSource'), 500);
+    }
+    this.schema = {
+      properties: {
+        name: {
+          type: 'string',
+          title: '名称',
+          ui: this.nameUI
+        },
+        dbType: {
+          type: 'number',
+          title: '数据库类型',
+          enum: [
+            { label: 'MySql', value: 0 },
+            { label: 'SqlServer', value: 1 },
+            { label: 'PostgreSQL', value: 2 },
+            { label: 'Oracle', value: 3 },
+            { label: 'Sqlite', value: 4 },
+            { label: 'OdbcOracle', value: 5 },
+            { label: 'OdbcSqlServer', value: 6 },
+            { label: 'OdbcMySql', value: 7 },
+            { label: 'OdbcPostgreSQL', value: 8 },
+            { label: 'Odbc', value: 9 },
+            { label: 'OdbcDameng', value: 10 },
+            { label: 'MsAccess', value: 11 },
+            { label: 'Dameng', value: 12 },
+            { label: 'OdbcKingbaseES', value: 13 },
+            { label: 'ShenTong', value: 14 },
+          ],
+        },
+        connectionString: {
+          type: 'string',
+          title: '数据库链接',
+          ui: {
+            widget: 'custom',
+            grid: { span: 24 }
+          },
+          default: ''
+        },
+      },
+    };
+
+  }
 }

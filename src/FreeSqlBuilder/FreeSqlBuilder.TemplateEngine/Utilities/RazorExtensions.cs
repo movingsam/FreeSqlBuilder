@@ -77,7 +77,6 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                         {
                             continue;
                         }
-
                         csharpSummary.AppendLine($"        /// {summaryLine}");
                     }
                 }

@@ -5,6 +5,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { VERSION as VERSION_ZORRO } from 'ng-zorro-antd/version';
 import { filter } from 'rxjs/operators';
 import { HelperService } from './core/services/helper.service';
+import { TemplateService } from './core/services/template.service';
 import { DefaultinitComponent } from './shared/component/defaultinit/defaultinit.component';
 
 @Component({
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
     private modalSrv: NzModalService,
     private modal: ModalHelper,
     private helperSrv: HelperService,
+    private templateSrv: TemplateService
   ) {
     renderer.setAttribute(el.nativeElement, 'ng-alain-version', VERSION_ALAIN.full);
     renderer.setAttribute(el.nativeElement, 'ng-zorro-version', VERSION_ZORRO.full);
@@ -29,8 +31,8 @@ export class AppComponent implements OnInit {
     this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd)).subscribe(() => {
       this.titleSrv.setTitle();
       this.modalSrv.closeAll();
+      this.templateSrv.refreshTemplate().subscribe(res => console.log(res));
       this.helperSrv.checkConfig().subscribe((res) => {
-        console.log(res, `check`);
         if (!res) {
           this.modal
             .create(DefaultinitComponent, null, {

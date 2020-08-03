@@ -172,7 +172,7 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<DataSource> UpdateDataSource(DataSource ds, bool autoSave = false)
         {
-            await _configRepository.Orm.Update<DataSource>(ds).Where(x => x.Id == ds.Id).ExecuteAffrowsAsync();
+            await _configRepository.Orm.Update<DataSource>().SetSource(ds).Where(x => x.Id == ds.Id).ExecuteAffrowsAsync();
             if (autoSave) UnitOfWork.Commit();
             return ds;
         }

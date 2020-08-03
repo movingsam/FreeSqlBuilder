@@ -124,4 +124,4 @@ import { STWidgetModule } from './shared/st-widget/st-widget.module';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

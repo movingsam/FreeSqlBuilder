@@ -89,12 +89,12 @@ namespace FreeSqlBuilder.Core.Helper
         public void CopyToProjectRoot(Type type)
         {
             var outPutPath = Path.Combine(webEnv.ContentRootPath, _options.DefaultTemplatePath);//目标
-            CopyFolderFromStream(type, outPutPath);
+            CopyFolderFromStream(outPutPath);
         }
 
-        private void CopyFolderFromStream(Type type, string dest)
+        private void CopyFolderFromStream(string dest)
         {
-            var fileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(type));
+            var fileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(GetType()));
             var res = fileProvider.GetDirectoryContents("").ToList();
             foreach (IFileInfo file in res)
             {
@@ -143,7 +143,7 @@ namespace FreeSqlBuilder.Core.Helper
         private void ImportTemplate(string outPutPath)
         {
             var allTemplate = _freeSql.Select<Template>().ToList();
-            var root = Directory.GetCurrentDirectory();
+            var root = webEnv.ContentRootPath;
             DirectoryInfo dinfo = new DirectoryInfo(outPutPath);
             //注，这里面传的是路径，并不是文件，所以不能包含带后缀的文件                
             foreach (FileSystemInfo f in dinfo.GetFileSystemInfos())

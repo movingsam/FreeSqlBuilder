@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SFSchemaEnumType } from '@delon/form';
+import { SFSchemaEnum, SFSchemaEnumType } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -66,10 +66,10 @@ export class GeneratorconfigService {
   /**
    * 获取数据源选项
    */
-  getDataSourceSelect(): Observable<SFSchemaEnumType[]> {
+  getDataSourceSelect(): Observable<SFSchemaEnum[]> {
     return this.client.get<PageView<DataSource>>(`api/config/datasource?pageNumber=1&pageSize=100`).pipe(
       map((m) =>
-        m.datas.map<SFSchemaEnumType>((t) => {
+        m.datas.map<SFSchemaEnum>((t) => {
           return {
             label: t.name,
             value: t.id,
@@ -95,6 +95,15 @@ export class GeneratorconfigService {
     return this.client.get<DataSource>(`api/config/datasource/${id}`);
   }
 
+
+  /**
+   *  编辑数据源
+   * @param input 编辑对象
+   */
+  updateDataSource(input: DataSource): Observable<DataSource> {
+    return this.client.put<DataSource>(`api/config/datasource`, input);
+  }
+
   /**
    *  新增数据源
    * @param ds 数据源
@@ -105,10 +114,10 @@ export class GeneratorconfigService {
   /**
    * 获取实体源选项
    */
-  getEntitySourceSelect(): Observable<SFSchemaEnumType[]> {
+  getEntitySourceSelect(): Observable<SFSchemaEnum[]> {
     return this.client.get<PageView<EntitySource>>(`api/config/entitySource?pageNumber=1&pageSize=100`).pipe(
       map((m) =>
-        m.datas.map<SFSchemaEnumType>((t) => {
+        m.datas.map<SFSchemaEnum>((t) => {
           return {
             label: t.name,
             value: t.id,

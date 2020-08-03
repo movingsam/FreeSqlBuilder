@@ -4,6 +4,7 @@ import { GeneratorBuilderComponent } from './builder/builder.component';
 import { GeneratorBuilderEditComponent } from './builder/edit/edit.component';
 import { GeneratorBuilderViewComponent } from './builder/view/view.component';
 import { GeneratorConfigComponent } from './config/config.component';
+import { DatasourceIndexComponent } from './config/datasource/datasource.component';
 import { GeneratorConfigEditComponent } from './config/edit/edit.component';
 import { GeneratorConfigViewComponent } from './config/view/view.component';
 import { GeneratorRoutingModule } from './generator-routing.module';
@@ -20,7 +21,7 @@ const COMPONENTS = [
   GeneratorProjectViewComponent,
   GeneratorConfigComponent,
   GeneratorBuilderComponent,
-  GeneratorTemplateComponent,
+  GeneratorTemplateComponent
 ];
 const COMPONENTS_NOROUNT = [
   GeneratorConfigEditComponent,
@@ -29,6 +30,7 @@ const COMPONENTS_NOROUNT = [
   GeneratorBuilderViewComponent,
   GeneratorTemplateEditComponent,
   GeneratorTemplateViewComponent,
+  DatasourceIndexComponent
 ];
 
 @NgModule({

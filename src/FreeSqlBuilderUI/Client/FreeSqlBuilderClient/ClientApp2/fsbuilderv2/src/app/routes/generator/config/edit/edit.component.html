@@ -16,6 +16,22 @@
       (TableNamesChange)="tableNameChange($event)"
     ></fb-tableinfo>
   </ng-template>
+
+  <!-- <ng-template sf-template="dataSourceId">
+    <nz-select [ngModel]="dataSourceId" [nzDropdownRender]="moreDs" (ngModelChange)="dataSourceIdChange($event)">
+      <nz-option
+        *ngFor="let option of this.dataSourceSelects"
+        ()=""
+        [nzLabel]="option.label"
+        [nzValue]="option.value"
+        [nzCustomContent]="true"
+      >
+        <span>{{ option.label }}</span
+        ><button nz-button nzDanger [nzSize]="'small'">删除</button>
+      </nz-option>
+    </nz-select>
+  </ng-template> -->
+
   <ng-template sf-template="ignoreTables" let-me let-ui="ui" let-schema="schema">
     <nz-tag *ngFor="let t of me.value?.split(',')" nzColor="error">{{ t }}</nz-tag>
   </ng-template>
@@ -42,4 +58,3 @@
 <ng-template #es>
   <fb-entitysource [(entitySource)]="entitySource" (entitySourceChange)="entitySourceChange($event)"> </fb-entitysource>
 </ng-template>
-<!-- <ng-template #tablePreview> </ng-template> -->
