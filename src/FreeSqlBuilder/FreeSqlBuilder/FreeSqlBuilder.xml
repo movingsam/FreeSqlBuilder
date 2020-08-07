@@ -168,6 +168,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:FreeSqlBuilder.Controllers.ConfigController.CheckDataSource(FreeSqlBuilder.Core.Entities.DataSource)">
+            <summary>
+            数据源检测
+            </summary>
+            <param name="ds"></param>
+            <returns></returns>
+        </member>
         <member name="M:FreeSqlBuilder.Controllers.ConfigController.DeleteDataqSource(System.Int64)">
             <summary>
             数据源删除
@@ -1088,7 +1095,7 @@
             <summary>
             实体源更新
             </summary>
-            <param name="ds"></param>
+            <param name="es"></param>
             <param name="autoSave"></param>
             <returns></returns>
         </member>

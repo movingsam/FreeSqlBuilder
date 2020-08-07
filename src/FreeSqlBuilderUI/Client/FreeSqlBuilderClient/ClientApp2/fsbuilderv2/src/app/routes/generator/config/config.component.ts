@@ -6,6 +6,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
 import { DatasourceIndexComponent } from './datasource/datasource.component';
 import { GeneratorConfigEditComponent } from './edit/edit.component';
+import { EntitysourceIndexComponent } from './entitysource/entitysource.component';
 
 @Component({
   selector: 'fb-generator-config',
@@ -78,7 +79,15 @@ export class GeneratorConfigComponent implements OnInit {
   }
 
   checkEntitySource() {
-
+    this.modal.create(EntitysourceIndexComponent, {}, {
+      modalOptions: {
+        nzWidth: '80vw',
+        nzBodyStyle: {
+          'overflow-y': 'scroll',
+          'max-height': '70vh',
+        },
+      },
+    }).subscribe(() => this.st.reload());
   }
   ngOnInit() { }
 

@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
       this.templateSrv.refreshTemplate().subscribe(res => console.log(res));
       this.helperSrv.checkConfig().subscribe((res) => {
         if (!res) {
+          console.log(res, `检测结果`);
           this.modal
             .create(DefaultinitComponent, null, {
               modalOptions: {

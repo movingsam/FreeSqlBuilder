@@ -66,6 +66,7 @@ namespace FreeSqlBuilder.Services
             }
             if (project.ProjectBuilders?.Count > 0)
             {
+                project.ProjectBuilders.ToList().ForEach(pb=>pb.ProjectId = res.Id);
                 _projectRep.Orm.Insert<ProjectBuilder>().AppendData(project.ProjectBuilders).ExecuteAffrows();
             }
             if (autoSave)

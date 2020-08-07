@@ -1,24 +1,23 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { STColumn, STComponent } from '@delon/abc/st';
 import { SFSchema } from '@delon/form';
 import { ModalHelper } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { ModalButtonOptions, NzModalService } from 'ng-zorro-antd/modal';
 import { GeneratorconfigService } from 'src/app/core/services/generatorconfig.service';
-import { DataSource } from 'src/app/core/services/interface/project';
-import { DatasourceComponent } from '../../../../shared/component/datasource/datasource.component';
+import { EntitySource } from 'src/app/core/services/interface/project';
+import { EntitysourceComponent } from 'src/app/shared/component/entitysource/entitysource.component';
 
 @Component({
-  selector: 'fb-datasource-index',
-  templateUrl: './datasource.component.html',
+  selector: 'fb-entitysource-index',
+  templateUrl: './entitysource.component.html',
   styles: []
 })
-export class DatasourceIndexComponent implements OnInit {
-
+export class EntitysourceIndexComponent implements OnInit {
+  url = `api/config/entitysource`;
+  @ViewChild('es', { static: true }) es: TemplateRef<{}>;
+  entitySource: EntitySource = new EntitySource();
   constructor(private config: GeneratorconfigService, private modal: ModalHelper, private modalHelpr: NzModalService, private msgSer: NzMessageService) { }
-  url = `api/config/DataSource`;
-  @ViewChild('ds', { static: false }) ds: TemplateRef<{}>;
-  dataSource: DataSource = new DataSource();
   searchSchema: SFSchema = {
     properties: {
       keyword: {
@@ -30,32 +29,12 @@ export class DatasourceIndexComponent implements OnInit {
   @ViewChild('st', { static: false }) st: STComponent;
   columns: STColumn[] = [
     { title: '编号', index: 'id' },
-    { title: '数据源名称', index: 'name' },
+    { title: '实体源名称', index: 'name' },
     {
-      title: '数据库类型',
-      type: 'enum',
-      enum:
-      {
-        0: 'MySql',
-        1: 'SqlServer',
-        2: 'PostgreSQL',
-        3: 'Oracle',
-        4: 'Sqlite',
-        5: 'OdbcOracle',
-        6: 'OdbcSqlServer',
-        7: 'OdbcMySql',
-        8: 'OdbcPostgreSQL',
-        9: 'Odbc',
-        10: 'OdbcDameng',
-        11: 'MsAccess',
-        12: 'Dameng',
-        13: 'OdbcKingbaseES',
-        14: 'ShenTong'
-      }
-      ,
-      index: 'dbType'
+      title: '从哪个程序集反射获取',
+      index: 'entityAssemblyName'
     },
-    { title: '数据库连接', index: 'connectionString' },
+    { title: '基类', index: 'entityBaseName' },
     {
       title: '操作',
       buttons: [
@@ -63,7 +42,7 @@ export class DatasourceIndexComponent implements OnInit {
           text: '编辑',
           type: 'modal',
           modal: {
-            component: DatasourceComponent,
+            component: EntitysourceComponent,
             modalOptions: {
               nzWidth: '80vw',
               nzBodyStyle: {
@@ -72,20 +51,22 @@ export class DatasourceIndexComponent implements OnInit {
               },
               nzFooter: [{
                 label: '确定',
+                show: (value) => {
+                  return value.entitySource.name !== '' && value.entitySource !== undefined;
+                },
                 onClick: (value) => {
-                  console.log(value.sf.value, `update`);
-                  this.config.updateDataSource(value.sf.value).subscribe(r => {
+                  console.log(value.entitySource, `update`);
+                  this.config.updateEntitySource(value.entitySource).subscribe(r => {
                     this.msgSer.success(`更新成功`);
+                    value.modalRef.close();
                     this.st.reload();
-                    this.modalHelpr.closeAll();
                   });
                 }
               }]
-
             },
-
           },
           click: (val, modal) => {
+            console.log(val, modal, 'test');
             if (modal === true) {
               this.st.reload();
             }
@@ -95,7 +76,7 @@ export class DatasourceIndexComponent implements OnInit {
           text: '删除',
           type: 'del',
           click: (value: any) => {
-            this.config.delDataSouce(value.id).subscribe((r) => {
+            this.config.delEntitySource(value.id).subscribe((r) => {
               this.msgSer.success(`删除成功`);
               this.st.reload();
             });
@@ -108,22 +89,22 @@ export class DatasourceIndexComponent implements OnInit {
   ngOnInit() {
   }
   add(): void {
-
     this.modalHelpr.create({
       nzTitle: '新增数据源',
-      nzContent: this.ds,
+      nzContent: this.es,
       nzWidth: '80vw',
       nzOnOk: () => {
-        this.config.createDataSource(this.dataSource).subscribe((r) => {
+        this.config.createEntitySource(this.entitySource).subscribe((r) => {
           if (r) {
             this.msgSer.success(`新增成功!`);
+            this.st.reload();
           }
         });
       }
     });
   }
-  dataSourceChange(value: DataSource): void {
-    this.dataSource = value;
+  entitySourceChange(value: EntitySource): void {
+    console.log(value, `change`);
+    this.entitySource = value;
   }
-
 }

@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { STWidgetRegistry } from '@delon/abc/st';
-import { MultipFunctionWidget } from '../component/multipFunctionOptions/MultipFunctionWidget';
+// import { MultipFunctionWidget } from '../component/multipFunctionOptions/MultipFunctionWidget';
 import { SharedModule } from '../shared.module';
 
-export const STWIDGET_COMPONENTS = [MultipFunctionWidget];
+export const STWIDGET_COMPONENTS = [];
 
 @NgModule({
   declarations: STWIDGET_COMPONENTS,
@@ -16,7 +16,7 @@ export class STWidgetModule {
 
 
   constructor(widgetRegistry: STWidgetRegistry) {
-    widgetRegistry.register(MultipFunctionWidget.KEY, MultipFunctionWidget);
-    console.log(MultipFunctionWidget.KEY);
+    // widgetRegistry.register(MultipFunctionWidget.KEY, MultipFunctionWidget);
+    // console.log(MultipFunctionWidget.KEY);
   }
 }

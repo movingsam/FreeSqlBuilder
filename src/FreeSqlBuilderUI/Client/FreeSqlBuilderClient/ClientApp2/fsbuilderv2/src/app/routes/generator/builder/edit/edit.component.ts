@@ -62,16 +62,16 @@ export class GeneratorBuilderEditComponent implements OnInit {
         type: 'string',
         title: '文件后缀'
       },
-      defaultConfigId: {
-        type: 'number',
-        title: '默认配置',
-        ui: {
-          widget: 'select',
-          asyncData: () => {
-            return this.configService.getGeneratorConfigSelect();
-          }
-        }
-      },
+      // defaultConfigId: {
+      //   type: 'number',
+      //   title: '默认配置',
+      //   ui: {
+      //     widget: 'select',
+      //     asyncData: () => {
+      //       return this.configService.getGeneratorConfigSelect();
+      //     }
+      //   }
+      // },
       defaultProjectId: {
         type: 'number',
         title: '默认项目',

@@ -118,6 +118,6 @@ export class DatasourceComponent implements OnInit {
         },
       },
     };
-
+    console.log(this.schema, `schema`);
   }
 }
