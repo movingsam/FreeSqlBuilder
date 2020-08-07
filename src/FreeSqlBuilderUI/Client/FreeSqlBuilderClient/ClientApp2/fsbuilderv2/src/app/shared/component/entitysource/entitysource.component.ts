@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { SFComponent, SFSchema } from '@delon/form';
 import { NzCascaderOption } from 'ng-zorro-antd/cascader';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
+import { basename } from 'path';
 import { title } from 'process';
 import { Observable, of } from 'rxjs';
 import { TableInfoDto } from 'src/app/core/services/dtos/tableinfo';
@@ -15,15 +16,22 @@ import { isArray } from 'util';
   templateUrl: './entitysource.component.html',
   styles: [``],
 })
-export class EntitysourceComponent implements OnInit {
-  constructor(private service: HelperService, private modal: NzModalService, private configService: GeneratorconfigService) { }
+export class EntitysourceComponent implements OnInit, AfterViewInit {
+  constructor(private service: HelperService, public modal: NzModalService, private configService: GeneratorconfigService, public modalRef: NzModalRef) { }
+
   @ViewChild('sf') sf: SFComponent;
-  @Input() entitySource: EntitySource;
-  @Input() isDefault: boolean;
+  @Input() entitySource: EntitySource = new EntitySource();
+  @Input() isDefault = false;
   @Output() entitySourceChange = new EventEmitter();
+  record: any = {};
   public tableInfos: TableInfoDto[];
   assembly = '';
-  es: EntitySource;
+  es = {
+    id: 0,
+    name: '',
+    entityAssemblyName: [],
+    entityBaseName: [],
+  };
   schema: SFSchema;
   nameUi: {};
   change(value): void {
@@ -34,19 +42,25 @@ export class EntitysourceComponent implements OnInit {
   checkEntitySourceData(): EntitySource {
     const entitySource = new EntitySource();
     entitySource.name = this.sf.getProperty('/name').value;
-    const es: string[] = this.sf.getProperty('/entityBaseName').value;
-    const assemblies: string[] = this.sf.getProperty('/entityAssemblies').value;
+    const baseName = this.sf.getProperty('/entityBaseName').value;
+    const assemblies = this.sf.getProperty('/entityAssemblyName').value;
     if (assemblies && assemblies.length > 0) {
       entitySource.entityAssemblyName = assemblies?.join(';');
     }
-    if (es && es.length > 0) {
-      entitySource.entityBaseName = es?.join(';');
+    console.log(typeof baseName, baseName);
+
+    if (typeof baseName !== 'string' && baseName && baseName.length > 0) {
+      entitySource.entityBaseName = baseName?.join(';');
     }
-    console.log(entitySource, `entitySource`);
+    else {
+      entitySource.entityBaseName = baseName;
+    }
+    entitySource.id = this.entitySource.id;
     return entitySource;
   }
   preview(value, component: TemplateRef<{}>): void {
     const entitySource = this.checkEntitySourceData();
+    console.log(entitySource, `preview`);
     this.service.getTableInfo(entitySource).subscribe((r: TableInfoDto[]) => {
       this.tableInfos = r;
       this.showPreview(component);
@@ -67,13 +81,32 @@ export class EntitysourceComponent implements OnInit {
       nzOnOk: () => { },
     });
   }
+  ngAfterViewInit(): void {
 
+  }
   ngOnInit() {
+    if (this.record.id > 0) {
+      console.log(this.record);
+      // this.es.entityBaseName = this.record.entityBaseName;
+      this.es.id = this.record.id;
+      this.es.name = this.record.name;
+      if (this.record.entityAssemblyName !== ``) {
+        this.es.entityAssemblyName = this.record.entityAssemblyName.split(';');
+      }
+      if (this.record.entityBaseName !== ``) {
+        this.es.entityBaseName = this.record.entityBaseName.split(';');
+      }
+      this.entitySource.id = this.record.id;
+      setTimeout(() => this.change(null), 500);
+      /** 获取反射出的程序集 */
+
+
+    }
     this.service.getAbstractEntity().subscribe((r) => {
       const entityBaseName = this.sf.getProperty('/entityBaseName');
       entityBaseName.schema.enum = r;
-      console.log(entityBaseName.schema.enum, `enum`);
       this.sf.setValue('/entityBaseName', entityBaseName);
+      entityBaseName.setValue(this.es.entityBaseName, true);
     });
     if (this.isDefault) {
       this.nameUi = {
@@ -90,12 +123,13 @@ export class EntitysourceComponent implements OnInit {
           title: '名称',
           ui: this.nameUi,
         },
-        entityAssemblies: {
+        entityAssemblyName: {
           type: 'string',
           title: '实体所在程序集',
           ui: {
             widget: 'select',
-            mode: 'multiple',
+            mode: 'tags',
+            tokenSeparators: [';'],
             asyncData: () => {
               return this.service.getAssemblies();
             },
@@ -103,7 +137,7 @@ export class EntitysourceComponent implements OnInit {
               this.checkEntitySourceData();
             },
           },
-          default: null,
+          default: [],
         },
         entityBaseName: {
           type: 'string',
@@ -136,6 +170,7 @@ export class EntitysourceComponent implements OnInit {
         },
       },
     };
+    console.log(this.schema, `schema`);
   }
   Close() { }
 }

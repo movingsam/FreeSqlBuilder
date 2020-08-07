@@ -5,6 +5,6 @@
   <sf mode="search" [schema]="searchSchema" (formSubmit)="st.reset($event)" (formReset)="st.reset($event)"></sf>
   <st #st [data]="url" [columns]="columns"></st>
 </nz-card>
-<ng-template #ds>
-  <fb-datasource [(dataSource)]="dataSource" (dataSourceChange)="dataSourceChange($event)"></fb-datasource>
+<ng-template #es>
+  <fb-entitysource [(entitysource)]="entitySource" (entitySourceChange)="entitySourceChange($event)"></fb-entitysource>
 </ng-template>

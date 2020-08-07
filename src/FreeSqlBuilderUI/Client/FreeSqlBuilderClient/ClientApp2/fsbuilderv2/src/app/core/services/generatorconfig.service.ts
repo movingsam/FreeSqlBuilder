@@ -134,6 +134,20 @@ export class GeneratorconfigService {
   getEntitySource(id: number): Observable<EntitySource> {
     return this.client.get<EntitySource>(`api/config/entitySource/${id}`);
   }
+  /**
+   * 修改实体源
+   * @param input 修改的实体源
+   */
+  updateEntitySource(input: EntitySource): Observable<EntitySource> {
+    return this.client.put<EntitySource>(`api/config/EntitySource`, input);
+  }
+  /**
+   * 删除实体源
+   * @param id 实体源Id
+   */
+  delEntitySource(id: number): Observable<boolean> {
+    return this.client.delete<boolean>(`api/config/EntitySource/${id}`);
+  }
 
   /**
    * 新增一个实体源
@@ -142,8 +156,19 @@ export class GeneratorconfigService {
   createEntitySource(es: EntitySource): Observable<EntitySource> {
     return this.client.post<EntitySource>(`api/config/entitySource`, es);
   }
-
+  /**
+   * 配置删除
+   * @param id 配置id
+   */
   delConfig(id: number): Observable<boolean> {
     return this.client.delete<boolean>(`api/config/${id}`);
   }
+  /**
+   * 删除数据源
+   * @param id 数据源ID
+   */
+  delDataSouce(id: number): Observable<boolean> {
+    return this.client.delete<boolean>(`api/config/dataSource/${id}`);
+  }
+
 }

@@ -6,6 +6,7 @@ import { GeneratorBuilderViewComponent } from './builder/view/view.component';
 import { GeneratorConfigComponent } from './config/config.component';
 import { DatasourceIndexComponent } from './config/datasource/datasource.component';
 import { GeneratorConfigEditComponent } from './config/edit/edit.component';
+import { EntitysourceIndexComponent } from './config/entitysource/entitysource.component';
 import { GeneratorConfigViewComponent } from './config/view/view.component';
 import { GeneratorRoutingModule } from './generator-routing.module';
 import { GeneratorProjectEditComponent } from './project/edit/edit.component';
@@ -30,8 +31,8 @@ const COMPONENTS_NOROUNT = [
   GeneratorBuilderViewComponent,
   GeneratorTemplateEditComponent,
   GeneratorTemplateViewComponent,
-  DatasourceIndexComponent
-];
+  DatasourceIndexComponent,
+  EntitysourceIndexComponent];
 
 @NgModule({
   imports: [SharedModule, GeneratorRoutingModule],

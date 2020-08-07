@@ -108,11 +108,11 @@ export class GeneratorProjectEditComponent implements OnInit {
               title: '作者',
               description: '项目作者',
             },
-            outPutPath: {
-              type: 'string',
-              title: '输出路径',
-              description: '输出路径将跟在物理根路径后面',
-            },
+            // outPutPath: {
+            //   type: 'string',
+            //   title: '输出路径',
+            //   description: '输出路径将跟在物理根路径后面',
+            // },
             rootPath: {
               type: 'string',
               title: '物理根路径',

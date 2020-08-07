@@ -92,6 +92,12 @@ namespace FreeSqlBuilder.Controllers
         {
             return Success(await ConfigService.UpdateDataSource(ds, true));
         }
+
+        /// <summary>
+        /// 数据源检测
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
         [HttpPost("DataSource/Check")]
         public Task<IActionResult> CheckDataSource([FromBody] DataSource ds)
         {

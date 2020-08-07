@@ -242,14 +242,14 @@ namespace FreeSqlBuilder.Services
         /// <summary>
         /// 实体源更新
         /// </summary>
-        /// <param name="ds"></param>
+        /// <param name="es"></param>
         /// <param name="autoSave"></param>
         /// <returns></returns>
-        public async Task<EntitySource> UpdateEntitySource(EntitySource ds, bool autoSave = false)
+        public async Task<EntitySource>  UpdateEntitySource(EntitySource es, bool autoSave = false)
         {
-            await _configRepository.Orm.Update<EntitySource>(ds).Where(x => x.Id == ds.Id).ExecuteAffrowsAsync();
+            await _configRepository.Orm.Update<EntitySource>().SetSource(es).Where(x => x.Id == es.Id).ExecuteAffrowsAsync();
             if (autoSave) UnitOfWork.Commit();
-            return ds;
+            return es;
         }
 
         /// <summary>
