@@ -1,0 +1,34 @@
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
+@using CurdTask = FreeSqlBuilder.TemplateEngine.CurdTask
+@model CurdTask
+@{
+    var task = Model.Task;
+    var pageRequest = task.Project.Builders.FirstOrDefault(x => x.Name == "PageRequest").GetName(Model.CurrentTable.CsName);
+    var pageViewDto = task.Project.Builders.FirstOrDefault(x => x.Name == "PageViewDto").GetName(Model.CurrentTable.CsName);
+    var requestDto = task.Project.Builders.FirstOrDefault(x => x.Name == "RequestDto").GetName(Model.CurrentTable.CsName);
+    var dto = task.Project.Builders.FirstOrDefault(x => x.Name == "Dto").GetName(Model.CurrentTable.CsName);
+    var includes = task.CurrentTable.GetIncludeStr();
+    var includeMany = task.CurrentTable.GetIncludeManyStr();
+    var whereIf = task.CurrentTable.GetWhereIfByColumns("request");
+}
+@($"{Model.CurrentTable?.Comment}分页查询".GetCSharpSummary())
+public async Task<@(pageViewDto)> Query@(Model.CurrentTable.CsName)Page (@pageRequest request){
+@($@"
+    var rep = _freeSql.GetRepository<{Model.CurrentTable.CsName}>();
+    var datas =await rep.Select{includes}{includeMany}
+                 {whereIf}
+                 .Count(out var total)
+                 .Page(request.PageNumber, request.PageSize)
+                 .ToListAsync<{dto}>();
+    var page = new {pageViewDto}(datas,total, request.PageNumber, request.PageSize);
+    return page;
+")
+}
+
+public async Task<@dto> Query@(Model.CurrentTable.CsName) (@requestDto request){
+@($@"
+    var rep = _freeSql.GetRepository<{Model.CurrentTable.CsName}>();
+    var res = await rep.Select{includes}{includeMany}{whereIf}.ToOneAsync<{dto}>();
+    return res;
+")
+}

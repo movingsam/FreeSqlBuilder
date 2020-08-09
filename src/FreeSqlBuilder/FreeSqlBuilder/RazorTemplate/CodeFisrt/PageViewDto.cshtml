@@ -1,25 +1,37 @@
 ﻿@using FreeSqlBuilder.TemplateEngine.Utilities
 @model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    Layout = "_Layout.cshtml"; 
+    Layout = "../Share/_Layout.cshtml";
     var table = Model.CurrentTable;
-    var builder = Model.CurrentBuilder; 
-    var primaryKeyType = table.GetPrimarysName();
-    var className = builder.GetName(table.CsName);
-    var nameSpace = Model.Project.ProjectInfo.NameSpace;
+    var dtoBuilder = Model.Project.Builders.FirstOrDefault(x => x.Name == "Dto");
+    var dataType = $"IEnumerable<{dtoBuilder?.GetName(table.CsName)}>";
+    var dtoNameSpace = $"using {Model?.Project?.ProjectInfo?.NameSpace}.{dtoBuilder?.ReplaceTablePath(table.CsName)};";
 }
-
-using SFast.Infrastructure.Dtos;
+using System.Collections;
 using System.Collections.Generic;
-@table.GetNameSpaceUsing()
+using FreeSql.DataAnnotations;
+@dtoNameSpace
+@Model.GetUsing()
 
-namespace @(nameSpace).@(Model.CurrentBuilder.ReplaceTablePath(table.CsName).Replace("/","."))
+namespace @(Model.GetNameSpace())
 {
-    public class @className : PageViewDtoBase<@($"{table.CsName},{primaryKeyType}")>
+    @Model.CurrentTable.Comment.GetCSharpSummary()
+    public class @Model.GetCodeFirstName()
     {
-       public @className (IPaged paged, List<@table.CsName> datas):base(paged,datas)
-       {
-        
-       }
+        public @Model.GetCodeFirstName() (@dataType datas,long total,int pageNumber=1,int pageSize=10)
+        {
+            this.Datas = datas;
+            this.PageNumber = pageNumber;
+            this.PageSize = pageSize;
+            this.Total = total;
+        }
+        @("分页数据".GetCSharpSummary())
+        public @dataType Datas { get; set;}
+        @("页号".GetCSharpSummary())
+        public int PageSize { get; set;}
+        @("页码".GetCSharpSummary())        
+        public int PageNumber { get; set;}
+        @("总数".GetCSharpSummary())
+        public long Total { get; set;}
     }
 }

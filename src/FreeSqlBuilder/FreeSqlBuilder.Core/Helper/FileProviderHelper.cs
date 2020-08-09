@@ -89,12 +89,12 @@ namespace FreeSqlBuilder.Core.Helper
         public void CopyToProjectRoot(Type type)
         {
             var outPutPath = Path.Combine(webEnv.ContentRootPath, _options.DefaultTemplatePath);//目标
-            CopyFolderFromStream(outPutPath);
+            CopyFolderFromStream(outPutPath, type);
         }
 
-        private void CopyFolderFromStream(string dest)
+        private void CopyFolderFromStream(string dest, Type type)
         {
-            var fileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(GetType()));
+            var fileProvider = new EmbeddedFileProvider(Assembly.GetAssembly(type));
             var res = fileProvider.GetDirectoryContents("").ToList();
             foreach (IFileInfo file in res)
             {

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using Bogus;
 using FreeSql;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Core.WordsConvert;
 
-namespace XUnitTestFsBuilderProject
+namespace XUnitTestFreeSqlBuilder.Test
 {
     public static class DataFaker
     {

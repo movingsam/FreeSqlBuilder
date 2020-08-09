@@ -1,4 +1,6 @@
-﻿using FreeSql;
+﻿using System;
+using System.Text.Encodings.Web;
+using FreeSql;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Repository;
@@ -6,12 +8,11 @@ using FreeSqlBuilder.Services;
 using FreeSqlBuilder.TemplateEngine;
 using FreeSqlBuilder.TemplateEngine.Implement;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Text.Encodings.Web;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace FreeSqlBuilder
 {
     /// <summary>
     /// 代码生成器服务相关拓展
@@ -54,9 +55,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎
             services.AddTransient<RazorViewToStringRender>();//Razor渲染字符串
             services.AddScoped<DefaultDataInit>();
-            //var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
-            //fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
-            //fileProvider.InitTemplate();//导入模板到数据库
+            var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
+            fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
+            fileProvider.RefreshTemplate();;//导入模板到数据库
         }
         /// <summary>
         /// sql监控

@@ -57,7 +57,9 @@ namespace FreeSqlBuilder.Services
                 .Include(x => x.DefaultProject.GeneratorModeConfig.DataSource)
                 .Include(x => x.DefaultProject.GeneratorModeConfig.EntitySource)
                 .Where(x => x.Id == id).ToOneAsync();
-            builders.DefaultProject.ProjectBuilders = new List<ProjectBuilder>()
+            if (builders.DefaultProject != null)
+            {
+                builders.DefaultProject.ProjectBuilders = new List<ProjectBuilder>()
             {
                 new ProjectBuilder()
                 {
@@ -67,6 +69,7 @@ namespace FreeSqlBuilder.Services
                     ProjectId = builders.DefaultProjectId
                 }
             };
+            }
             return builders;
         }
 

@@ -1,18 +1,11 @@
 ﻿using System.IO;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using AngularGenerator;
-using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Xunit;
 
-namespace XUnitTestFsBuilderProject
+namespace XUnitTestFreeSqlBuilder.Test
 {
     public class ControllerAndTemplateEngineTest : TestServerFactory
     {

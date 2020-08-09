@@ -12,7 +12,6 @@ using FreeSqlBuilder.Core.Helper;
 using FreeSqlBuilder.Core.Utilities;
 using FreeSqlBuilder.Core.WordsConvert;
 using Xunit;
-using XUnitTestFsBuilderProject;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace XUnitTestFsBuilderCore.Test

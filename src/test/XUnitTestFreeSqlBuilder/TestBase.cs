@@ -10,9 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Xunit;
 
-namespace XUnitTestFsBuilderProject
+namespace XUnitTestFreeSqlBuilder
 {
     public abstract class TestBase
     {
