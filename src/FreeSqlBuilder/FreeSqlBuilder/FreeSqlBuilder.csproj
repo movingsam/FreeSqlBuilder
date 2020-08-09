@@ -21,7 +21,17 @@
     <EmbeddedResource Include="RazorTemplate\**">
     </EmbeddedResource>
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <None Remove="RazorTemplate\CodeFisrt\CURD\_CURD.cshtml" />
+    <None Remove="RazorTemplate\CodeFisrt\CURD\_Delete.cshtml" />
+    <None Remove="RazorTemplate\CodeFisrt\CURD\_Insert.cshtml" />
+    <None Remove="RazorTemplate\CodeFisrt\CURD\_Update.cshtml" />
+    <None Remove="RazorTemplate\CodeFisrt\PageRequest.cshtml" />
+    <None Remove="RazorTemplate\DbFirst\Dto.cshtml" />
+  </ItemGroup>
+
+
   <ItemGroup>
     <PackageReference Include="FreeSql.Repository" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />

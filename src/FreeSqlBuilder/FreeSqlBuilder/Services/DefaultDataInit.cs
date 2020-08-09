@@ -156,8 +156,8 @@ namespace FreeSqlBuilder.Services
             //添加模板对应的构建器 名称和路径均为模板名
             var builders = ts.Select(x =>
             {
-                var output = Path.GetFileNameWithoutExtension(x.TemplateName);
-                var builder = new BuilderOptions(x.TemplateName, output, "", output)
+                var name = Path.GetFileNameWithoutExtension(x.TemplateName);
+                var builder = new BuilderOptions(name, name, "", name)
                 {
                     TemplateId = x.Id,
                     DefaultProjectId = defaultProjectId

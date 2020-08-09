@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using FreeSql.DataAnnotations;
 using FreeSqlBuilder.Core.Utilities;
@@ -37,7 +38,7 @@ namespace FreeSqlBuilder.Core.Entities
         /// <summary>
         /// 主键
         /// </summary>
-        [Column(IsIdentity = true, IsPrimary = true)]
+        [Column(IsIdentity = true, IsPrimary = true) ]
         public long Id { get; set; }
 
         /// <summary>

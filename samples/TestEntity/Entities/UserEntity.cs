@@ -1,4 +1,6 @@
-﻿using FreeSql.DataAnnotations;
+﻿using System.Collections;
+using System.Collections.Generic;
+using FreeSql.DataAnnotations;
 
 namespace TestEntity.Entities
 {
@@ -7,6 +9,7 @@ namespace TestEntity.Entities
         public string Account { get; set; }
         public string Password { get; set; }
         public Gender Gender { get; set; }
+        public IEnumerable<Role> Roles { get; set; }
         public string NickName { get; set; }
     }
 

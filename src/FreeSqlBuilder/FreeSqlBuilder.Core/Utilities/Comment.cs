@@ -26,7 +26,6 @@ namespace FreeSqlBuilder.Core.Utilities
                     xmlPath = tryuri.LocalPath;
                 if (File.Exists(xmlPath) == false) return null;
             }
-
             var dic = new Dictionary<string, string>();
             var sReader = new StringReader(File.ReadAllText(xmlPath));
             using (var xmlReader = XmlReader.Create(sReader))

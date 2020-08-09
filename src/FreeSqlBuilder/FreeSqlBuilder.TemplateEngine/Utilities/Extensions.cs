@@ -45,7 +45,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <returns></returns>
         public static string ReplaceTablePath(this IOutPut outPut, string tableName)
         {
-            return outPut.OutPutPath.Replace("{TableName}", tableName);
+            return outPut?.OutPutPath?.Replace("{TableName}", tableName);
         }
     }
 }

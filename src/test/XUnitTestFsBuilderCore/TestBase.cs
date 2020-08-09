@@ -3,9 +3,8 @@ using FreeSql;
 using FreeSqlBuilder.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Xunit;
 
-namespace XUnitTestFsBuilderProject
+namespace XUnitTestFsBuilderCore
 {
     public abstract class TestBase
     {

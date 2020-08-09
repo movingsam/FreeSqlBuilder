@@ -30,6 +30,7 @@ namespace FreeSqlBuilderUI
             {
                 options = app.ApplicationServices.GetRequiredService<IOptions<BuilderUIOptions>>().Value;
             }
+            //app.ApplicationServices.GetRequiredService<FileProviderHelper>().CopyToProjectRoot(typeof(FileProviderHelper));
             app.UseMvcWithDefaultRoute();
             app.UseMiddleware<FreeSqlBuilderUIMiddleware>(options);
         }

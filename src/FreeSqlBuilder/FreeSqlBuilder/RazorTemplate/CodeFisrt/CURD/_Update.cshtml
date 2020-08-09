@@ -1,0 +1,21 @@
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
+@using CurdTask = FreeSqlBuilder.TemplateEngine.CurdTask
+@model CurdTask
+@{
+    var task = Model.Task; 
+    var table = task.CurrentTable;
+    var dto = task.Project.Builders.FirstOrDefault(x => x.Name == "Dto").GetName(Model.CurrentTable.CsName);
+
+}
+
+@($"{table.Comment}修改".GetCSharpSummary())
+public async Task<@("bool")> Update@(table.CsName) (@dto dto){
+@($@"   using var uow = _freeSql.CreateUnitOfWork();
+        var rep = _freeSql.GetRepository<{Model.CurrentTable.CsName}>();
+        rep.UnitOfWork = uow;
+        var entity = _mapper.Map<{table.CsName}>(dto);
+        rep.Update(entity);
+        uow.Commit();
+        return true;
+")
+}

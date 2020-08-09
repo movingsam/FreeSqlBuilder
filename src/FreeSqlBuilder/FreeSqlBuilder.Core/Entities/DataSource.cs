@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using FreeSql;
 using FreeSql.DataAnnotations;
+using DataType = FreeSql.DataType;
 
 namespace FreeSqlBuilder.Core.Entities
 {
