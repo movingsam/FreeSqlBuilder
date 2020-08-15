@@ -20,8 +20,8 @@
 
   <ItemGroup>
     <PackageReference Include="Bogus" Version="29.0.2" />
-    <PackageReference Include="FreeSql.Provider.Sqlite" Version="1.6.0" />
-    <PackageReference Include="FreeSql.Provider.SqlServer" Version="1.6.0" />
+    <PackageReference Include="FreeSql.Provider.Sqlite" Version="1.7.1" />
+    <PackageReference Include="FreeSql.Provider.SqlServer" Version="1.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="3.1.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />

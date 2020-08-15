@@ -4,7 +4,7 @@ $ArtifactsPath = "$(pwd)" + "\packages"
 
 
 function install-freesqlbuilder-ui {
-    Push-Location .\src\FreeSqlBuilderUI\Client\FreeSqlBuilderClient\ClientApp
+    Push-Location .\src\FreeSqlBuilderUI\Client\FreeSqlBuilderClient\ClientApp2\fsbuilderv2
     yarn
     yarn build
     Pop-Location

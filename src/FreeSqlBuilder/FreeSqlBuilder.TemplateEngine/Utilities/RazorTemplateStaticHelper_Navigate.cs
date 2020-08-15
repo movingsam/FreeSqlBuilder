@@ -13,7 +13,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
     /// </summary>
     public static partial class RazorTemplateStaticHelper
     {
-        
+
 
         /// <summary>
         /// 通过CodeFirst TableInfo对象来获取导航属性
@@ -23,10 +23,12 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         public static List<TableRef> GetNavigates(this TableInfo table)
         {
             //通过计算差集获取导航对象
-            var navigateKeys = table.Properties.Select(x => x.Key).Except(table.ColumnsByCs.Select(x => x.Key)).ToList();
+            var navigateKeys = table.Properties.Select(x => x.Key).Except(table.ColumnsByCs.Select(x => x.Key))
+                .ToList();
             var navigates = table.Properties
                             .Where(x => navigateKeys.Contains(x.Key))
-                            .Select(x => table.GetTableRef(x.Value.Name, false))
+                            .Where(x => x.Value.PropertyType != table.Type && x.Value.PropertyType.GetGenericArguments().FirstOrDefault() != table.Type)
+                            .Select(x => table.GetTableRef(x.Value.Name, true))
                             .Distinct()
                             .Where(x => x != null)
                             .ToList();
@@ -69,7 +71,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
 
         #region IncludeMany
 
-        
+
 
         /// <summary>
         /// 获取IncludeMany 对象字符串集合 一对多

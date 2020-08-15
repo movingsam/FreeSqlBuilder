@@ -388,6 +388,12 @@
             <param name="services"></param>
             <param name="setupAction">生成器模板配置项</param>
         </member>
+        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.UseDefaultTemplateImport(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            导入默认模板
+            </summary>
+            <param name="app"></param>
+        </member>
         <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.Aop_CommandAfter(System.Object,FreeSql.Aop.CommandAfterEventArgs,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             sql监控

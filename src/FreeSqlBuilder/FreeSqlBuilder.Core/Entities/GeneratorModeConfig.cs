@@ -22,7 +22,6 @@ namespace FreeSqlBuilder.Core.Entities
         /// <summary>
         /// 生成器模式 CodeFirst根据实体代码来生成 DbFirst根据数据库生成代码
         /// </summary>
-        [Column(IsNullable = false)]
         public GeneratorMode GeneratorMode { get; set; } = GeneratorMode.CodeFirst;
         /// <summary>
         /// 数据源Id

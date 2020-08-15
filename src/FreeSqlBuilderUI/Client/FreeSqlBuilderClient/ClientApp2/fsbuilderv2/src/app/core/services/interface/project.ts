@@ -46,7 +46,7 @@ export class EntitySource {
   id: number;
   name = '';
   entityAssemblyName = '';
-  entityBaseName = '';
+  entityBaseName: string | [] = '';
 }
 
 export class DataSource {

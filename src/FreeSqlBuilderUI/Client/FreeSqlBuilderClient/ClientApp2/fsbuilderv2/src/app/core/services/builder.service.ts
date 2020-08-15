@@ -10,7 +10,7 @@ import { SelectItem } from './interface/selectItem';
   providedIn: 'root',
 })
 export class BuilderService {
-  constructor(private client: _HttpClient) {}
+  constructor(private client: _HttpClient) { }
   /**
    * 获取构建器列表
    */

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using FreeSql.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace TestEntity.Entities
 {

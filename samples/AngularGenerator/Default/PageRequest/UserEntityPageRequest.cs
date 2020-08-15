@@ -4,20 +4,16 @@
 // 创建引擎 FreeSqlBuilder
 //*******************************
 
-using System.Collections;
 using System.Collections.Generic;
-using FreeSql.DataAnnotations;
-using System;
 using TestEntity.Entities;
-using System.Collections.Generic;
 
 
 namespace Default.PageRequest
 {
-    
-        ///<summary>
-        /// -分页请求
-        ///</summary>
+
+    ///<summary>
+    /// -分页请求
+    ///</summary>
     public class UserEntityPageRequest
     {
         public  long Id { get; set; }

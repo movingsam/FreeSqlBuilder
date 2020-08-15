@@ -108,9 +108,10 @@ namespace FreeSqlBuilder.TemplateEngine
 
         public async Task Start()
         {
-            var tableName = this.Project.GeneratorModeConfig.GeneratorMode == GeneratorMode.CodeFirst ? CurrentTable.CsName : CurrentDbTable.Name;
+            
             do
             {
+                var tableName = this.Project.GeneratorModeConfig.GeneratorMode == GeneratorMode.CodeFirst ? CurrentTable.CsName : CurrentDbTable.Name;
                 foreach (var builder in Project.Builders)//构造器
                 {
                     CurrentBuilder = builder;//记录当前执行的构建器
@@ -126,7 +127,7 @@ namespace FreeSqlBuilder.TemplateEngine
                 CurrentBuilder = value;//记录当前执行的构建器
                 var content = await _engine.Render(this, value.Template.TemplatePath);
                 await this.OutPut(this.Project.ProjectInfo.NameSpace, content);
-                _logger.LogInformation($"生成文件{value.GetName(tableName)}");
+                _logger.LogInformation($"生成文件{value.GetName(this.Project.ProjectInfo.NameSpace)}");
                 _logger.LogInformation($"内容:{content}");
             }
         }

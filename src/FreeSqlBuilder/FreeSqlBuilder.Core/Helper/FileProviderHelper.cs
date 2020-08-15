@@ -150,6 +150,10 @@ namespace FreeSqlBuilder.Core.Helper
             {
                 if (f is FileInfo)
                 {
+                    if (f.Name.StartsWith("_"))
+                    {
+                        continue;
+                    }
                     using var stream = File.OpenText(f.FullName);
                     var content = stream.ReadToEnd();
                     var file = new Template

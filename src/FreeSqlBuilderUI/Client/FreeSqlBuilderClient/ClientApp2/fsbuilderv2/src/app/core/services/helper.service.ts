@@ -11,7 +11,7 @@ import { SelectItem } from './interface/selectItem';
   providedIn: 'root',
 })
 export class HelperService {
-  constructor(public client: _HttpClient) {}
+  constructor(public client: _HttpClient) { }
   /**
    * 获取当前站点入口目录下的程序集
    */
@@ -34,7 +34,8 @@ export class HelperService {
   getTableInfo(input: DataSource | EntitySource): Observable<TableInfoDto[] | DbTableInfoDto[]> {
     if ((input as EntitySource).entityAssemblyName !== undefined) {
       const i = input as EntitySource;
-      return this.client.post<TableInfoDto[]>(`api/AllTable`, input);
+      if (typeof i.entityBaseName === typeof [] && i.entityBaseName.length === 0) { i.entityBaseName = ``; }
+      return this.client.post<TableInfoDto[]>(`api/AllTable`, i);
     } else {
       return this.client.post<DbTableInfoDto[]>(`api/project/DbTableInfo`, input);
     }
@@ -52,6 +53,7 @@ export class HelperService {
   initDefault(input: EntitySource | DataSource): Observable<boolean> {
     if ((input as EntitySource).entityAssemblyName !== undefined) {
       const i = input as EntitySource;
+      if (typeof i.entityBaseName === typeof [] && i.entityBaseName.length === 0) { i.entityBaseName = ``; }
       return this.client.post<boolean>(`api/Check/DefaultEntitySource`, input);
     } else {
       return this.client.post<boolean>(`api/Check/DefaultDataSource`, input);
