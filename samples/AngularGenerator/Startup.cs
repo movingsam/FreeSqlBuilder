@@ -27,7 +27,8 @@ namespace AngularGenerator
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMvc();
-            app.UseFreeSqlBuilderUI();
+            //app.UseFreeSqlBuilderUI();
+            app.UseDefaultTemplateImport();
             app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
 
         }

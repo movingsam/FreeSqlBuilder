@@ -34,7 +34,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function I18nHttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
+  return new TranslateHttpLoader(http, `/assets/tmp/i18n/`, '.json');
 }
 
 const I18NSERVICE_MODULES = [

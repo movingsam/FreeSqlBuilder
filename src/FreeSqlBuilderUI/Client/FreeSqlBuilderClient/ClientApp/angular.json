@@ -15,7 +15,7 @@
           "options": {
             "progress": false,
             "extractCss": true,
-            "outputPath": "../../../FreeSqlBuilderUI/dist",
+            "outputPath": "./dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",

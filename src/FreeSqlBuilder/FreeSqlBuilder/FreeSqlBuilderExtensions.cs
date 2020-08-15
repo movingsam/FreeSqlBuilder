@@ -7,6 +7,7 @@ using FreeSqlBuilder.Repository;
 using FreeSqlBuilder.Services;
 using FreeSqlBuilder.TemplateEngine;
 using FreeSqlBuilder.TemplateEngine.Implement;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,7 +37,7 @@ namespace FreeSqlBuilder
                 .AddNewtonsoftJson(option => option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)//防止递归导致json输出不正确 
                 .AddRazorRuntimeCompilation();//MVC动态编译 
             ;
-            services.AddFreeSqlCore();
+            services.AddFreeSqlBuilderCore();
             services.AddSingleton<HtmlEncoder>(NullHtmlEncoder.Default);//HTML中文编码处理
             services.AddSingleton<FileProviderHelper>();//文件相关处理
             services.AddMemoryCache();
@@ -55,10 +56,19 @@ namespace FreeSqlBuilder
             services.AddSingleton<RazorTemplateEngine>();//Razor模板引擎
             services.AddTransient<RazorViewToStringRender>();//Razor渲染字符串
             services.AddScoped<DefaultDataInit>();
-            var fileProvider = services.BuildServiceProvider().GetRequiredService<FileProviderHelper>();
-            fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
-            fileProvider.RefreshTemplate();;//导入模板到数据库
         }
+
+        /// <summary>
+        /// 导入默认模板
+        /// </summary>
+        /// <param name="app"></param>
+        public static void UseDefaultTemplateImport(this IApplicationBuilder app)
+        {
+            var fileProvider = app.ApplicationServices.GetService<FileProviderHelper>();
+            fileProvider.CopyToProjectRoot(typeof(FreeSqlBuilderExtensions));//拷贝模板到根目录
+            fileProvider.RefreshTemplate(); ;//导入模板到数据库
+        }
+
         /// <summary>
         /// sql监控
         /// </summary>
@@ -73,7 +83,7 @@ namespace FreeSqlBuilder
             logger.LogInformation($"======================执行语句======================");
         }
 
-        private static void AddFreeSqlCore(this IServiceCollection services)
+        private static void AddFreeSqlBuilderCore(this IServiceCollection services)
         {
             //仓储
             services.AddScoped<IProjectRepository, ProjectRepository>();

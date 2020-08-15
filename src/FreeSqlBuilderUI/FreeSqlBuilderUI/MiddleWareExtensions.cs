@@ -1,11 +1,10 @@
-﻿using System;
-using FreeSqlBuilder.Core.Helper;
+﻿using FreeSqlBuilderUI;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 
 // ReSharper disable once CheckNamespace
-namespace FreeSqlBuilderUI
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class MiddleWareExtensions
     {
@@ -13,7 +12,7 @@ namespace FreeSqlBuilderUI
         /// 添加FreeSqlBuilder的UI中间件
         /// setupAction可修改配置
         /// ex: opt=>opt.Path = "GenUI"; 
-        /// 意为:访问路径修改成 当前项目路径/GenUI
+        /// 意为:访问路径修改成 当前项目路径+/GenUI
         /// Path默认为FsGen
         /// </summary>
         /// <param name="app"></param>  
@@ -30,7 +29,6 @@ namespace FreeSqlBuilderUI
             {
                 options = app.ApplicationServices.GetRequiredService<IOptions<BuilderUIOptions>>().Value;
             }
-            //app.ApplicationServices.GetRequiredService<FileProviderHelper>().CopyToProjectRoot(typeof(FileProviderHelper));
             app.UseMvcWithDefaultRoute();
             app.UseMiddleware<FreeSqlBuilderUIMiddleware>(options);
         }

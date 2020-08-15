@@ -17,7 +17,6 @@ namespace FreeSqlBuilderUI
     public class FreeSqlBuilderUIMiddleware
     {
         private const string EmbeddedFileNamespace = "FreeSqlBuilderUI.dist";
-        //private readonly RequestDelegate _next;
         private readonly BuilderUIOptions _genOptions;
         private readonly StaticFileMiddleware _staticFileMiddleware;
         public FreeSqlBuilderUIMiddleware(RequestDelegate next, BuilderUIOptions genOptions

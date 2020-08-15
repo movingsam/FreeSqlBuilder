@@ -47,7 +47,7 @@ export class EntitysourceComponent implements OnInit, AfterViewInit {
     if (assemblies && assemblies.length > 0) {
       entitySource.entityAssemblyName = assemblies?.join(';');
     }
-    console.log(typeof baseName, baseName);
+    // console.log(typeof baseName, baseName);
 
     if (typeof baseName !== 'string' && baseName && baseName.length > 0) {
       entitySource.entityBaseName = baseName?.join(';');
@@ -60,7 +60,7 @@ export class EntitysourceComponent implements OnInit, AfterViewInit {
   }
   preview(value, component: TemplateRef<{}>): void {
     const entitySource = this.checkEntitySourceData();
-    console.log(entitySource, `preview`);
+    // console.log(entitySource, `preview`);
     this.service.getTableInfo(entitySource).subscribe((r: TableInfoDto[]) => {
       this.tableInfos = r;
       this.showPreview(component);
@@ -86,7 +86,7 @@ export class EntitysourceComponent implements OnInit, AfterViewInit {
   }
   ngOnInit() {
     if (this.record.id > 0) {
-      console.log(this.record);
+      // console.log(this.record);
       // this.es.entityBaseName = this.record.entityBaseName;
       this.es.id = this.record.id;
       this.es.name = this.record.name;
@@ -170,7 +170,7 @@ export class EntitysourceComponent implements OnInit, AfterViewInit {
         },
       },
     };
-    console.log(this.schema, `schema`);
+    // console.log(this.schema, `schema`);
   }
   Close() { }
 }

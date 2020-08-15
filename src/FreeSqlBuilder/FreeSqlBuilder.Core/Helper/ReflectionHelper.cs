@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -94,6 +95,10 @@ namespace FreeSqlBuilder.Core.Helper
         /// <returns></returns>
         public Task<List<TableInfo>> GetTableInfos(EntitySource es)
         {
+            if (es == null)
+            {
+                throw new WarningException("实体源不能为空");
+            }
             var assembly = GetAssemblies();
             var entityAssembly = assembly;
             if (!string.IsNullOrWhiteSpace(es.EntityAssemblyName))

@@ -63,7 +63,7 @@ namespace Default.Service
             var rep = _freeSql.GetRepository<UserEntity>();
             rep.UnitOfWork = uow;
             var entity = _mapper.Map<UserEntity>(dto);
-            rep.Update(entity);
+            await rep.UpdateAsync(entity);
             uow.Commit();
             return true;
 
