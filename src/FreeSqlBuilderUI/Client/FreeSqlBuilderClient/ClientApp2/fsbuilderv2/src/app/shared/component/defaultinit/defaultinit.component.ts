@@ -39,7 +39,6 @@ export class DefaultinitComponent implements OnInit {
       if (this.formGroup.value.defaultSource === 1) {
         this.modal.create({
           nzContent: this.es,
-          nzWidth: '80vw',
           nzStyle: {
             top: '35vh',
           },
@@ -60,7 +59,6 @@ export class DefaultinitComponent implements OnInit {
       } else {
         this.modal.create({
           nzContent: this.ds,
-          nzWidth: '80vw',
           nzStyle: {
             top: '35vh',
           },

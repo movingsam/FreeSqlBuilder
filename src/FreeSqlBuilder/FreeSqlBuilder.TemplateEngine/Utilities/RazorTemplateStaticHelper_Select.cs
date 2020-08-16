@@ -95,19 +95,19 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <param name="table"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static string GetWhereIfByColumns(this TableInfo table, string dto)
+        public static string GetWhereIfByColumns(this TableInfo table, string dto,int padLeftWidth = 8)
         {
             var where = new StringBuilder();
+            var lp = PadLeft(padLeftWidth);
             foreach (var column in table.Columns)
             {
                 if (column.Value.CsType == typeof(string))
                 {
-                    where.AppendLine(
-                        $".WhereIf(!string.IsNullOrWhiteSpace({dto}.{column.Key}),x=>x.{column.Key}.Contains({dto}.{column.Key}))");
+                    where.AppendLine($"{lp}.WhereIf(!string.IsNullOrWhiteSpace({dto}.{column.Key}),x=>x.{column.Key}.Contains({dto}.{column.Key}))");
                 }
                 else
                 {
-                    where.AppendLine($".WhereIf({dto}.{column.Key} != null ,x=>x.{column.Key} =={dto}.{column.Key})");
+                    where.AppendLine($"{lp}.WhereIf({dto}.{column.Key} != null ,x=>x.{column.Key} =={dto}.{column.Key})");
                 }
             }
             return where.ToString();

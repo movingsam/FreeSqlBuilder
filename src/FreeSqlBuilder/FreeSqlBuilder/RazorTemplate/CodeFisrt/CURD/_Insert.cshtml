@@ -5,15 +5,13 @@
     var Dto = Model.Task.Project.Builders.FirstOrDefault(x => x.Name == "Dto").GetName(Model.CurrentTable.CsName);
 }
 
-@($"{Model.CurrentTable.Comment}新增".GetCSharpSummary())
-public async Task<@("bool")> New@(Model.Task.GetCodeFirstName()) (@Dto dto){
-@($@"
-     using var uow = _freeSql.CreateUnitOfWork();
-     var rep = _freeSql.GetRepository<{Model.CurrentTable.CsName}>();
-     rep.UnitOfWork = uow;
-     var entity = _mapper.Map<{Model.CurrentTable.CsName}>(dto);
-     var insert = await rep.InsertAsync(entity);
-     uow.Commit();
-     return true;
-")
-}
+        @($"{Model.CurrentTable.Comment}新增".GetCSharpSummary())
+        public async Task<@("bool")> New@(Model.Task.GetCodeFirstName()) (@Dto dto){
+                using var uow = _freeSql.CreateUnitOfWork();
+                var rep = _freeSql.GetRepository@($"<{Model.CurrentTable.CsName}>")();
+                rep.UnitOfWork = uow;
+                var entity = _mapper.Map@($"<{Model.CurrentTable.CsName}>")(dto);
+                var insert = await rep.InsertAsync(entity);
+                uow.Commit();
+                return true;
+        }

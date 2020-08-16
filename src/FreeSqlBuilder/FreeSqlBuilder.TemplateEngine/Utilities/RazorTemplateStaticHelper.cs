@@ -95,6 +95,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                 ?.Select(x => x.Value.PropertyType.Namespace)
                 .Distinct()
                 .ToList();
+            var genericType = task.CurrentTable.Properties?
+                .Where(x=>x.Value.PropertyType.IsGenericType)
+                .Select(x => x.Value.PropertyType.GetGenericArguments().FirstOrDefault()?.Namespace)
+                .ToList();
+            namespaces = namespaces?.Concat(genericType).Distinct().ToList();
             StringBuilder usingStr = new StringBuilder();
             namespaces?.ForEach(u => usingStr.AppendLine($"using {u};"));
             return usingStr.ToString();

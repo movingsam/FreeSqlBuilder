@@ -63,7 +63,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             {
                 sb.AppendLine($".Include(x=>x.{includeNavigate})");
             }
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
 
 
@@ -141,7 +141,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             {
                 sb.AppendLine($".IncludeMany({nickName}=>{nickName}.{includeNavigate})");
             }
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
         /// <summary>
         /// IncludeMany 为IncludeMany抽象分别生成字符串
@@ -170,7 +170,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             });
             sb.AppendLine($".IncludeMany({pKey}=>{pKey}.{many.Key}{includeSb})");
 
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                 sb.Append(includeNavigate.IncludeManyStr(nickName));
             }
             sb.Append(table.GetIncludeManyMTMStr());
-            return sb.ToString();
+            return sb.ToString().Trim();
         }
         #endregion
     }
