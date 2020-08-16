@@ -139,7 +139,10 @@ export class GeneratorconfigService {
    * @param input 修改的实体源
    */
   updateEntitySource(input: EntitySource): Observable<EntitySource> {
-    return this.client.put<EntitySource>(`api/config/EntitySource`, input);
+    const i = input as EntitySource;
+    console.log(i, `input`);
+    if (typeof i.entityBaseName === typeof [] && i.entityBaseName.length === 0) { i.entityBaseName = ``; }
+    return this.client.put<EntitySource>(`api/config/EntitySource`, i);
   }
   /**
    * 删除实体源
@@ -154,6 +157,8 @@ export class GeneratorconfigService {
    * @param es 实体源
    */
   createEntitySource(es: EntitySource): Observable<EntitySource> {
+    const i = es as EntitySource;
+    if (typeof i.entityBaseName === typeof [] && i.entityBaseName.length === 0) { i.entityBaseName = ``; }
     return this.client.post<EntitySource>(`api/config/entitySource`, es);
   }
   /**

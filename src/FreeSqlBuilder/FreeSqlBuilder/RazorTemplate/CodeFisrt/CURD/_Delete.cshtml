@@ -4,15 +4,15 @@
 @model CurdTask
 @{
     var table = Model.CurrentTable;
+    var pk = Reflection.ToCsType(table.Primarys.FirstOrDefault()?.CsType);
+    var pkName = table.Primarys.FirstOrDefault().CsName;
 }
 @($"{table.Comment}删除".GetCSharpSummary())
-public async Task<@("bool")> Delete@(table.CsName)(List@($"<{Reflection.ToCsType(table.Primarys.FirstOrDefault()?.CsType)}>") ids){
-@($@"
-      using var uow = _freeSql.CreateUnitOfWork();
-      var rep = _freeSql.GetRepository<{Model.CurrentTable.CsName}>();
-      rep.UnitOfWork = uow;
-      await rep.DeleteAsync(x=>ids.Contains(x.Id));
-      uow.Commit();
-      return true;
-")
-}
+        public async Task<@("bool")> Delete@(table.CsName)(List@($"<{pk}>") ids){
+                using var uow = _freeSql.CreateUnitOfWork();
+                var rep = _freeSql.GetRepository@($"<{Model.CurrentTable.CsName}>")();
+                rep.UnitOfWork = uow;
+                await rep.DeleteAsync(x=>ids.Contains(x.@pkName));
+                uow.Commit();
+                return true;
+        }
