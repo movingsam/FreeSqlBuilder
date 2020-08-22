@@ -1,0 +1,29 @@
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
+@using FreeSqlBuilder.Core.Utilities
+
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
+@{
+    Layout = "../Share/_Layout.cshtml";
+    var table = Model.CurrentTable;
+    string GetColumnAttribute(string key)=>table.Columns.FirstOrDefault(x => x.Key == key).Value.RequestDtoGetAttribute(0);
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using FreeSql.DataAnnotations;
+@Model.GetUsing()
+
+namespace @Model.GetNameSpace()
+{
+    @($"{table.Comment}Request".GetCSharpSummary())
+    public class @Model.GetCodeFirstName()
+    {
+        @foreach (var column in table.Properties)
+        {
+        @(Comment.GetProperyCommentBySummary(table.Type)?.FirstOrDefault(x=>x.Key == column.Key).Value?.GetCSharpSummary())
+        @GetColumnAttribute(column.Key)
+        @:public @Reflection.ToCsType(column.Value.PropertyType) @column.Value.Name { get; set; }
+        @Html.NewLine()
+        }
+     }
+}

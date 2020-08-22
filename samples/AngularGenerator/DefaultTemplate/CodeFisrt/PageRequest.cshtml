@@ -1,0 +1,42 @@
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
+@using FreeSqlBuilder.Core.Utilities
+
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
+@{
+    Layout = "../Share/_Layout.cshtml"; 
+    var table = Model.CurrentTable;
+    var builder = Model.CurrentBuilder;
+    var nameSpace = Model.Project.ProjectInfo.NameSpace;
+    var navigates = table.Properties.Keys.Except(table.Columns.Keys);
+
+}
+
+using System.Collections;
+using System.Collections.Generic;
+using FreeSql.DataAnnotations;
+@Model.GetUsing()
+
+namespace @Model.GetNameSpace()
+{
+    @($"{table.Comment}-分页请求".GetCSharpSummary())
+    public class @Model.GetCodeFirstName()
+    {
+        @foreach (var column in table.Properties)
+        {
+        @(Comment.GetProperyCommentBySummary(table.Type)?.FirstOrDefault(x=>x.Key == column.Key).Value?.GetCSharpSummary())
+        @:public  @Reflection.ToCsType(column.Value.PropertyType) @column.Value.Name { get; set; }
+        }
+        @("关键词".GetCSharpSummary())
+        public string Keyword { get; set; }
+        @("页号".GetCSharpSummary())
+        public int PageNumber { get; set; }
+        @("页码".GetCSharpSummary())
+        public int PageSize { get; set;}
+     }
+}
+
+
+//*******************************
+// 所有属性都带出来 
+// 不需要的自行删除
+//*******************************

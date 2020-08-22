@@ -1,0 +1,41 @@
+﻿@using System.Text
+@using FreeSqlBuilder.TemplateEngine
+@using FreeSqlBuilder.TemplateEngine.Utilities
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
+@{
+    Layout = "../Share/_Layout.cshtml";
+    var table = Model.CurrentTable;
+    var dtoNames = new String[] { "Dto", "RequestDto", "PageViewDto", "PageRequest" };
+    var dtoBuilders = Model.Project.Builders.Where(x => dtoNames.Contains(x.Name)).ToList();
+    var sb = new StringBuilder();
+    dtoBuilders.Select(x => $"{Model?.Project?.ProjectInfo?.NameSpace}.{x?.ReplaceTablePath(table.CsName)}").ToList().ForEach(t => sb.AppendLine($"using {t};"));
+}
+
+using FreeSql;
+@Model.GetUsing()
+@sb.ToString()
+using System.Collections;
+using System.Collections.Generic;
+using FreeSql.DataAnnotations;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using AutoMapper;
+using System.Threading.Tasks;
+
+namespace @(Model.GetNameSpace())
+{
+    @($"{table.Comment}服务".GetCSharpSummary())
+    public class @Model.GetCodeFirstName() {
+        private readonly IFreeSql _freeSql;
+        private readonly ILogger@($"<{Model.GetCodeFirstName()}>") _logger;
+        private readonly IMapper _mapper;
+        @("构造函数".GetCSharpSummary())
+        public @(Model.GetCodeFirstName())(IServiceProvider service,ILogger@($"<{Model.GetCodeFirstName()}>")logger) 
+        {
+            @("this._freeSql = service.GetService<IFreeSql>();")
+            _logger = logger;
+            _mapper = service.GetService@("<IMapper>")();
+        }
+        @{ await Html.RenderPartialAsync("./CURD/_CURD.cshtml", new CurdTask(Model, table)); }
+    }
+}

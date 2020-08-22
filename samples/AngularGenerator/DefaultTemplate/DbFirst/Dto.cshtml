@@ -1,0 +1,35 @@
+﻿@using FreeSqlBuilder.TemplateEngine.Utilities
+@using FreeSqlBuilder.Core.Utilities
+@model FreeSqlBuilder.TemplateEngine.IBuilderTask
+@{
+    Layout = "../Share/_Layout.cshtml"; 
+    var table = Model.CurrentTable;
+    var builder = Model.CurrentBuilder;
+    var nameSpace = Model.Project.ProjectInfo.NameSpace;
+    var navigates = table.Properties.Keys.Except(table.Columns.Keys);
+
+}
+
+@Model.GetUsing()
+
+namespace @(Model.GetNameSpace())
+{
+    @($"{table.Comment}Dto".GetCSharpSummary())
+    public class @builder.GetName(table.CsName)
+    {
+        @foreach (var column in table.Columns)
+        {
+        @if (column.Key == "Id")
+         {
+             continue;
+         }
+        @(column.Value.Comment.GetCSharpSummary())
+        @Html.NewLine()
+        @:public  @Reflection.ToCsType(column.Value.CsType) @column.Value.CsName { get; set; }
+        @Html.NewLine()
+        }
+        @foreach (var nav in navigates) { 
+        @:public @Reflection.ToCsType(table.Properties.FirstOrDefault(p=>p.Key == nav).Value.PropertyType) @nav { get; set; }
+        }
+    }
+}

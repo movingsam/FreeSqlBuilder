@@ -8,6 +8,7 @@ namespace FreeSqlBuilder.Controllers
     /// api接口基类
     /// </summary>
     [Route("api/[controller]")]
+    
     [ExceptionHandler]
     public class ApiControllerBase : ControllerBase
     {

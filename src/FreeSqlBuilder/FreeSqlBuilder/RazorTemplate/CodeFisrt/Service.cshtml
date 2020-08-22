@@ -30,8 +30,9 @@ namespace @(Model.GetNameSpace())
         private readonly ILogger@($"<{Model.GetCodeFirstName()}>") _logger;
         private readonly IMapper _mapper;
         @("构造函数".GetCSharpSummary())
-        public @(Model.GetCodeFirstName())(IServiceProvider service,ILogger@($"<{Model.GetCodeFirstName()}>")logger) {
-        @("this._freeSql = service.GetService<IFreeSql>();")
+        public @(Model.GetCodeFirstName())(IServiceProvider service,ILogger@($"<{Model.GetCodeFirstName()}>")logger) 
+        {
+            @("this._freeSql = service.GetService<IFreeSql>();")
             _logger = logger;
             _mapper = service.GetService@("<IMapper>")();
         }
