@@ -1,6 +1,6 @@
 # FreeSqlBuilder (未完成)
 ---
-#### 利用FreeSql的CodeFirst和DbFirst获取相关信息 并使用.NetCore Razor引擎进行模板绘制的代码生成器
+#### 利用[FreeSql](https://github.com/dotnetcore/FreeSql)的CodeFirst和DbFirst获取相关信息 并使用.NetCore Razor引擎进行模板绘制的代码生成器
 ---
 #### 环境支持
 - dotnet core 3.1+
@@ -95,6 +95,8 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 > - [查看Project对象](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.Core/Project.cs)
 > - [查看静态帮助类(可自行拓展帮助类 在Razor文件中使用静态方法)](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/Utilities)
 > - [默认模板](https://github.com/movingsam/FreeSqlBuilder/tree/master/src/FreeSqlBuilder/FreeSqlBuilder/RazorTemplate)
+> ！！注意事项：模板是可以打断点调试的 为此默认开启了Mvc的动态编译 需要注意的是代码如果生成到了项目本地调试可能因为后端文件被修改了所以终止调试 
+建议把生成的文件根目录放到其他系统目录下再来调试模板 第一次加载模板的时候会从类库中复制出模板并动态加载到项目中 所以第一次生成文件可能会比较慢
 
 
 
