@@ -7,15 +7,16 @@
     var pageViewDto = task.Project.Builders.FirstOrDefault(x => x.Name == "PageViewDto").GetName(Model.CurrentTable.CsName);
     var requestDto = task.Project.Builders.FirstOrDefault(x => x.Name == "RequestDto").GetName(Model.CurrentTable.CsName);
     var dto = task.Project.Builders.FirstOrDefault(x => x.Name == "Dto").GetName(Model.CurrentTable.CsName);
-    var includes = task.CurrentTable.GetIncludeStr();
-    var includeMany = task.CurrentTable.GetIncludeManyStr();
+    var includes = task.CurrentTable.GetIncludeStr(32);
+    var includeMany = task.CurrentTable.GetIncludeManyStr(32);
     var whereIf = task.CurrentTable.GetWhereIfByColumns("request",32);
+    var includeStr = $"{includes}{includeMany}";
 }
         @($"{Model.CurrentTable?.Comment}分页查询".GetCSharpSummary())
-        public async Task<@(pageViewDto)> Query@(Model.CurrentTable.CsName)Page (@pageRequest request){
+        public async Task<@(pageViewDto)> Query@(Model.CurrentTable.CsName)Page (@pageRequest request)
+        {
             var rep = _freeSql.GetRepository@($"<{Model.CurrentTable.CsName}>")();
-            var datas =await rep.Select@(includes)@(includeMany)
-                                @(whereIf)
+            var datas =await rep.Select@(includeStr)@(whereIf)
                                 .Count(out var total)
                                 .Page(request.PageNumber, request.PageSize)
                                 .ToListAsync@($"<{dto}>")();
@@ -24,9 +25,10 @@
         }
 
         @($"{Model.CurrentTable?.Comment}查询".GetCSharpSummary())
-        public async Task<@dto> Query@(Model.CurrentTable.CsName) (@requestDto request){
+        public async Task<@dto> Query@(Model.CurrentTable.CsName) (@requestDto request)
+        {
             var rep = _freeSql.GetRepository@($"<{Model.CurrentTable.CsName}>")();
-            var res = await rep.Select@(includes)@(includeMany)@(whereIf) 
-                           .ToOneAsync@($"<{dto}>")();
-            return res;
+            var datas = await rep.Select@(includeStr)@(whereIf) 
+                                 .ToOneAsync@($"<{dto}>")();
+            return datas;
         }

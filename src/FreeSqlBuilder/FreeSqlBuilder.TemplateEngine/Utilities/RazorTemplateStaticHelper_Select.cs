@@ -14,10 +14,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// </summary>
         /// <param name="table">CodeFirstTable对象</param>
         /// <param name="freeSqlObjString">IFreeSql对象 (变量)字符串</param>
+        /// <param name="padleft"></param>
         /// <returns></returns>
-        public static string MakeFreeSqlSelectStr(this TableInfo table, string freeSqlObjString)
+        public static string MakeFreeSqlSelectStr(this TableInfo table, string freeSqlObjString, int padleft = 8)
         {
-            var include = table.GetIncludeStr();
+            var include = table.GetIncludeStr(padleft);
             var includeMany = table.GetIncludeManyStr();
             var res = $"{freeSqlObjString}.Select<{table.CsName}>(){include}{includeMany}";
             return res;
@@ -28,10 +29,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// </summary>
         /// <param name="table">CodeFirstTable对象</param>
         /// <param name="freeSqlObjString">IFreeSql对象 (变量)字符串</param>
+        /// <param name="padleft"></param>
         /// <returns></returns>
-        public static string GetFreeSqlSelectStr(this TableInfo table, string freeSqlObjString)
+        public static string GetFreeSqlSelectStr(this TableInfo table, string freeSqlObjString, int padleft = 8)
         {
-            return $"{table.MakeFreeSqlSelectStr(freeSqlObjString)}.ToList()";
+            return $"{table.MakeFreeSqlSelectStr(freeSqlObjString, padleft)}.ToList()";
         }
 
         /// <summary>
@@ -39,10 +41,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// </summary>
         /// <param name="table">CodeFirstTable对象</param>
         /// <param name="freeSqlObjString">IFreeSql对象 (变量)字符串</param>
+        /// <param name="padleft"></param>
         /// <returns></returns>
-        public static string GetFreeSqlAsyncSelectStr(this TableInfo table, string freeSqlObjString)
+        public static string GetFreeSqlAsyncSelectStr(this TableInfo table, string freeSqlObjString, int padleft = 8)
         {
-            return $"{table.MakeFreeSqlSelectStr(freeSqlObjString)}.ToListAsync()";
+            return $"{table.MakeFreeSqlSelectStr(freeSqlObjString, padleft)}.ToListAsync()";
         }
 
         /// <summary>
@@ -51,8 +54,9 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <param name="table"></param>
         /// <param name="freeSqlObjString"></param>
         /// <param name="pageObjString"></param>
+        /// <param name="padleft"></param>
         /// <returns></returns>
-        public static string MakeFreeSqlPageSelectStr(this TableInfo table, string freeSqlObjString, string pageObjString = null)
+        public static string MakeFreeSqlPageSelectStr(this TableInfo table, string freeSqlObjString, string pageObjString = null, int padleft = 8)
         {
             var pageSize = "PageSize";
             var pageNumber = "PageNumber";
@@ -61,7 +65,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                 pageSize = $"{pageObjString}.{pageSize}";
                 pageNumber = $"{pageObjString}.{pageNumber}";
             }
-            return $"{table.MakeFreeSqlSelectStr(freeSqlObjString)}" +
+            return $"{table.MakeFreeSqlSelectStr(freeSqlObjString, padleft)}" +
                    $".Count(var out total)" +
                    $".Page({pageNumber},{pageSize})";
         }
@@ -95,7 +99,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <param name="table"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static string GetWhereIfByColumns(this TableInfo table, string dto,int padLeftWidth = 8)
+        public static string GetWhereIfByColumns(this TableInfo table, string dto, int padLeftWidth = 8)
         {
             var where = new StringBuilder();
             var lp = PadLeft(padLeftWidth);
@@ -110,7 +114,12 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                     where.AppendLine($"{lp}.WhereIf({dto}.{column.Key} != null ,x=>x.{column.Key} =={dto}.{column.Key})");
                 }
             }
-            return where.ToString();
+            var res = where.ToString();
+            if (!string.IsNullOrWhiteSpace(res))
+            {
+                res = res.NewLine();
+            }
+            return res;
         }
     }
 }

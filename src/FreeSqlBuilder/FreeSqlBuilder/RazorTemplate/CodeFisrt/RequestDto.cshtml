@@ -3,12 +3,9 @@
 
 @model FreeSqlBuilder.TemplateEngine.IBuilderTask
 @{
-    Layout = "../Share/_Layout.cshtml"; 
+    Layout = "../Share/_Layout.cshtml";
     var table = Model.CurrentTable;
-    var builder = Model.CurrentBuilder;
-    var nameSpace = Model.Project.ProjectInfo.NameSpace;
-    var navigates = table.Properties.Keys.Except(table.Columns.Keys);
-
+    string GetColumnAttribute(string key)=>table.Columns.FirstOrDefault(x => x.Key == key).Value.RequestDtoGetAttribute(0);
 }
 
 using System.Collections;
@@ -24,7 +21,8 @@ namespace @Model.GetNameSpace()
         @foreach (var column in table.Properties)
         {
         @(Comment.GetProperyCommentBySummary(table.Type)?.FirstOrDefault(x=>x.Key == column.Key).Value?.GetCSharpSummary())
-        @:public  @Reflection.ToCsType(column.Value.PropertyType) @column.Value.Name { get; set; }
+        @GetColumnAttribute(column.Key)
+        @:public @Reflection.ToCsType(column.Value.PropertyType) @column.Value.Name { get; set; }
         @Html.NewLine()
         }
      }

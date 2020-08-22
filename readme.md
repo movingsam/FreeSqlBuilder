@@ -1,6 +1,6 @@
 # FreeSqlBuilder (未完成)
 ---
-#### 一款以FreeSql为基础的代码生成器中间件
+#### 利用FreeSql的CodeFirst和DbFirst获取相关信息 并使用.NetCore Razor引擎进行模板绘制的代码生成器
 ---
 #### 环境支持
 - dotnet core 3.1+
@@ -26,69 +26,53 @@ dotnet add package FreeSql.Provider.Sqlite  #这是FreeSql数据库驱动 自行
 
 ``` CSharp
 public void ConfigureServices(IServiceCollection services)
-{
-    //有两个配置项可以更改
-    //DefaultTemplatePath 默认值 "RazorTemplate"
-    //代表着会从当前项目路径中的RazorTemplate文件夹下读取模板
-    //初始化会把默认模板（模板范例）复制到此文件夹下
-    //DBSET 默认Sqlite 默认值 "Data Source=fsbuilder.db;Version=3"
-    //代表着持久化数据的连接字符串
-    services.AddFreeSqlBuilder();//默认 
+        {
+            //注入FreeSqlBuilder的核心服务组件 
+            //注意修改了DbType及ConnectionString 别忘了添加响应的FreeSql.Provider包
+            services.AddFreeSqlBuilder(x =>
+            {
+                x.DefaultTemplatePath = "DefaultTemplate";//修改这个配置可以变更模板初始化导入目录（可以指定在本站点根目录的相对路径上)模板也都会从此路径读取
+                x.DbSet.DbType = DataType.Sqlite;
+                x.DbSet.ConnectionString = "Data Source=fsbuilder.db;Version=3";
+            });
+        }
 
-    services.AddFreeSqlBuilder(opt =>
-    {
-        opt.DbSet.DbType = DataType.SqlServer;
-        opt.DbSet.ConnectionString = "Data Source=.;Initial Catalog=fsbuilder;User Id=sa;Password=dbpasword;";
-    });;//自定义范例
-}
-！！！ 需要注意随着使用的数据库不同需要自行加载相关FreeSqlProvider Nuget包 包括默认的Sqlite
 ```
-
+> ！！！ 需要注意随着使用的数据库不同需要自行加载相关FreeSqlProvider Nuget包 包括默认的Sqlite
 
 > Configure添加中间件
 
 ``` CSharp
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
-    
-    //Path代表网站运行后 使用这个地址作为访问地址 比如网站地址为http://localhost:5000/
-    //那么中间件的访问地址则为http://localhost:5000/FsGen;
-    app.UseFreeSqlBuilderUI();//默认 Path = "FsGen"
-    //下面这个是自定义选项
-    app.UseFreeSqlBuilderUI(opt =>
+
+    //导入默认模板取下面注释
+    //app.UseDefaultTemplateImport();//初次启动导入模板
+    app.UseFreeSqlBuilderUI(o =>
     {
-        opt.Path = "Gen";//可以自行修改url
-    });
+        o.Path = "FreeSqlBuilder";//默认地址为FsGen
+        //o.IndexStream=()=> typeof(BuilderUIOptions).GetTypeInfo().Assembly
+        //    .GetManifestResourceStream("FreeSql.GeneratorUI.dist.index.html");//如果想要自己编写前端UI可以通过修改这个配置来完成前端替换
+    });//使用FreeSqlBuilderUI
+    //调试前端项目可以注释掉FreeSqlBuilderUI并取消下面注释
+    //app.UseMvc();
+    //app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+
 }
 
 ```
 
 ### 操作指南
-> Step1
-![第一步](./doc/screen/step1.jpg)
+> 流程演示
+![演示gif](./doc/screen/work.gif)
 
-> Step2 - DbFirst
- ![DbFirst](./doc/screen/step2.jpg)
-
-> Step3-1 - 模板配置
- ![Template](./doc/screen/step3-1.jpg)
-> Step3-2
- ![addtemplate](./doc/screen/step3-2.jpg)
-> 选择模板
- ![templatecheck](./doc/screen/templatecheck.jpg)
-> 模板临时查看及编辑
- ![codeview](./doc/screen/codeview.jpg)
-> 模板查看编辑及调试
- ![templatereadme](./doc/screen/templatereadme.jpg)
   [查看传入对象Modal](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/BuildTask.cs)
   [查看CURD传入对象](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/CurdTask.cs)
   [查看Project对象](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.Core/Project.cs)
-  [查看帮助类](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/Utilities/RazorExtensions.cs)
+  [查看帮助类](https://github.com/movingsam/FreeSqlBuilder/blob/master/src/FreeSqlBuilder/FreeSqlBuilder.TemplateEngine/Utilities)
 > !!!全局构建器和表构建器类似，不同的是他只会执行一次 而不是每个表都执行一次
 > 注意DbFirst只能拿到CurrentDbTable对象 CurrentTable的对象无法拿到
 > 生成后会返回文件地址 
 
-<!-- > Step4 - 
-CodeFirst -->
-<!-- ![CodeFirst](./doc/screen/step2codefirst.jpg) -->
+
 

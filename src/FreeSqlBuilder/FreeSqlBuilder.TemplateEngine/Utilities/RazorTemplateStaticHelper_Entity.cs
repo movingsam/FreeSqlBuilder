@@ -18,8 +18,13 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public static string GetAttribute(this DbColumnInfo column)
+        public static string GetAttribute(this DbColumnInfo column, int padleft = 8)
         {
+            if (column == null)
+            {
+                return "";
+            }
+            var pl = PadRight(8);
             var sb = new StringBuilder();
             if (column.IsPrimary)
             {
@@ -28,7 +33,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
                 {
                     primaryAttr += ",IsIdentity=true";
                 }
-                sb.AppendLine($"[Column({primaryAttr})]");
+                sb.AppendLine($"{pl}[Column({primaryAttr})]");
             }
             var attributes = new List<string>();
             attributes.Add($"Name=\"{column.Name}\"");
@@ -39,53 +44,64 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             }
             attributes.Add($"IsNullable = {column.IsNullable}");
             var res = string.Join(",", attributes);
-            sb.AppendLine($"[Column({res})]");
+            sb.AppendLine($"{pl}[Column({res})]");
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// 请求入参校验Dto获取特性 必填/长度等校验 DbFirst
         /// </summary>
         /// <param name="column"></param>
         /// <returns></returns>
-        public static string RequestDtoGetAttribute(this DbColumnInfo column)
+        public static string RequestDtoGetAttribute(this DbColumnInfo column, int padleft = 8)
         {
+            if (column == null)
+            {
+                return "";
+            }
             var sb = new StringBuilder();
+            var pl = PadRight(8);
             if (column.CsType == typeof(string))
             {
-                sb.AppendLine($"[MaxLength({column.MaxLength})]");
+                sb.AppendLine($"{pl}[MaxLength({column.MaxLength})]");
             }
             if (!column.IsNullable)
             {
-                sb.AppendLine($"[Required]");
+                sb.AppendLine($"{pl}[Required]");
             }
             if (column.Name.ToLower().Contains("email"))
             {
-                sb.AppendLine("[EmailAddress]");
+                sb.AppendLine($"{pl}[EmailAddress]");
             }
             return sb.ToString();
         }
-        
+
         /// <summary>
         /// 请求入参校验Dto获取特性 必填/长度等校验 CodeFirst
         /// </summary>
         /// <param name="column"></param>
+        /// <param name="padleft"></param>
         /// <returns></returns>
-        public static string RequestDtoGetAttribute(this ColumnInfo column)
+        public static string RequestDtoGetAttribute(this ColumnInfo column, int padleft = 8)
         {
+            if (column == null)
+            {
+                return "";
+            }
             var sb = new StringBuilder();
             var attributes = column.Attribute;
+            var pl = PadRight(8);
             if (column.CsType == typeof(string))
             {
-                sb.AppendLine($"[MaxLength({attributes.StringLength})]");
+                sb.AppendLine($"{pl}[MaxLength({attributes.StringLength})]");
             }
             if (!attributes.IsNullable)
             {
-                sb.AppendLine($"[Required]");
+                sb.AppendLine($"{pl}[Required]");
             }
             if (column.CsName.ToLower().Contains("email"))
             {
-                sb.AppendLine("[EmailAddress]");
+                sb.AppendLine($"{pl}[EmailAddress]");
             }
             return sb.ToString();
         }

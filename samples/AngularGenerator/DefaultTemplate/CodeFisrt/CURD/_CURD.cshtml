@@ -1,0 +1,8 @@
+﻿@using CurdTask = FreeSqlBuilder.TemplateEngine.CurdTask
+@model CurdTask
+@{
+}
+@{ await Html.RenderPartialAsync("./_Insert.cshtml", Model); }
+@{ await Html.RenderPartialAsync("./_Update.cshtml", Model); }
+@{ await Html.RenderPartialAsync("./_Delete.cshtml", Model); }
+@{ await Html.RenderPartialAsync("./_Query.cshtml", Model); }
