@@ -23,7 +23,7 @@ function dotnet-pack {
      dotnet pack .\src\FreeSqlBuilderUI\FreeSqlBuilderUI -c Release --no-build -o $ArtifactsPath
 }
 
-@( "install-freesqlbuilder-ui","dotnet-build", "dotnet-pack" ) | ForEach-Object {
+@( "dotnet-build", "dotnet-pack" ) | ForEach-Object {
     echo ""
     echo "***** $_ *****"
     echo ""

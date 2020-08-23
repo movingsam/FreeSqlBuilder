@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FreeSql.DatabaseModel;
 using FreeSql.Internal.Model;
 using FreeSqlBuilder.Core;
 using FreeSqlBuilder.Core.Entities;
+using FreeSqlBuilder.Core.Utilities;
 using FreeSqlBuilder.Core.WordsConvert;
 
 namespace FreeSqlBuilder.TemplateEngine.Utilities
@@ -93,7 +96,8 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             var pl = PadRight(8);
             if (column.CsType == typeof(string))
             {
-                sb.AppendLine($"{pl}[MaxLength({attributes.StringLength})]");
+                var stringLength = attributes.StringLength == 0 ? 255 : attributes.StringLength;
+                sb.AppendLine($"{pl}[MaxLength({stringLength})]");
             }
             if (!attributes.IsNullable)
             {
@@ -117,6 +121,78 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         {
             var convert = new DefaultWordsConvert(column.Mode);
             return $"{column.Prefix}{convert.Convert(name)}{column.Suffix}";
+        }
+        /// <summary>
+        /// 获取主键属性名
+        /// </summary>
+        /// <returns></returns>
+        public static string GetPkName(this TableInfo table)
+        {
+            return table.Primarys.FirstOrDefault()?.CsName;
+        }
+        /// <summary>
+        /// 获取主键类型名称
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static string GetPkTypeName(this TableInfo table)
+        {
+            return Reflection.ToCsType(table.Primarys.FirstOrDefault()?.CsType);
+        }
+        /// <summary>
+        /// 获取主键列名
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static string GetPkName(this DbTableInfo table)
+        {
+            return table.Primarys.FirstOrDefault()?.Name;
+        }
+
+
+        /// <summary>
+        /// 获取主键属性名
+        /// </summary>
+        /// <param name="table"></param>
+        /// <returns></returns>
+        public static string GetPkTypeName(this DbTableInfo table)
+        {
+            return Reflection.ToCsType(table.Primarys.FirstOrDefault()?.CsType);
+        }
+        /// <summary>
+        /// 如果不是系统类型则自动转换成构建器生成的类名 
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static string ToBuilderType(this BuilderOptions builder, Type type)
+        {
+            if (type == null)
+            {
+                return string.Empty;
+            }
+            var res = Reflection.SystemCsType(type);
+            if (!string.IsNullOrWhiteSpace(res)) return res;
+            if (Reflection.IsCollection(type))
+            {
+                var typeDefinition = type.GetGenericTypeDefinition();
+                var types = string.Join(',', type.GetGenericArguments().Select(x =>
+                {
+                    var sysType = Reflection.SystemCsType(x);
+                    return string.IsNullOrWhiteSpace(sysType) ? builder.GetName(x.Name) : sysType;
+                }));
+                var collectionType = typeDefinition == typeof(IEnumerable<>) ? "IEnumerable" :
+                    typeDefinition == typeof(IReadOnlyCollection<>) ? "IReadOnlyCollection" :
+                    typeDefinition == typeof(IReadOnlyList<>) ? "IReadOnlyList" :
+                    typeDefinition == typeof(ICollection<>) ? "ICollection" :
+                    typeDefinition == typeof(IList<>) ? "IList" :
+                    typeDefinition == typeof(List<>) ? "List" :
+                    typeDefinition == typeof(IDictionary<,>) ? "IDictionary" :
+                    typeDefinition == typeof(Dictionary<,>) ? "Dictionary" : "";
+
+                return $"{collectionType}<{types}>";
+            }
+            return builder.GetName(type.Name);
         }
     }
 }

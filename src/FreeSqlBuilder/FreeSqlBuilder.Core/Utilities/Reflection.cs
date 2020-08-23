@@ -587,10 +587,16 @@ namespace FreeSqlBuilder.Core.Utilities
             if (type == typeof(Guid?)) return "Guid?";
             if (type == typeof(short)) return "short";
             if (type == typeof(short?)) return "short?";
+            if (type == typeof(ushort)) return "ushort";
+            if (type == typeof(ushort?)) return "ushort?";
             if (type == typeof(int)) return "int";
             if (type == typeof(int?)) return "int?";
+            if (type == typeof(uint)) return "uint";
+            if (type == typeof(uint?)) return "uint";
             if (type == typeof(long)) return "long";
             if (type == typeof(long?)) return "long?";
+            if (type == typeof(ulong)) return "ulong";
+            if (type == typeof(ulong?)) return "ulong";
             if (type == typeof(double)) return "double";
             if (type == typeof(double?)) return "double?";
             if (type == typeof(decimal)) return "decimal";

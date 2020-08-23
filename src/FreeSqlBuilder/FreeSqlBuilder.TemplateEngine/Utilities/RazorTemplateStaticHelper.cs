@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Linq;
 using System.Text;
+using FreeSql.Internal.Model;
 using FreeSqlBuilder.Core.Entities;
 using FreeSqlBuilder.Core.WordsConvert;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -104,6 +105,18 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             namespaces?.ForEach(u => usingStr.AppendLine($"using {u};"));
             return usingStr.ToString();
         }
+        /// <summary>
+        /// 通过构建器获取命名空间
+        /// </summary>
+        /// <param name="currentBuilder"></param>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        public static string GetNameSpace(this BuilderOptions currentBuilder,IBuilderTask task)
+        {
+            var currentTable = task.CurrentTable.CsName;
+            var res = $"{task?.Project?.ProjectInfo?.NameSpace}.{currentBuilder?.ReplaceTablePath(currentTable).Replace("/", ".")}";
+            return res;
+        }
 
         /// <summary>
         /// 获取命名空间
@@ -113,7 +126,7 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         public static string GetNameSpace(this IBuilderTask task)
         {
             var currentTable = task.CurrentTable.CsName;
-            var res = $"{task?.Project?.ProjectInfo?.NameSpace}.{task?.CurrentBuilder?.ReplaceTablePath(currentTable)}";
+            var res = $"{task?.Project?.ProjectInfo?.NameSpace}.{task?.CurrentBuilder?.ReplaceTablePath(currentTable).Replace("/",".")}";
             return res;
         }
 
@@ -156,6 +169,5 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             return $"{task.CurrentBuilder.Prefix}{convertName}{task.CurrentBuilder.Suffix}";
         }
         
-
     }
 }
