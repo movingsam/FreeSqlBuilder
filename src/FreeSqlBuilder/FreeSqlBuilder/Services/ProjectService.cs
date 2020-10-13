@@ -56,6 +56,7 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<Project> Add(Project project, bool autoSave = false)
         {
+            await CheckProject(project);
             var res = await _projectRep.InsertAsync(project);
             if (project.ProjectInfo != null)
             {
@@ -66,7 +67,7 @@ namespace FreeSqlBuilder.Services
             }
             if (project.ProjectBuilders?.Count > 0)
             {
-                project.ProjectBuilders.ToList().ForEach(pb=>pb.ProjectId = res.Id);
+                project.ProjectBuilders.ToList().ForEach(pb => pb.ProjectId = res.Id);
                 _projectRep.Orm.Insert<ProjectBuilder>().AppendData(project.ProjectBuilders).ExecuteAffrows();
             }
             if (autoSave)
@@ -74,6 +75,35 @@ namespace FreeSqlBuilder.Services
                 this.UnitOfWork.Commit();
             }
             return res;
+        }
+        /// <summary>
+        /// 项目检测
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        public async Task CheckProject(Project project)
+        {
+            if (project.BuildersId.Count > 0)
+            {
+                var builders = await _projectRep.Orm.Select<BuilderOptions>().Where(x => project.BuildersId.Contains(x.Id)).ToListAsync();
+                switch (project.GeneratorModeConfig.GeneratorMode)
+                {
+                    case GeneratorMode.DbFirst:
+                        if (builders.Any(b => b.TemplateType != TemplateType.DbFirst))
+                        {
+                            throw new Exception("DbFirst不能使用非DbFirst的配置");
+                        }
+                        break;
+                    case GeneratorMode.CodeFirst:
+                        if (builders.Any(b => b.TemplateType != TemplateType.CodeFirst))
+                        {
+                            throw new Exception("DbFirst不能使用非CodeFirst的配置");
+                        }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
         }
 
         /// <summary>

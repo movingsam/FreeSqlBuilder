@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FreeSqlBuilder.Infrastructure.Exception;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FreeSqlBuilder.Controllers
@@ -8,8 +9,9 @@ namespace FreeSqlBuilder.Controllers
     /// api接口基类
     /// </summary>
     [Route("api/[controller]")]
-    
+    [AllowAnonymous]
     [ExceptionHandler]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ApiControllerBase : ControllerBase
     {
         /// <summary>

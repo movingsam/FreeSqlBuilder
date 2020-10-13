@@ -38,7 +38,7 @@ namespace FreeSqlBuilder.Core.Entities
         /// <summary>
         /// 主键
         /// </summary>
-        [Column(IsIdentity = true, IsPrimary = true) ]
+        [Column(IsIdentity = true, IsPrimary = true)]
         public long Id { get; set; }
 
         /// <summary>
@@ -96,6 +96,11 @@ namespace FreeSqlBuilder.Core.Entities
         /// 默认项目
         /// </summary>
         public Project DefaultProject { get; set; }
+        /// <summary>
+        /// 模板类型 来自于模板 不参与持久化
+        /// </summary>
+        [Column(IsIgnore = true)]
+        public TemplateType TemplateType => Template?.TemplateType ?? TemplateType.UnKnow;
         /// <summary>
         /// 验证
         /// </summary>

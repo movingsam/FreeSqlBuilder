@@ -37,7 +37,6 @@ namespace FreeSqlBuilder.Infrastructure.Extensions
                     BuilderId = x,
                     ProjectId = dto.Id
                 }));
-
             }
             project.ProjectBuilders = builders;
 

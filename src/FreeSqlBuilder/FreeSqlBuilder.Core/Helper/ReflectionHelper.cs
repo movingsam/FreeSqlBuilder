@@ -25,10 +25,12 @@ namespace FreeSqlBuilder.Core.Helper
         /// </summary>
         private const string SkipAssemblies = "^System|^Mscorlib|^msvcr120|^Netstandard|^Microsoft|^Autofac|^AutoMapper|^EntityFramework|^Newtonsoft|^Castle|^NLog|^Pomelo|^AspectCore|^Xunit|^Nito|^Npgsql|^Exceptionless|^MySqlConnector|^Anonymously Hosted|^libuv|^api-ms|^clrcompression|^clretwrc|^clrjit|^coreclr|^dbgshim|^e_sqlite3|^hostfxr|^hostpolicy|^MessagePack|^mscordaccore|^mscordbi|^mscorrc|sni|sos|SOS.NETCore|^sos_amd64|^SQLitePCLRaw|^StackExchange|^Swashbuckle|WindowsBase|ucrtbase|^DotNetCore.CAP|^MongoDB|^Confluent.Kafka|^librdkafka|^EasyCaching|^RabbitMQ|^Consul|^Dapper|^EnyimMemcachedCore|^Pipelines|^DnsClient|^IdentityModel|^zlib|^YamlDotNet|^FreeSql$|^FreeSql.Provider";
         private readonly IFreeSql<FsBuilder> _freeSql;
-        public ReflectionHelper(IMemoryCache cache, IFreeSql<FsBuilder> freeSql)
+        private readonly FreeSqlBuilderOption _option;
+        public ReflectionHelper(IMemoryCache cache, IFreeSql<FsBuilder> freeSql, FreeSqlBuilderOption option)
         {
             _cache = cache;
             _freeSql = freeSql;
+            _option = option;
         }
         /// <summary>
         /// 获取实体基类
@@ -214,7 +216,7 @@ namespace FreeSqlBuilder.Core.Helper
         /// </summary>
         private bool Match(Assembly assembly)
         {
-            return !Regex.IsMatch(assembly.FullName.Split(",")[0], SkipAssemblies, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            return !Regex.IsMatch(assembly.FullName.Split(",")[0], SkipAssemblies + _option?.SkipAssembly, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         }
 
         /// <summary>

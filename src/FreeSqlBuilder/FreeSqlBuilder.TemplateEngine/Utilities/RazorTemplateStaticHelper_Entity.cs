@@ -192,6 +192,11 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
 
                 return $"{collectionType}<{types}>";
             }
+
+            if (Reflection.IsEnum(type))
+            {
+                return type.FullName;
+            }
             return builder.GetName(type.Name);
         }
     }

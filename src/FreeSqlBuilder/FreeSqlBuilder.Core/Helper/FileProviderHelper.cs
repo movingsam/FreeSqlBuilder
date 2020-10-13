@@ -21,12 +21,12 @@ namespace FreeSqlBuilder.Core.Helper
 
         private readonly IWebHostEnvironment webEnv;
         private readonly IFreeSql<FsBuilder> _freeSql;
-        private readonly TemplateOptions _options;
+        private readonly FreeSqlBuilderOption _options;
         /// <summary>
         /// 文件提供助手
         /// </summary>
         /// <param name="_webEnv"></param>
-        public FileProviderHelper(IWebHostEnvironment _webEnv, IFreeSql<FsBuilder> freeSql, TemplateOptions options)
+        public FileProviderHelper(IWebHostEnvironment _webEnv, IFreeSql<FsBuilder> freeSql, FreeSqlBuilderOption options)
         {
 
             webEnv = _webEnv;
@@ -162,12 +162,14 @@ namespace FreeSqlBuilder.Core.Helper
                         TemplateName = f.Name,
                         TemplatePath = Path.GetRelativePath(root, f.FullName)
                     };
-                    var template = allTemplate.FirstOrDefault(x => x.TemplateName == file.TemplateName);
+                    file.SetTemplateType();
+                    var template = allTemplate.FirstOrDefault(x => x.TemplateName == file.TemplateName && x.TemplatePath == file.TemplatePath);
                     if (template != null)
                     {
                         if (template.TemplateContent.GetHashCode() == content.GetHashCode() && template.TemplatePath.GetHashCode() == file.TemplatePath.GetHashCode()) continue;
                         template.TemplateContent = content;
                         template.TemplatePath = file.TemplatePath;
+                        template.SetTemplateType();
                         _freeSql.Update<Template>().SetSource(template).ExecuteAffrows();
                     }
                     else

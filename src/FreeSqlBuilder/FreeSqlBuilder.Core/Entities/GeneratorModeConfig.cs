@@ -56,6 +56,7 @@ namespace FreeSqlBuilder.Core.Entities
         /// 忽略某些表
         /// </summary>
         public string IgnoreTables { get; set; }
+        public string IgnoreProperties { get; set; }
         /// <summary>
         /// 只生成某些表
         /// </summary>
@@ -66,6 +67,10 @@ namespace FreeSqlBuilder.Core.Entities
         /// </summary>
         [Column(IsIgnore = true)]
         public List<string> IgnoreTable => IgnoreTables?.Split(",").ToList() ?? new List<string>();
+        /// <summary>
+        /// Dto/Request/Reponse等 忽略生成的属性
+        /// </summary>
+        public List<string> IgnoreProperty => IgnoreProperties?.Split(",").ToList() ?? new List<string>();
 
         public void Validate()
         {

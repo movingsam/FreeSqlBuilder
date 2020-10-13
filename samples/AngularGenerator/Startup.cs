@@ -37,15 +37,15 @@ namespace AngularGenerator
 
             //导入默认模板取下面注释
             app.UseDefaultTemplateImport();//初次启动导入模板
-            app.UseFreeSqlBuilderUI(o =>
-            {
-                o.Path = "FreeSqlBuilder";//默认地址为FsGen
-                //o.IndexStream=()=> typeof(BuilderUIOptions).GetTypeInfo().Assembly
-                //    .GetManifestResourceStream("FreeSql.GeneratorUI.dist.index.html");//如果想要自己编写前端UI可以通过修改这个配置来完成前端替换
-            });//使用FreeSqlBuilderUI
-            //调试前端项目可以注释掉FreeSqlBuilderUI并取消下面注释
-            //app.UseMvc();
-            //app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
+            //app.UseFreeSqlBuilderUI(o =>
+            //{
+            //    o.Path = "FreeSqlBuilder";//默认地址为FsGen
+            //    //o.IndexStream=()=> typeof(BuilderUIOptions).GetTypeInfo().Assembly
+            //    //    .GetManifestResourceStream("FreeSql.GeneratorUI.dist.index.html");//如果想要自己编写前端UI可以通过修改这个配置来完成前端替换
+            //});//使用FreeSqlBuilderUI
+            ////调试前端项目可以注释掉FreeSqlBuilderUI并取消下面注释
+            app.UseMvc();
+            app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:4200"));
 
         }
     }

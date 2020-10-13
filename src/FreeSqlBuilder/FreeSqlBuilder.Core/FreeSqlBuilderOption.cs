@@ -5,7 +5,7 @@ namespace FreeSqlBuilder.Core
     /// <summary>
     /// 模板配置项
     /// </summary>
-    public class TemplateOptions
+    public class FreeSqlBuilderOption
     {
         /// <summary>
         /// 默认模板路径
@@ -15,6 +15,10 @@ namespace FreeSqlBuilder.Core
         /// Sqlite持久化地址
         /// </summary>
         public DbSet DbSet { get; set; } = new DbSet();
+        /// <summary>
+        /// 跳过反射的程序集
+        /// </summary>
+        public string SkipAssembly { get; set; }
     }
     /// <summary>
     /// 数据源
@@ -22,7 +26,7 @@ namespace FreeSqlBuilder.Core
     public class DbSet
     {
         public DbSet()
-        { 
+        {
         }
         /// <summary>
         /// 数据库类型

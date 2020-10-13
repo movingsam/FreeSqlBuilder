@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FreeSql.DataAnnotations;
 using FreeSqlBuilder.Core.Entities;
@@ -39,6 +40,8 @@ namespace FreeSqlBuilder.Modals.Dtos
         /// 全表构建器
         /// </summary>
         public ICollection<long> GlobalBuildersId { get; set; }
+
+         
 
     }
 }

@@ -379,7 +379,7 @@
             代码生成器服务相关拓展
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.AddFreeSqlBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSqlBuilder.Core.TemplateOptions})">
+        <member name="M:FreeSqlBuilder.FreeSqlBuilderExtensions.AddFreeSqlBuilder(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.Action{FreeSqlBuilder.Core.FreeSqlBuilderOption})">
             <summary>
             添加FreeSqlGen相关 
             模板地址默认:DefaultTemplatePath = "RazorTemplate"
@@ -565,6 +565,11 @@
         <member name="T:FreeSqlBuilder.Modals.Base.PageRequest">
             <summary>
             页面请求基类
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Modals.Base.PageRequest.TemplateType">
+            <summary>
+            模板类型
             </summary>
         </member>
         <member name="T:FreeSqlBuilder.Modals.Base.PageView`1">
@@ -1437,6 +1442,13 @@
             </summary>
             <param name="project"></param>
             <param name="autoSave"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FreeSqlBuilder.Services.ProjectService.CheckProject(FreeSqlBuilder.Core.Entities.Project)">
+            <summary>
+            项目检测
+            </summary>
+            <param name="project"></param>
             <returns></returns>
         </member>
         <member name="M:FreeSqlBuilder.Services.ProjectService.AddProjectInfoAsync(FreeSqlBuilder.Core.Entities.ProjectInfo,System.Boolean)">

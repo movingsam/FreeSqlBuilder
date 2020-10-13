@@ -79,6 +79,11 @@
             默认项目
             </summary>
         </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.BuilderOptions.TemplateType">
+            <summary>
+            模板类型 来自于模板 不参与持久化
+            </summary>
+        </member>
         <member name="M:FreeSqlBuilder.Core.Entities.BuilderOptions.Validate">
             <summary>
             验证
@@ -256,6 +261,11 @@
             忽略某些表
             </summary>
         </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.GeneratorModeConfig.IgnoreProperty">
+            <summary>
+            Dto/Request/Reponse等 忽略生成的属性
+            </summary>
+        </member>
         <member name="P:FreeSqlBuilder.Core.Entities.Project.ProjectInfoId">
             <summary>
             项目ID
@@ -376,6 +386,12 @@
             模板路径                     
             </summary>                   
         </member>
+        <member name="P:FreeSqlBuilder.Core.Entities.Template.TemplateType">
+            <summary>
+            模板类型
+            暂时根据所在文件夹判断
+            </summary>
+        </member>
         <member name="P:FreeSqlBuilder.Core.Entities.Template.TemplateContent">
             <summary>
             模板内容
@@ -384,6 +400,71 @@
         <member name="P:FreeSqlBuilder.Core.Entities.Template.FileExtension">
             <summary>
             生成的文件后缀
+            </summary>
+        </member>
+        <member name="M:FreeSqlBuilder.Core.Entities.Template.SetTemplateType">
+            <summary>
+            设置模板类型
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.Entities.TemplateType">
+            <summary>
+            模板类型
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.TemplateType.CodeFirst">
+            <summary>
+            CodeFirst
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.TemplateType.DbFirst">
+            <summary>
+            DbFirst
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.TemplateType.Global">
+            <summary>
+            全局
+            </summary>
+        </member>
+        <member name="F:FreeSqlBuilder.Core.Entities.TemplateType.UnKnow">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.FreeSqlBuilderOption">
+            <summary>
+            模板配置项
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.FreeSqlBuilderOption.DefaultTemplatePath">
+            <summary>
+            默认模板路径
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.FreeSqlBuilderOption.DbSet">
+            <summary>
+            Sqlite持久化地址
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.FreeSqlBuilderOption.SkipAssembly">
+            <summary>
+            跳过反射的程序集
+            </summary>
+        </member>
+        <member name="T:FreeSqlBuilder.Core.DbSet">
+            <summary>
+            数据源
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.DbSet.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:FreeSqlBuilder.Core.DbSet.ConnectionString">
+            <summary>
+            数据库连接字符串
             </summary>
         </member>
         <member name="M:FreeSqlBuilder.Core.Helper.DbFirstHelper.GetAllTable(FreeSqlBuilder.Core.Entities.DataSource)">
@@ -405,7 +486,7 @@
             文件提供助手
             </summary>
         </member>
-        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,IFreeSql{FreeSqlBuilder.Core.FsBuilder},FreeSqlBuilder.Core.TemplateOptions)">
+        <member name="M:FreeSqlBuilder.Core.Helper.FileProviderHelper.#ctor(Microsoft.AspNetCore.Hosting.IWebHostEnvironment,IFreeSql{FreeSqlBuilder.Core.FsBuilder},FreeSqlBuilder.Core.FreeSqlBuilderOption)">
             <summary>
             文件提供助手
             </summary>
@@ -600,36 +681,6 @@
         <member name="P:FreeSqlBuilder.Core.ITemplate.FileExtension">
             <summary>
             文件后缀
-            </summary>
-        </member>
-        <member name="T:FreeSqlBuilder.Core.TemplateOptions">
-            <summary>
-            模板配置项
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Core.TemplateOptions.DefaultTemplatePath">
-            <summary>
-            默认模板路径
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Core.TemplateOptions.DbSet">
-            <summary>
-            Sqlite持久化地址
-            </summary>
-        </member>
-        <member name="T:FreeSqlBuilder.Core.DbSet">
-            <summary>
-            数据源
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Core.DbSet.DbType">
-            <summary>
-            数据库类型
-            </summary>
-        </member>
-        <member name="P:FreeSqlBuilder.Core.DbSet.ConnectionString">
-            <summary>
-            数据库连接字符串
             </summary>
         </member>
         <member name="M:FreeSqlBuilder.Core.Utilities.Check.NotNull``1(``0,System.String,System.String)">

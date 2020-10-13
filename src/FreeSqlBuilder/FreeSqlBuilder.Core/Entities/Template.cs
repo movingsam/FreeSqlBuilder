@@ -25,6 +25,11 @@ namespace FreeSqlBuilder.Core.Entities
         /// </summary>                   
         public string TemplatePath { get; set; }
         /// <summary>
+        /// 模板类型
+        /// 暂时根据所在文件夹判断
+        /// </summary>
+        public TemplateType TemplateType { get; set; }
+        /// <summary>
         /// 模板内容
         /// </summary>
         [MaxLength(4000)]
@@ -33,5 +38,36 @@ namespace FreeSqlBuilder.Core.Entities
         /// 生成的文件后缀
         /// </summary>
         public string FileExtension { get; set; } = "cs";
+        /// <summary>
+        /// 设置模板类型
+        /// </summary>
+        public void SetTemplateType()
+        {
+            this.TemplateType = TemplatePath.Contains("CodeFirst") ? TemplateType.CodeFirst :
+                TemplatePath.Contains("DbFirst") ? TemplateType.DbFirst : TemplatePath.Contains("Global") ? TemplateType.Global : TemplateType.UnKnow;
+        }
+    }
+    /// <summary>
+    /// 模板类型
+    /// </summary>
+    public enum TemplateType
+    {
+        /// <summary>
+        /// CodeFirst
+        /// </summary>
+        CodeFirst,
+        /// <summary>
+        /// DbFirst
+        /// </summary>
+        DbFirst,
+        /// <summary>
+        /// 全局
+        /// </summary>
+        Global,
+        /// <summary>
+        /// 未知
+        /// </summary>
+        UnKnow
+
     }
 }

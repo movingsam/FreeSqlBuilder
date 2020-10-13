@@ -60,15 +60,15 @@ namespace FreeSqlBuilder.Services
             if (builders.DefaultProject != null)
             {
                 builders.DefaultProject.ProjectBuilders = new List<ProjectBuilder>()
-            {
-                new ProjectBuilder()
                 {
-                    BuilderId = builders.Id,
-                    Builder= builders,
-                    Project = builders.DefaultProject,
-                    ProjectId = builders.DefaultProjectId
-                }
-            };
+                    new ProjectBuilder()
+                    {
+                        BuilderId = builders.Id,
+                        Builder= builders,
+                        Project = builders.DefaultProject,
+                        ProjectId = builders.DefaultProjectId
+                    }
+                };
             }
             return builders;
         }
@@ -81,13 +81,8 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<BuilderOptions> AddBuilder(BuilderOptions builderOptions, bool autoSave = false)
         {
-            var template = await _templateRepository.GetAsync(builderOptions.TemplateId);
-            if (template != null)
-            {
-                builderOptions = await _builderRep.InsertAsync(builderOptions);
-            }
-            else
-                throw new Exception("新增失败!找不到相关模板");
+            _ = await GetAndCheckTemplate(builderOptions);
+            builderOptions = await _builderRep.InsertAsync(builderOptions);
             if (autoSave) UnitOfWork.Commit();
             return builderOptions;
         }
@@ -99,13 +94,28 @@ namespace FreeSqlBuilder.Services
         /// <returns></returns>
         public async Task<BuilderOptions> UpdateBuilder(BuilderOptions builderOptions, bool autoSave = false)
         {
-            var template = await _templateRepository.GetAsync(builderOptions.TemplateId);
-            if (template != null)
-                await _builderRep.UpdateAsync(builderOptions);
-            else
-                throw new Exception("更新失败!找不到相关模板");
+            _ = await GetAndCheckTemplate(builderOptions);
+            await _builderRep.UpdateAsync(builderOptions);
             if (autoSave) UnitOfWork.Commit();
             return builderOptions;
+        }
+
+        private async Task<Template> GetAndCheckTemplate(BuilderOptions builderOptions)
+        {
+            var template = await _templateRepository.GetAsync(builderOptions.TemplateId);
+            if (template == null)
+            {
+                throw new Exception("新增失败!找不到相关模板");
+            }
+            if (template.TemplateType == TemplateType.UnKnow)
+            {
+                throw new Exception("新增失败!模板类型未知");
+            }
+            if (builderOptions.Type == BuilderType.GlobalBuilder && template.TemplateType != TemplateType.Global)
+            {
+                throw new Exception("新增失败!全局构造器必须搭配全局模板");
+            }
+            return template;
         }
         /// <summary>
         /// 选择项目

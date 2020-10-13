@@ -10,7 +10,7 @@ namespace FreeSqlBuilderUI
         /// <summary>
         /// FreeSql代码生成器后端地址
         /// </summary>
-        public string Path { get; set; } = "FsGen";
+        public string Path { get; set; } = "FsBuilder";
         ///// <summary>
         ///// 是否需要登录
         ///// </summary>

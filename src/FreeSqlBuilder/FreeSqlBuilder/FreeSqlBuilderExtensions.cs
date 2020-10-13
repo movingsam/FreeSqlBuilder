@@ -27,9 +27,9 @@ namespace FreeSqlBuilder
         /// </summary>
         /// <param name="services"></param>
         /// <param name="setupAction">生成器模板配置项</param>
-        public static void AddFreeSqlBuilder(this IServiceCollection services, Action<TemplateOptions> setupAction = null)
+        public static void AddFreeSqlBuilder(this IServiceCollection services, Action<FreeSqlBuilderOption> setupAction = null)
         {
-            var options = new TemplateOptions();
+            var options = new FreeSqlBuilderOption();
             setupAction?.Invoke(options);
             if (string.IsNullOrWhiteSpace(options.DbSet.ConnectionString)) throw new Exception("ConnectionString必须填写");
             services.AddSingleton(options);//配置导入

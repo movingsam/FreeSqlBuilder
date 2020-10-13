@@ -157,7 +157,7 @@ namespace FreeSqlBuilder.Services
             var builders = ts.Select(x =>
             {
                 var name = Path.GetFileNameWithoutExtension(x.TemplateName);
-                var builder = new BuilderOptions(name, name, "", name)
+                var builder = new BuilderOptions($"{x.TemplateType}_{name}", name, "", name)
                 {
                     TemplateId = x.Id,
                     DefaultProjectId = defaultProjectId

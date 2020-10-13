@@ -45,7 +45,8 @@ namespace FreeSqlBuilder.Services
         public async Task<PageView<Template>> GetTemplatePageAsync(PageRequest request)
         {
             var query = _templateRepository.Select
-                 .IncludeMany(x => x.BuilderOptions);
+                 .IncludeMany(x => x.BuilderOptions)
+                 .WhereIf(request.TemplateType != null, x => x.TemplateType == request.TemplateType);
             return await query.GetPage(request);
         }
 
