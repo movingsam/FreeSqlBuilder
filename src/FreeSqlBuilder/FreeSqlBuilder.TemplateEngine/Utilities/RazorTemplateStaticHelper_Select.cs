@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using FreeSql.Internal.Model;
 
@@ -99,17 +100,30 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
         /// <param name="table"></param>
         /// <param name="dto"></param>
         /// <returns></returns>
-        public static string GetWhereIfByColumns(this TableInfo table, string dto, int padLeftWidth = 8)
+        public static string GetWhereIfByColumns(this TableInfo table, string dto, int padLeftWidth = 8,
+            params string[] ignores
+            )
         {
             var where = new StringBuilder();
+            if (ignores.Length == 0)
+            {
+                ignores = new string[]
+               {
+               "Id", "IsDeleted", "Enabled","UpdateBy", "UpdateDate", "CreateBy", "CreateDate","Children","Parent","ParentId","NodePath"
+               };
+            }
             var lp = PadLeft(padLeftWidth);
             foreach (var column in table.Columns)
             {
+                if (ignores.Contains(column.Value.CsName))
+                {
+                    continue;
+                }
                 if (column.Value.CsType == typeof(string))
                 {
                     where.AppendLine($"{lp}.WhereIf(!string.IsNullOrWhiteSpace({dto}.{column.Key}),x=>x.{column.Key}.Contains({dto}.{column.Key}))");
                 }
-                else
+                else if (column.Value.CsType.IsNullableType())
                 {
                     where.AppendLine($"{lp}.WhereIf({dto}.{column.Key} != null ,x=>x.{column.Key} =={dto}.{column.Key})");
                 }
