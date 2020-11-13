@@ -199,5 +199,37 @@ namespace FreeSqlBuilder.TemplateEngine.Utilities
             }
             return builder.GetName(type.Name);
         }
+
+        public static string ToBuilderTypePk(this BuilderOptions builder, ColumnInfo columnInfo)
+        {
+            var type = columnInfo.CsType;
+            if (type == null)
+            {
+                return string.Empty;
+            }
+            var res = Reflection.SystemCsType(type);
+            if (!string.IsNullOrWhiteSpace(res)) return res;
+            if (Reflection.IsCollection(type))
+            {
+                var typeDefinition = type.GetGenericTypeDefinition();
+                var typeStr = columnInfo.Table.Primarys?.FirstOrDefault()?.CsType;
+                var collectionType = typeDefinition == typeof(IEnumerable<>) ? "IEnumerable" :
+                    typeDefinition == typeof(IReadOnlyCollection<>) ? "IReadOnlyCollection" :
+                    typeDefinition == typeof(IReadOnlyList<>) ? "IReadOnlyList" :
+                    typeDefinition == typeof(ICollection<>) ? "ICollection" :
+                    typeDefinition == typeof(IList<>) ? "IList" :
+                    typeDefinition == typeof(List<>) ? "List" :
+                    typeDefinition == typeof(IDictionary<,>) ? "IDictionary" :
+                    typeDefinition == typeof(Dictionary<,>) ? "Dictionary" : "";
+
+                return $"{collectionType}<{typeStr}>";
+            }
+
+            if (Reflection.IsEnum(type))
+            {
+                return type.FullName;
+            }
+            return Reflection.SystemCsType(columnInfo.Table.Primarys?.FirstOrDefault()?.CsType);
+        }
     }
 }
