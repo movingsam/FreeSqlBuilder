@@ -1,0 +1,3 @@
+[submodule "src/FreeSqlBuilderUI/Client"]
+	path = src/FreeSqlBuilderUI/Client
+	url = https://github.com/movingsam/FreeSqlBuilderUI.git
