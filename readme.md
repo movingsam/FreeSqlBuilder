@@ -1,7 +1,7 @@
 # FreeSqlBuilder (未完成)
 ---
 #### 利用[FreeSql](https://github.com/dotnetcore/FreeSql)的CodeFirst和DbFirst获取相关信息 并使用.NetCore Razor引擎进行模板绘制的代码生成器
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/2881099/FreeSql/master/LICENSE.txt)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/movingsam/FreeSqlBuilder/master/LICENSE)
 ---
 #### 环境支持
 - dotnet core 3.1+
